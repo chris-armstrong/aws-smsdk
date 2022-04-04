@@ -1,0 +1,3 @@
+[submodule "awssdkjsv3"]
+	path = awssdkjsv3
+	url = https://github.com/aws/aws-sdk-js-v3

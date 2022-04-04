@@ -1,0 +1,5 @@
+(library
+ (name Parselib)
+ (libraries yojson base)
+ (preprocess (pps ppx_deriving.show))
+)

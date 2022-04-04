@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@opam/base": "v0.15.0",
+    "@opam/core": "v0.15.0",
+    "@opam/dune": "*",
+    "@opam/ppx_deriving": "5.2.1",
+    "@opam/reason": "~3.8.0",
+    "@opam/stdio": "v0.15.0",
+    "@opam/yojson": "1.7.0",
+    "ocaml": "4.12.x"
+  },
+  "devDependencies": {
+    "@opam/merlin": "4.4-412",
+    "@opam/ocaml-lsp-server": "*"
+  }
+}
