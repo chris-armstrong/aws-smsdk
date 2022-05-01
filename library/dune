@@ -1,5 +1,6 @@
 (library
  (name Parselib)
- (libraries yojson base)
- (preprocess (pps ppx_deriving.show))
+ (libraries yojson base core str)
+ (preprocess (pps ppx_deriving.show ppx_inline_test ppx_assert))
+ (inline_tests)
 )

@@ -1,0 +1,1 @@
+(executable (name Tester) (public_name Tester) (libraries base core stdio str) (preprocess (pps ppx_deriving.show)))
