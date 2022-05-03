@@ -1,4 +1,6 @@
-[@deriving show]
+open Base;
+
+[@deriving (show, equal)]
 type serviceDetails = {
   sdkId: string,
   arnNamespace: string,
@@ -7,42 +9,42 @@ type serviceDetails = {
   endpointPrefix: option(string),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type enumPair = {
   name: option(string),
   value: string,
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type errorTraitType =
   | Server
   | Client;
 
-[@deriving show]
+[@deriving (show, equal)]
 type arnReferenceDetails = {
   type_: option(string),
   service: option(string),
   resource: option(string),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type reference = {
   resource: string,
   service: option(string),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type clientEndpointDiscoveryDetails = {
   operation: string,
   error: string,
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type externalDocumentationType =
   | DocumentationLink(string)
   | SpecificationLink(string);
 
-[@deriving show]
+[@deriving (show, equal)]
 type t =
   | DocumentationTrait(string)
   | ErrorTrait(errorTraitType)
@@ -149,9 +151,9 @@ let hasTrait = (traitsOption, traitTest) =>
   Option.value(
     ~default=false,
     Option.map(
-      (. traits) => List.exists(trait => traitTest(trait), traits),
+      ~f=(traits) => List.exists(~f=trait => traitTest(trait), traits),
       traitsOption,
     ),
   );
 
-let findTrait = (traits, traitsTest) => traits|>(List.find(traitsTest));
+let findTrait = (traits, traitsTest) => traits|>(List.find(~f=traitsTest));

@@ -1,30 +1,30 @@
 open Base;
 
-[@deriving show]
+[@deriving (show, equal)]
 type member = {
   name: string,
   target: string,
   traits: option(list(Trait.t)),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type structureShapeDetails = {
   traits: option(list(Trait.t)),
   members: list(member),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type setShapeDetails = {
   traits: option(list(Trait.t)),
   target: string,
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type listShapeDetails = {
   target: string,
   traits: option(list(Trait.t)),
 };
-[@deriving show]
+[@deriving (show, equal)]
 type operationShapeDetails = {
   input: option(string),
   output: option(string),
@@ -33,33 +33,33 @@ type operationShapeDetails = {
   traits: option(list(Trait.t)),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type serviceShapeDetails = {
   version: string,
   operations: option(list(string)),
   traits: option(list(Trait.t)),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type primitiveShapeDetails = {traits: option(list(Trait.t))};
 
-[@deriving show]
+[@deriving (show, equal)]
 type mapKeyValue = {
   target: string,
   traits: option(list(Trait.t)),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type mapShapeDetails = {
   mapKey: mapKeyValue,
   mapValue: mapKeyValue,
   traits: option(list(Trait.t)),
 };
 
-[@deriving show]
+[@deriving (show, equal)]
 type timestampShapeDetails = {traits: option(list(Trait.t))};
 
-[@deriving show]
+[@deriving (show, equal)]
 type shapeDescriptor =
   | ListShape(listShapeDetails)
   | OperationShape(operationShapeDetails)
@@ -99,7 +99,7 @@ let getShapeTraits = descriptor =>
   | ResourceShape => None
   };
 
-[@deriving show]
+[@deriving (show, equal)]
 type t = {
   name: string,
   descriptor: shapeDescriptor,
