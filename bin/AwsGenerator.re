@@ -15,17 +15,17 @@ let _ = {
       res
       >>| List.map(~f=(Shape.{name, descriptor}) =>
             Dependencies.{
-              name: name,
-              descriptor: descriptor,
+              name,
+              descriptor,
               targets: Dependencies.getTargets(descriptor),
               recursWith: None,
             }
           )
-      >>|Dependencies.order
-      >>| Fmt.pr("%a", Fmt.Dump.list(Dependencies.pp_shapeWithTarget), _)
+      >>| Dependencies.order
+      >>| Fmt.pr("%a", Fmt.Dump.list(Dependencies.pp_shapeWithTarget), _);
     let _ =
       map_error(res, ~f=error =>
-        Stdio.Out_channel.printf(
+        Stdio.eprintf(
           "Error parsing model: %s\n",
           Json.Decode.jsonParseErrorToString(error),
         )
@@ -33,11 +33,7 @@ let _ = {
     ();
   }) {
   | Invalid_argument(_) =>
-    Stdio.Out_channel.fprintf(
-      Stdio.stderr,
-      "You must supply a model file as the first parameter\n",
-    )
-  | _ =>
-    Stdio.Out_channel.fprintf(Stdio.stderr, "An unknown error occurred\n")
+    Stdio.eprintf("You must supply a model file as the first parameter\n")
+  | _ => Stdio.eprintf("An unknown error occurred\n")
   };
 };

@@ -26,7 +26,6 @@ let extractTargetSpec = target =>
   target|>parseObject|>(field("target"))|>parseString;
 
 let parseServiceTrait = traitResult =>
-  [@ns.braces]
   {
     let value = parseObject(traitResult);
     let sdkId_ = value|>(field("sdkId"))|>parseString;
@@ -62,7 +61,6 @@ let parseServiceTrait = traitResult =>
   };
 
 let parseEnumNameValue = (enum): Result.t(Trait.enumPair, jsonParseError) =>
-  [@ns.braces]
   {
     let obj_ = parseObject(enum);
     let name_ = optional(obj_|>(field("name")))|>(mapOptional(parseString));
@@ -71,7 +69,6 @@ let parseEnumNameValue = (enum): Result.t(Trait.enumPair, jsonParseError) =>
   };
 
 let parseArnReferenceTrait = (value): Result.t(Trait.t, jsonParseError) =>
-  [@ns.braces]
   {
     let record = parseObject(value);
     let type__ =
@@ -86,7 +83,6 @@ let parseArnReferenceTrait = (value): Result.t(Trait.t, jsonParseError) =>
   };
 
 let parseReference = (value): Result.t(Trait.reference, jsonParseError) =>
-  [@ns.braces]
   {
     let object_ = value|>parseObject;
     let resource = object_|>(field("resource"))|>parseString;
@@ -98,7 +94,6 @@ let parseReference = (value): Result.t(Trait.reference, jsonParseError) =>
   };
 
 let parseTrait = (name, value: Result.t(jsonTreeRef, jsonParseError)) =>
-  [@ns.braces]
   Result.({
     let traitValue =
       switch (name) {
@@ -235,7 +230,6 @@ let parseTrait = (name, value: Result.t(jsonTreeRef, jsonParseError)) =>
           )
       | "smithy.api#xmlAttribute" => Ok(Trait.XmlAttributeTrait)
       | "smithy.api#externalDocumentation" =>
-        [@ns.braces]
         {
           let documentation = value|>parseObject|>(field("Documentation"));
           let specification = value|>parseObject|>(field("Specification"));

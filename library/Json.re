@@ -32,7 +32,7 @@ module Decode = {
   let jsonParseErrorToString = error =>
     switch (error) {
     | SyntaxError(error) => {js|Syntax Error: |js} ++ error
-    | [@implicit_arity] WrongType(path, expected) =>
+    | WrongType(path, expected) =>
       (
         ({js|Wrong Type Error: |js} ++ expected)
         ++ {js| was expected at path |js}
