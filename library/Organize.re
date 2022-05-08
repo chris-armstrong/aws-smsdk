@@ -15,10 +15,10 @@ let shapesWithTargets = shapes =>
   );
 
 let partitionOperationShapes = shapesWithTargets =>
-  List.partition_map(shapesWithTargets, ~f=({descriptor, name, targets, _}) =>
+  List.partition_map(shapesWithTargets, ~f=({descriptor, name, targets, recursWith }) =>
     switch (descriptor) {
     | OperationShape(x) => Base.Either.First((name, x, targets))
-    | other => Base.Either.Second(other)
+    | _ => Base.Either.Second({ name, descriptor, targets, recursWith})
     }
   );
 

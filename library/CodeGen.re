@@ -5,18 +5,13 @@ open SafeNames;
 let generateType = (name, definition) =>
   (("type " ++ safeTypeName(name)) ++ " = ") ++ definition;
 
-let generateField = (~asName=?, ~doc=?, fieldName, typeName) =>
+let generateField = (~doc=?, fieldName, typeName) =>
   (
     (
-      (
-        Option.value_map(doc, ~default="", ~f=x => x ++ {js| |js})
-        ++ Option.value_map(asName, ~default="", ~f=x =>
-             ("@as(\"" ++ x) ++ "\") "
-           )
-      )
+      Option.value_map(doc, ~default="", ~f=x => x ++ " ")
       ++ safeMemberName(fieldName)
     )
-    ++ {js|: |js}
+    ++ ": "
   )
   ++ typeName;
 
@@ -26,7 +21,7 @@ let generateRecordTypeDefinition = members =>
     if (List.is_empty(members)) {
       "{.}";
     } else {
-      ({js|{\\n|js} ++ String.concat(members, ~sep=",\n  ")) ++ {js|\\n}|js};
+      ("{\n  " ++ String.concat(members, ~sep=",\n  ")) ++ "\n}";
     }
   );
 
@@ -57,12 +52,19 @@ let generateDoc = traits =>
     };
   };
 
+/* OCaml ints aren't quite 32bit like Smithy int's, but this is more convenient */
 let generateIntegerShape = () => "int";
-let generateLongShape = () => "float";
+let generateLongShape = () => "int64";
 let generateDoubleShape = () => "float";
 let generateFloatShape = () => "float";
 let generateBooleanShape = () => "bool";
-let generateBinaryShape = () => "NodeJs.Buffer.t";
+let generateBinaryShape = () => "bytes";
+
+// Not seen one in the wild yet
+let generateBigIntegerShape = () => "Big_int.big_int";
+
+// Not seen one in the wild yet
+let generateBigDecimalShape = () => "Bigdecimal.t";
 
 let generateStringShape = (details: Shape.primitiveShapeDetails) =>
   [@ns.braces]
@@ -71,17 +73,12 @@ let generateStringShape = (details: Shape.primitiveShapeDetails) =>
       Option.(details.traits >>= List.find(~f=Trait.isEnumTrait));
     switch (enumTrait) {
     | Some(EnumTrait(pairs)) =>
-      let enum =
-        List.map(pairs, ~f=pair =>
-          ((("@as(\"" ++ pair.value) ++ "\")") ++ " #")
-          ++ safeVariantName(pair.value)
-        );
-      ("[" ++ String.concat(enum, ~sep=" | ")) ++ "]";
-
+      List.map(pairs, ~f=({name, value }) => "| " ++ safeConstructorName(Option.value(name, ~default=value)))
+      |> String.concat(~sep="\n")
     | _ => "string"
     };
   };
-let generateMember = (m: Shape.member) =>
+let generateMember = (m: Shape.member, ~genDoc=false, ()) =>
   [@ns.braces]
   {
     let safeName = safeMemberName(m.name);
@@ -95,17 +92,8 @@ let generateMember = (m: Shape.member) =>
           ("option(" ++ safeTypeName(m.target)) ++ ")";
         }
       );
-    let asName =
-      [@ns.ternary]
-      (
-        if (String.equal(safeName, m.name)) {
-          Some(m.name);
-        } else {
-          None;
-        }
-      );
-    let doc = generateDoc(m.traits);
-    generateField(~asName?, safeName, valueType, ~doc);
+    let doc = genDoc ? Some(generateDoc(m.traits)) : None;
+    generateField(safeName, valueType, ~doc?);
   };
 
 let indentString = indent =>
@@ -121,16 +109,20 @@ let indentString = indent =>
     String.concat_array(is);
   };
 
-let generateStructureShape = (details: Shape.structureShapeDetails) =>
+let generateStructureShape =
+    (details: Shape.structureShapeDetails, ~genDoc=false, ()) =>
   [@ns.braces]
   {
     // let isError = Trait.hasTrait(details.traits, Trait.isErrorTrait);
     // if (isError) {
-    //   generateExceptionType(List.map(details.members, generateMember));
+    //   generateExceptionType(List.map(details.members, generateMember), ~genDoc, ());
     // } else {
     generateRecordTypeDefinition(
-      List.map(details.members, ~f=generateMember),
-      // };
+      List.map(details.members, ~f=member =>
+        generateMember(member, ~genDoc, ())
+      ),
+      //   };
+      // );
     );
   };
 let generateUnionShape = (details: Shape.structureShapeDetails) =>
@@ -179,13 +171,13 @@ let generateUnionHelperModule =
         ++ {js|(x);|js}
       );
     let exceptionName =
-      safeConstructorName(symbolName(name)) ++ {js|Unspecified|js};
+      safeConstructorName(symbolName(name)) ++ "Unspecified";
     let classify =
       (
         (
           (
             "let classify = value => switch value {\n"
-            ++ String.concat(classifyLines, ~sep="\\n")
+            ++ String.concat(classifyLines, ~sep="\n")
           )
           ++ "\n| _ => raise("
         )
@@ -195,7 +187,7 @@ let generateUnionHelperModule =
 
     let makeLines =
       List.map(details.members, ~f=member =>
-        (({js|| |js} ++ safeConstructorName(member.name)) ++ {js|(x) => |js})
+        (({js|| |js} ++ safeConstructorName(member.name)) ++ "(x) => ")
         ++ safeUnionValue(details.members, member)
       );
     let make =
@@ -242,18 +234,13 @@ let generateUnionHelperModule =
   }|js};
   };
 
-let generateListShape = target =>
-  ({js|array<|js} ++ safeTypeName(target)) ++ {js|>|js};
+let generateListShape = target => ("list(" ++ safeTypeName(target)) ++ ")";
 
-let generateMapShape = (_, mapValue: Shape.mapKeyValue) =>
-  [@ns.braces]
-  {
-    let valueType = safeTypeName(mapValue.target);
-    ({js|Js.Dict.t<|js} ++ valueType) ++ {js|>|js};
-  } /*
-     * thrown when the ServiceTrait is missing
-     */;
-
+let generateMapShape = (_, mapValue: Shape.mapKeyValue) => {
+  let valueType = safeTypeName(mapValue.target);
+  "list((string, " ++ valueType ++ "))";
+  // ("Map.S with type key = string and type t = " ++ valueType) ++ "";
+};
 exception NoServiceTrait(string) /* * thrown for unknown timestamp format trait */;
 
 exception UnknownTimestampFormat(string);
@@ -274,9 +261,24 @@ let generateServiceShape = (serviceName, cloudFormationName) =>
     ++ {js|Client";|js}
   );
 
-let generateSetShape = (details: Shape.setShapeDetails) =>
-  [@ns.braces]
-  (({js|array<|js} ++ safeTypeName(details.target)) ++ {js|>|js});
+let generateSetShape = (details: Shape.setShapeDetails) => {
+  // let targetModule =
+  //   Shape.(
+  //     switch (details.target) {
+  //     | "string" => "String"
+  //     | "blob" => "Bytes"
+  //     | "integer" => "Int"
+  //     | "long" => "Int64"
+  //     | "bigInteger" => "Big_int"
+  //     | "bigDecimal" => "Bigdecimal"
+  //     | _ => raise (Invalid_argument(
+  //         "Unexpected target for Set shape: " ++ details.target,
+  //       ));
+  //     }
+  //   );
+  // ""ith type t = " ++ targetModule ++ ".t";
+  "list(" ++ safeTypeName(details.target) ++ ")";
+};
 
 let generateTimestampShape = ({traits}: Shape.timestampShapeDetails) =>
   [@ns.braces]
@@ -287,9 +289,9 @@ let generateTimestampShape = ({traits}: Shape.timestampShapeDetails) =>
         Trait.isTimestampFormatTrait,
       );
     switch (timestampFormat) {
-    | Some(TimestampFormatTrait("date-time")) => {js|Js.Date.t;|js}
-    | Some(TimestampFormatTrait("epoch-seconds")) => {js|int;|js}
-    | _ => {js|Js.Date.t;|js}
+    | Some(TimestampFormatTrait("date-time")) => {js|float|js}
+    | Some(TimestampFormatTrait("epoch-seconds")) => {js|float;|js}
+    | _ => {js|float|js}
     };
   };
 
@@ -298,14 +300,17 @@ type nonrec operationStructure =
   | OperationStructureRef(string)
   | OperationStructureNone;
 
-let generateOperationStructureType = (varName, opStruct) =>
+let generateOperationStructureType = (varName, opStruct, ~genDoc=false, ()) =>
   switch (opStruct) {
   | OperationStructure(details) =>
     [@ns.braces]
     {
       let docs = generateDoc(details.traits);
       docs
-      ++ generateType({js|#|js} ++ varName, generateStructureShape(details));
+      ++ generateType(
+           {js|#|js} ++ varName,
+           generateStructureShape(details, ~genDoc, ()),
+         );
     }
 
   | OperationStructureRef(name) =>
@@ -314,7 +319,7 @@ let generateOperationStructureType = (varName, opStruct) =>
     [@ns.braces]
     generateType(
       {js|#|js} ++ varName,
-      generateStructureShape({traits: None, members: []}),
+      generateStructureShape({traits: None, members: []}, ~genDoc, ()),
     )
   };
 
@@ -369,12 +374,16 @@ let generateOperationModule =
         operationStructure,
         operationStructure,
       ),
+      ~genDoc=false,
+      (),
     ) =>
   [@ns.braces]
   {
     let commandName = symbolName(name) ++ {js|Command|js};
-    let request = generateOperationStructureType("request", input);
-    let response = generateOperationStructureType("response", output);
+    let request =
+      generateOperationStructureType("request", input, ~genDoc, ());
+    let response =
+      generateOperationStructureType("response", output, ~genDoc, ());
     let inputType = "request";
     let outputType =
       [@ns.ternary]
@@ -427,12 +436,12 @@ let generateOperationModule =
     ++ {js|}\\n|js};
   };
 
-let generateTypeTarget = descriptor =>
+let generateTypeTarget = (descriptor, ~genDoc=false, ()) =>
   [@ns.braces]
   Shape.(
     switch (descriptor) {
     | StringShape(details) => generateStringShape(details)
-    | StructureShape(details) => generateStructureShape(details)
+    | StructureShape(details) => generateStructureShape(details, ~genDoc, ())
     | ListShape({target, _}) => generateListShape(target)
     | IntegerShape(_) => generateIntegerShape()
     | LongShape(_) => generateLongShape()
@@ -440,10 +449,12 @@ let generateTypeTarget = descriptor =>
     | FloatShape(_) => generateFloatShape()
     | BooleanShape(_) => generateBooleanShape()
     | BlobShape(_) => generateBinaryShape()
+    | BigIntegerShape(_) => generateBigIntegerShape()
+    | BigDecimalShape(_) => generateBigDecimalShape()
     | MapShape(details) => generateMapShape(details.mapKey, details.mapValue)
 
     | ServiceShape(_) => ""
-    | UnionShape(details) => generateUnionShape(details)
+    | UnionShape(details) => generateUnionShape(details, ~genDoc, ())
     | TimestampShape(details) => generateTimestampShape(details)
     | ResourceShape => ""
     | OperationShape(_) => ""
@@ -451,10 +462,10 @@ let generateTypeTarget = descriptor =>
     }
   );
 
-let generateTypeBlock = ({name, descriptor}: Shape.t) =>
+let generateTypeBlock = ({name, descriptor}: Shape.t, ~genDoc=false, ()) =>
   [@ns.braces]
   {
-    let result = generateTypeTarget(descriptor);
+    let result = generateTypeTarget(descriptor, ~genDoc=false, ());
     let t =
       [@ns.ternary]
       (
@@ -464,7 +475,7 @@ let generateTypeBlock = ({name, descriptor}: Shape.t) =>
           generateType(name, result);
         }
       );
-    let docs = generateDoc(Shape.getShapeTraits(descriptor));
+    let docs = genDoc ? generateDoc(Shape.getShapeTraits(descriptor)) : "";
     docs
     ++ (
       switch (descriptor) {
@@ -472,21 +483,21 @@ let generateTypeBlock = ({name, descriptor}: Shape.t) =>
         [@ns.braces]
         {
           let shapeModule = generateUnionHelperModule(name, details);
-          t ++ shapeModule;
+          t ++ shapeModule ++ ";";
         }
 
-      | _ => t
+      | _ => t ++ ";"
       }
     );
   };
 
-let generateRecursiveTypeBlock = (shapes: list(Shape.t)) =>
+let generateRecursiveTypeBlock = (shapes: list(Shape.t), ~genDoc=false, ()) =>
   [@ns.braces]
   {
     let shapeTypes =
       List.map(shapes, ~f=shape =>
         (safeTypeName(shape.name) ++ {js| = |js})
-        ++ generateTypeTarget(shape.descriptor)
+        ++ generateTypeTarget(shape.descriptor, ~genDoc, ())
       );
     "type rec " ++ String.concat(shapeTypes, ~sep=" and ");
   };

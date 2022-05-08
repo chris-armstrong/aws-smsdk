@@ -70,6 +70,8 @@ type shapeDescriptor =
   | BooleanShape(primitiveShapeDetails)
   | IntegerShape(primitiveShapeDetails)
   | StringShape(primitiveShapeDetails)
+  | BigIntegerShape(primitiveShapeDetails)
+  | BigDecimalShape(primitiveShapeDetails)
   | MapShape(mapShapeDetails)
   /* TODO: something useful with resource shapes (if needed)*/
   | ResourceShape
@@ -95,6 +97,8 @@ let getShapeTraits = descriptor =>
   | LongShape({traits})
   | FloatShape({traits})
   | DoubleShape({traits})
+  | BigIntegerShape({ traits })
+  | BigDecimalShape({ traits })
   | SetShape({traits, _}) => traits
   | ResourceShape => None
   };

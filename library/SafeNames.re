@@ -94,16 +94,16 @@ let stripLeadingNumbers = name =>
 let safeMemberName = name => {
     let matched = Str.string_match(uppercaseStartRe, name, 0);
     if (matched) {
-        let upperpart = Str.matched_group(0, name);
-        let remaining = Str.matched_group(1, name);
+        let upperpart = Str.matched_group(1, name);
+        let remaining = Str.matched_group(2, name);
         let upperLength = String.length(upperpart);
         let first =
           [@ns.ternary]
           (
             if (upperLength > 0) {
               String.lowercase(
-                String.slice(upperpart, 0, upperLength - 1)
-                ++ String.slice(upperpart, upperLength - 1, upperLength),
+                String.slice(upperpart, 0, upperLength)
+                ++ String.slice(upperpart, upperLength, upperLength),
               );
             } else {
               "";
@@ -132,7 +132,7 @@ let safeTypeName = target =>
 let camelCase = name =>
   String.uppercase(String.slice(name, 0, 1))
   ++ String.slice(name, 1, String.length(name))
-let safeConstructorName = camelCase;
+let safeConstructorName = name => camelCase(name);
 
 let variantReplaceRe = Str.regexp(
     "-|#|:|\\.|/| |\\(|\\)|\\\\`",
