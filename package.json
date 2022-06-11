@@ -1,12 +1,17 @@
 {
   "dependencies": {
     "@opam/base": "v0.15.0",
+    "@opam/cohttp-lwt-unix": "5.0.0",
     "@opam/core": "v0.15.0",
+    "@opam/digestif": "1.1.2",
     "@opam/fmt": "0.9.0",
+    "@opam/lwt": "5.5.0",
+    "@opam/lwt_ssl": "1.1.3",
+    "@opam/ocaml-lsp-server": "1.11.6",
     "@opam/ppx_deriving": "5.2.1",
     "@opam/reason": "~3.8.0",
-    "@opam/rtop": "3.8.0",
     "@opam/stdio": "v0.15.0",
+    "@opam/xmlm": "1.4.0",
     "@opam/yojson": "1.7.0",
     "ocaml": "4.14.x"
   },

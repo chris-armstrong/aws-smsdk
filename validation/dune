@@ -1,1 +1,6 @@
-(executable (name Tester) (public_name Tester) (libraries base stdio str fmt) (preprocess (pps ppx_deriving.show)))
+(executable
+ (name Tester)
+ (public_name Tester)
+ (libraries base stdio str fmt uri lwt lwt.unix cohttp cohttp-lwt-unix digestif xmlm)
+ (preprocess
+  (pps ppx_deriving.show ppx_deriving.eq)))
