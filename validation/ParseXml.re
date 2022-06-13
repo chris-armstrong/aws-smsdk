@@ -68,7 +68,7 @@ let readSequence = (i, tag, reader, ~ns=?, ()) => {
   let (_, _, attributes) =
     acceptStartTag(i, tag, ~ns, ~expected=XmlStartSequence(tag, ns));
   let res = reader(attributes);
-  acceptEndTag(i, ~expected=XmlEndSequence(tag, ns));
+  let _ = acceptEndTag(i, ~expected=XmlEndSequence(tag, ns));
   res;
 };
 
@@ -76,7 +76,7 @@ let readElement = (i, tag, ~ns=?, ()) => {
   let (_, _, _) =
     acceptStartTag(i, tag, ~ns, ~expected=XmlStartElement(tag, ns));
   let data = acceptData(i, ~expected=XmlElementData(tag, ns));
-  acceptEndTag(i, ~expected=XmlEndElement(tag, ns));
+  let _ = acceptEndTag(i, ~expected=XmlEndElement(tag, ns));
   data;
 };
 
@@ -84,7 +84,7 @@ let readElements = (i, tag, ~ns=?, ()) => {
   let rec readList = (~items) => {
     switch (Xmlm.peek(i)) {
     | `El_start(el) when tag_equal(tag, ns, el) =>
-      let next = readElement(i, tag, ~ns=?ns, ());
+      let next = readElement(i, tag, ~ns?, ());
       readList(~items=[next, ...items]);
     | _ => items
     };
@@ -92,15 +92,15 @@ let readElements = (i, tag, ~ns=?, ()) => {
   readList(~items=[]) |> List.rev;
 };
 
-let readOptionalElements = (i, tag, ~ns, ()) => {
-  let elements = readElements(i, tag, ~ns=?ns, ());
+let readOptionalElements = (i, tag, ~ns=?, ()) => {
+  let elements = readElements(i, tag, ~ns?, ());
   List.is_empty(elements) ? None : Some(elements);
-}
+};
 
 let readOptionalElement = (i, tag, ~ns=?, ()) => {
   switch (Xmlm.peek(i)) {
   | `El_start(el) when tag_equal(tag, ns, el) =>
-    Some(readElement(i, tag, ~ns=?ns, ()))
+    Some(readElement(i, tag, ~ns?, ()))
   | _ => None
   };
 };
@@ -111,3 +111,51 @@ let readDtd = i => {
   | _ as va => raise(XmlReadError(va, XmlDtd))
   };
 };
+
+type inputType('returnType) =
+  | InputElement: inputType(string)
+  | InputElements: inputType(list(string))
+  | InputOptionalElement: inputType(option(string))
+  | InputOptionalElements: inputType(option(list(string)));
+
+type inputItem('a) = {
+  tag: string,
+  type_: inputType('a),
+};
+
+let readItem: type a. Xmlm.input => inputItem(a) => a = (i, t1) => {
+  switch (t1.type_) {
+    | InputElement => readElement(i, t1.tag, ());
+    | InputElements => readElements(i, t1.tag, ());
+    | InputOptionalElement => readOptionalElement(i, t1.tag, ());
+    | InputOptionalElements => readOptionalElements(i, t1.tag, ());
+  }
+};
+
+exception ReadTypeError(string);
+
+let readItem2: type a b. Xmlm.input => inputItem(a) => inputItem(b) => (a, b) = (i, t1, t2) => {
+  let break = ref(false);
+  let r1 = ref(None);
+  let r2 = ref(None);
+  while (!break.contents) {
+    let next = Xmlm.peek(i);
+    switch (next) {
+      | `El_start(((_, tag), _)) => {
+        if (String.equal(t1.tag, tag)) {
+          r1 := Some(readItem(i, t1));
+        } else if (String.equal(t2.tag, tag)) {
+          r2 := Some(readItem(i, t2));
+        } else {
+          raise(ReadTypeError("Unexpected tag " ++ tag))
+        }
+      }
+      | `El_end => { break := true; }
+      | `Dtd(_) | `Data(_) => raise(ReadTypeError("Unexpected DTD or Data tag"))
+    }
+  }
+  switch (r1^, r2^) {
+    | (Some(a1), Some(a2)) => (a1, a2);
+    | _ => raise(ReadTypeError("One or more of the expected elements was not found"))
+  }
+}
