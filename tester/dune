@@ -1,0 +1,7 @@
+
+(executable
+ (name Tester)
+ (public_name Tester)
+ (libraries base stdio str fmt uri lwt lwt.unix cohttp cohttp-lwt-unix digestif xmlm AwsSdkLib)
+ (preprocess
+  (pps ppx_deriving.show ppx_deriving.eq)))

@@ -1,7 +1,7 @@
 {
   "ocaml.sandbox": {
     "kind": "esy",
-    "root": "${workspaceFolder:aws-reason}"
+    "root": "${workspaceFolder:aws-reason2}"
   },
   "ocaml.trace.server": "verbose",
   "ocaml.useOcamlEnv": false

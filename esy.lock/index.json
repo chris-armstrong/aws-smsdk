@@ -2361,43 +2361,36 @@
         "@opam/bigarray-compat@opam:1.1.0@84cda9d0"
       ]
     },
-    "@opam/mirage-no-xen@opam:1@0d45465b": {
-      "id": "@opam/mirage-no-xen@opam:1@0d45465b",
-      "name": "@opam/mirage-no-xen",
-      "version": "opam:1",
+    "@opam/mirage-runtime@opam:4.1.1@80c5d714": {
+      "id": "@opam/mirage-runtime@opam:4.1.1@80c5d714",
+      "name": "@opam/mirage-runtime",
+      "version": "opam:4.1.1",
       "source": {
         "type": "install",
-        "source": [ "no-source:" ],
+        "source": [
+          "archive:https://opam.ocaml.org/cache/sha256/3a/3ace4c8fd3326e95a0f2b7eb7ab07b1d9f36e37de1b0066cae27d36b4fc58715#sha256:3ace4c8fd3326e95a0f2b7eb7ab07b1d9f36e37de1b0066cae27d36b4fc58715",
+          "archive:https://github.com/mirage/mirage/releases/download/v4.1.1/mirage-4.1.1.tbz#sha256:3ace4c8fd3326e95a0f2b7eb7ab07b1d9f36e37de1b0066cae27d36b4fc58715"
+        ],
         "opam": {
-          "name": "mirage-no-xen",
-          "version": "1",
-          "path": "esy.lock/opam/mirage-no-xen.1"
+          "name": "mirage-runtime",
+          "version": "4.1.1",
+          "path": "esy.lock/opam/mirage-runtime.4.1.1"
         }
       },
       "overrides": [],
       "dependencies": [
-        "ocaml@4.14.0@d41d8cd9", "@esy-ocaml/substs@0.0.1@d41d8cd9"
+        "ocaml@4.14.0@d41d8cd9", "@opam/lwt@opam:5.5.0@30354e4c",
+        "@opam/logs@opam:0.7.0@46a3dffc", "@opam/ipaddr@opam:5.3.0@56e263f1",
+        "@opam/functoria-runtime@opam:4.1.1@a6af2734",
+        "@opam/fmt@opam:0.9.0@87213963", "@opam/dune@opam:3.2.0@586e8442",
+        "@esy-ocaml/substs@0.0.1@d41d8cd9"
       ],
-      "devDependencies": [ "ocaml@4.14.0@d41d8cd9" ]
-    },
-    "@opam/mirage-no-solo5@opam:1@84049e1f": {
-      "id": "@opam/mirage-no-solo5@opam:1@84049e1f",
-      "name": "@opam/mirage-no-solo5",
-      "version": "opam:1",
-      "source": {
-        "type": "install",
-        "source": [ "no-source:" ],
-        "opam": {
-          "name": "mirage-no-solo5",
-          "version": "1",
-          "path": "esy.lock/opam/mirage-no-solo5.1"
-        }
-      },
-      "overrides": [],
-      "dependencies": [
-        "ocaml@4.14.0@d41d8cd9", "@esy-ocaml/substs@0.0.1@d41d8cd9"
-      ],
-      "devDependencies": [ "ocaml@4.14.0@d41d8cd9" ]
+      "devDependencies": [
+        "ocaml@4.14.0@d41d8cd9", "@opam/lwt@opam:5.5.0@30354e4c",
+        "@opam/logs@opam:0.7.0@46a3dffc", "@opam/ipaddr@opam:5.3.0@56e263f1",
+        "@opam/functoria-runtime@opam:4.1.1@a6af2734",
+        "@opam/fmt@opam:0.9.0@87213963", "@opam/dune@opam:3.2.0@586e8442"
+      ]
     },
     "@opam/mirage-crypto-rng@opam:0.10.6@d6188d6b": {
       "id": "@opam/mirage-crypto-rng@opam:0.10.6@d6188d6b",
@@ -2455,8 +2448,7 @@
       "dependencies": [
         "ocaml@4.14.0@d41d8cd9", "@opam/zarith@opam:1.12@232cc7f2",
         "@opam/sexplib0@opam:v0.15.0@b58db414",
-        "@opam/mirage-no-xen@opam:1@0d45465b",
-        "@opam/mirage-no-solo5@opam:1@84049e1f",
+        "@opam/mirage-runtime@opam:4.1.1@80c5d714",
         "@opam/mirage-crypto-rng@opam:0.10.6@d6188d6b",
         "@opam/mirage-crypto@opam:0.10.6@51aedda0",
         "@opam/eqaf@opam:0.8@9fcc4833", "@opam/dune@opam:3.2.0@586e8442",
@@ -2467,8 +2459,7 @@
       "devDependencies": [
         "ocaml@4.14.0@d41d8cd9", "@opam/zarith@opam:1.12@232cc7f2",
         "@opam/sexplib0@opam:v0.15.0@b58db414",
-        "@opam/mirage-no-xen@opam:1@0d45465b",
-        "@opam/mirage-no-solo5@opam:1@84049e1f",
+        "@opam/mirage-runtime@opam:4.1.1@80c5d714",
         "@opam/mirage-crypto-rng@opam:0.10.6@d6188d6b",
         "@opam/mirage-crypto@opam:0.10.6@51aedda0",
         "@opam/eqaf@opam:0.8@9fcc4833", "@opam/dune@opam:3.2.0@586e8442",
@@ -2985,6 +2976,35 @@
       ],
       "devDependencies": [
         "ocaml@4.14.0@d41d8cd9", "@opam/dune@opam:3.2.0@586e8442"
+      ]
+    },
+    "@opam/functoria-runtime@opam:4.1.1@a6af2734": {
+      "id": "@opam/functoria-runtime@opam:4.1.1@a6af2734",
+      "name": "@opam/functoria-runtime",
+      "version": "opam:4.1.1",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://opam.ocaml.org/cache/sha256/3a/3ace4c8fd3326e95a0f2b7eb7ab07b1d9f36e37de1b0066cae27d36b4fc58715#sha256:3ace4c8fd3326e95a0f2b7eb7ab07b1d9f36e37de1b0066cae27d36b4fc58715",
+          "archive:https://github.com/mirage/mirage/releases/download/v4.1.1/mirage-4.1.1.tbz#sha256:3ace4c8fd3326e95a0f2b7eb7ab07b1d9f36e37de1b0066cae27d36b4fc58715"
+        ],
+        "opam": {
+          "name": "functoria-runtime",
+          "version": "4.1.1",
+          "path": "esy.lock/opam/functoria-runtime.4.1.1"
+        }
+      },
+      "overrides": [],
+      "dependencies": [
+        "ocaml@4.14.0@d41d8cd9", "@opam/fmt@opam:0.9.0@87213963",
+        "@opam/dune@opam:3.2.0@586e8442",
+        "@opam/cmdliner@opam:1.1.1@03763729",
+        "@esy-ocaml/substs@0.0.1@d41d8cd9"
+      ],
+      "devDependencies": [
+        "ocaml@4.14.0@d41d8cd9", "@opam/fmt@opam:0.9.0@87213963",
+        "@opam/dune@opam:3.2.0@586e8442",
+        "@opam/cmdliner@opam:1.1.1@03763729"
       ]
     },
     "@opam/fpath@opam:0.7.3@674d8125": {

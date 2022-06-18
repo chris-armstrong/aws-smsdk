@@ -1,0 +1,9 @@
+lib: [
+  "_build/install/default/lib/aws-reason/META"
+  "_build/install/default/lib/aws-reason/dune-package"
+  "_build/install/default/lib/aws-reason/opam"
+]
+bin: [
+  "_build/install/default/bin/AwsGenerator"
+  "_build/install/default/bin/Tester"
+]
