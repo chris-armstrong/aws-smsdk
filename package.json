@@ -13,7 +13,9 @@
     "@opam/stdio": "v0.15.0",
     "@opam/xmlm": "1.4.0",
     "@opam/yojson": "1.7.0",
-    "ocaml": "4.14.x"
+    "ocaml": "4.14.x",
+    "@opam/dune": "~3.2.0",
+    "@opam/ocamlfind": "1.9.3"
   },
-  "devDependencies": { "@opam/ocaml-lsp-server": "*" }
+  "devDependencies": { "@opam/ocaml-lsp-server": "1.11.6" }
 }

@@ -8,11 +8,13 @@ type mapper('a) = (list(string), 'a) => field;
 let join_path = path => String.concat(path, ~sep=".");
 
 module Request = {
+
   let map_string = (path, value: string) => (join_path(path), [value]);
   let map_int = (path, value) => (
     join_path(path),
     [Int.to_string(value)],
   );
+  let map_required = (mapper: mapper('a), path, value) => Some(mapper(path, value));
   let map_opt = (mapper: mapper('a), path, value) =>
     Option.map(value, ~f=v => mapper(path, v));
   let make =
@@ -152,3 +154,5 @@ module Response = {
     }
   };
 };
+
+exception MissingElement(string, Xmlm.pos);

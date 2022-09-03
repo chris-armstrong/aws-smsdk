@@ -73,7 +73,9 @@ let generateStringShape = (details: Shape.primitiveShapeDetails) =>
       Option.(details.traits >>= List.find(~f=Trait.isEnumTrait));
     switch (enumTrait) {
     | Some(EnumTrait(pairs)) =>
-      List.map(pairs, ~f=({name, value }) => "| " ++ safeConstructorName(Option.value(name, ~default=value)))
+      List.map(pairs, ~f=({name, value}) =>
+        "| " ++ safeConstructorName(Option.value(name, ~default=value))
+      )
       |> String.concat(~sep="\n")
     | _ => "string"
     };
@@ -113,18 +115,13 @@ let generateStructureShape =
     (details: Shape.structureShapeDetails, ~genDoc=false, ()) =>
   [@ns.braces]
   {
-    // let isError = Trait.hasTrait(details.traits, Trait.isErrorTrait);
-    // if (isError) {
-    //   generateExceptionType(List.map(details.members, generateMember), ~genDoc, ());
-    // } else {
     generateRecordTypeDefinition(
       List.map(details.members, ~f=member =>
         generateMember(member, ~genDoc, ())
       ),
-      //   };
-      // );
     );
   };
+
 let generateUnionShape = (details: Shape.structureShapeDetails) =>
   [@ns.braces] generateStructureShape(details);
 
@@ -295,7 +292,7 @@ let generateTimestampShape = ({traits}: Shape.timestampShapeDetails) =>
     };
   };
 
-type nonrec operationStructure =
+type operationStructure =
   | OperationStructure(Shape.structureShapeDetails)
   | OperationStructureRef(string)
   | OperationStructureNone;
@@ -398,41 +395,35 @@ let generateOperationModule =
     (
       (
         (
-          (
-            (
-              (
-                (({js|module |js} ++ symbolName(name)) ++ {js| = {\\n|js})
-                ++ {js|  type t;\\n|js}
-              )
-              ++ ({js|  |js} ++ request)
-              ++ {js|\\n|js}
-            )
-            ++ ({js|  |js} ++ response)
-            ++ {js|\\n|js}
-          )
+          "module "
+          ++ symbolName(name)
+          ++ " = {\\n"
+          ++ "  type t;\\n"
+          ++ ("  " ++ request)
+          ++ "\\n"
+          ++ ("  " ++ response)
+          ++ "\\n"
           ++ (
             (
               (
-                (
-                  ({js|  @module("@aws-sdk/client-|js} ++ moduleName)
-                  ++ {js|") @new external new: (|js}
-                )
-                ++ inputType
+                ("  @module(\"@aws-sdk/client" ++ moduleName)
+                ++ "\" @new external new: ("
               )
-              ++ {js|) => t = "|js}
+              ++ inputType
             )
-            ++ commandName
+            ++ ") => t = \""
           )
-          ++ {js|";\\n|js}
+          ++ commandName
         )
-        ++ ({js|  |js} ++ make)
-        ++ {js|\\n|js}
+        ++ "\";\\n"
       )
-      ++ (
-        {js|  @send external send: (awsServiceClient, t) => |js} ++ outputType
-      )
-      ++ {js| = "send";\\n|js}
+      ++ ("  " ++ make)
+      ++ {js|\\n|js}
     )
+    ++ (
+      {js|  @send external send: (awsServiceClient, t) => |js} ++ outputType
+    )
+    ++ {js| = "send";\\n|js}
     ++ {js|}\\n|js};
   };
 
@@ -462,34 +453,42 @@ let generateTypeTarget = (descriptor, ~genDoc=false, ()) =>
     }
   );
 
-let generateTypeBlock = ({name, descriptor}: Shape.t, ~genDoc=false, ()) =>
-  [@ns.braces]
-  {
-    let result = generateTypeTarget(descriptor, ~genDoc=false, ());
-    let t =
-      [@ns.ternary]
-      (
-        if (String.equal(result, "")) {
-          "";
-        } else {
-          generateType(name, result);
-        }
-      );
-    let docs = genDoc ? generateDoc(Shape.getShapeTraits(descriptor)) : "";
-    docs
-    ++ (
-      switch (descriptor) {
-      | UnionShape(details) =>
-        [@ns.braces]
-        {
-          let shapeModule = generateUnionHelperModule(name, details);
-          t ++ shapeModule ++ ";";
-        }
+let getStructureShape =
+  Shape.(
+    fun
+    | StructureShape(details) => Some(details)
+    | _ => None
+  );
 
-      | _ => t ++ ";"
+let generateExceptionBlock = (name, _) => {
+  // TODO: take into account exceptions which have structure
+  "exception "
+  ++ safeConstructorName(name)
+  ++ "(Aws.apiError(Aws.emptyErrorDetails))";
+};
+
+let generateTypeBlock = ({name, descriptor}: Shape.t, ~genDoc=false, ()) => {
+  let docs = genDoc ? generateDoc(Shape.getShapeTraits(descriptor)) : "";
+  let result = generateTypeTarget(descriptor, ~genDoc=false, ());
+  let t =
+    [@ns.ternary]
+    (
+      if (String.equal(result, "")) {
+        "";
+      } else {
+        generateType(name, result);
       }
     );
+  switch (descriptor) {
+  | StructureShape(details)
+      when Trait.hasTrait(details.traits, Trait.isErrorTrait) =>
+    docs ++ generateExceptionBlock(name, details) ++ ";"
+  | UnionShape(details) =>
+    let shapeModule = generateUnionHelperModule(name, details);
+    t ++ shapeModule ++ ";";
+  | _ => docs ++ t ++ ";"
   };
+};
 
 let generateRecursiveTypeBlock = (shapes: list(Shape.t), ~genDoc=false, ()) =>
   [@ns.braces]

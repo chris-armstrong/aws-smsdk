@@ -20,6 +20,24 @@ module DateTime = {
   };
 };
 
+type apiResult('a) = {
+  result: 'a,
+  requestId: string,
+}
+
+type emptyErrorDetails = {.};
+
+type apiErrorType = ApiSenderType | ApiReceiverType;
+
+type apiError('a) = {
+  requestId: string,
+  code: string,
+  type_: apiErrorType,
+  details: 'a
+}
+
+exception AwsError(apiError(emptyErrorDetails));
+
 module Auth = {
   type t = {
     accessKeyId: string,

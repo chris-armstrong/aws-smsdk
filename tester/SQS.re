@@ -1,3 +1,4 @@
+open AwsSdkLib;
 type baseString = string;
 
 type baseBoolean = bool;
@@ -8,9 +9,9 @@ type baseTimestamp = float;
 
 type baseLong = int64;
 
-type unsupportedOperation = {.};
+exception UnsupportedOperation(Aws.apiError(Aws.emptyErrorDetails));
 
-type tooManyEntriesInBatchRequest = {.};
+exception TooManyEntriesInBatchRequest(Aws.apiError(Aws.emptyErrorDetails));
 
 type token = string;
 
@@ -20,67 +21,70 @@ type tagKey = string;
 
 type string_ = string;
 
-type receiptHandleIsInvalid = {.};
+exception ReceiptHandleIsInvalid(Aws.apiError(Aws.emptyErrorDetails));
 
-type queueNameExists = {.};
+exception QueueNameExists(Aws.apiError(Aws.emptyErrorDetails));
 
-type queueDoesNotExist = {.};
+exception QueueDoesNotExist(Aws.apiError(Aws.emptyErrorDetails));
 
-type queueDeletedRecently = {.};
+exception QueueDeletedRecently(Aws.apiError(Aws.emptyErrorDetails));
 
-type queueAttributeName = | All
-| Policy
-| VisibilityTimeout
-| MaximumMessageSize
-| MessageRetentionPeriod
-| ApproximateNumberOfMessages
-| ApproximateNumberOfMessagesNotVisible
-| CreatedTimestamp
-| LastModifiedTimestamp
-| QueueArn
-| ApproximateNumberOfMessagesDelayed
-| DelaySeconds
-| ReceiveMessageWaitTimeSeconds
-| RedrivePolicy
-| FifoQueue
-| ContentBasedDeduplication
-| KmsMasterKeyId
-| KmsDataKeyReusePeriodSeconds
-| DeduplicationScope
-| FifoThroughputLimit
-| RedriveAllowPolicy
-| SqsManagedSseEnabled;
+type queueAttributeName =
+  | All
+  | Policy
+  | VisibilityTimeout
+  | MaximumMessageSize
+  | MessageRetentionPeriod
+  | ApproximateNumberOfMessages
+  | ApproximateNumberOfMessagesNotVisible
+  | CreatedTimestamp
+  | LastModifiedTimestamp
+  | QueueArn
+  | ApproximateNumberOfMessagesDelayed
+  | DelaySeconds
+  | ReceiveMessageWaitTimeSeconds
+  | RedrivePolicy
+  | FifoQueue
+  | ContentBasedDeduplication
+  | KmsMasterKeyId
+  | KmsDataKeyReusePeriodSeconds
+  | DeduplicationScope
+  | FifoThroughputLimit
+  | RedriveAllowPolicy
+  | SqsManagedSseEnabled;
 
-type purgeQueueInProgress = {.};
+exception PurgeQueueInProgress(Aws.apiError(Aws.emptyErrorDetails));
 
-type overLimit = {.};
+exception OverLimit(Aws.apiError(Aws.emptyErrorDetails));
 
-type messageSystemAttributeNameForSends = | AWSTraceHeader;
+type messageSystemAttributeNameForSends =
+  | AWSTraceHeader;
 
-type messageSystemAttributeName = | SenderId
-| SentTimestamp
-| ApproximateReceiveCount
-| ApproximateFirstReceiveTimestamp
-| SequenceNumber
-| MessageDeduplicationId
-| MessageGroupId
-| AWSTraceHeader;
+type messageSystemAttributeName =
+  | SenderId
+  | SentTimestamp
+  | ApproximateReceiveCount
+  | ApproximateFirstReceiveTimestamp
+  | SequenceNumber
+  | MessageDeduplicationId
+  | MessageGroupId
+  | AWSTraceHeader;
 
-type messageNotInflight = {.};
+exception MessageNotInflight(Aws.apiError(Aws.emptyErrorDetails));
 
 type messageAttributeName = string;
 
-type invalidMessageContents = {.};
+exception InvalidMessageContents(Aws.apiError(Aws.emptyErrorDetails));
 
-type invalidIdFormat = {.};
+exception InvalidIdFormat(Aws.apiError(Aws.emptyErrorDetails));
 
-type invalidBatchEntryId = {.};
+exception InvalidBatchEntryId(Aws.apiError(Aws.emptyErrorDetails));
 
-type invalidAttributeName = {.};
+exception InvalidAttributeName(Aws.apiError(Aws.emptyErrorDetails));
 
 type integer_ = int;
 
-type emptyBatchRequest = {.};
+exception EmptyBatchRequest(Aws.apiError(Aws.emptyErrorDetails));
 
 type boxedInteger = int;
 
@@ -88,9 +92,9 @@ type boolean_ = bool;
 
 type binary = bytes;
 
-type batchRequestTooLong = {.};
+exception BatchRequestTooLong(Aws.apiError(Aws.emptyErrorDetails));
 
-type batchEntryIdsNotDistinct = {.};
+exception BatchEntryIdsNotDistinct(Aws.apiError(Aws.emptyErrorDetails));
 
 type tagMap = list((string, tagValue));
 
@@ -103,7 +107,7 @@ type sendMessageResult = {
   messageId: option(string_),
   md5OfMessageSystemAttributes: option(string_),
   md5OfMessageAttributes: option(string_),
-  md5OfMessageBody: option(string_)
+  md5OfMessageBody: option(string_),
 };
 
 type sendMessageBatchResultEntry = {
@@ -112,21 +116,19 @@ type sendMessageBatchResultEntry = {
   md5OfMessageAttributes: option(string_),
   md5OfMessageBody: string_,
   messageId: string_,
-  id: string_
+  id: string_,
 };
 
 type removePermissionRequest = {
   label: string_,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type queueUrlList = list(string_);
 
 type queueAttributeMap = list((string, string_));
 
-type purgeQueueRequest = {
-  queueUrl: string_
-};
+type purgeQueueRequest = {queueUrl: string_};
 
 type messageSystemAttributeMap = list((string, string_));
 
@@ -135,64 +137,52 @@ type messageAttributeNameList = list(messageAttributeName);
 type listQueuesRequest = {
   maxResults: option(boxedInteger),
   nextToken: option(token),
-  queueNamePrefix: option(string_)
+  queueNamePrefix: option(string_),
 };
 
-type listQueueTagsRequest = {
-  queueUrl: string_
-};
+type listQueueTagsRequest = {queueUrl: string_};
 
 type listDeadLetterSourceQueuesRequest = {
   maxResults: option(boxedInteger),
   nextToken: option(token),
-  queueUrl: string_
+  queueUrl: string_,
 };
 
-type getQueueUrlResult = {
-  queueUrl: option(string_)
-};
+type getQueueUrlResult = {queueUrl: option(string_)};
 
 type getQueueUrlRequest = {
   queueOwnerAWSAccountId: option(string_),
-  queueName: string_
+  queueName: string_,
 };
 
-type deleteQueueRequest = {
-  queueUrl: string_
-};
+type deleteQueueRequest = {queueUrl: string_};
 
 type deleteMessageRequest = {
   receiptHandle: string_,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
-type deleteMessageBatchResultEntry = {
-  id: string_
-};
+type deleteMessageBatchResultEntry = {id: string_};
 
 type deleteMessageBatchRequestEntry = {
   receiptHandle: string_,
-  id: string_
+  id: string_,
 };
 
-type createQueueResult = {
-  queueUrl: option(string_)
-};
+type createQueueResult = {queueUrl: option(string_)};
 
 type changeMessageVisibilityRequest = {
   visibilityTimeout: integer_,
   receiptHandle: string_,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
-type changeMessageVisibilityBatchResultEntry = {
-  id: string_
-};
+type changeMessageVisibilityBatchResultEntry = {id: string_};
 
 type changeMessageVisibilityBatchRequestEntry = {
   visibilityTimeout: option(integer_),
   receiptHandle: string_,
-  id: string_
+  id: string_,
 };
 
 type binaryList = list(binary);
@@ -201,7 +191,7 @@ type batchResultErrorEntry = {
   message: option(string_),
   code: string_,
   senderFault: boolean_,
-  id: string_
+  id: string_,
 };
 
 type attributeNameList = list(queueAttributeName);
@@ -212,17 +202,17 @@ type awsaccountIdList = list(string_);
 
 type untagQueueRequest = {
   tagKeys: tagKeyList,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type tagQueueRequest = {
   tags: tagMap,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type setQueueAttributesRequest = {
   attributes: queueAttributeMap,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type sendMessageBatchResultEntryList = list(sendMessageBatchResultEntry);
@@ -234,7 +224,7 @@ type receiveMessageRequest = {
   maxNumberOfMessages: option(integer_),
   messageAttributeNames: option(messageAttributeNameList),
   attributeNames: option(attributeNameList),
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type messageSystemAttributeValue = {
@@ -242,7 +232,7 @@ type messageSystemAttributeValue = {
   binaryListValues: option(binaryList),
   stringListValues: option(stringList),
   binaryValue: option(binary),
-  stringValue: option(string_)
+  stringValue: option(string_),
 };
 
 type messageAttributeValue = {
@@ -250,45 +240,44 @@ type messageAttributeValue = {
   binaryListValues: option(binaryList),
   stringListValues: option(stringList),
   binaryValue: option(binary),
-  stringValue: option(string_)
+  stringValue: option(string_),
 };
 
 type listQueuesResult = {
   queueUrls: option(queueUrlList),
-  nextToken: option(token)
+  nextToken: option(token),
 };
 
-type listQueueTagsResult = {
-  tags: option(tagMap)
-};
+type listQueueTagsResult = {tags: option(tagMap)};
 
 type listDeadLetterSourceQueuesResult = {
   nextToken: option(token),
-  queueUrls: queueUrlList
+  queueUrls: queueUrlList,
 };
 
-type getQueueAttributesResult = {
-  attributes: option(queueAttributeMap)
-};
+type getQueueAttributesResult = {attributes: option(queueAttributeMap)};
 
 type getQueueAttributesRequest = {
   attributeNames: option(attributeNameList),
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type deleteMessageBatchResultEntryList = list(deleteMessageBatchResultEntry);
 
-type deleteMessageBatchRequestEntryList = list(deleteMessageBatchRequestEntry);
+type deleteMessageBatchRequestEntryList =
+  list(deleteMessageBatchRequestEntry);
 
 type createQueueRequest = {
   attributes: option(queueAttributeMap),
   tags: option(tagMap),
-  queueName: string_
+  queueName: string_,
 };
 
-type changeMessageVisibilityBatchResultEntryList = list(changeMessageVisibilityBatchResultEntry);
+type changeMessageVisibilityBatchResultEntryList =
+  list(changeMessageVisibilityBatchResultEntry);
 
-type changeMessageVisibilityBatchRequestEntryList = list(changeMessageVisibilityBatchRequestEntry);
+type changeMessageVisibilityBatchRequestEntryList =
+  list(changeMessageVisibilityBatchRequestEntry);
 
 type batchResultErrorEntryList = list(batchResultErrorEntry);
 
@@ -296,36 +285,37 @@ type addPermissionRequest = {
   actions: actionNameList,
   awsaccountIds: awsaccountIdList,
   label: string_,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type sendMessageBatchResult = {
   failed: batchResultErrorEntryList,
-  successful: sendMessageBatchResultEntryList
+  successful: sendMessageBatchResultEntryList,
 };
 
-type messageBodySystemAttributeMap = list((string, messageSystemAttributeValue));
+type messageBodySystemAttributeMap =
+  list((string, messageSystemAttributeValue));
 
 type messageBodyAttributeMap = list((string, messageAttributeValue));
 
 type deleteMessageBatchResult = {
   failed: batchResultErrorEntryList,
-  successful: deleteMessageBatchResultEntryList
+  successful: deleteMessageBatchResultEntryList,
 };
 
 type deleteMessageBatchRequest = {
   entries: deleteMessageBatchRequestEntryList,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type changeMessageVisibilityBatchResult = {
   failed: batchResultErrorEntryList,
-  successful: changeMessageVisibilityBatchResultEntryList
+  successful: changeMessageVisibilityBatchResultEntryList,
 };
 
 type changeMessageVisibilityBatchRequest = {
   entries: changeMessageVisibilityBatchRequestEntryList,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type sendMessageRequest = {
@@ -335,7 +325,7 @@ type sendMessageRequest = {
   messageAttributes: option(messageBodyAttributeMap),
   delaySeconds: option(integer_),
   messageBody: string_,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
 type sendMessageBatchRequestEntry = {
@@ -345,7 +335,7 @@ type sendMessageBatchRequestEntry = {
   messageAttributes: option(messageBodyAttributeMap),
   delaySeconds: option(integer_),
   messageBody: string_,
-  id: string_
+  id: string_,
 };
 
 type message = {
@@ -355,7 +345,7 @@ type message = {
   body: option(string_),
   md5OfBody: option(string_),
   receiptHandle: option(string_),
-  messageId: option(string_)
+  messageId: option(string_),
 };
 
 type sendMessageBatchRequestEntryList = list(sendMessageBatchRequestEntry);
@@ -364,10 +354,7 @@ type messageList = list(message);
 
 type sendMessageBatchRequest = {
   entries: sendMessageBatchRequestEntryList,
-  queueUrl: string_
+  queueUrl: string_,
 };
 
-type receiveMessageResult = {
-  messages: option(messageList)
-};
-
+type receiveMessageResult = {messages: option(messageList)};

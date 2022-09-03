@@ -132,10 +132,10 @@ let _ = {
         ),
       ];
       Arg.parse(argumentTypes, setFilename, usage);
-      Stdio.printf(
-        "command %s",
-        Option.value(command.contents, ~default="<notset>"),
-      );
+      // Stdio.printf(
+      //   "command %s",
+      //   Option.value(command.contents, ~default="<notset>"),
+      // );
       switch (filename.contents) {
       | "" =>
         Stdio.eprintf("no filename specified!");
@@ -154,7 +154,7 @@ let _ = {
                   | "service" => printServiceDetails(shapes)
                   | "operations" => printOperations(shapes)
                   | x => {
-                      Stdio.eprintf("Unknown command %s", x);
+                      Stdio.eprintf("Unknown command '%s'", x);
                       exit(1);
                     },
               )

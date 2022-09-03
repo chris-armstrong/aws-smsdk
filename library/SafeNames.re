@@ -132,7 +132,7 @@ let safeTypeName = target =>
 let camelCase = name =>
   String.uppercase(String.slice(name, 0, 1))
   ++ String.slice(name, 1, String.length(name))
-let safeConstructorName = name => camelCase(name);
+let safeConstructorName = (name) => name|>symbolName|>camelCase;
 
 let variantReplaceRe = Str.regexp(
     "-|#|:|\\.|/| |\\(|\\)|\\\\`",

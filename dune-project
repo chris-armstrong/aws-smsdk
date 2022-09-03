@@ -1,2 +1,2 @@
-(lang dune 3.2)
-(name aws-reason)
+(lang dune 2.9)
+(name aws-reason2)
