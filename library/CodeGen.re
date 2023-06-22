@@ -482,11 +482,11 @@ let generateTypeBlock = ({name, descriptor}: Shape.t, ~genDoc=false, ()) => {
   switch (descriptor) {
   | StructureShape(details)
       when Trait.hasTrait(details.traits, Trait.isErrorTrait) =>
-    docs ++ generateExceptionBlock(name, details) ++ ";"
+    docs ++ generateExceptionBlock(name, details)
   | UnionShape(details) =>
     let shapeModule = generateUnionHelperModule(name, details);
-    t ++ shapeModule ++ ";";
-  | _ => docs ++ t ++ ";"
+    t ++ shapeModule;
+  | _ => docs ++ t
   };
 };
 

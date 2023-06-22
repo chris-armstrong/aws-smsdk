@@ -1,46 +1,64 @@
-open Core;
+open Base;
 open Parselib;
 open! SQSClientProto;
 
-let order = shapes =>
-  shapes
-  |> List.map(~f=(Shape.{name, descriptor, _}) =>
-       Dependencies.{
-         name,
-         descriptor,
-         targets: Dependencies.getTargets(descriptor),
-         recursWith: None,
-       }
-     )
-  |> Dependencies.order;
-let render = shapes => {
-  let ordered = shapes |> order;
-  let (_, allStructures) = Organize.partitionOperationShapes(ordered);
+let shapeWithTarget = (Shape.{name, descriptor}) =>
+  Dependencies.{
+    name,
+    descriptor,
+    targets: Dependencies.getTargets(descriptor),
+    recursWith: None,
+  };
 
-  allStructures
-  |> List.map(
-       ~f=
-         fun
-         | Dependencies.{recursWith: Some(recursItems), name, descriptor, _} =>
-           CodeGen.generateRecursiveTypeBlock(
-             [
-               Shape.{name, descriptor},
-               ...List.map(recursItems, ~f=item =>
-                    Shape.{name: item.name, descriptor: item.descriptor}
-                  ),
-             ],
-             ~genDoc=false,
-             (),
-           )
-         | Dependencies.{name, descriptor, _} =>
-           CodeGen.generateTypeBlock(
-             Shape.{name, descriptor},
-             ~genDoc=false,
-             (),
-           ),
-     )
+let order = shapes =>
+  shapes |> List.map(~f=shape => shapeWithTarget(shape)) |> Dependencies.order;
+
+let render = shapes => {
+  let ordered = shapes |> List.rev |> List.map(~f=shapeWithTarget); /* |> order; */
+  let Organize.{
+        unionShapes,
+        operationShapes,
+        exceptionShapes,
+        basicShapes,
+        structureShapes,
+      } =
+    Organize.partitionShapesWithTargetsByCodegenType(ordered);
+
+  basicShapes
+  |> List.map(~f=((name, descriptor, _)) => {
+       "type "
+       ++ CodeGen.generateTypeBlock(
+            Shape.{name, descriptor},
+            ~genDoc=false,
+            (),
+          )
+     })
   |> String.concat(~sep="\n\n")
-  |> Stdio.printf("%s", _);
+  |> Stdio.print_string;
+  /* structureShapes
+     |> List.map(
+          ~f=
+            fun
+            | Dependencies.{recursWith: Some(recursItems), name, descriptor, _} =>
+              CodeGen.generateRecursiveTypeBlock(
+                [
+                  Shape.{name, descriptor},
+                  ...List.map(recursItems, ~f=item =>
+                       Shape.{name: item.name, descriptor: item.descriptor}
+                     ),
+                ],
+                ~genDoc=false,
+                (),
+              )
+            | Dependencies.{name, descriptor, _} =>
+              CodeGen.generateTypeBlock(
+                Shape.{name, descriptor},
+                ~genDoc=false,
+                (),
+              ),
+        )
+     |> String.concat(~sep="\n\nand\n\n")
+     |> Stdio.printf("%s", _); */
 };
 
 let printProtocol = (traits: option(list(Trait.t))) => {
@@ -115,86 +133,66 @@ let printServiceDetails = shapes => {
   );
 };
 
+type command =
+  | TypesCommand
+  | ServiceCommand
+  | OperationsCommand;
+
+let readCommandLine = () =>
+  try({
+    let usage = "AwsGenerator -run [types|service|operations] <filename>";
+    let command = ref(None);
+    let filename = ref("");
+    let setFilename = f => filename := f;
+    let setCommand = cmd => command := Some(cmd);
+
+    let argumentTypes = [
+      (
+        "-run",
+        Stdlib.Arg.Symbol(["types", "service", "operations"], setCommand),
+        "command to execute",
+      ),
+    ];
+    Stdlib.Arg.parse(argumentTypes, setFilename, usage);
+    switch (filename.contents, command.contents) {
+    | ("", _) =>
+      Stdio.eprintf("no filename specified!");
+      Stdlib.exit(1);
+    | (filename, Some("types")) => (filename, TypesCommand)
+    | (filename, Some("service")) => (filename, ServiceCommand)
+    | (filename, Some("operations")) => (filename, OperationsCommand)
+    | (filename, _) =>
+      Stdio.eprintf("You must specify a -run <command>\n");
+      Stdlib.exit(1);
+    };
+  }) {
+  | Invalid_argument(x) =>
+    Stdio.eprintf(
+      "You must supply a model file as the first parameter: %s\n",
+      x,
+    );
+    Stdlib.exit(1);
+  };
+
 let _ = {
-  Base.Result.(
-    try({
-      let usage = "AwsGenerator -run [types|service|operations] <filename>";
-      let command = ref(None);
-      let filename = ref("");
-      let setFilename = f => filename := f;
-      let setCommand = cmd => command := Some(cmd);
-
-      let argumentTypes = [
-        (
-          "-run",
-          Arg.Symbol(["types", "service", "operations"], setCommand),
-          "command to execute",
-        ),
-      ];
-      Arg.parse(argumentTypes, setFilename, usage);
-      // Stdio.printf(
-      //   "command %s",
-      //   Option.value(command.contents, ~default="<notset>"),
-      // );
-      switch (filename.contents) {
-      | "" =>
-        Stdio.eprintf("no filename specified!");
-        exit(1);
-      | input_filename =>
-        let res = Json.Decode.parseJsonFile(input_filename, Parse.parseModel);
-        let _ =
-          res
-          >>| (
-            shapes =>
-              Option.iter(
-                command^,
-                ~f=
-                  fun
-                  | "types" => render(shapes)
-                  | "service" => printServiceDetails(shapes)
-                  | "operations" => printOperations(shapes)
-                  | x => {
-                      Stdio.eprintf("Unknown command '%s'", x);
-                      exit(1);
-                    },
-              )
-          );
-
-        let _ =
-          res
-          |> iter_error(~f=error => {
-               Stdio.eprintf(
-                 "Error parsing model: %s\n",
-                 Json.Decode.jsonParseErrorToString(error),
-               );
-               exit(1);
-             });
-        ();
+  open Result.Let_syntax;
+  let (input_filename, command) = readCommandLine();
+  Json.Decode.parseJsonFile(input_filename, Parse.parseModel)
+  >>| (
+    shapes => {
+      switch (command) {
+      | TypesCommand => render(shapes)
+      | ServiceCommand => printServiceDetails(shapes)
+      | OperationsCommand => printOperations(shapes)
       };
-    }) {
-    // let _ =
-    //   res
-    //   >>| List.iter(~f=model => {Stdio.printf("%s\n", Shape.show(model))});
-
-    // let _ = res >>| render;
-    // let _ = res >>| printServiceDetails;
-    // let _ = res >>| printOperations;
-
-    // let _ =
-    //   res
-    //   >>| order
-    //   >>| Fmt.pr("%a", Fmt.Dump.list(Dependencies.pp_shapeWithTarget), _);
-    // let _ =
-    //   map_error(res, ~f=error =>
-    //     Stdio.eprintf(
-    //       "Error parsing model: %s\n",
-    //       Json.Decode.jsonParseErrorToString(error),
-    //     )
-    //   );
-
-    | Invalid_argument(_) =>
-      Stdio.eprintf("You must supply a model file as the first parameter\n")
-    | _ => Stdio.eprintf("An unknown error occurred\n")
     }
-  );
+  )
+  |> Result.iter_error(~f=error => {
+       Stdio.eprintf(
+         "Error parsing model: %s\n",
+         Json.Decode.jsonParseErrorToString(error),
+       );
+       Stdlib.exit(1);
+     });
+  ();
 };
