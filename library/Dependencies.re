@@ -92,163 +92,47 @@ let getShapeTargets = shapes =>
     (shape, getTargets(shape.descriptor))
   );
 
-exception CycleError(list(string), list(string));
+module ShapeWithTargetGraph = {
+  type t = list(shapeWithTarget);
+  module V = {
+    type t = shapeWithTarget;
+    let compare = (x, y) => String.compare(x.name, y.name);
+    let hash = x => String.hash(x.name);
+    let equal = (x, y) => String.equal(x.name, y.name);
+  };
 
-let containsAll = (within, targets) =>
-  if (List.length(targets) == 0) {
-    true;
-  } else {
-    List.for_all(
-      ~f=
-        target =>
-          List.exists(
-            ~f=
-              item => {
-                String.equal(item.name, target)
-                || Option.value_map(
-                     item.recursWith, ~default=false, ~f=recursiveItems =>
-                     List.exists(recursiveItems, ~f=recursiveItem =>
-                       String.equal(recursiveItem.name, target)
-                     )
-                   )
-              },
-            within,
-          ),
+  let iter_vertex = (iterator: V.t => unit, x: t) => {
+    List.iter(x, ~f=iterator);
+  };
+
+  let iter_succ = (iterator, x, y) => {
+    let {targets, _} = y;
+    List.iter(
       targets,
+      ~f=target_name => {
+        let target =
+          List.find_exn(x, ~f=iter_target =>
+            String.equal(iter_target.name, target_name)
+          );
+        iterator(target);
+      },
     );
   };
-
-let hasTarget = (target, candidates) =>
-  List.exists(
-    ~f=
-      candidate =>
-        List.exists(
-          ~f=candidateTarget => String.equal(candidateTarget, target),
-          candidate.targets,
-        ),
-    candidates,
-  );
-
-let filterOut = (l: list(shapeWithTarget), x: shapeWithTarget) =>
-  List.filter(l, ~f=i => equal_shapeWithTarget(i, x));
-let getShapeWithTargetNames = s => List.map(s, ~f=({name, _}) => name);
-
-type cycleType = list(shapeWithTarget);
-
-let rec findCycle =
-        (chain: list(shapeWithTarget), remaining: list(shapeWithTarget))
-        : option(list(cycleType)) => {
-  let first = List.hd(chain);
-  switch (first) {
-  | Some(last) =>
-    let targetsInChain =
-      List.filter_map(
-        last.targets,
-        ~f=target => {
-          let tail =
-            List.drop_while(chain, ~f=shape =>
-              !String.equal(shape.name, target)
-            );
-          List.is_empty(tail) ? None : Some(tail);
-        },
-      );
-    if (!List.is_empty(targetsInChain)) {
-      // we've found recursion - return the chains
-      Some(targetsInChain);
-    } else {
-      // follow chain targets in remaining
-      let follow =
-        List.filter(remaining, ~f=shape =>
-          List.exists(last.targets, ~f=target =>
-            String.equal(shape.name, target)
-          )
-        );
-      // Js.log3("following targets", last.name, getShapeWithTargetNames(follow))
-      let cycles =
-        List.filter_map(
-          follow,
-          ~f=shape => {
-            let chain = List.concat([chain, [shape]]);
-            let remaining = filterOut(remaining, shape);
-            findCycle(chain, remaining);
-          },
-        );
-      !List.is_empty(cycles) ? Some(List.concat(cycles)) : None;
-    };
-  | None => None
-  };
 };
 
-let findCycles = shapes => {
-  // trace a path from each shape that goes through the remaining shapes back to itself
-  shapes
-  |> List.filter_map(~f=shape => {
-       let otherShapes = filterOut(shapes, shape);
-       findCycle([shape], otherShapes);
-     })
-  |> List.concat;
-};
+module ShapeWithTargetComponents =
+  Graph.Components.Make(ShapeWithTargetGraph);
 
-// let isSubsetOf = (target, test) => {
-//   let targetSet = Set.fromList(target, ~id = module(ShapeWithTargetComparator))
-//   let testSet = Set.fromArray(test, ~id=module(ShapeWithTargetComparator))
-//   let diff = Set.diff(testSet, targetSet)
-//   Set.isEmpty(diff)
-// };
-
-let rec order_ =
-        (remaining: list(shapeWithTarget), ordered: list(shapeWithTarget))
-        : list(shapeWithTarget) =>
-  if (!List.is_empty(remaining)) {
-    let (free, unfree) =
-      List.partition_tf(remaining, ~f=({targets, _}) =>
-        containsAll(ordered, targets)
-      );
-    if (List.is_empty(free)) {
-      let cycles = findCycles(unfree);
-      if (List.is_empty(cycles)) {
-        raise(
-          CycleError(
-            getShapeWithTargetNames(free),
-            getShapeWithTargetNames(unfree),
-          ),
-        );
-      };
-      // 1. Create recursive object
-      let recursive =
-        cycles
-        |> List.concat
-        |> List.fold(~init=[], ~f=(acc, x) =>
-             List.exists(acc, ~f=y => equal_shapeWithTarget(x, y))
-               ? acc : List.concat([acc, [x]])
-           );
-      let firstItem = List.hd(recursive);
-      let recursiveItem =
-        Option.value_map(firstItem, ~default=[], ~f=item =>
-          [{...item, recursWith: List.tl(recursive)}]
-        );
-
-      // 2. Filter out all recursive from unfree
-      let unfree =
-        List.filter(unfree, ~f=unfreeItem =>
-          !
-            List.exists(recursive, ~f=recursiveItem =>
-              equal_shapeWithTarget(recursiveItem, unfreeItem)
-            )
-        );
-
-      // 3. Add recursive object to ordered
-      let ordered = List.concat([ordered, free, recursiveItem]);
-
-      // 4. Iterate on new free
-      order_(unfree, ordered);
-    } else {
-      let ordered = List.concat([ordered, free]);
-      order_(unfree, ordered);
-    };
-  } else {
-    ordered;
-  };
 let order = shapesWithTargets => {
-  order_(shapesWithTargets, smithyImplicitShapes);
+  let partitions =
+    ShapeWithTargetComponents.scc_list(
+      shapesWithTargets @ smithyImplicitShapes,
+    );
+  List.filter_map(partitions, ~f=partition => {
+    switch (partition) {
+    | [] => None
+    | [a] => Some(a)
+    | [a, ...x] => Some({...a, recursWith: Some(x)})
+    }
+  });
 };

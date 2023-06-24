@@ -15,10 +15,10 @@ let shapesWithTargets = shapes =>
   );
 
 type shapesWithTargetsByCodegenType = {
-  operationShapes: list((string, operationShapeDetails, list(string))),
-  exceptionShapes: list((string, structureShapeDetails, list(string))),
-  unionShapes: list((string, structureShapeDetails, list(string))),
-  structureShapes: list((string, structureShapeDetails, list(string))),
+  operationShapes: list((string, shapeDescriptor, list(string))),
+  exceptionShapes: list((string, shapeDescriptor, list(string))),
+  unionShapes: list((string, shapeDescriptor, list(string))),
+  structureShapes: list((string, shapeDescriptor, list(string))),
   basicShapes: list((string, shapeDescriptor, list(string))),
 };
 
@@ -32,14 +32,17 @@ let partitionShapesWithTargetsByCodegenType = shapesWithTargets => {
   |> List.iter(~f=({descriptor, name, targets, _} as x) => {
        switch (descriptor) {
        | UnionShape(x) =>
-         unionShapes := [(name, x, targets), ...unionShapes^]
+         unionShapes := [(name, descriptor, targets), ...unionShapes^]
 
        | StructureShape(x) when Trait.hasTrait(x.traits, Trait.isErrorTrait) =>
-         exceptionShapes := [(name, x, targets), ...exceptionShapes^]
+         exceptionShapes :=
+           [(name, descriptor, targets), ...exceptionShapes^]
        | StructureShape(x) =>
-         structureShapes := [(name, x, targets), ...structureShapes^]
+         structureShapes :=
+           [(name, descriptor, targets), ...structureShapes^]
        | OperationShape(x) =>
-         operationShapes := [(name, x, targets), ...operationShapes^]
+         operationShapes :=
+           [(name, descriptor, targets), ...operationShapes^]
        | _ => basicShapes := [(name, descriptor, targets), ...basicShapes^]
        }
      });

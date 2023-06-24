@@ -10,55 +10,34 @@ let shapeWithTarget = (Shape.{name, descriptor}) =>
     recursWith: None,
   };
 
-let order = shapes =>
-  shapes |> List.map(~f=shape => shapeWithTarget(shape)) |> Dependencies.order;
-
 let render = shapes => {
-  let ordered = shapes |> List.rev |> List.map(~f=shapeWithTarget); /* |> order; */
-  let Organize.{
-        unionShapes,
-        operationShapes,
-        exceptionShapes,
-        basicShapes,
-        structureShapes,
-      } =
-    Organize.partitionShapesWithTargetsByCodegenType(ordered);
-
-  basicShapes
-  |> List.map(~f=((name, descriptor, _)) => {
-       "type "
-       ++ CodeGen.generateTypeBlock(
-            Shape.{name, descriptor},
-            ~genDoc=false,
-            (),
-          )
-     })
+  let ordered = shapes |> List.map(~f=shapeWithTarget) |> Dependencies.order;
+  let (operrationShapes, structureShapes) =
+    Organize.partitionOperationShapes(ordered);
+  structureShapes
+  |> List.map(
+       ~f=
+         fun
+         | Dependencies.{recursWith: Some(recursItems), name, descriptor, _} =>
+           CodeGen.generateRecursiveTypeBlock(
+             [
+               Shape.{name, descriptor},
+               ...List.map(recursItems, ~f=item =>
+                    Shape.{name: item.name, descriptor: item.descriptor}
+                  ),
+             ],
+             ~genDoc=false,
+             (),
+           )
+         | Dependencies.{name, descriptor, _} =>
+           CodeGen.generateTypeBlock(
+             Shape.{name, descriptor},
+             ~genDoc=false,
+             (),
+           ),
+     )
   |> String.concat(~sep="\n\n")
-  |> Stdio.print_string;
-  /* structureShapes
-     |> List.map(
-          ~f=
-            fun
-            | Dependencies.{recursWith: Some(recursItems), name, descriptor, _} =>
-              CodeGen.generateRecursiveTypeBlock(
-                [
-                  Shape.{name, descriptor},
-                  ...List.map(recursItems, ~f=item =>
-                       Shape.{name: item.name, descriptor: item.descriptor}
-                     ),
-                ],
-                ~genDoc=false,
-                (),
-              )
-            | Dependencies.{name, descriptor, _} =>
-              CodeGen.generateTypeBlock(
-                Shape.{name, descriptor},
-                ~genDoc=false,
-                (),
-              ),
-        )
-     |> String.concat(~sep="\n\nand\n\n")
-     |> Stdio.printf("%s", _); */
+  |> Stdio.printf("%s", _);
 };
 
 let printProtocol = (traits: option(list(Trait.t))) => {
