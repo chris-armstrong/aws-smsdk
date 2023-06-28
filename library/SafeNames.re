@@ -126,6 +126,8 @@ let safeTypeName = target =>
     };
   };
 
+let safeFunctionName = safeTypeName;
+
 let camelCase = name =>
   String.uppercase(String.sub(name, ~pos=0, ~len=1))
   ++ String.sub(name, ~pos=1, ~len=String.length(name) - 1);

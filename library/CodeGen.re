@@ -498,5 +498,5 @@ let generateRecursiveTypeBlock = (shapes: list(Shape.t), ~genDoc=false, ()) =>
         (safeTypeName(shape.name) ++ {js| = |js})
         ++ generateTypeTarget(shape.descriptor, ~genDoc, ())
       );
-    "type rec " ++ String.concat(shapeTypes, ~sep=" and ");
+    "type " ++ String.concat(shapeTypes, ~sep=" and ");
   };

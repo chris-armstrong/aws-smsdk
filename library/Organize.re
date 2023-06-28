@@ -55,14 +55,25 @@ let partitionShapesWithTargetsByCodegenType = shapesWithTargets => {
   };
 };
 
-let partitionOperationShapes = shapesWithTargets =>
-  List.partition_map(
-    shapesWithTargets, ~f=({descriptor, name, targets, recursWith}) =>
-    switch (descriptor) {
-    | OperationShape(x) => Base.Either.First((name, x, targets))
-    | _ => Base.Either.Second({name, descriptor, targets, recursWith})
-    }
-  );
+let partitionOperationShapes = shapesWithTargets => {
+  let (service, remaining) =
+    List.partition_map(
+      shapesWithTargets, ~f=({descriptor, name, targets, recursWith}) => {
+      switch (descriptor) {
+      | ServiceShape(x) => Base.Either.First((name, x))
+      | _ => Base.Either.Second({name, descriptor, targets, recursWith})
+      }
+    });
+  let (operations, structured) =
+    List.partition_map(
+      shapesWithTargets, ~f=({descriptor, name, targets, recursWith}) =>
+      switch (descriptor) {
+      | OperationShape(x) => Base.Either.First((name, x, targets))
+      | _ => Base.Either.Second({name, descriptor, targets, recursWith})
+      }
+    );
+  (List.hd_exn(service), operations, structured);
+};
 
 let operationDependencies = (operationDetailsList: list(operationTriple)) =>
   operationDetailsList

@@ -1,6 +1,6 @@
 (library
  (name Parselib)
- (libraries yojson base str fmt ocamlgraph)
+ (libraries yojson base str fmt ocamlgraph base64)
  (preprocess
   (pps ppx_deriving.show ppx_inline_test ppx_assert ppx_compare))
  (inline_tests))

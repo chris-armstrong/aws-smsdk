@@ -10,10 +10,13 @@ let shapeWithTarget = (Shape.{name, descriptor}) =>
     recursWith: None,
   };
 
-let render = shapes => {
+let render = (fmt, shapes) => {
   let ordered = shapes |> List.map(~f=shapeWithTarget) |> Dependencies.order;
-  let (operrationShapes, structureShapes) =
+  let ((name, service), operationShapes, structureShapes) =
     Organize.partitionOperationShapes(ordered);
+
+  Fmt.pf(fmt, "open AwsSdkLib;");
+
   structureShapes
   |> List.map(
        ~f=
@@ -37,7 +40,19 @@ let render = shapes => {
            ),
      )
   |> String.concat(~sep="\n\n")
-  |> Stdio.printf("%s", _);
+  |> Fmt.pf(fmt, "%s\n\n", _);
+
+  if (Trait.hasTrait(
+        service.traits,
+        fun
+        | Trait.AwsProtocolAwsJson1_1Trait => true
+        | Trait.AwsProtocolAwsJson1_0Trait => true
+        | _ => false,
+      )) {
+    AwsProtocolJson.generateSerialisers(fmt, structureShapes);
+    Fmt.pf(fmt, "@\n@\n");
+  };
+  ();
 };
 
 let printProtocol = (traits: option(list(Trait.t))) => {
@@ -160,7 +175,7 @@ let _ = {
   >>| (
     shapes => {
       switch (command) {
-      | TypesCommand => render(shapes)
+      | TypesCommand => render(Fmt.stdout, shapes)
       | ServiceCommand => printServiceDetails(shapes)
       | OperationsCommand => printOperations(shapes)
       };
