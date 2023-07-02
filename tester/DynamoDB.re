@@ -16,18 +16,7 @@ type nullAttributeValue = bool
 
 type booleanAttributeValue = bool
 
-type attributeValue = {
-  bool_: option(booleanAttributeValue),
-  null: option(nullAttributeValue),
-  l: option(listAttributeValue),
-  m: option(mapAttributeValue),
-  bs: option(binarySetAttributeValue),
-  ns: option(numberSetAttributeValue),
-  ss: option(stringSetAttributeValue),
-  b: option(binaryAttributeValue),
-  n: option(numberAttributeValue),
-  s: option(stringAttributeValue)
-} and listAttributeValue = list(attributeValue) and mapAttributeValue = list((string, attributeValue))
+type attributeValue = BOOL(booleanAttributeValue) | NULL(nullAttributeValue) | L(listAttributeValue) | M(mapAttributeValue) | BS(binarySetAttributeValue) | NS(numberSetAttributeValue) | SS(stringSetAttributeValue) | B(binaryAttributeValue) | N(numberAttributeValue) | S(stringAttributeValue) and listAttributeValue = list(attributeValue) and mapAttributeValue = list((string, attributeValue))
 
 type putItemInputAttributeMap = list((string, attributeValue))
 
@@ -82,24 +71,26 @@ exception InvalidEndpointException(Aws.apiError(Aws.emptyErrorDetails))
 
 exception InternalServerError(Aws.apiError(Aws.emptyErrorDetails))
 
-type tableStatus = | CREATING
-| UPDATING
-| DELETING
-| ACTIVE
-| INACCESSIBLE_ENCRYPTION_CREDENTIALS
-| ARCHIVING
-| ARCHIVED
+type tableStatus = 
+  | CREATING
+  | UPDATING
+  | DELETING
+  | ACTIVE
+  | INACCESSIBLE_ENCRYPTION_CREDENTIALS
+  | ARCHIVING
+  | ARCHIVED
 
 type regionName = string
 
 type indexName = string
 
-type indexStatus = | CREATING
-| UPDATING
-| DELETING
-| ACTIVE
+type indexStatus = 
+  | CREATING
+  | UPDATING
+  | DELETING
+  | ACTIVE
 
-type positiveLongObject = int64
+type positiveLongObject = int
 
 type booleanObject = bool
 
@@ -140,13 +131,14 @@ type replicaGlobalSecondaryIndexAutoScalingDescription = {
 
 type replicaGlobalSecondaryIndexAutoScalingDescriptionList = list(replicaGlobalSecondaryIndexAutoScalingDescription)
 
-type replicaStatus = | CREATING
-| CREATION_FAILED
-| UPDATING
-| DELETING
-| ACTIVE
-| REGION_DISABLED
-| INACCESSIBLE_ENCRYPTION_CREDENTIALS
+type replicaStatus = 
+  | CREATING
+  | CREATION_FAILED
+  | UPDATING
+  | DELETING
+  | ACTIVE
+  | REGION_DISABLED
+  | INACCESSIBLE_ENCRYPTION_CREDENTIALS
 
 type replicaAutoScalingDescription = {
   replicaStatus: option(replicaStatus),
@@ -221,9 +213,10 @@ type updateTableReplicaAutoScalingInput = {
 
 type keySchemaAttributeName = string
 
-type scalarAttributeType = | S
-| N
-| B
+type scalarAttributeType = 
+  | S
+  | N
+  | B
 
 type attributeDefinition = {
   attributeType: scalarAttributeType,
@@ -232,8 +225,9 @@ type attributeDefinition = {
 
 type attributeDefinitions = list(attributeDefinition)
 
-type keyType = | HASH
-| RANGE
+type keyType = 
+  | HASH
+  | RANGE
 
 type keySchemaElement = {
   keyType: keyType,
@@ -244,7 +238,7 @@ type keySchema = list(keySchemaElement)
 
 type date = float
 
-type nonNegativeLongObject = int64
+type nonNegativeLongObject = int
 
 type provisionedThroughputDescription = {
   writeCapacityUnits: option(nonNegativeLongObject),
@@ -254,21 +248,23 @@ type provisionedThroughputDescription = {
   lastIncreaseDateTime: option(date)
 }
 
-type long = int64
+type long = int
 
 type tableId = string
 
-type billingMode = | PROVISIONED
-| PAY_PER_REQUEST
+type billingMode = 
+  | PROVISIONED
+  | PAY_PER_REQUEST
 
 type billingModeSummary = {
   lastUpdateToPayPerRequestDateTime: option(date),
   billingMode: option(billingMode)
 }
 
-type projectionType = | ALL
-| KEYS_ONLY
-| INCLUDE
+type projectionType = 
+  | ALL
+  | KEYS_ONLY
+  | INCLUDE
 
 type nonKeyAttributeName = string
 
@@ -308,10 +304,11 @@ type globalSecondaryIndexDescriptionList = list(globalSecondaryIndexDescription)
 
 type streamEnabled = bool
 
-type streamViewType = | NEW_IMAGE
-| OLD_IMAGE
-| NEW_AND_OLD_IMAGES
-| KEYS_ONLY
+type streamViewType = 
+  | NEW_IMAGE
+  | OLD_IMAGE
+  | NEW_AND_OLD_IMAGES
+  | KEYS_ONLY
 
 type streamSpecification = {
   streamViewType: option(streamViewType),
@@ -363,14 +360,16 @@ type restoreSummary = {
   sourceBackupArn: option(backupArn)
 }
 
-type ssestatus = | ENABLING
-| ENABLED
-| DISABLING
-| DISABLED
-| UPDATING
+type ssestatus = 
+  | ENABLING
+  | ENABLED
+  | DISABLING
+  | DISABLED
+  | UPDATING
 
-type ssetype = | AES256
-| KMS
+type ssetype = 
+  | AES256
+  | KMS
 
 type kmsmasterKeyArn = string
 
@@ -537,9 +536,10 @@ type updateItemOutput = {
   attributes: option(attributeMap)
 }
 
-type attributeAction = | ADD
-| PUT
-| DELETE
+type attributeAction = 
+  | ADD
+  | PUT
+  | DELETE
 
 type attributeValueUpdate = {
   action: option(attributeAction),
@@ -548,19 +548,20 @@ type attributeValueUpdate = {
 
 type attributeUpdates = list((string, attributeValueUpdate))
 
-type comparisonOperator = | EQ
-| NE
-| IN
-| LE
-| LT
-| GE
-| GT
-| BETWEEN
-| NOT_NULL
-| NULL
-| CONTAINS
-| NOT_CONTAINS
-| BEGINS_WITH
+type comparisonOperator = 
+  | EQ
+  | NE
+  | IN
+  | LE
+  | LT
+  | GE
+  | GT
+  | BETWEEN
+  | NOT_NULL
+  | NULL
+  | CONTAINS
+  | NOT_CONTAINS
+  | BEGINS_WITH
 
 type attributeValueList = list(attributeValue)
 
@@ -573,21 +574,25 @@ type expectedAttributeValue = {
 
 type expectedAttributeMap = list((string, expectedAttributeValue))
 
-type conditionalOperator = | AND
-| OR
+type conditionalOperator = 
+  | AND
+  | OR
 
-type returnValue = | NONE
-| ALL_OLD
-| UPDATED_OLD
-| ALL_NEW
-| UPDATED_NEW
+type returnValue = 
+  | NONE
+  | ALL_OLD
+  | UPDATED_OLD
+  | ALL_NEW
+  | UPDATED_NEW
 
-type returnConsumedCapacity = | INDEXES
-| TOTAL
-| NONE
+type returnConsumedCapacity = 
+  | INDEXES
+  | TOTAL
+  | NONE
 
-type returnItemCollectionMetrics = | SIZE
-| NONE
+type returnItemCollectionMetrics = 
+  | SIZE
+  | NONE
 
 type updateExpression = string
 
@@ -697,10 +702,11 @@ exception GlobalTableNotFoundException(Aws.apiError(Aws.emptyErrorDetails))
 
 type globalTableArnString = string
 
-type globalTableStatus = | CREATING
-| ACTIVE
-| DELETING
-| UPDATING
+type globalTableStatus = 
+  | CREATING
+  | ACTIVE
+  | DELETING
+  | UPDATING
 
 type globalTableDescription = {
   globalTableName: option(tableName),
@@ -738,11 +744,12 @@ exception TableNotFoundException(Aws.apiError(Aws.emptyErrorDetails))
 
 exception ReplicaAlreadyExistsException(Aws.apiError(Aws.emptyErrorDetails))
 
-type contributorInsightsStatus = | ENABLING
-| ENABLED
-| DISABLING
-| DISABLED
-| FAILED
+type contributorInsightsStatus = 
+  | ENABLING
+  | ENABLED
+  | DISABLING
+  | DISABLED
+  | FAILED
 
 type updateContributorInsightsOutput = {
   contributorInsightsStatus: option(contributorInsightsStatus),
@@ -750,8 +757,9 @@ type updateContributorInsightsOutput = {
   tableName: option(tableName)
 }
 
-type contributorInsightsAction = | ENABLE
-| DISABLE
+type contributorInsightsAction = 
+  | ENABLE
+  | DISABLE
 
 type updateContributorInsightsInput = {
   contributorInsightsAction: contributorInsightsAction,
@@ -759,11 +767,13 @@ type updateContributorInsightsInput = {
   tableName: tableName
 }
 
-type continuousBackupsStatus = | ENABLED
-| DISABLED
+type continuousBackupsStatus = 
+  | ENABLED
+  | DISABLED
 
-type pointInTimeRecoveryStatus = | ENABLED
-| DISABLED
+type pointInTimeRecoveryStatus = 
+  | ENABLED
+  | DISABLED
 
 type pointInTimeRecoveryDescription = {
   latestRestorableDateTime: option(date),
@@ -791,8 +801,9 @@ type updateContinuousBackupsInput = {
 
 exception ContinuousBackupsUnavailableException(Aws.apiError(Aws.emptyErrorDetails))
 
-type returnValuesOnConditionCheckFailure = | ALL_OLD
-| NONE
+type returnValuesOnConditionCheckFailure = 
+  | ALL_OLD
+  | NONE
 
 type update = {
   returnValuesOnConditionCheckFailure: option(returnValuesOnConditionCheckFailure),
@@ -918,10 +929,11 @@ type transactGetItemsInput = {
   transactItems: transactGetItemList
 }
 
-type timeToLiveStatus = | ENABLING
-| DISABLING
-| ENABLED
-| DISABLED
+type timeToLiveStatus = 
+  | ENABLING
+  | DISABLING
+  | ENABLED
+  | DISABLED
 
 type timeToLiveDescription = {
   attributeName: option(timeToLiveAttributeName),
@@ -979,7 +991,7 @@ type sourceTableFeatureDetails = {
   localSecondaryIndexes: option(localSecondaryIndexes)
 }
 
-type itemCount = int64
+type itemCount = int
 
 type sourceTableDetails = {
   billingMode: option(billingMode),
@@ -993,10 +1005,11 @@ type sourceTableDetails = {
   tableName: tableName
 }
 
-type select = | ALL_ATTRIBUTES
-| ALL_PROJECTED_ATTRIBUTES
-| SPECIFIC_ATTRIBUTES
-| COUNT
+type select = 
+  | ALL_ATTRIBUTES
+  | ALL_PROJECTED_ATTRIBUTES
+  | SPECIFIC_ATTRIBUTES
+  | COUNT
 
 type scanTotalSegments = int
 
@@ -1048,8 +1061,9 @@ type scanInput = {
 
 type s3SseKmsKeyId = string
 
-type s3SseAlgorithm = | AES256
-| KMS
+type s3SseAlgorithm = 
+  | AES256
+  | KMS
 
 type s3Prefix = string
 
@@ -1176,17 +1190,18 @@ type partiQLStatement = string
 
 type partiQLNextToken = string
 
-type batchStatementErrorCodeEnum = | ConditionalCheckFailed
-| ItemCollectionSizeLimitExceeded
-| RequestLimitExceeded
-| ValidationError
-| ProvisionedThroughputExceeded
-| TransactionConflict
-| ThrottlingError
-| InternalServerError
-| ResourceNotFound
-| AccessDenied
-| DuplicateItem
+type batchStatementErrorCodeEnum = 
+  | ConditionalCheckFailed
+  | ItemCollectionSizeLimitExceeded
+  | RequestLimitExceeded
+  | ValidationError
+  | ProvisionedThroughputExceeded
+  | TransactionConflict
+  | ThrottlingError
+  | InternalServerError
+  | ResourceNotFound
+  | AccessDenied
+  | DuplicateItem
 
 type batchStatementError = {
   message: option(string_),
@@ -1260,9 +1275,10 @@ type listGlobalTablesInput = {
 
 type exportArn = string
 
-type exportStatus = | IN_PROGRESS
-| COMPLETED
-| FAILED
+type exportStatus = 
+  | IN_PROGRESS
+  | COMPLETED
+  | FAILED
 
 type exportSummary = {
   exportStatus: option(exportStatus),
@@ -1311,15 +1327,17 @@ type backupName = string
 
 type backupCreationDateTime = float
 
-type backupStatus = | CREATING
-| DELETED
-| AVAILABLE
+type backupStatus = 
+  | CREATING
+  | DELETED
+  | AVAILABLE
 
-type backupType = | USER
-| SYSTEM
-| AWS_BACKUP
+type backupType = 
+  | USER
+  | SYSTEM
+  | AWS_BACKUP
 
-type backupSizeBytes = int64
+type backupSizeBytes = int
 
 type backupSummary = {
   backupSizeBytes: option(backupSizeBytes),
@@ -1343,10 +1361,11 @@ type listBackupsOutput = {
 
 type backupsInputLimit = int
 
-type backupTypeFilter = | USER
-| SYSTEM
-| AWS_BACKUP
-| ALL
+type backupTypeFilter = 
+  | USER
+  | SYSTEM
+  | AWS_BACKUP
+  | ALL
 
 type listBackupsInput = {
   backupType: option(backupTypeFilter),
@@ -1359,11 +1378,12 @@ type listBackupsInput = {
 
 type lastUpdateDateTime = float
 
-type destinationStatus = | ENABLING
-| ACTIVE
-| DISABLING
-| DISABLED
-| ENABLE_FAILED
+type destinationStatus = 
+  | ENABLING
+  | ACTIVE
+  | DISABLING
+  | DISABLED
+  | ENABLE_FAILED
 
 type kinesisStreamingDestinationOutput = {
   destinationStatus: option(destinationStatus),
@@ -1436,10 +1456,11 @@ type exportManifest = string
 
 type clientToken = string
 
-type exportFormat = | DYNAMODB_JSON
-| ION
+type exportFormat = 
+  | DYNAMODB_JSON
+  | ION
 
-type billedSizeBytes = int64
+type billedSizeBytes = int
 
 type exportDescription = {
   itemCount: option(itemCount),
@@ -1753,25 +1774,34 @@ type baseInteger = int
 
 type baseTimestamp = float
 
-type baseLong = int64
+type baseLong = int
 
 module Serialize = {
-
-  open AwsSdkLib.Json.SerializeHelpers
+open AwsSdkLib.Json.SerializeHelpers;
+  
   let stringAttributeValue_to_yojson = string_to_yojson;
   
   let numberAttributeValue_to_yojson = string_to_yojson;
   
   let binaryAttributeValue_to_yojson = blob_to_yojson;
   
-  let stringSetAttributeValue_to_yojson =
-  list_to_yojson( stringAttributeValue_to_yojson );
+  let stringSetAttributeValue_to_yojson = 
+    (x) => list_to_yojson(
+      stringAttributeValue_to_yojson
+    ,x
+    );
   
-  let numberSetAttributeValue_to_yojson =
-  list_to_yojson( numberAttributeValue_to_yojson );
+  let numberSetAttributeValue_to_yojson = 
+    (x) => list_to_yojson(
+      numberAttributeValue_to_yojson
+    ,x
+    );
   
-  let binarySetAttributeValue_to_yojson =
-  list_to_yojson( binaryAttributeValue_to_yojson );
+  let binarySetAttributeValue_to_yojson = 
+    (x) => list_to_yojson(
+      binaryAttributeValue_to_yojson
+    ,x
+    );
   
   let attributeName_to_yojson = string_to_yojson;
   
@@ -1779,103 +1809,138 @@ module Serialize = {
   
   let booleanAttributeValue_to_yojson = bool_to_yojson;
   
-  let attributeValue_to_yojson = ;
+  let rec attributeValue_to_yojson = 
+    (x: attributeValue) => {
+    switch (x) {
+      | BOOL(arg) => assoc_to_yojson([("BOOL", Some(booleanAttributeValue_to_yojson(arg)))]);
+        | NULL(arg) => assoc_to_yojson([("NULL", Some(nullAttributeValue_to_yojson(arg)))]);
+        | L(arg) => assoc_to_yojson([("L", Some(listAttributeValue_to_yojson(arg)))]);
+        | M(arg) => assoc_to_yojson([("M", Some(mapAttributeValue_to_yojson(arg)))]);
+        | BS(arg) => assoc_to_yojson([("BS", Some(binarySetAttributeValue_to_yojson(arg)))]);
+        | NS(arg) => assoc_to_yojson([("NS", Some(numberSetAttributeValue_to_yojson(arg)))]);
+        | SS(arg) => assoc_to_yojson([("SS", Some(stringSetAttributeValue_to_yojson(arg)))]);
+        | B(arg) => assoc_to_yojson([("B", Some(binaryAttributeValue_to_yojson(arg)))]);
+        | N(arg) => assoc_to_yojson([("N", Some(numberAttributeValue_to_yojson(arg)))]);
+        | S(arg) => assoc_to_yojson([("S", Some(stringAttributeValue_to_yojson(arg)))]);
+        
+        }
+      }
   
-  let putItemInputAttributeMap_to_yojson = map_to_yojson;
+  and listAttributeValue_to_yojson = 
+    (x) => list_to_yojson(
+      attributeValue_to_yojson
+    ,x
+    )
   
-  let putRequest_to_yojson =
-  (x:putRequest)=>assoc_to_yojson([
-    ( "Item" Some(putItemInputAttributeMap_to_yojson(x.item)) )]);
+  and mapAttributeValue_to_yojson = 
+    (x) => map_to_yojson(attributeValue_to_yojson, x);
   
-  let key_to_yojson = map_to_yojson;
+  let putItemInputAttributeMap_to_yojson = 
+    (x) => map_to_yojson(attributeValue_to_yojson, x);
   
-  let deleteRequest_to_yojson =
-  (x:deleteRequest)=>assoc_to_yojson([( "Key" Some(key_to_yojson(x.key)) )]);
+  let putRequest_to_yojson = 
+    (x: putRequest) => assoc_to_yojson(
+      [(
+           "Item",
+           Some(putItemInputAttributeMap_to_yojson(x.item))),
+         
+    ]);
   
-  let writeRequest_to_yojson =
-  (x:writeRequest)=>assoc_to_yojson([
-    ( "DeleteRequest"
-      option_to_yojson(deleteRequest_to_yojson)(x.deleteRequest) )(
-      "PutRequest" option_to_yojson(putRequest_to_yojson)(x.putRequest) )])
-    ;
+  let key_to_yojson = (x) => map_to_yojson(attributeValue_to_yojson, x);
   
-  let writeRequests_to_yojson = list_to_yojson( writeRequest_to_yojson );
+  let deleteRequest_to_yojson = 
+    (x: deleteRequest) => assoc_to_yojson(
+      [(
+           "Key",
+           Some(key_to_yojson(x.key))),
+         
+    ]);
+  
+  let writeRequest_to_yojson = 
+    (x: writeRequest) => assoc_to_yojson(
+      [(
+           "DeleteRequest",
+           option_to_yojson(deleteRequest_to_yojson)(x.deleteRequest)),
+         (
+           "PutRequest",
+           option_to_yojson(putRequest_to_yojson)(x.putRequest)),
+         
+    ]);
+  
+  let writeRequests_to_yojson = 
+    (x) => list_to_yojson(
+      writeRequest_to_yojson
+    ,x
+    );
   
   let timeToLiveEnabled_to_yojson = bool_to_yojson;
   
   let timeToLiveAttributeName_to_yojson = string_to_yojson;
   
-  let timeToLiveSpecification_to_yojson =
-  (x:timeToLiveSpecification)=>assoc_to_yojson([
-    ( "AttributeName"
-      Some(timeToLiveAttributeName_to_yojson(x.attributeName)) )( "Enabled"
-      Some(timeToLiveEnabled_to_yojson(x.enabled)) )])
-    ;
+  let timeToLiveSpecification_to_yojson = 
+    (x: timeToLiveSpecification) => assoc_to_yojson(
+      [(
+           "AttributeName",
+           Some(timeToLiveAttributeName_to_yojson(x.attributeName))),
+         (
+           "Enabled",
+           Some(timeToLiveEnabled_to_yojson(x.enabled))),
+         
+    ]);
   
-  let updateTimeToLiveOutput_to_yojson =
-  (x:updateTimeToLiveOutput)=>assoc_to_yojson([
-    ( "TimeToLiveSpecification"
-      option_to_yojson(timeToLiveSpecification_to_yojson)(x.timeToLiveSpecification)
-      )])
-    ;
+  let updateTimeToLiveOutput_to_yojson = 
+    (x: updateTimeToLiveOutput) => assoc_to_yojson(
+      [(
+           "TimeToLiveSpecification",
+           option_to_yojson(timeToLiveSpecification_to_yojson)(x.timeToLiveSpecification)),
+         
+    ]);
   
   let tableName_to_yojson = string_to_yojson;
   
-  let updateTimeToLiveInput_to_yojson =
-  (x:updateTimeToLiveInput)=>assoc_to_yojson([
-    ( "TimeToLiveSpecification"
-      Some(timeToLiveSpecification_to_yojson(x.timeToLiveSpecification)) )(
-      "TableName" Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let updateTimeToLiveInput_to_yojson = 
+    (x: updateTimeToLiveInput) => assoc_to_yojson(
+      [(
+           "TimeToLiveSpecification",
+           Some(timeToLiveSpecification_to_yojson(x.timeToLiveSpecification))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
   let errorMessage_to_yojson = string_to_yojson;
   
-  let resourceNotFoundException_to_yojson =
-  (x:resourceNotFoundException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
-  let resourceInUseException_to_yojson =
-  (x:resourceInUseException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
-  let limitExceededException_to_yojson =
-  (x:limitExceededException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
   let string_to_yojson = string_to_yojson;
   
-  let invalidEndpointException_to_yojson =
-  (x:invalidEndpointException)=>assoc_to_yojson([
-    ( "Message" option_to_yojson(string_to_yojson)(x.message) )]);
-  
-  let internalServerError_to_yojson =
-  (x:internalServerError)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
-  let tableStatus_to_yojson =
-  fun
-    | CREATING => "CREATING"
-| UPDATING => "UPDATING"
-| DELETING => "DELETING"
-| ACTIVE => "ACTIVE"
-| INACCESSIBLE_ENCRYPTION_CREDENTIALS => "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
-| ARCHIVING => "ARCHIVING"
-| ARCHIVED => "ARCHIVED"
-    ;
+  let tableStatus_to_yojson = 
+    (x: tableStatus) => 
+    switch (x) {
+      | CREATING => `String("CREATING")
+        | UPDATING => `String("UPDATING")
+        | DELETING => `String("DELETING")
+        | ACTIVE => `String("ACTIVE")
+        | INACCESSIBLE_ENCRYPTION_CREDENTIALS => `String("INACCESSIBLE_ENCRYPTION_CREDENTIALS")
+        | ARCHIVING => `String("ARCHIVING")
+        | ARCHIVED => `String("ARCHIVED")
+        
+        };
   
   let regionName_to_yojson = string_to_yojson;
   
   let indexName_to_yojson = string_to_yojson;
   
-  let indexStatus_to_yojson =
-  fun
-    | CREATING => "CREATING"
-| UPDATING => "UPDATING"
-| DELETING => "DELETING"
-| ACTIVE => "ACTIVE"
-    ;
+  let indexStatus_to_yojson = 
+    (x: indexStatus) => 
+    switch (x) {
+      | CREATING => `String("CREATING")
+        | UPDATING => `String("UPDATING")
+        | DELETING => `String("DELETING")
+        | ACTIVE => `String("ACTIVE")
+        
+        };
   
-  let positiveLongObject_to_yojson = int_to_yojson;
+  let positiveLongObject_to_yojson = long_to_yojson;
   
   let booleanObject_to_yojson = bool_to_yojson;
   
@@ -1886,314 +1951,484 @@ module Serialize = {
   let double_to_yojson = double_to_yojson;
   
   let
-  autoScalingTargetTrackingScalingPolicyConfigurationDescription_to_yojson =
-  (x:autoScalingTargetTrackingScalingPolicyConfigurationDescription)=>
-    assoc_to_yojson([
-    ( "TargetValue" Some(double_to_yojson(x.targetValue)) )(
-      "ScaleOutCooldown"
-      option_to_yojson(integerObject_to_yojson)(x.scaleOutCooldown) )(
-      "ScaleInCooldown"
-      option_to_yojson(integerObject_to_yojson)(x.scaleInCooldown) )(
-      "DisableScaleIn"
-      option_to_yojson(booleanObject_to_yojson)(x.disableScaleIn) )])
-    ;
+  autoScalingTargetTrackingScalingPolicyConfigurationDescription_to_yojson = 
+    (x: autoScalingTargetTrackingScalingPolicyConfigurationDescription) => assoc_to_yojson(
+      [(
+           "TargetValue",
+           Some(double_to_yojson(x.targetValue))),
+         (
+           "ScaleOutCooldown",
+           option_to_yojson(integerObject_to_yojson)(x.scaleOutCooldown)),
+         (
+           "ScaleInCooldown",
+           option_to_yojson(integerObject_to_yojson)(x.scaleInCooldown)),
+         (
+           "DisableScaleIn",
+           option_to_yojson(booleanObject_to_yojson)(x.disableScaleIn)),
+         
+    ]);
   
-  let autoScalingPolicyDescription_to_yojson =
-  (x:autoScalingPolicyDescription)=>assoc_to_yojson([
-    ( "TargetTrackingScalingPolicyConfiguration"
-      option_to_yojson(autoScalingTargetTrackingScalingPolicyConfigurationDescription_to_yojson)(x.targetTrackingScalingPolicyConfiguration)
-      )( "PolicyName"
-      option_to_yojson(autoScalingPolicyName_to_yojson)(x.policyName) )])
-    ;
+  let autoScalingPolicyDescription_to_yojson = 
+    (x: autoScalingPolicyDescription) => assoc_to_yojson(
+      [(
+           "TargetTrackingScalingPolicyConfiguration",
+           option_to_yojson(autoScalingTargetTrackingScalingPolicyConfigurationDescription_to_yojson)(x.targetTrackingScalingPolicyConfiguration)),
+         (
+           "PolicyName",
+           option_to_yojson(autoScalingPolicyName_to_yojson)(x.policyName)),
+         
+    ]);
   
-  let autoScalingPolicyDescriptionList_to_yojson =
-  list_to_yojson( autoScalingPolicyDescription_to_yojson );
-  
-  let autoScalingSettingsDescription_to_yojson =
-  (x:autoScalingSettingsDescription)=>assoc_to_yojson([
-    ( "ScalingPolicies"
-      option_to_yojson(autoScalingPolicyDescriptionList_to_yojson)(x.scalingPolicies)
-      )( "AutoScalingRoleArn"
-      option_to_yojson(string_to_yojson)(x.autoScalingRoleArn) )(
-      "AutoScalingDisabled"
-      option_to_yojson(booleanObject_to_yojson)(x.autoScalingDisabled) )(
-      "MaximumUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.maximumUnits) )(
-      "MinimumUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.minimumUnits) )])
-    ;
-  
-  let replicaGlobalSecondaryIndexAutoScalingDescription_to_yojson =
-  (x:replicaGlobalSecondaryIndexAutoScalingDescription)=>assoc_to_yojson([
-    ( "ProvisionedWriteCapacityAutoScalingSettings"
-      option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.provisionedWriteCapacityAutoScalingSettings)
-      )( "ProvisionedReadCapacityAutoScalingSettings"
-      option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.provisionedReadCapacityAutoScalingSettings)
-      )( "IndexStatus" option_to_yojson(indexStatus_to_yojson)(x.indexStatus)
-      )( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )])
-    ;
-  
-  let replicaGlobalSecondaryIndexAutoScalingDescriptionList_to_yojson =
-  list_to_yojson( replicaGlobalSecondaryIndexAutoScalingDescription_to_yojson
+  let autoScalingPolicyDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      autoScalingPolicyDescription_to_yojson
+    ,x
     );
   
-  let replicaStatus_to_yojson =
-  fun
-    | CREATING => "CREATING"
-| CREATION_FAILED => "CREATION_FAILED"
-| UPDATING => "UPDATING"
-| DELETING => "DELETING"
-| ACTIVE => "ACTIVE"
-| REGION_DISABLED => "REGION_DISABLED"
-| INACCESSIBLE_ENCRYPTION_CREDENTIALS => "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
-    ;
+  let autoScalingSettingsDescription_to_yojson = 
+    (x: autoScalingSettingsDescription) => assoc_to_yojson(
+      [(
+           "ScalingPolicies",
+           option_to_yojson(autoScalingPolicyDescriptionList_to_yojson)(x.scalingPolicies)),
+         (
+           "AutoScalingRoleArn",
+           option_to_yojson(string_to_yojson)(x.autoScalingRoleArn)),
+         (
+           "AutoScalingDisabled",
+           option_to_yojson(booleanObject_to_yojson)(x.autoScalingDisabled)),
+         (
+           "MaximumUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.maximumUnits)),
+         (
+           "MinimumUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.minimumUnits)),
+         
+    ]);
   
-  let replicaAutoScalingDescription_to_yojson =
-  (x:replicaAutoScalingDescription)=>assoc_to_yojson([
-    ( "ReplicaStatus"
-      option_to_yojson(replicaStatus_to_yojson)(x.replicaStatus) )(
-      "ReplicaProvisionedWriteCapacityAutoScalingSettings"
-      option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.replicaProvisionedWriteCapacityAutoScalingSettings)
-      )( "ReplicaProvisionedReadCapacityAutoScalingSettings"
-      option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.replicaProvisionedReadCapacityAutoScalingSettings)
-      )( "GlobalSecondaryIndexes"
-      option_to_yojson(replicaGlobalSecondaryIndexAutoScalingDescriptionList_to_yojson)(x.globalSecondaryIndexes)
-      )( "RegionName" option_to_yojson(regionName_to_yojson)(x.regionName) )])
-    ;
+  let replicaGlobalSecondaryIndexAutoScalingDescription_to_yojson = 
+    (x: replicaGlobalSecondaryIndexAutoScalingDescription) => assoc_to_yojson(
+      [(
+           "ProvisionedWriteCapacityAutoScalingSettings",
+           option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.provisionedWriteCapacityAutoScalingSettings)),
+         (
+           "ProvisionedReadCapacityAutoScalingSettings",
+           option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.provisionedReadCapacityAutoScalingSettings)),
+         (
+           "IndexStatus",
+           option_to_yojson(indexStatus_to_yojson)(x.indexStatus)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         
+    ]);
   
-  let replicaAutoScalingDescriptionList_to_yojson =
-  list_to_yojson( replicaAutoScalingDescription_to_yojson );
+  let replicaGlobalSecondaryIndexAutoScalingDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaGlobalSecondaryIndexAutoScalingDescription_to_yojson
+    ,x
+    );
   
-  let tableAutoScalingDescription_to_yojson =
-  (x:tableAutoScalingDescription)=>assoc_to_yojson([
-    ( "Replicas"
-      option_to_yojson(replicaAutoScalingDescriptionList_to_yojson)(x.replicas)
-      )( "TableStatus" option_to_yojson(tableStatus_to_yojson)(x.tableStatus)
-      )( "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let replicaStatus_to_yojson = 
+    (x: replicaStatus) => 
+    switch (x) {
+      | CREATING => `String("CREATING")
+        | CREATION_FAILED => `String("CREATION_FAILED")
+        | UPDATING => `String("UPDATING")
+        | DELETING => `String("DELETING")
+        | ACTIVE => `String("ACTIVE")
+        | REGION_DISABLED => `String("REGION_DISABLED")
+        | INACCESSIBLE_ENCRYPTION_CREDENTIALS => `String("INACCESSIBLE_ENCRYPTION_CREDENTIALS")
+        
+        };
   
-  let updateTableReplicaAutoScalingOutput_to_yojson =
-  (x:updateTableReplicaAutoScalingOutput)=>assoc_to_yojson([
-    ( "TableAutoScalingDescription"
-      option_to_yojson(tableAutoScalingDescription_to_yojson)(x.tableAutoScalingDescription)
-      )])
-    ;
+  let replicaAutoScalingDescription_to_yojson = 
+    (x: replicaAutoScalingDescription) => assoc_to_yojson(
+      [(
+           "ReplicaStatus",
+           option_to_yojson(replicaStatus_to_yojson)(x.replicaStatus)),
+         (
+           "ReplicaProvisionedWriteCapacityAutoScalingSettings",
+           option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.replicaProvisionedWriteCapacityAutoScalingSettings)),
+         (
+           "ReplicaProvisionedReadCapacityAutoScalingSettings",
+           option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.replicaProvisionedReadCapacityAutoScalingSettings)),
+         (
+           "GlobalSecondaryIndexes",
+           option_to_yojson(replicaGlobalSecondaryIndexAutoScalingDescriptionList_to_yojson)(x.globalSecondaryIndexes)),
+         (
+           "RegionName",
+           option_to_yojson(regionName_to_yojson)(x.regionName)),
+         
+    ]);
+  
+  let replicaAutoScalingDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaAutoScalingDescription_to_yojson
+    ,x
+    );
+  
+  let tableAutoScalingDescription_to_yojson = 
+    (x: tableAutoScalingDescription) => assoc_to_yojson(
+      [(
+           "Replicas",
+           option_to_yojson(replicaAutoScalingDescriptionList_to_yojson)(x.replicas)),
+         (
+           "TableStatus",
+           option_to_yojson(tableStatus_to_yojson)(x.tableStatus)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
+  
+  let updateTableReplicaAutoScalingOutput_to_yojson = 
+    (x: updateTableReplicaAutoScalingOutput) => assoc_to_yojson(
+      [(
+           "TableAutoScalingDescription",
+           option_to_yojson(tableAutoScalingDescription_to_yojson)(x.tableAutoScalingDescription)),
+         
+    ]);
   
   let autoScalingRoleArn_to_yojson = string_to_yojson;
   
-  let autoScalingTargetTrackingScalingPolicyConfigurationUpdate_to_yojson =
-  (x:autoScalingTargetTrackingScalingPolicyConfigurationUpdate)=>
-    assoc_to_yojson([
-    ( "TargetValue" Some(double_to_yojson(x.targetValue)) )(
-      "ScaleOutCooldown"
-      option_to_yojson(integerObject_to_yojson)(x.scaleOutCooldown) )(
-      "ScaleInCooldown"
-      option_to_yojson(integerObject_to_yojson)(x.scaleInCooldown) )(
-      "DisableScaleIn"
-      option_to_yojson(booleanObject_to_yojson)(x.disableScaleIn) )])
-    ;
+  let autoScalingTargetTrackingScalingPolicyConfigurationUpdate_to_yojson = 
+    (x: autoScalingTargetTrackingScalingPolicyConfigurationUpdate) => assoc_to_yojson(
+      [(
+           "TargetValue",
+           Some(double_to_yojson(x.targetValue))),
+         (
+           "ScaleOutCooldown",
+           option_to_yojson(integerObject_to_yojson)(x.scaleOutCooldown)),
+         (
+           "ScaleInCooldown",
+           option_to_yojson(integerObject_to_yojson)(x.scaleInCooldown)),
+         (
+           "DisableScaleIn",
+           option_to_yojson(booleanObject_to_yojson)(x.disableScaleIn)),
+         
+    ]);
   
-  let autoScalingPolicyUpdate_to_yojson =
-  (x:autoScalingPolicyUpdate)=>assoc_to_yojson([
-    ( "TargetTrackingScalingPolicyConfiguration"
-      Some(autoScalingTargetTrackingScalingPolicyConfigurationUpdate_to_yojson(x.targetTrackingScalingPolicyConfiguration))
-      )( "PolicyName"
-      option_to_yojson(autoScalingPolicyName_to_yojson)(x.policyName) )])
-    ;
+  let autoScalingPolicyUpdate_to_yojson = 
+    (x: autoScalingPolicyUpdate) => assoc_to_yojson(
+      [(
+           "TargetTrackingScalingPolicyConfiguration",
+           Some(autoScalingTargetTrackingScalingPolicyConfigurationUpdate_to_yojson(x.targetTrackingScalingPolicyConfiguration))),
+         (
+           "PolicyName",
+           option_to_yojson(autoScalingPolicyName_to_yojson)(x.policyName)),
+         
+    ]);
   
-  let autoScalingSettingsUpdate_to_yojson =
-  (x:autoScalingSettingsUpdate)=>assoc_to_yojson([
-    ( "ScalingPolicyUpdate"
-      option_to_yojson(autoScalingPolicyUpdate_to_yojson)(x.scalingPolicyUpdate)
-      )( "AutoScalingRoleArn"
-      option_to_yojson(autoScalingRoleArn_to_yojson)(x.autoScalingRoleArn) )(
-      "AutoScalingDisabled"
-      option_to_yojson(booleanObject_to_yojson)(x.autoScalingDisabled) )(
-      "MaximumUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.maximumUnits) )(
-      "MinimumUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.minimumUnits) )])
-    ;
+  let autoScalingSettingsUpdate_to_yojson = 
+    (x: autoScalingSettingsUpdate) => assoc_to_yojson(
+      [(
+           "ScalingPolicyUpdate",
+           option_to_yojson(autoScalingPolicyUpdate_to_yojson)(x.scalingPolicyUpdate)),
+         (
+           "AutoScalingRoleArn",
+           option_to_yojson(autoScalingRoleArn_to_yojson)(x.autoScalingRoleArn)),
+         (
+           "AutoScalingDisabled",
+           option_to_yojson(booleanObject_to_yojson)(x.autoScalingDisabled)),
+         (
+           "MaximumUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.maximumUnits)),
+         (
+           "MinimumUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.minimumUnits)),
+         
+    ]);
   
-  let globalSecondaryIndexAutoScalingUpdate_to_yojson =
-  (x:globalSecondaryIndexAutoScalingUpdate)=>assoc_to_yojson([
-    ( "ProvisionedWriteCapacityAutoScalingUpdate"
-      option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedWriteCapacityAutoScalingUpdate)
-      )( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )])
-    ;
+  let globalSecondaryIndexAutoScalingUpdate_to_yojson = 
+    (x: globalSecondaryIndexAutoScalingUpdate) => assoc_to_yojson(
+      [(
+           "ProvisionedWriteCapacityAutoScalingUpdate",
+           option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedWriteCapacityAutoScalingUpdate)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         
+    ]);
   
-  let globalSecondaryIndexAutoScalingUpdateList_to_yojson =
-  list_to_yojson( globalSecondaryIndexAutoScalingUpdate_to_yojson );
+  let globalSecondaryIndexAutoScalingUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      globalSecondaryIndexAutoScalingUpdate_to_yojson
+    ,x
+    );
   
-  let replicaGlobalSecondaryIndexAutoScalingUpdate_to_yojson =
-  (x:replicaGlobalSecondaryIndexAutoScalingUpdate)=>assoc_to_yojson([
-    ( "ProvisionedReadCapacityAutoScalingUpdate"
-      option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedReadCapacityAutoScalingUpdate)
-      )( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )])
-    ;
+  let replicaGlobalSecondaryIndexAutoScalingUpdate_to_yojson = 
+    (x: replicaGlobalSecondaryIndexAutoScalingUpdate) => assoc_to_yojson(
+      [(
+           "ProvisionedReadCapacityAutoScalingUpdate",
+           option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedReadCapacityAutoScalingUpdate)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         
+    ]);
   
-  let replicaGlobalSecondaryIndexAutoScalingUpdateList_to_yojson =
-  list_to_yojson( replicaGlobalSecondaryIndexAutoScalingUpdate_to_yojson );
+  let replicaGlobalSecondaryIndexAutoScalingUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaGlobalSecondaryIndexAutoScalingUpdate_to_yojson
+    ,x
+    );
   
-  let replicaAutoScalingUpdate_to_yojson =
-  (x:replicaAutoScalingUpdate)=>assoc_to_yojson([
-    ( "ReplicaProvisionedReadCapacityAutoScalingUpdate"
-      option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.replicaProvisionedReadCapacityAutoScalingUpdate)
-      )( "ReplicaGlobalSecondaryIndexUpdates"
-      option_to_yojson(replicaGlobalSecondaryIndexAutoScalingUpdateList_to_yojson)(x.replicaGlobalSecondaryIndexUpdates)
-      )( "RegionName" Some(regionName_to_yojson(x.regionName)) )])
-    ;
+  let replicaAutoScalingUpdate_to_yojson = 
+    (x: replicaAutoScalingUpdate) => assoc_to_yojson(
+      [(
+           "ReplicaProvisionedReadCapacityAutoScalingUpdate",
+           option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.replicaProvisionedReadCapacityAutoScalingUpdate)),
+         (
+           "ReplicaGlobalSecondaryIndexUpdates",
+           option_to_yojson(replicaGlobalSecondaryIndexAutoScalingUpdateList_to_yojson)(x.replicaGlobalSecondaryIndexUpdates)),
+         (
+           "RegionName",
+           Some(regionName_to_yojson(x.regionName))),
+         
+    ]);
   
-  let replicaAutoScalingUpdateList_to_yojson =
-  list_to_yojson( replicaAutoScalingUpdate_to_yojson );
+  let replicaAutoScalingUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaAutoScalingUpdate_to_yojson
+    ,x
+    );
   
-  let updateTableReplicaAutoScalingInput_to_yojson =
-  (x:updateTableReplicaAutoScalingInput)=>assoc_to_yojson([
-    ( "ReplicaUpdates"
-      option_to_yojson(replicaAutoScalingUpdateList_to_yojson)(x.replicaUpdates)
-      )( "ProvisionedWriteCapacityAutoScalingUpdate"
-      option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedWriteCapacityAutoScalingUpdate)
-      )( "TableName" Some(tableName_to_yojson(x.tableName)) )(
-      "GlobalSecondaryIndexUpdates"
-      option_to_yojson(globalSecondaryIndexAutoScalingUpdateList_to_yojson)(x.globalSecondaryIndexUpdates)
-      )])
-    ;
+  let updateTableReplicaAutoScalingInput_to_yojson = 
+    (x: updateTableReplicaAutoScalingInput) => assoc_to_yojson(
+      [(
+           "ReplicaUpdates",
+           option_to_yojson(replicaAutoScalingUpdateList_to_yojson)(x.replicaUpdates)),
+         (
+           "ProvisionedWriteCapacityAutoScalingUpdate",
+           option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedWriteCapacityAutoScalingUpdate)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         (
+           "GlobalSecondaryIndexUpdates",
+           option_to_yojson(globalSecondaryIndexAutoScalingUpdateList_to_yojson)(x.globalSecondaryIndexUpdates)),
+         
+    ]);
   
   let keySchemaAttributeName_to_yojson = string_to_yojson;
   
-  let scalarAttributeType_to_yojson = fun
-                                        | S => "S"
-| N => "N"
-| B => "B"
-                                        ;
+  let scalarAttributeType_to_yojson = 
+    (x: scalarAttributeType) => 
+    switch (x) {
+      | S => `String("S")
+        | N => `String("N")
+        | B => `String("B")
+        
+        };
   
-  let attributeDefinition_to_yojson =
-  (x:attributeDefinition)=>assoc_to_yojson([
-    ( "AttributeType" Some(scalarAttributeType_to_yojson(x.attributeType)) )(
-      "AttributeName" Some(keySchemaAttributeName_to_yojson(x.attributeName))
-      )])
-    ;
+  let attributeDefinition_to_yojson = 
+    (x: attributeDefinition) => assoc_to_yojson(
+      [(
+           "AttributeType",
+           Some(scalarAttributeType_to_yojson(x.attributeType))),
+         (
+           "AttributeName",
+           Some(keySchemaAttributeName_to_yojson(x.attributeName))),
+         
+    ]);
   
-  let attributeDefinitions_to_yojson =
-  list_to_yojson( attributeDefinition_to_yojson );
+  let attributeDefinitions_to_yojson = 
+    (x) => list_to_yojson(
+      attributeDefinition_to_yojson
+    ,x
+    );
   
-  let keyType_to_yojson = fun
-                            | HASH => "HASH"
-| RANGE => "RANGE"
-                            ;
+  let keyType_to_yojson = 
+    (x: keyType) => 
+    switch (x) {
+      | HASH => `String("HASH")
+        | RANGE => `String("RANGE")
+        
+        };
   
-  let keySchemaElement_to_yojson =
-  (x:keySchemaElement)=>assoc_to_yojson([
-    ( "KeyType" Some(keyType_to_yojson(x.keyType)) )( "AttributeName"
-      Some(keySchemaAttributeName_to_yojson(x.attributeName)) )])
-    ;
+  let keySchemaElement_to_yojson = 
+    (x: keySchemaElement) => assoc_to_yojson(
+      [(
+           "KeyType",
+           Some(keyType_to_yojson(x.keyType))),
+         (
+           "AttributeName",
+           Some(keySchemaAttributeName_to_yojson(x.attributeName))),
+         
+    ]);
   
-  let keySchema_to_yojson = list_to_yojson( keySchemaElement_to_yojson );
+  let keySchema_to_yojson = 
+    (x) => list_to_yojson(
+      keySchemaElement_to_yojson
+    ,x
+    );
   
   let date_to_yojson = timestamp_to_yojson;
   
-  let nonNegativeLongObject_to_yojson = int_to_yojson;
+  let nonNegativeLongObject_to_yojson = long_to_yojson;
   
-  let provisionedThroughputDescription_to_yojson =
-  (x:provisionedThroughputDescription)=>assoc_to_yojson([
-    ( "WriteCapacityUnits"
-      option_to_yojson(nonNegativeLongObject_to_yojson)(x.writeCapacityUnits)
-      )( "ReadCapacityUnits"
-      option_to_yojson(nonNegativeLongObject_to_yojson)(x.readCapacityUnits)
-      )( "NumberOfDecreasesToday"
-      option_to_yojson(positiveLongObject_to_yojson)(x.numberOfDecreasesToday)
-      )( "LastDecreaseDateTime"
-      option_to_yojson(date_to_yojson)(x.lastDecreaseDateTime) )(
-      "LastIncreaseDateTime"
-      option_to_yojson(date_to_yojson)(x.lastIncreaseDateTime) )])
-    ;
+  let provisionedThroughputDescription_to_yojson = 
+    (x: provisionedThroughputDescription) => assoc_to_yojson(
+      [(
+           "WriteCapacityUnits",
+           option_to_yojson(nonNegativeLongObject_to_yojson)(x.writeCapacityUnits)),
+         (
+           "ReadCapacityUnits",
+           option_to_yojson(nonNegativeLongObject_to_yojson)(x.readCapacityUnits)),
+         (
+           "NumberOfDecreasesToday",
+           option_to_yojson(positiveLongObject_to_yojson)(x.numberOfDecreasesToday)),
+         (
+           "LastDecreaseDateTime",
+           option_to_yojson(date_to_yojson)(x.lastDecreaseDateTime)),
+         (
+           "LastIncreaseDateTime",
+           option_to_yojson(date_to_yojson)(x.lastIncreaseDateTime)),
+         
+    ]);
   
-  let long_to_yojson = int_to_yojson;
+  let long_to_yojson = long_to_yojson;
   
   let tableId_to_yojson = string_to_yojson;
   
-  let billingMode_to_yojson =
-  fun
-    | PROVISIONED => "PROVISIONED"
-| PAY_PER_REQUEST => "PAY_PER_REQUEST"
-    ;
+  let billingMode_to_yojson = 
+    (x: billingMode) => 
+    switch (x) {
+      | PROVISIONED => `String("PROVISIONED")
+        | PAY_PER_REQUEST => `String("PAY_PER_REQUEST")
+        
+        };
   
-  let billingModeSummary_to_yojson =
-  (x:billingModeSummary)=>assoc_to_yojson([
-    ( "LastUpdateToPayPerRequestDateTime"
-      option_to_yojson(date_to_yojson)(x.lastUpdateToPayPerRequestDateTime)
-      )( "BillingMode" option_to_yojson(billingMode_to_yojson)(x.billingMode)
-      )])
-    ;
+  let billingModeSummary_to_yojson = 
+    (x: billingModeSummary) => assoc_to_yojson(
+      [(
+           "LastUpdateToPayPerRequestDateTime",
+           option_to_yojson(date_to_yojson)(x.lastUpdateToPayPerRequestDateTime)),
+         (
+           "BillingMode",
+           option_to_yojson(billingMode_to_yojson)(x.billingMode)),
+         
+    ]);
   
-  let projectionType_to_yojson =
-  fun
-    | ALL => "ALL"
-| KEYS_ONLY => "KEYS_ONLY"
-| INCLUDE => "INCLUDE"
-    ;
+  let projectionType_to_yojson = 
+    (x: projectionType) => 
+    switch (x) {
+      | ALL => `String("ALL")
+        | KEYS_ONLY => `String("KEYS_ONLY")
+        | INCLUDE => `String("INCLUDE")
+        
+        };
   
   let nonKeyAttributeName_to_yojson = string_to_yojson;
   
-  let nonKeyAttributeNameList_to_yojson =
-  list_to_yojson( nonKeyAttributeName_to_yojson );
+  let nonKeyAttributeNameList_to_yojson = 
+    (x) => list_to_yojson(
+      nonKeyAttributeName_to_yojson
+    ,x
+    );
   
-  let projection_to_yojson =
-  (x:projection)=>assoc_to_yojson([
-    ( "NonKeyAttributes"
-      option_to_yojson(nonKeyAttributeNameList_to_yojson)(x.nonKeyAttributes)
-      )( "ProjectionType"
-      option_to_yojson(projectionType_to_yojson)(x.projectionType) )])
-    ;
+  let projection_to_yojson = 
+    (x: projection) => assoc_to_yojson(
+      [(
+           "NonKeyAttributes",
+           option_to_yojson(nonKeyAttributeNameList_to_yojson)(x.nonKeyAttributes)),
+         (
+           "ProjectionType",
+           option_to_yojson(projectionType_to_yojson)(x.projectionType)),
+         
+    ]);
   
-  let localSecondaryIndexDescription_to_yojson =
-  (x:localSecondaryIndexDescription)=>assoc_to_yojson([
-    ( "IndexArn" option_to_yojson(string_to_yojson)(x.indexArn) )(
-      "ItemCount" option_to_yojson(long_to_yojson)(x.itemCount) )(
-      "IndexSizeBytes" option_to_yojson(long_to_yojson)(x.indexSizeBytes) )(
-      "Projection" option_to_yojson(projection_to_yojson)(x.projection) )(
-      "KeySchema" option_to_yojson(keySchema_to_yojson)(x.keySchema) )(
-      "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )])
-    ;
+  let localSecondaryIndexDescription_to_yojson = 
+    (x: localSecondaryIndexDescription) => assoc_to_yojson(
+      [(
+           "IndexArn",
+           option_to_yojson(string_to_yojson)(x.indexArn)),
+         (
+           "ItemCount",
+           option_to_yojson(long_to_yojson)(x.itemCount)),
+         (
+           "IndexSizeBytes",
+           option_to_yojson(long_to_yojson)(x.indexSizeBytes)),
+         (
+           "Projection",
+           option_to_yojson(projection_to_yojson)(x.projection)),
+         (
+           "KeySchema",
+           option_to_yojson(keySchema_to_yojson)(x.keySchema)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         
+    ]);
   
-  let localSecondaryIndexDescriptionList_to_yojson =
-  list_to_yojson( localSecondaryIndexDescription_to_yojson );
+  let localSecondaryIndexDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      localSecondaryIndexDescription_to_yojson
+    ,x
+    );
   
   let backfilling_to_yojson = bool_to_yojson;
   
-  let globalSecondaryIndexDescription_to_yojson =
-  (x:globalSecondaryIndexDescription)=>assoc_to_yojson([
-    ( "IndexArn" option_to_yojson(string_to_yojson)(x.indexArn) )(
-      "ItemCount" option_to_yojson(long_to_yojson)(x.itemCount) )(
-      "IndexSizeBytes" option_to_yojson(long_to_yojson)(x.indexSizeBytes) )(
-      "ProvisionedThroughput"
-      option_to_yojson(provisionedThroughputDescription_to_yojson)(x.provisionedThroughput)
-      )( "Backfilling" option_to_yojson(backfilling_to_yojson)(x.backfilling)
-      )( "IndexStatus" option_to_yojson(indexStatus_to_yojson)(x.indexStatus)
-      )( "Projection" option_to_yojson(projection_to_yojson)(x.projection) )(
-      "KeySchema" option_to_yojson(keySchema_to_yojson)(x.keySchema) )(
-      "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )])
-    ;
+  let globalSecondaryIndexDescription_to_yojson = 
+    (x: globalSecondaryIndexDescription) => assoc_to_yojson(
+      [(
+           "IndexArn",
+           option_to_yojson(string_to_yojson)(x.indexArn)),
+         (
+           "ItemCount",
+           option_to_yojson(long_to_yojson)(x.itemCount)),
+         (
+           "IndexSizeBytes",
+           option_to_yojson(long_to_yojson)(x.indexSizeBytes)),
+         (
+           "ProvisionedThroughput",
+           option_to_yojson(provisionedThroughputDescription_to_yojson)(x.provisionedThroughput)),
+         (
+           "Backfilling",
+           option_to_yojson(backfilling_to_yojson)(x.backfilling)),
+         (
+           "IndexStatus",
+           option_to_yojson(indexStatus_to_yojson)(x.indexStatus)),
+         (
+           "Projection",
+           option_to_yojson(projection_to_yojson)(x.projection)),
+         (
+           "KeySchema",
+           option_to_yojson(keySchema_to_yojson)(x.keySchema)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         
+    ]);
   
-  let globalSecondaryIndexDescriptionList_to_yojson =
-  list_to_yojson( globalSecondaryIndexDescription_to_yojson );
+  let globalSecondaryIndexDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      globalSecondaryIndexDescription_to_yojson
+    ,x
+    );
   
   let streamEnabled_to_yojson = bool_to_yojson;
   
-  let streamViewType_to_yojson =
-  fun
-    | NEW_IMAGE => "NEW_IMAGE"
-| OLD_IMAGE => "OLD_IMAGE"
-| NEW_AND_OLD_IMAGES => "NEW_AND_OLD_IMAGES"
-| KEYS_ONLY => "KEYS_ONLY"
-    ;
+  let streamViewType_to_yojson = 
+    (x: streamViewType) => 
+    switch (x) {
+      | NEW_IMAGE => `String("NEW_IMAGE")
+        | OLD_IMAGE => `String("OLD_IMAGE")
+        | NEW_AND_OLD_IMAGES => `String("NEW_AND_OLD_IMAGES")
+        | KEYS_ONLY => `String("KEYS_ONLY")
+        
+        };
   
-  let streamSpecification_to_yojson =
-  (x:streamSpecification)=>assoc_to_yojson([
-    ( "StreamViewType"
-      option_to_yojson(streamViewType_to_yojson)(x.streamViewType) )(
-      "StreamEnabled" Some(streamEnabled_to_yojson(x.streamEnabled)) )])
-    ;
+  let streamSpecification_to_yojson = 
+    (x: streamSpecification) => assoc_to_yojson(
+      [(
+           "StreamViewType",
+           option_to_yojson(streamViewType_to_yojson)(x.streamViewType)),
+         (
+           "StreamEnabled",
+           Some(streamEnabled_to_yojson(x.streamEnabled))),
+         
+    ]);
   
   let streamArn_to_yojson = string_to_yojson;
   
@@ -2203,43 +2438,65 @@ module Serialize = {
   
   let kmsmasterKeyId_to_yojson = string_to_yojson;
   
-  let provisionedThroughputOverride_to_yojson =
-  (x:provisionedThroughputOverride)=>assoc_to_yojson([
-    ( "ReadCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.readCapacityUnits) )])
-    ;
+  let provisionedThroughputOverride_to_yojson = 
+    (x: provisionedThroughputOverride) => assoc_to_yojson(
+      [(
+           "ReadCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.readCapacityUnits)),
+         
+    ]);
   
-  let replicaGlobalSecondaryIndexDescription_to_yojson =
-  (x:replicaGlobalSecondaryIndexDescription)=>assoc_to_yojson([
-    ( "ProvisionedThroughputOverride"
-      option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)
-      )( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )])
-    ;
+  let replicaGlobalSecondaryIndexDescription_to_yojson = 
+    (x: replicaGlobalSecondaryIndexDescription) => assoc_to_yojson(
+      [(
+           "ProvisionedThroughputOverride",
+           option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         
+    ]);
   
-  let replicaGlobalSecondaryIndexDescriptionList_to_yojson =
-  list_to_yojson( replicaGlobalSecondaryIndexDescription_to_yojson );
+  let replicaGlobalSecondaryIndexDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaGlobalSecondaryIndexDescription_to_yojson
+    ,x
+    );
   
-  let replicaDescription_to_yojson =
-  (x:replicaDescription)=>assoc_to_yojson([
-    ( "ReplicaInaccessibleDateTime"
-      option_to_yojson(date_to_yojson)(x.replicaInaccessibleDateTime) )(
-      "GlobalSecondaryIndexes"
-      option_to_yojson(replicaGlobalSecondaryIndexDescriptionList_to_yojson)(x.globalSecondaryIndexes)
-      )( "ProvisionedThroughputOverride"
-      option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)
-      )( "KMSMasterKeyId"
-      option_to_yojson(kmsmasterKeyId_to_yojson)(x.kmsmasterKeyId) )(
-      "ReplicaStatusPercentProgress"
-      option_to_yojson(replicaStatusPercentProgress_to_yojson)(x.replicaStatusPercentProgress)
-      )( "ReplicaStatusDescription"
-      option_to_yojson(replicaStatusDescription_to_yojson)(x.replicaStatusDescription)
-      )( "ReplicaStatus"
-      option_to_yojson(replicaStatus_to_yojson)(x.replicaStatus) )(
-      "RegionName" option_to_yojson(regionName_to_yojson)(x.regionName) )])
-    ;
+  let replicaDescription_to_yojson = 
+    (x: replicaDescription) => assoc_to_yojson(
+      [(
+           "ReplicaInaccessibleDateTime",
+           option_to_yojson(date_to_yojson)(x.replicaInaccessibleDateTime)),
+         (
+           "GlobalSecondaryIndexes",
+           option_to_yojson(replicaGlobalSecondaryIndexDescriptionList_to_yojson)(x.globalSecondaryIndexes)),
+         (
+           "ProvisionedThroughputOverride",
+           option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)),
+         (
+           "KMSMasterKeyId",
+           option_to_yojson(kmsmasterKeyId_to_yojson)(x.kmsmasterKeyId)),
+         (
+           "ReplicaStatusPercentProgress",
+           option_to_yojson(replicaStatusPercentProgress_to_yojson)(x.replicaStatusPercentProgress)),
+         (
+           "ReplicaStatusDescription",
+           option_to_yojson(replicaStatusDescription_to_yojson)(x.replicaStatusDescription)),
+         (
+           "ReplicaStatus",
+           option_to_yojson(replicaStatus_to_yojson)(x.replicaStatus)),
+         (
+           "RegionName",
+           option_to_yojson(regionName_to_yojson)(x.regionName)),
+         
+    ]);
   
-  let replicaDescriptionList_to_yojson =
-  list_to_yojson( replicaDescription_to_yojson );
+  let replicaDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaDescription_to_yojson
+    ,x
+    );
   
   let backupArn_to_yojson = string_to_yojson;
   
@@ -2247,352 +2504,531 @@ module Serialize = {
   
   let restoreInProgress_to_yojson = bool_to_yojson;
   
-  let restoreSummary_to_yojson =
-  (x:restoreSummary)=>assoc_to_yojson([
-    ( "RestoreInProgress"
-      Some(restoreInProgress_to_yojson(x.restoreInProgress)) )(
-      "RestoreDateTime" Some(date_to_yojson(x.restoreDateTime)) )(
-      "SourceTableArn" option_to_yojson(tableArn_to_yojson)(x.sourceTableArn)
-      )( "SourceBackupArn"
-      option_to_yojson(backupArn_to_yojson)(x.sourceBackupArn) )])
-    ;
+  let restoreSummary_to_yojson = 
+    (x: restoreSummary) => assoc_to_yojson(
+      [(
+           "RestoreInProgress",
+           Some(restoreInProgress_to_yojson(x.restoreInProgress))),
+         (
+           "RestoreDateTime",
+           Some(date_to_yojson(x.restoreDateTime))),
+         (
+           "SourceTableArn",
+           option_to_yojson(tableArn_to_yojson)(x.sourceTableArn)),
+         (
+           "SourceBackupArn",
+           option_to_yojson(backupArn_to_yojson)(x.sourceBackupArn)),
+         
+    ]);
   
-  let ssestatus_to_yojson =
-  fun
-    | ENABLING => "ENABLING"
-| ENABLED => "ENABLED"
-| DISABLING => "DISABLING"
-| DISABLED => "DISABLED"
-| UPDATING => "UPDATING"
-    ;
+  let ssestatus_to_yojson = 
+    (x: ssestatus) => 
+    switch (x) {
+      | ENABLING => `String("ENABLING")
+        | ENABLED => `String("ENABLED")
+        | DISABLING => `String("DISABLING")
+        | DISABLED => `String("DISABLED")
+        | UPDATING => `String("UPDATING")
+        
+        };
   
-  let ssetype_to_yojson = fun
-                            | AES256 => "AES256"
-| KMS => "KMS"
-                            ;
+  let ssetype_to_yojson = 
+    (x: ssetype) => 
+    switch (x) {
+      | AES256 => `String("AES256")
+        | KMS => `String("KMS")
+        
+        };
   
   let kmsmasterKeyArn_to_yojson = string_to_yojson;
   
-  let ssedescription_to_yojson =
-  (x:ssedescription)=>assoc_to_yojson([
-    ( "InaccessibleEncryptionDateTime"
-      option_to_yojson(date_to_yojson)(x.inaccessibleEncryptionDateTime) )(
-      "KMSMasterKeyArn"
-      option_to_yojson(kmsmasterKeyArn_to_yojson)(x.kmsmasterKeyArn) )(
-      "SSEType" option_to_yojson(ssetype_to_yojson)(x.ssetype) )( "Status"
-      option_to_yojson(ssestatus_to_yojson)(x.status) )])
-    ;
+  let ssedescription_to_yojson = 
+    (x: ssedescription) => assoc_to_yojson(
+      [(
+           "InaccessibleEncryptionDateTime",
+           option_to_yojson(date_to_yojson)(x.inaccessibleEncryptionDateTime)),
+         (
+           "KMSMasterKeyArn",
+           option_to_yojson(kmsmasterKeyArn_to_yojson)(x.kmsmasterKeyArn)),
+         (
+           "SSEType",
+           option_to_yojson(ssetype_to_yojson)(x.ssetype)),
+         (
+           "Status",
+           option_to_yojson(ssestatus_to_yojson)(x.status)),
+         
+    ]);
   
   let archivalReason_to_yojson = string_to_yojson;
   
-  let archivalSummary_to_yojson =
-  (x:archivalSummary)=>assoc_to_yojson([
-    ( "ArchivalBackupArn"
-      option_to_yojson(backupArn_to_yojson)(x.archivalBackupArn) )(
-      "ArchivalReason"
-      option_to_yojson(archivalReason_to_yojson)(x.archivalReason) )(
-      "ArchivalDateTime" option_to_yojson(date_to_yojson)(x.archivalDateTime)
-      )])
-    ;
+  let archivalSummary_to_yojson = 
+    (x: archivalSummary) => assoc_to_yojson(
+      [(
+           "ArchivalBackupArn",
+           option_to_yojson(backupArn_to_yojson)(x.archivalBackupArn)),
+         (
+           "ArchivalReason",
+           option_to_yojson(archivalReason_to_yojson)(x.archivalReason)),
+         (
+           "ArchivalDateTime",
+           option_to_yojson(date_to_yojson)(x.archivalDateTime)),
+         
+    ]);
   
-  let tableDescription_to_yojson =
-  (x:tableDescription)=>assoc_to_yojson([
-    ( "ArchivalSummary"
-      option_to_yojson(archivalSummary_to_yojson)(x.archivalSummary) )(
-      "SSEDescription"
-      option_to_yojson(ssedescription_to_yojson)(x.ssedescription) )(
-      "RestoreSummary"
-      option_to_yojson(restoreSummary_to_yojson)(x.restoreSummary) )(
-      "Replicas"
-      option_to_yojson(replicaDescriptionList_to_yojson)(x.replicas) )(
-      "GlobalTableVersion"
-      option_to_yojson(string_to_yojson)(x.globalTableVersion) )(
-      "LatestStreamArn"
-      option_to_yojson(streamArn_to_yojson)(x.latestStreamArn) )(
-      "LatestStreamLabel"
-      option_to_yojson(string_to_yojson)(x.latestStreamLabel) )(
-      "StreamSpecification"
-      option_to_yojson(streamSpecification_to_yojson)(x.streamSpecification)
-      )( "GlobalSecondaryIndexes"
-      option_to_yojson(globalSecondaryIndexDescriptionList_to_yojson)(x.globalSecondaryIndexes)
-      )( "LocalSecondaryIndexes"
-      option_to_yojson(localSecondaryIndexDescriptionList_to_yojson)(x.localSecondaryIndexes)
-      )( "BillingModeSummary"
-      option_to_yojson(billingModeSummary_to_yojson)(x.billingModeSummary) )(
-      "TableId" option_to_yojson(tableId_to_yojson)(x.tableId) )( "TableArn"
-      option_to_yojson(string_to_yojson)(x.tableArn) )( "ItemCount"
-      option_to_yojson(long_to_yojson)(x.itemCount) )( "TableSizeBytes"
-      option_to_yojson(long_to_yojson)(x.tableSizeBytes) )(
-      "ProvisionedThroughput"
-      option_to_yojson(provisionedThroughputDescription_to_yojson)(x.provisionedThroughput)
-      )( "CreationDateTime"
-      option_to_yojson(date_to_yojson)(x.creationDateTime) )( "TableStatus"
-      option_to_yojson(tableStatus_to_yojson)(x.tableStatus) )( "KeySchema"
-      option_to_yojson(keySchema_to_yojson)(x.keySchema) )( "TableName"
-      option_to_yojson(tableName_to_yojson)(x.tableName) )(
-      "AttributeDefinitions"
-      option_to_yojson(attributeDefinitions_to_yojson)(x.attributeDefinitions)
-      )])
-    ;
+  let tableDescription_to_yojson = 
+    (x: tableDescription) => assoc_to_yojson(
+      [(
+           "ArchivalSummary",
+           option_to_yojson(archivalSummary_to_yojson)(x.archivalSummary)),
+         (
+           "SSEDescription",
+           option_to_yojson(ssedescription_to_yojson)(x.ssedescription)),
+         (
+           "RestoreSummary",
+           option_to_yojson(restoreSummary_to_yojson)(x.restoreSummary)),
+         (
+           "Replicas",
+           option_to_yojson(replicaDescriptionList_to_yojson)(x.replicas)),
+         (
+           "GlobalTableVersion",
+           option_to_yojson(string_to_yojson)(x.globalTableVersion)),
+         (
+           "LatestStreamArn",
+           option_to_yojson(streamArn_to_yojson)(x.latestStreamArn)),
+         (
+           "LatestStreamLabel",
+           option_to_yojson(string_to_yojson)(x.latestStreamLabel)),
+         (
+           "StreamSpecification",
+           option_to_yojson(streamSpecification_to_yojson)(x.streamSpecification)),
+         (
+           "GlobalSecondaryIndexes",
+           option_to_yojson(globalSecondaryIndexDescriptionList_to_yojson)(x.globalSecondaryIndexes)),
+         (
+           "LocalSecondaryIndexes",
+           option_to_yojson(localSecondaryIndexDescriptionList_to_yojson)(x.localSecondaryIndexes)),
+         (
+           "BillingModeSummary",
+           option_to_yojson(billingModeSummary_to_yojson)(x.billingModeSummary)),
+         (
+           "TableId",
+           option_to_yojson(tableId_to_yojson)(x.tableId)),
+         (
+           "TableArn",
+           option_to_yojson(string_to_yojson)(x.tableArn)),
+         (
+           "ItemCount",
+           option_to_yojson(long_to_yojson)(x.itemCount)),
+         (
+           "TableSizeBytes",
+           option_to_yojson(long_to_yojson)(x.tableSizeBytes)),
+         (
+           "ProvisionedThroughput",
+           option_to_yojson(provisionedThroughputDescription_to_yojson)(x.provisionedThroughput)),
+         (
+           "CreationDateTime",
+           option_to_yojson(date_to_yojson)(x.creationDateTime)),
+         (
+           "TableStatus",
+           option_to_yojson(tableStatus_to_yojson)(x.tableStatus)),
+         (
+           "KeySchema",
+           option_to_yojson(keySchema_to_yojson)(x.keySchema)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         (
+           "AttributeDefinitions",
+           option_to_yojson(attributeDefinitions_to_yojson)(x.attributeDefinitions)),
+         
+    ]);
   
-  let updateTableOutput_to_yojson =
-  (x:updateTableOutput)=>assoc_to_yojson([
-    ( "TableDescription"
-      option_to_yojson(tableDescription_to_yojson)(x.tableDescription) )])
-    ;
+  let updateTableOutput_to_yojson = 
+    (x: updateTableOutput) => assoc_to_yojson(
+      [(
+           "TableDescription",
+           option_to_yojson(tableDescription_to_yojson)(x.tableDescription)),
+         
+    ]);
   
-  let provisionedThroughput_to_yojson =
-  (x:provisionedThroughput)=>assoc_to_yojson([
-    ( "WriteCapacityUnits"
-      Some(positiveLongObject_to_yojson(x.writeCapacityUnits)) )(
-      "ReadCapacityUnits"
-      Some(positiveLongObject_to_yojson(x.readCapacityUnits)) )])
-    ;
+  let provisionedThroughput_to_yojson = 
+    (x: provisionedThroughput) => assoc_to_yojson(
+      [(
+           "WriteCapacityUnits",
+           Some(positiveLongObject_to_yojson(x.writeCapacityUnits))),
+         (
+           "ReadCapacityUnits",
+           Some(positiveLongObject_to_yojson(x.readCapacityUnits))),
+         
+    ]);
   
-  let updateGlobalSecondaryIndexAction_to_yojson =
-  (x:updateGlobalSecondaryIndexAction)=>assoc_to_yojson([
-    ( "ProvisionedThroughput"
-      Some(provisionedThroughput_to_yojson(x.provisionedThroughput)) )(
-      "IndexName" Some(indexName_to_yojson(x.indexName)) )])
-    ;
+  let updateGlobalSecondaryIndexAction_to_yojson = 
+    (x: updateGlobalSecondaryIndexAction) => assoc_to_yojson(
+      [(
+           "ProvisionedThroughput",
+           Some(provisionedThroughput_to_yojson(x.provisionedThroughput))),
+         (
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let createGlobalSecondaryIndexAction_to_yojson =
-  (x:createGlobalSecondaryIndexAction)=>assoc_to_yojson([
-    ( "ProvisionedThroughput"
-      option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)
-      )( "Projection" Some(projection_to_yojson(x.projection)) )( "KeySchema"
-      Some(keySchema_to_yojson(x.keySchema)) )( "IndexName"
-      Some(indexName_to_yojson(x.indexName)) )])
-    ;
+  let createGlobalSecondaryIndexAction_to_yojson = 
+    (x: createGlobalSecondaryIndexAction) => assoc_to_yojson(
+      [(
+           "ProvisionedThroughput",
+           option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)),
+         (
+           "Projection",
+           Some(projection_to_yojson(x.projection))),
+         (
+           "KeySchema",
+           Some(keySchema_to_yojson(x.keySchema))),
+         (
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let deleteGlobalSecondaryIndexAction_to_yojson =
-  (x:deleteGlobalSecondaryIndexAction)=>assoc_to_yojson([
-    ( "IndexName" Some(indexName_to_yojson(x.indexName)) )]);
+  let deleteGlobalSecondaryIndexAction_to_yojson = 
+    (x: deleteGlobalSecondaryIndexAction) => assoc_to_yojson(
+      [(
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let globalSecondaryIndexUpdate_to_yojson =
-  (x:globalSecondaryIndexUpdate)=>assoc_to_yojson([
-    ( "Delete"
-      option_to_yojson(deleteGlobalSecondaryIndexAction_to_yojson)(x.delete)
-      )( "Create"
-      option_to_yojson(createGlobalSecondaryIndexAction_to_yojson)(x.create)
-      )( "Update"
-      option_to_yojson(updateGlobalSecondaryIndexAction_to_yojson)(x.update)
-      )])
-    ;
+  let globalSecondaryIndexUpdate_to_yojson = 
+    (x: globalSecondaryIndexUpdate) => assoc_to_yojson(
+      [(
+           "Delete",
+           option_to_yojson(deleteGlobalSecondaryIndexAction_to_yojson)(x.delete)),
+         (
+           "Create",
+           option_to_yojson(createGlobalSecondaryIndexAction_to_yojson)(x.create)),
+         (
+           "Update",
+           option_to_yojson(updateGlobalSecondaryIndexAction_to_yojson)(x.update)),
+         
+    ]);
   
-  let globalSecondaryIndexUpdateList_to_yojson =
-  list_to_yojson( globalSecondaryIndexUpdate_to_yojson );
+  let globalSecondaryIndexUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      globalSecondaryIndexUpdate_to_yojson
+    ,x
+    );
   
   let sseenabled_to_yojson = bool_to_yojson;
   
-  let ssespecification_to_yojson =
-  (x:ssespecification)=>assoc_to_yojson([
-    ( "KMSMasterKeyId"
-      option_to_yojson(kmsmasterKeyId_to_yojson)(x.kmsmasterKeyId) )(
-      "SSEType" option_to_yojson(ssetype_to_yojson)(x.ssetype) )( "Enabled"
-      option_to_yojson(sseenabled_to_yojson)(x.enabled) )])
-    ;
+  let ssespecification_to_yojson = 
+    (x: ssespecification) => assoc_to_yojson(
+      [(
+           "KMSMasterKeyId",
+           option_to_yojson(kmsmasterKeyId_to_yojson)(x.kmsmasterKeyId)),
+         (
+           "SSEType",
+           option_to_yojson(ssetype_to_yojson)(x.ssetype)),
+         (
+           "Enabled",
+           option_to_yojson(sseenabled_to_yojson)(x.enabled)),
+         
+    ]);
   
-  let replicaGlobalSecondaryIndex_to_yojson =
-  (x:replicaGlobalSecondaryIndex)=>assoc_to_yojson([
-    ( "ProvisionedThroughputOverride"
-      option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)
-      )( "IndexName" Some(indexName_to_yojson(x.indexName)) )])
-    ;
+  let replicaGlobalSecondaryIndex_to_yojson = 
+    (x: replicaGlobalSecondaryIndex) => assoc_to_yojson(
+      [(
+           "ProvisionedThroughputOverride",
+           option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)),
+         (
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let replicaGlobalSecondaryIndexList_to_yojson =
-  list_to_yojson( replicaGlobalSecondaryIndex_to_yojson );
+  let replicaGlobalSecondaryIndexList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaGlobalSecondaryIndex_to_yojson
+    ,x
+    );
   
-  let createReplicationGroupMemberAction_to_yojson =
-  (x:createReplicationGroupMemberAction)=>assoc_to_yojson([
-    ( "GlobalSecondaryIndexes"
-      option_to_yojson(replicaGlobalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexes)
-      )( "ProvisionedThroughputOverride"
-      option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)
-      )( "KMSMasterKeyId"
-      option_to_yojson(kmsmasterKeyId_to_yojson)(x.kmsmasterKeyId) )(
-      "RegionName" Some(regionName_to_yojson(x.regionName)) )])
-    ;
+  let createReplicationGroupMemberAction_to_yojson = 
+    (x: createReplicationGroupMemberAction) => assoc_to_yojson(
+      [(
+           "GlobalSecondaryIndexes",
+           option_to_yojson(replicaGlobalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexes)),
+         (
+           "ProvisionedThroughputOverride",
+           option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)),
+         (
+           "KMSMasterKeyId",
+           option_to_yojson(kmsmasterKeyId_to_yojson)(x.kmsmasterKeyId)),
+         (
+           "RegionName",
+           Some(regionName_to_yojson(x.regionName))),
+         
+    ]);
   
-  let updateReplicationGroupMemberAction_to_yojson =
-  (x:updateReplicationGroupMemberAction)=>assoc_to_yojson([
-    ( "GlobalSecondaryIndexes"
-      option_to_yojson(replicaGlobalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexes)
-      )( "ProvisionedThroughputOverride"
-      option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)
-      )( "KMSMasterKeyId"
-      option_to_yojson(kmsmasterKeyId_to_yojson)(x.kmsmasterKeyId) )(
-      "RegionName" Some(regionName_to_yojson(x.regionName)) )])
-    ;
+  let updateReplicationGroupMemberAction_to_yojson = 
+    (x: updateReplicationGroupMemberAction) => assoc_to_yojson(
+      [(
+           "GlobalSecondaryIndexes",
+           option_to_yojson(replicaGlobalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexes)),
+         (
+           "ProvisionedThroughputOverride",
+           option_to_yojson(provisionedThroughputOverride_to_yojson)(x.provisionedThroughputOverride)),
+         (
+           "KMSMasterKeyId",
+           option_to_yojson(kmsmasterKeyId_to_yojson)(x.kmsmasterKeyId)),
+         (
+           "RegionName",
+           Some(regionName_to_yojson(x.regionName))),
+         
+    ]);
   
-  let deleteReplicationGroupMemberAction_to_yojson =
-  (x:deleteReplicationGroupMemberAction)=>assoc_to_yojson([
-    ( "RegionName" Some(regionName_to_yojson(x.regionName)) )]);
+  let deleteReplicationGroupMemberAction_to_yojson = 
+    (x: deleteReplicationGroupMemberAction) => assoc_to_yojson(
+      [(
+           "RegionName",
+           Some(regionName_to_yojson(x.regionName))),
+         
+    ]);
   
-  let replicationGroupUpdate_to_yojson =
-  (x:replicationGroupUpdate)=>assoc_to_yojson([
-    ( "Delete"
-      option_to_yojson(deleteReplicationGroupMemberAction_to_yojson)(x.delete)
-      )( "Update"
-      option_to_yojson(updateReplicationGroupMemberAction_to_yojson)(x.update)
-      )( "Create"
-      option_to_yojson(createReplicationGroupMemberAction_to_yojson)(x.create)
-      )])
-    ;
+  let replicationGroupUpdate_to_yojson = 
+    (x: replicationGroupUpdate) => assoc_to_yojson(
+      [(
+           "Delete",
+           option_to_yojson(deleteReplicationGroupMemberAction_to_yojson)(x.delete)),
+         (
+           "Update",
+           option_to_yojson(updateReplicationGroupMemberAction_to_yojson)(x.update)),
+         (
+           "Create",
+           option_to_yojson(createReplicationGroupMemberAction_to_yojson)(x.create)),
+         
+    ]);
   
-  let replicationGroupUpdateList_to_yojson =
-  list_to_yojson( replicationGroupUpdate_to_yojson );
+  let replicationGroupUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      replicationGroupUpdate_to_yojson
+    ,x
+    );
   
-  let updateTableInput_to_yojson =
-  (x:updateTableInput)=>assoc_to_yojson([
-    ( "ReplicaUpdates"
-      option_to_yojson(replicationGroupUpdateList_to_yojson)(x.replicaUpdates)
-      )( "SSESpecification"
-      option_to_yojson(ssespecification_to_yojson)(x.ssespecification) )(
-      "StreamSpecification"
-      option_to_yojson(streamSpecification_to_yojson)(x.streamSpecification)
-      )( "GlobalSecondaryIndexUpdates"
-      option_to_yojson(globalSecondaryIndexUpdateList_to_yojson)(x.globalSecondaryIndexUpdates)
-      )( "ProvisionedThroughput"
-      option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)
-      )( "BillingMode" option_to_yojson(billingMode_to_yojson)(x.billingMode)
-      )( "TableName" Some(tableName_to_yojson(x.tableName)) )(
-      "AttributeDefinitions"
-      option_to_yojson(attributeDefinitions_to_yojson)(x.attributeDefinitions)
-      )])
-    ;
+  let updateTableInput_to_yojson = 
+    (x: updateTableInput) => assoc_to_yojson(
+      [(
+           "ReplicaUpdates",
+           option_to_yojson(replicationGroupUpdateList_to_yojson)(x.replicaUpdates)),
+         (
+           "SSESpecification",
+           option_to_yojson(ssespecification_to_yojson)(x.ssespecification)),
+         (
+           "StreamSpecification",
+           option_to_yojson(streamSpecification_to_yojson)(x.streamSpecification)),
+         (
+           "GlobalSecondaryIndexUpdates",
+           option_to_yojson(globalSecondaryIndexUpdateList_to_yojson)(x.globalSecondaryIndexUpdates)),
+         (
+           "ProvisionedThroughput",
+           option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)),
+         (
+           "BillingMode",
+           option_to_yojson(billingMode_to_yojson)(x.billingMode)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         (
+           "AttributeDefinitions",
+           option_to_yojson(attributeDefinitions_to_yojson)(x.attributeDefinitions)),
+         
+    ]);
   
-  let attributeMap_to_yojson = map_to_yojson;
+  let attributeMap_to_yojson = 
+    (x) => map_to_yojson(attributeValue_to_yojson, x);
   
   let consumedCapacityUnits_to_yojson = double_to_yojson;
   
-  let capacity_to_yojson =
-  (x:capacity)=>assoc_to_yojson([
-    ( "CapacityUnits"
-      option_to_yojson(consumedCapacityUnits_to_yojson)(x.capacityUnits) )(
-      "WriteCapacityUnits"
-      option_to_yojson(consumedCapacityUnits_to_yojson)(x.writeCapacityUnits)
-      )( "ReadCapacityUnits"
-      option_to_yojson(consumedCapacityUnits_to_yojson)(x.readCapacityUnits)
-      )])
-    ;
+  let capacity_to_yojson = 
+    (x: capacity) => assoc_to_yojson(
+      [(
+           "CapacityUnits",
+           option_to_yojson(consumedCapacityUnits_to_yojson)(x.capacityUnits)),
+         (
+           "WriteCapacityUnits",
+           option_to_yojson(consumedCapacityUnits_to_yojson)(x.writeCapacityUnits)),
+         (
+           "ReadCapacityUnits",
+           option_to_yojson(consumedCapacityUnits_to_yojson)(x.readCapacityUnits)),
+         
+    ]);
   
-  let secondaryIndexesCapacityMap_to_yojson = map_to_yojson;
+  let secondaryIndexesCapacityMap_to_yojson = 
+    (x) => map_to_yojson(capacity_to_yojson, x);
   
-  let consumedCapacity_to_yojson =
-  (x:consumedCapacity)=>assoc_to_yojson([
-    ( "GlobalSecondaryIndexes"
-      option_to_yojson(secondaryIndexesCapacityMap_to_yojson)(x.globalSecondaryIndexes)
-      )( "LocalSecondaryIndexes"
-      option_to_yojson(secondaryIndexesCapacityMap_to_yojson)(x.localSecondaryIndexes)
-      )( "Table" option_to_yojson(capacity_to_yojson)(x.table) )(
-      "WriteCapacityUnits"
-      option_to_yojson(consumedCapacityUnits_to_yojson)(x.writeCapacityUnits)
-      )( "ReadCapacityUnits"
-      option_to_yojson(consumedCapacityUnits_to_yojson)(x.readCapacityUnits)
-      )( "CapacityUnits"
-      option_to_yojson(consumedCapacityUnits_to_yojson)(x.capacityUnits) )(
-      "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let consumedCapacity_to_yojson = 
+    (x: consumedCapacity) => assoc_to_yojson(
+      [(
+           "GlobalSecondaryIndexes",
+           option_to_yojson(secondaryIndexesCapacityMap_to_yojson)(x.globalSecondaryIndexes)),
+         (
+           "LocalSecondaryIndexes",
+           option_to_yojson(secondaryIndexesCapacityMap_to_yojson)(x.localSecondaryIndexes)),
+         (
+           "Table",
+           option_to_yojson(capacity_to_yojson)(x.table)),
+         (
+           "WriteCapacityUnits",
+           option_to_yojson(consumedCapacityUnits_to_yojson)(x.writeCapacityUnits)),
+         (
+           "ReadCapacityUnits",
+           option_to_yojson(consumedCapacityUnits_to_yojson)(x.readCapacityUnits)),
+         (
+           "CapacityUnits",
+           option_to_yojson(consumedCapacityUnits_to_yojson)(x.capacityUnits)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
-  let itemCollectionKeyAttributeMap_to_yojson = map_to_yojson;
+  let itemCollectionKeyAttributeMap_to_yojson = 
+    (x) => map_to_yojson(attributeValue_to_yojson, x);
   
   let itemCollectionSizeEstimateBound_to_yojson = double_to_yojson;
   
-  let itemCollectionSizeEstimateRange_to_yojson =
-  list_to_yojson( itemCollectionSizeEstimateBound_to_yojson );
+  let itemCollectionSizeEstimateRange_to_yojson = 
+    (x) => list_to_yojson(
+      itemCollectionSizeEstimateBound_to_yojson
+    ,x
+    );
   
-  let itemCollectionMetrics_to_yojson =
-  (x:itemCollectionMetrics)=>assoc_to_yojson([
-    ( "SizeEstimateRangeGB"
-      option_to_yojson(itemCollectionSizeEstimateRange_to_yojson)(x.sizeEstimateRangeGB)
-      )( "ItemCollectionKey"
-      option_to_yojson(itemCollectionKeyAttributeMap_to_yojson)(x.itemCollectionKey)
-      )])
-    ;
+  let itemCollectionMetrics_to_yojson = 
+    (x: itemCollectionMetrics) => assoc_to_yojson(
+      [(
+           "SizeEstimateRangeGB",
+           option_to_yojson(itemCollectionSizeEstimateRange_to_yojson)(x.sizeEstimateRangeGB)),
+         (
+           "ItemCollectionKey",
+           option_to_yojson(itemCollectionKeyAttributeMap_to_yojson)(x.itemCollectionKey)),
+         
+    ]);
   
-  let updateItemOutput_to_yojson =
-  (x:updateItemOutput)=>assoc_to_yojson([
-    ( "ItemCollectionMetrics"
-      option_to_yojson(itemCollectionMetrics_to_yojson)(x.itemCollectionMetrics)
-      )( "ConsumedCapacity"
-      option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity) )(
-      "Attributes" option_to_yojson(attributeMap_to_yojson)(x.attributes) )])
-    ;
+  let updateItemOutput_to_yojson = 
+    (x: updateItemOutput) => assoc_to_yojson(
+      [(
+           "ItemCollectionMetrics",
+           option_to_yojson(itemCollectionMetrics_to_yojson)(x.itemCollectionMetrics)),
+         (
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity)),
+         (
+           "Attributes",
+           option_to_yojson(attributeMap_to_yojson)(x.attributes)),
+         
+    ]);
   
-  let attributeAction_to_yojson =
-  fun
-    | ADD => "ADD"
-| PUT => "PUT"
-| DELETE => "DELETE"
-    ;
+  let attributeAction_to_yojson = 
+    (x: attributeAction) => 
+    switch (x) {
+      | ADD => `String("ADD")
+        | PUT => `String("PUT")
+        | DELETE => `String("DELETE")
+        
+        };
   
-  let attributeValueUpdate_to_yojson =
-  (x:attributeValueUpdate)=>assoc_to_yojson([
-    ( "Action" option_to_yojson(attributeAction_to_yojson)(x.action) )(
-      "Value" option_to_yojson(attributeValue_to_yojson)(x.value) )])
-    ;
+  let attributeValueUpdate_to_yojson = 
+    (x: attributeValueUpdate) => assoc_to_yojson(
+      [(
+           "Action",
+           option_to_yojson(attributeAction_to_yojson)(x.action)),
+         (
+           "Value",
+           option_to_yojson(attributeValue_to_yojson)(x.value)),
+         
+    ]);
   
-  let attributeUpdates_to_yojson = map_to_yojson;
+  let attributeUpdates_to_yojson = 
+    (x) => map_to_yojson(attributeValueUpdate_to_yojson, x);
   
-  let comparisonOperator_to_yojson =
-  fun
-    | EQ => "EQ"
-| NE => "NE"
-| IN => "IN"
-| LE => "LE"
-| LT => "LT"
-| GE => "GE"
-| GT => "GT"
-| BETWEEN => "BETWEEN"
-| NOT_NULL => "NOT_NULL"
-| NULL => "NULL"
-| CONTAINS => "CONTAINS"
-| NOT_CONTAINS => "NOT_CONTAINS"
-| BEGINS_WITH => "BEGINS_WITH"
-    ;
+  let comparisonOperator_to_yojson = 
+    (x: comparisonOperator) => 
+    switch (x) {
+      | EQ => `String("EQ")
+        | NE => `String("NE")
+        | IN => `String("IN")
+        | LE => `String("LE")
+        | LT => `String("LT")
+        | GE => `String("GE")
+        | GT => `String("GT")
+        | BETWEEN => `String("BETWEEN")
+        | NOT_NULL => `String("NOT_NULL")
+        | NULL => `String("NULL")
+        | CONTAINS => `String("CONTAINS")
+        | NOT_CONTAINS => `String("NOT_CONTAINS")
+        | BEGINS_WITH => `String("BEGINS_WITH")
+        
+        };
   
-  let attributeValueList_to_yojson =
-  list_to_yojson( attributeValue_to_yojson );
+  let attributeValueList_to_yojson = 
+    (x) => list_to_yojson(
+      attributeValue_to_yojson
+    ,x
+    );
   
-  let expectedAttributeValue_to_yojson =
-  (x:expectedAttributeValue)=>assoc_to_yojson([
-    ( "AttributeValueList"
-      option_to_yojson(attributeValueList_to_yojson)(x.attributeValueList) )(
-      "ComparisonOperator"
-      option_to_yojson(comparisonOperator_to_yojson)(x.comparisonOperator) )(
-      "Exists" option_to_yojson(booleanObject_to_yojson)(x.exists) )( "Value"
-      option_to_yojson(attributeValue_to_yojson)(x.value) )])
-    ;
+  let expectedAttributeValue_to_yojson = 
+    (x: expectedAttributeValue) => assoc_to_yojson(
+      [(
+           "AttributeValueList",
+           option_to_yojson(attributeValueList_to_yojson)(x.attributeValueList)),
+         (
+           "ComparisonOperator",
+           option_to_yojson(comparisonOperator_to_yojson)(x.comparisonOperator)),
+         (
+           "Exists",
+           option_to_yojson(booleanObject_to_yojson)(x.exists)),
+         (
+           "Value",
+           option_to_yojson(attributeValue_to_yojson)(x.value)),
+         
+    ]);
   
-  let expectedAttributeMap_to_yojson = map_to_yojson;
+  let expectedAttributeMap_to_yojson = 
+    (x) => map_to_yojson(expectedAttributeValue_to_yojson, x);
   
-  let conditionalOperator_to_yojson = fun
-                                        | AND => "AND"
-| OR => "OR"
-                                        ;
+  let conditionalOperator_to_yojson = 
+    (x: conditionalOperator) => 
+    switch (x) {
+      | AND => `String("AND")
+        | OR => `String("OR")
+        
+        };
   
-  let returnValue_to_yojson =
-  fun
-    | NONE => "NONE"
-| ALL_OLD => "ALL_OLD"
-| UPDATED_OLD => "UPDATED_OLD"
-| ALL_NEW => "ALL_NEW"
-| UPDATED_NEW => "UPDATED_NEW"
-    ;
+  let returnValue_to_yojson = 
+    (x: returnValue) => 
+    switch (x) {
+      | NONE => `String("NONE")
+        | ALL_OLD => `String("ALL_OLD")
+        | UPDATED_OLD => `String("UPDATED_OLD")
+        | ALL_NEW => `String("ALL_NEW")
+        | UPDATED_NEW => `String("UPDATED_NEW")
+        
+        };
   
-  let returnConsumedCapacity_to_yojson =
-  fun
-    | INDEXES => "INDEXES"
-| TOTAL => "TOTAL"
-| NONE => "NONE"
-    ;
+  let returnConsumedCapacity_to_yojson = 
+    (x: returnConsumedCapacity) => 
+    switch (x) {
+      | INDEXES => `String("INDEXES")
+        | TOTAL => `String("TOTAL")
+        | NONE => `String("NONE")
+        
+        };
   
-  let returnItemCollectionMetrics_to_yojson =
-  fun
-    | SIZE => "SIZE"
-| NONE => "NONE"
-    ;
+  let returnItemCollectionMetrics_to_yojson = 
+    (x: returnItemCollectionMetrics) => 
+    switch (x) {
+      | SIZE => `String("SIZE")
+        | NONE => `String("NONE")
+        
+        };
   
   let updateExpression_to_yojson = string_to_yojson;
   
@@ -2600,519 +3036,718 @@ module Serialize = {
   
   let expressionAttributeNameVariable_to_yojson = string_to_yojson;
   
-  let expressionAttributeNameMap_to_yojson = map_to_yojson;
+  let expressionAttributeNameMap_to_yojson = 
+    (x) => map_to_yojson(attributeName_to_yojson, x);
   
   let expressionAttributeValueVariable_to_yojson = string_to_yojson;
   
-  let expressionAttributeValueMap_to_yojson = map_to_yojson;
+  let expressionAttributeValueMap_to_yojson = 
+    (x) => map_to_yojson(attributeValue_to_yojson, x);
   
-  let updateItemInput_to_yojson =
-  (x:updateItemInput)=>assoc_to_yojson([
-    ( "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ConditionExpression"
-      option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)
-      )( "UpdateExpression"
-      option_to_yojson(updateExpression_to_yojson)(x.updateExpression) )(
-      "ReturnItemCollectionMetrics"
-      option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)
-      )( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "ReturnValues"
-      option_to_yojson(returnValue_to_yojson)(x.returnValues) )(
-      "ConditionalOperator"
-      option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)
-      )( "Expected"
-      option_to_yojson(expectedAttributeMap_to_yojson)(x.expected) )(
-      "AttributeUpdates"
-      option_to_yojson(attributeUpdates_to_yojson)(x.attributeUpdates) )(
-      "Key" Some(key_to_yojson(x.key)) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let updateItemInput_to_yojson = 
+    (x: updateItemInput) => assoc_to_yojson(
+      [(
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ConditionExpression",
+           option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)),
+         (
+           "UpdateExpression",
+           option_to_yojson(updateExpression_to_yojson)(x.updateExpression)),
+         (
+           "ReturnItemCollectionMetrics",
+           option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)),
+         (
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "ReturnValues",
+           option_to_yojson(returnValue_to_yojson)(x.returnValues)),
+         (
+           "ConditionalOperator",
+           option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)),
+         (
+           "Expected",
+           option_to_yojson(expectedAttributeMap_to_yojson)(x.expected)),
+         (
+           "AttributeUpdates",
+           option_to_yojson(attributeUpdates_to_yojson)(x.attributeUpdates)),
+         (
+           "Key",
+           Some(key_to_yojson(x.key))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let transactionConflictException_to_yojson =
-  (x:transactionConflictException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let replicaGlobalSecondaryIndexSettingsDescription_to_yojson = 
+    (x: replicaGlobalSecondaryIndexSettingsDescription) => assoc_to_yojson(
+      [(
+           "ProvisionedWriteCapacityAutoScalingSettings",
+           option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.provisionedWriteCapacityAutoScalingSettings)),
+         (
+           "ProvisionedWriteCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.provisionedWriteCapacityUnits)),
+         (
+           "ProvisionedReadCapacityAutoScalingSettings",
+           option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.provisionedReadCapacityAutoScalingSettings)),
+         (
+           "ProvisionedReadCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.provisionedReadCapacityUnits)),
+         (
+           "IndexStatus",
+           option_to_yojson(indexStatus_to_yojson)(x.indexStatus)),
+         (
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let requestLimitExceeded_to_yojson =
-  (x:requestLimitExceeded)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let replicaGlobalSecondaryIndexSettingsDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaGlobalSecondaryIndexSettingsDescription_to_yojson
+    ,x
+    );
   
-  let provisionedThroughputExceededException_to_yojson =
-  (x:provisionedThroughputExceededException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let replicaSettingsDescription_to_yojson = 
+    (x: replicaSettingsDescription) => assoc_to_yojson(
+      [(
+           "ReplicaGlobalSecondaryIndexSettings",
+           option_to_yojson(replicaGlobalSecondaryIndexSettingsDescriptionList_to_yojson)(x.replicaGlobalSecondaryIndexSettings)),
+         (
+           "ReplicaProvisionedWriteCapacityAutoScalingSettings",
+           option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.replicaProvisionedWriteCapacityAutoScalingSettings)),
+         (
+           "ReplicaProvisionedWriteCapacityUnits",
+           option_to_yojson(nonNegativeLongObject_to_yojson)(x.replicaProvisionedWriteCapacityUnits)),
+         (
+           "ReplicaProvisionedReadCapacityAutoScalingSettings",
+           option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.replicaProvisionedReadCapacityAutoScalingSettings)),
+         (
+           "ReplicaProvisionedReadCapacityUnits",
+           option_to_yojson(nonNegativeLongObject_to_yojson)(x.replicaProvisionedReadCapacityUnits)),
+         (
+           "ReplicaBillingModeSummary",
+           option_to_yojson(billingModeSummary_to_yojson)(x.replicaBillingModeSummary)),
+         (
+           "ReplicaStatus",
+           option_to_yojson(replicaStatus_to_yojson)(x.replicaStatus)),
+         (
+           "RegionName",
+           Some(regionName_to_yojson(x.regionName))),
+         
+    ]);
   
-  let itemCollectionSizeLimitExceededException_to_yojson =
-  (x:itemCollectionSizeLimitExceededException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let replicaSettingsDescriptionList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaSettingsDescription_to_yojson
+    ,x
+    );
   
-  let conditionalCheckFailedException_to_yojson =
-  (x:conditionalCheckFailedException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let updateGlobalTableSettingsOutput_to_yojson = 
+    (x: updateGlobalTableSettingsOutput) => assoc_to_yojson(
+      [(
+           "ReplicaSettings",
+           option_to_yojson(replicaSettingsDescriptionList_to_yojson)(x.replicaSettings)),
+         (
+           "GlobalTableName",
+           option_to_yojson(tableName_to_yojson)(x.globalTableName)),
+         
+    ]);
   
-  let replicaGlobalSecondaryIndexSettingsDescription_to_yojson =
-  (x:replicaGlobalSecondaryIndexSettingsDescription)=>assoc_to_yojson([
-    ( "ProvisionedWriteCapacityAutoScalingSettings"
-      option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.provisionedWriteCapacityAutoScalingSettings)
-      )( "ProvisionedWriteCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.provisionedWriteCapacityUnits)
-      )( "ProvisionedReadCapacityAutoScalingSettings"
-      option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.provisionedReadCapacityAutoScalingSettings)
-      )( "ProvisionedReadCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.provisionedReadCapacityUnits)
-      )( "IndexStatus" option_to_yojson(indexStatus_to_yojson)(x.indexStatus)
-      )( "IndexName" Some(indexName_to_yojson(x.indexName)) )])
-    ;
+  let globalTableGlobalSecondaryIndexSettingsUpdate_to_yojson = 
+    (x: globalTableGlobalSecondaryIndexSettingsUpdate) => assoc_to_yojson(
+      [(
+           "ProvisionedWriteCapacityAutoScalingSettingsUpdate",
+           option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedWriteCapacityAutoScalingSettingsUpdate)),
+         (
+           "ProvisionedWriteCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.provisionedWriteCapacityUnits)),
+         (
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let replicaGlobalSecondaryIndexSettingsDescriptionList_to_yojson =
-  list_to_yojson( replicaGlobalSecondaryIndexSettingsDescription_to_yojson );
+  let globalTableGlobalSecondaryIndexSettingsUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      globalTableGlobalSecondaryIndexSettingsUpdate_to_yojson
+    ,x
+    );
   
-  let replicaSettingsDescription_to_yojson =
-  (x:replicaSettingsDescription)=>assoc_to_yojson([
-    ( "ReplicaGlobalSecondaryIndexSettings"
-      option_to_yojson(replicaGlobalSecondaryIndexSettingsDescriptionList_to_yojson)(x.replicaGlobalSecondaryIndexSettings)
-      )( "ReplicaProvisionedWriteCapacityAutoScalingSettings"
-      option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.replicaProvisionedWriteCapacityAutoScalingSettings)
-      )( "ReplicaProvisionedWriteCapacityUnits"
-      option_to_yojson(nonNegativeLongObject_to_yojson)(x.replicaProvisionedWriteCapacityUnits)
-      )( "ReplicaProvisionedReadCapacityAutoScalingSettings"
-      option_to_yojson(autoScalingSettingsDescription_to_yojson)(x.replicaProvisionedReadCapacityAutoScalingSettings)
-      )( "ReplicaProvisionedReadCapacityUnits"
-      option_to_yojson(nonNegativeLongObject_to_yojson)(x.replicaProvisionedReadCapacityUnits)
-      )( "ReplicaBillingModeSummary"
-      option_to_yojson(billingModeSummary_to_yojson)(x.replicaBillingModeSummary)
-      )( "ReplicaStatus"
-      option_to_yojson(replicaStatus_to_yojson)(x.replicaStatus) )(
-      "RegionName" Some(regionName_to_yojson(x.regionName)) )])
-    ;
+  let replicaGlobalSecondaryIndexSettingsUpdate_to_yojson = 
+    (x: replicaGlobalSecondaryIndexSettingsUpdate) => assoc_to_yojson(
+      [(
+           "ProvisionedReadCapacityAutoScalingSettingsUpdate",
+           option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedReadCapacityAutoScalingSettingsUpdate)),
+         (
+           "ProvisionedReadCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.provisionedReadCapacityUnits)),
+         (
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let replicaSettingsDescriptionList_to_yojson =
-  list_to_yojson( replicaSettingsDescription_to_yojson );
+  let replicaGlobalSecondaryIndexSettingsUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaGlobalSecondaryIndexSettingsUpdate_to_yojson
+    ,x
+    );
   
-  let updateGlobalTableSettingsOutput_to_yojson =
-  (x:updateGlobalTableSettingsOutput)=>assoc_to_yojson([
-    ( "ReplicaSettings"
-      option_to_yojson(replicaSettingsDescriptionList_to_yojson)(x.replicaSettings)
-      )( "GlobalTableName"
-      option_to_yojson(tableName_to_yojson)(x.globalTableName) )])
-    ;
+  let replicaSettingsUpdate_to_yojson = 
+    (x: replicaSettingsUpdate) => assoc_to_yojson(
+      [(
+           "ReplicaGlobalSecondaryIndexSettingsUpdate",
+           option_to_yojson(replicaGlobalSecondaryIndexSettingsUpdateList_to_yojson)(x.replicaGlobalSecondaryIndexSettingsUpdate)),
+         (
+           "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate",
+           option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.replicaProvisionedReadCapacityAutoScalingSettingsUpdate)),
+         (
+           "ReplicaProvisionedReadCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.replicaProvisionedReadCapacityUnits)),
+         (
+           "RegionName",
+           Some(regionName_to_yojson(x.regionName))),
+         
+    ]);
   
-  let globalTableGlobalSecondaryIndexSettingsUpdate_to_yojson =
-  (x:globalTableGlobalSecondaryIndexSettingsUpdate)=>assoc_to_yojson([
-    ( "ProvisionedWriteCapacityAutoScalingSettingsUpdate"
-      option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedWriteCapacityAutoScalingSettingsUpdate)
-      )( "ProvisionedWriteCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.provisionedWriteCapacityUnits)
-      )( "IndexName" Some(indexName_to_yojson(x.indexName)) )])
-    ;
+  let replicaSettingsUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaSettingsUpdate_to_yojson
+    ,x
+    );
   
-  let globalTableGlobalSecondaryIndexSettingsUpdateList_to_yojson =
-  list_to_yojson( globalTableGlobalSecondaryIndexSettingsUpdate_to_yojson );
-  
-  let replicaGlobalSecondaryIndexSettingsUpdate_to_yojson =
-  (x:replicaGlobalSecondaryIndexSettingsUpdate)=>assoc_to_yojson([
-    ( "ProvisionedReadCapacityAutoScalingSettingsUpdate"
-      option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.provisionedReadCapacityAutoScalingSettingsUpdate)
-      )( "ProvisionedReadCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.provisionedReadCapacityUnits)
-      )( "IndexName" Some(indexName_to_yojson(x.indexName)) )])
-    ;
-  
-  let replicaGlobalSecondaryIndexSettingsUpdateList_to_yojson =
-  list_to_yojson( replicaGlobalSecondaryIndexSettingsUpdate_to_yojson );
-  
-  let replicaSettingsUpdate_to_yojson =
-  (x:replicaSettingsUpdate)=>assoc_to_yojson([
-    ( "ReplicaGlobalSecondaryIndexSettingsUpdate"
-      option_to_yojson(replicaGlobalSecondaryIndexSettingsUpdateList_to_yojson)(x.replicaGlobalSecondaryIndexSettingsUpdate)
-      )( "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"
-      option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.replicaProvisionedReadCapacityAutoScalingSettingsUpdate)
-      )( "ReplicaProvisionedReadCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.replicaProvisionedReadCapacityUnits)
-      )( "RegionName" Some(regionName_to_yojson(x.regionName)) )])
-    ;
-  
-  let replicaSettingsUpdateList_to_yojson =
-  list_to_yojson( replicaSettingsUpdate_to_yojson );
-  
-  let updateGlobalTableSettingsInput_to_yojson =
-  (x:updateGlobalTableSettingsInput)=>assoc_to_yojson([
-    ( "ReplicaSettingsUpdate"
-      option_to_yojson(replicaSettingsUpdateList_to_yojson)(x.replicaSettingsUpdate)
-      )( "GlobalTableGlobalSecondaryIndexSettingsUpdate"
-      option_to_yojson(globalTableGlobalSecondaryIndexSettingsUpdateList_to_yojson)(x.globalTableGlobalSecondaryIndexSettingsUpdate)
-      )( "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"
-      option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate)
-      )( "GlobalTableProvisionedWriteCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.globalTableProvisionedWriteCapacityUnits)
-      )( "GlobalTableBillingMode"
-      option_to_yojson(billingMode_to_yojson)(x.globalTableBillingMode) )(
-      "GlobalTableName" Some(tableName_to_yojson(x.globalTableName)) )])
-    ;
-  
-  let replicaNotFoundException_to_yojson =
-  (x:replicaNotFoundException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
-  let indexNotFoundException_to_yojson =
-  (x:indexNotFoundException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
-  let globalTableNotFoundException_to_yojson =
-  (x:globalTableNotFoundException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let updateGlobalTableSettingsInput_to_yojson = 
+    (x: updateGlobalTableSettingsInput) => assoc_to_yojson(
+      [(
+           "ReplicaSettingsUpdate",
+           option_to_yojson(replicaSettingsUpdateList_to_yojson)(x.replicaSettingsUpdate)),
+         (
+           "GlobalTableGlobalSecondaryIndexSettingsUpdate",
+           option_to_yojson(globalTableGlobalSecondaryIndexSettingsUpdateList_to_yojson)(x.globalTableGlobalSecondaryIndexSettingsUpdate)),
+         (
+           "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate",
+           option_to_yojson(autoScalingSettingsUpdate_to_yojson)(x.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate)),
+         (
+           "GlobalTableProvisionedWriteCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.globalTableProvisionedWriteCapacityUnits)),
+         (
+           "GlobalTableBillingMode",
+           option_to_yojson(billingMode_to_yojson)(x.globalTableBillingMode)),
+         (
+           "GlobalTableName",
+           Some(tableName_to_yojson(x.globalTableName))),
+         
+    ]);
   
   let globalTableArnString_to_yojson = string_to_yojson;
   
-  let globalTableStatus_to_yojson =
-  fun
-    | CREATING => "CREATING"
-| ACTIVE => "ACTIVE"
-| DELETING => "DELETING"
-| UPDATING => "UPDATING"
-    ;
+  let globalTableStatus_to_yojson = 
+    (x: globalTableStatus) => 
+    switch (x) {
+      | CREATING => `String("CREATING")
+        | ACTIVE => `String("ACTIVE")
+        | DELETING => `String("DELETING")
+        | UPDATING => `String("UPDATING")
+        
+        };
   
-  let globalTableDescription_to_yojson =
-  (x:globalTableDescription)=>assoc_to_yojson([
-    ( "GlobalTableName"
-      option_to_yojson(tableName_to_yojson)(x.globalTableName) )(
-      "GlobalTableStatus"
-      option_to_yojson(globalTableStatus_to_yojson)(x.globalTableStatus) )(
-      "CreationDateTime" option_to_yojson(date_to_yojson)(x.creationDateTime)
-      )( "GlobalTableArn"
-      option_to_yojson(globalTableArnString_to_yojson)(x.globalTableArn) )(
-      "ReplicationGroup"
-      option_to_yojson(replicaDescriptionList_to_yojson)(x.replicationGroup)
-      )])
-    ;
+  let globalTableDescription_to_yojson = 
+    (x: globalTableDescription) => assoc_to_yojson(
+      [(
+           "GlobalTableName",
+           option_to_yojson(tableName_to_yojson)(x.globalTableName)),
+         (
+           "GlobalTableStatus",
+           option_to_yojson(globalTableStatus_to_yojson)(x.globalTableStatus)),
+         (
+           "CreationDateTime",
+           option_to_yojson(date_to_yojson)(x.creationDateTime)),
+         (
+           "GlobalTableArn",
+           option_to_yojson(globalTableArnString_to_yojson)(x.globalTableArn)),
+         (
+           "ReplicationGroup",
+           option_to_yojson(replicaDescriptionList_to_yojson)(x.replicationGroup)),
+         
+    ]);
   
-  let updateGlobalTableOutput_to_yojson =
-  (x:updateGlobalTableOutput)=>assoc_to_yojson([
-    ( "GlobalTableDescription"
-      option_to_yojson(globalTableDescription_to_yojson)(x.globalTableDescription)
-      )])
-    ;
+  let updateGlobalTableOutput_to_yojson = 
+    (x: updateGlobalTableOutput) => assoc_to_yojson(
+      [(
+           "GlobalTableDescription",
+           option_to_yojson(globalTableDescription_to_yojson)(x.globalTableDescription)),
+         
+    ]);
   
-  let createReplicaAction_to_yojson =
-  (x:createReplicaAction)=>assoc_to_yojson([
-    ( "RegionName" Some(regionName_to_yojson(x.regionName)) )]);
+  let createReplicaAction_to_yojson = 
+    (x: createReplicaAction) => assoc_to_yojson(
+      [(
+           "RegionName",
+           Some(regionName_to_yojson(x.regionName))),
+         
+    ]);
   
-  let deleteReplicaAction_to_yojson =
-  (x:deleteReplicaAction)=>assoc_to_yojson([
-    ( "RegionName" Some(regionName_to_yojson(x.regionName)) )]);
+  let deleteReplicaAction_to_yojson = 
+    (x: deleteReplicaAction) => assoc_to_yojson(
+      [(
+           "RegionName",
+           Some(regionName_to_yojson(x.regionName))),
+         
+    ]);
   
-  let replicaUpdate_to_yojson =
-  (x:replicaUpdate)=>assoc_to_yojson([
-    ( "Delete" option_to_yojson(deleteReplicaAction_to_yojson)(x.delete) )(
-      "Create" option_to_yojson(createReplicaAction_to_yojson)(x.create) )])
-    ;
+  let replicaUpdate_to_yojson = 
+    (x: replicaUpdate) => assoc_to_yojson(
+      [(
+           "Delete",
+           option_to_yojson(deleteReplicaAction_to_yojson)(x.delete)),
+         (
+           "Create",
+           option_to_yojson(createReplicaAction_to_yojson)(x.create)),
+         
+    ]);
   
-  let replicaUpdateList_to_yojson =
-  list_to_yojson( replicaUpdate_to_yojson );
+  let replicaUpdateList_to_yojson = 
+    (x) => list_to_yojson(
+      replicaUpdate_to_yojson
+    ,x
+    );
   
-  let updateGlobalTableInput_to_yojson =
-  (x:updateGlobalTableInput)=>assoc_to_yojson([
-    ( "ReplicaUpdates" Some(replicaUpdateList_to_yojson(x.replicaUpdates)) )(
-      "GlobalTableName" Some(tableName_to_yojson(x.globalTableName)) )])
-    ;
+  let updateGlobalTableInput_to_yojson = 
+    (x: updateGlobalTableInput) => assoc_to_yojson(
+      [(
+           "ReplicaUpdates",
+           Some(replicaUpdateList_to_yojson(x.replicaUpdates))),
+         (
+           "GlobalTableName",
+           Some(tableName_to_yojson(x.globalTableName))),
+         
+    ]);
   
-  let tableNotFoundException_to_yojson =
-  (x:tableNotFoundException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let contributorInsightsStatus_to_yojson = 
+    (x: contributorInsightsStatus) => 
+    switch (x) {
+      | ENABLING => `String("ENABLING")
+        | ENABLED => `String("ENABLED")
+        | DISABLING => `String("DISABLING")
+        | DISABLED => `String("DISABLED")
+        | FAILED => `String("FAILED")
+        
+        };
   
-  let replicaAlreadyExistsException_to_yojson =
-  (x:replicaAlreadyExistsException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let updateContributorInsightsOutput_to_yojson = 
+    (x: updateContributorInsightsOutput) => assoc_to_yojson(
+      [(
+           "ContributorInsightsStatus",
+           option_to_yojson(contributorInsightsStatus_to_yojson)(x.contributorInsightsStatus)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
-  let contributorInsightsStatus_to_yojson =
-  fun
-    | ENABLING => "ENABLING"
-| ENABLED => "ENABLED"
-| DISABLING => "DISABLING"
-| DISABLED => "DISABLED"
-| FAILED => "FAILED"
-    ;
+  let contributorInsightsAction_to_yojson = 
+    (x: contributorInsightsAction) => 
+    switch (x) {
+      | ENABLE => `String("ENABLE")
+        | DISABLE => `String("DISABLE")
+        
+        };
   
-  let updateContributorInsightsOutput_to_yojson =
-  (x:updateContributorInsightsOutput)=>assoc_to_yojson([
-    ( "ContributorInsightsStatus"
-      option_to_yojson(contributorInsightsStatus_to_yojson)(x.contributorInsightsStatus)
-      )( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )(
-      "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let updateContributorInsightsInput_to_yojson = 
+    (x: updateContributorInsightsInput) => assoc_to_yojson(
+      [(
+           "ContributorInsightsAction",
+           Some(contributorInsightsAction_to_yojson(x.contributorInsightsAction))),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let contributorInsightsAction_to_yojson =
-  fun
-    | ENABLE => "ENABLE"
-| DISABLE => "DISABLE"
-    ;
+  let continuousBackupsStatus_to_yojson = 
+    (x: continuousBackupsStatus) => 
+    switch (x) {
+      | ENABLED => `String("ENABLED")
+        | DISABLED => `String("DISABLED")
+        
+        };
   
-  let updateContributorInsightsInput_to_yojson =
-  (x:updateContributorInsightsInput)=>assoc_to_yojson([
-    ( "ContributorInsightsAction"
-      Some(contributorInsightsAction_to_yojson(x.contributorInsightsAction))
-      )( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )(
-      "TableName" Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let pointInTimeRecoveryStatus_to_yojson = 
+    (x: pointInTimeRecoveryStatus) => 
+    switch (x) {
+      | ENABLED => `String("ENABLED")
+        | DISABLED => `String("DISABLED")
+        
+        };
   
-  let continuousBackupsStatus_to_yojson =
-  fun
-    | ENABLED => "ENABLED"
-| DISABLED => "DISABLED"
-    ;
+  let pointInTimeRecoveryDescription_to_yojson = 
+    (x: pointInTimeRecoveryDescription) => assoc_to_yojson(
+      [(
+           "LatestRestorableDateTime",
+           option_to_yojson(date_to_yojson)(x.latestRestorableDateTime)),
+         (
+           "EarliestRestorableDateTime",
+           option_to_yojson(date_to_yojson)(x.earliestRestorableDateTime)),
+         (
+           "PointInTimeRecoveryStatus",
+           option_to_yojson(pointInTimeRecoveryStatus_to_yojson)(x.pointInTimeRecoveryStatus)),
+         
+    ]);
   
-  let pointInTimeRecoveryStatus_to_yojson =
-  fun
-    | ENABLED => "ENABLED"
-| DISABLED => "DISABLED"
-    ;
+  let continuousBackupsDescription_to_yojson = 
+    (x: continuousBackupsDescription) => assoc_to_yojson(
+      [(
+           "PointInTimeRecoveryDescription",
+           option_to_yojson(pointInTimeRecoveryDescription_to_yojson)(x.pointInTimeRecoveryDescription)),
+         (
+           "ContinuousBackupsStatus",
+           Some(continuousBackupsStatus_to_yojson(x.continuousBackupsStatus))),
+         
+    ]);
   
-  let pointInTimeRecoveryDescription_to_yojson =
-  (x:pointInTimeRecoveryDescription)=>assoc_to_yojson([
-    ( "LatestRestorableDateTime"
-      option_to_yojson(date_to_yojson)(x.latestRestorableDateTime) )(
-      "EarliestRestorableDateTime"
-      option_to_yojson(date_to_yojson)(x.earliestRestorableDateTime) )(
-      "PointInTimeRecoveryStatus"
-      option_to_yojson(pointInTimeRecoveryStatus_to_yojson)(x.pointInTimeRecoveryStatus)
-      )])
-    ;
+  let updateContinuousBackupsOutput_to_yojson = 
+    (x: updateContinuousBackupsOutput) => assoc_to_yojson(
+      [(
+           "ContinuousBackupsDescription",
+           option_to_yojson(continuousBackupsDescription_to_yojson)(x.continuousBackupsDescription)),
+         
+    ]);
   
-  let continuousBackupsDescription_to_yojson =
-  (x:continuousBackupsDescription)=>assoc_to_yojson([
-    ( "PointInTimeRecoveryDescription"
-      option_to_yojson(pointInTimeRecoveryDescription_to_yojson)(x.pointInTimeRecoveryDescription)
-      )( "ContinuousBackupsStatus"
-      Some(continuousBackupsStatus_to_yojson(x.continuousBackupsStatus)) )])
-    ;
+  let pointInTimeRecoverySpecification_to_yojson = 
+    (x: pointInTimeRecoverySpecification) => assoc_to_yojson(
+      [(
+           "PointInTimeRecoveryEnabled",
+           Some(booleanObject_to_yojson(x.pointInTimeRecoveryEnabled))),
+         
+    ]);
   
-  let updateContinuousBackupsOutput_to_yojson =
-  (x:updateContinuousBackupsOutput)=>assoc_to_yojson([
-    ( "ContinuousBackupsDescription"
-      option_to_yojson(continuousBackupsDescription_to_yojson)(x.continuousBackupsDescription)
-      )])
-    ;
+  let updateContinuousBackupsInput_to_yojson = 
+    (x: updateContinuousBackupsInput) => assoc_to_yojson(
+      [(
+           "PointInTimeRecoverySpecification",
+           Some(pointInTimeRecoverySpecification_to_yojson(x.pointInTimeRecoverySpecification))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let pointInTimeRecoverySpecification_to_yojson =
-  (x:pointInTimeRecoverySpecification)=>assoc_to_yojson([
-    ( "PointInTimeRecoveryEnabled"
-      Some(booleanObject_to_yojson(x.pointInTimeRecoveryEnabled)) )])
-    ;
+  let returnValuesOnConditionCheckFailure_to_yojson = 
+    (x: returnValuesOnConditionCheckFailure) => 
+    switch (x) {
+      | ALL_OLD => `String("ALL_OLD")
+        | NONE => `String("NONE")
+        
+        };
   
-  let updateContinuousBackupsInput_to_yojson =
-  (x:updateContinuousBackupsInput)=>assoc_to_yojson([
-    ( "PointInTimeRecoverySpecification"
-      Some(pointInTimeRecoverySpecification_to_yojson(x.pointInTimeRecoverySpecification))
-      )( "TableName" Some(tableName_to_yojson(x.tableName)) )])
-    ;
-  
-  let continuousBackupsUnavailableException_to_yojson =
-  (x:continuousBackupsUnavailableException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
-  let returnValuesOnConditionCheckFailure_to_yojson =
-  fun
-    | ALL_OLD => "ALL_OLD"
-| NONE => "NONE"
-    ;
-  
-  let update_to_yojson =
-  (x:update)=>assoc_to_yojson([
-    ( "ReturnValuesOnConditionCheckFailure"
-      option_to_yojson(returnValuesOnConditionCheckFailure_to_yojson)(x.returnValuesOnConditionCheckFailure)
-      )( "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ConditionExpression"
-      option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)
-      )( "TableName" Some(tableName_to_yojson(x.tableName)) )(
-      "UpdateExpression" Some(updateExpression_to_yojson(x.updateExpression))
-      )( "Key" Some(key_to_yojson(x.key)) )])
-    ;
+  let update_to_yojson = 
+    (x: update) => assoc_to_yojson(
+      [(
+           "ReturnValuesOnConditionCheckFailure",
+           option_to_yojson(returnValuesOnConditionCheckFailure_to_yojson)(x.returnValuesOnConditionCheckFailure)),
+         (
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ConditionExpression",
+           option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         (
+           "UpdateExpression",
+           Some(updateExpression_to_yojson(x.updateExpression))),
+         (
+           "Key",
+           Some(key_to_yojson(x.key))),
+         
+    ]);
   
   let resourceArnString_to_yojson = string_to_yojson;
   
   let tagKeyString_to_yojson = string_to_yojson;
   
-  let tagKeyList_to_yojson = list_to_yojson( tagKeyString_to_yojson );
+  let tagKeyList_to_yojson = 
+    (x) => list_to_yojson(
+      tagKeyString_to_yojson
+    ,x
+    );
   
-  let untagResourceInput_to_yojson =
-  (x:untagResourceInput)=>assoc_to_yojson([
-    ( "TagKeys" Some(tagKeyList_to_yojson(x.tagKeys)) )( "ResourceArn"
-      Some(resourceArnString_to_yojson(x.resourceArn)) )])
-    ;
-  
-  let transactionInProgressException_to_yojson =
-  (x:transactionInProgressException)=>assoc_to_yojson([
-    ( "Message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let untagResourceInput_to_yojson = 
+    (x: untagResourceInput) => assoc_to_yojson(
+      [(
+           "TagKeys",
+           Some(tagKeyList_to_yojson(x.tagKeys))),
+         (
+           "ResourceArn",
+           Some(resourceArnString_to_yojson(x.resourceArn))),
+         
+    ]);
   
   let code_to_yojson = string_to_yojson;
   
-  let cancellationReason_to_yojson =
-  (x:cancellationReason)=>assoc_to_yojson([
-    ( "Message" option_to_yojson(errorMessage_to_yojson)(x.message) )( "Code"
-      option_to_yojson(code_to_yojson)(x.code) )( "Item"
-      option_to_yojson(attributeMap_to_yojson)(x.item) )])
-    ;
+  let cancellationReason_to_yojson = 
+    (x: cancellationReason) => assoc_to_yojson(
+      [(
+           "Message",
+           option_to_yojson(errorMessage_to_yojson)(x.message)),
+         (
+           "Code",
+           option_to_yojson(code_to_yojson)(x.code)),
+         (
+           "Item",
+           option_to_yojson(attributeMap_to_yojson)(x.item)),
+         
+    ]);
   
-  let cancellationReasonList_to_yojson =
-  list_to_yojson( cancellationReason_to_yojson );
+  let cancellationReasonList_to_yojson = 
+    (x) => list_to_yojson(
+      cancellationReason_to_yojson
+    ,x
+    );
   
-  let transactionCanceledException_to_yojson =
-  (x:transactionCanceledException)=>assoc_to_yojson([
-    ( "CancellationReasons"
-      option_to_yojson(cancellationReasonList_to_yojson)(x.cancellationReasons)
-      )( "Message" option_to_yojson(errorMessage_to_yojson)(x.message) )])
-    ;
+  let consumedCapacityMultiple_to_yojson = 
+    (x) => list_to_yojson(
+      consumedCapacity_to_yojson
+    ,x
+    );
   
-  let consumedCapacityMultiple_to_yojson =
-  list_to_yojson( consumedCapacity_to_yojson );
+  let itemCollectionMetricsMultiple_to_yojson = 
+    (x) => list_to_yojson(
+      itemCollectionMetrics_to_yojson
+    ,x
+    );
   
-  let itemCollectionMetricsMultiple_to_yojson =
-  list_to_yojson( itemCollectionMetrics_to_yojson );
+  let itemCollectionMetricsPerTable_to_yojson = 
+    (x) => map_to_yojson(itemCollectionMetricsMultiple_to_yojson, x);
   
-  let itemCollectionMetricsPerTable_to_yojson = map_to_yojson;
+  let transactWriteItemsOutput_to_yojson = 
+    (x: transactWriteItemsOutput) => assoc_to_yojson(
+      [(
+           "ItemCollectionMetrics",
+           option_to_yojson(itemCollectionMetricsPerTable_to_yojson)(x.itemCollectionMetrics)),
+         (
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacityMultiple_to_yojson)(x.consumedCapacity)),
+         
+    ]);
   
-  let transactWriteItemsOutput_to_yojson =
-  (x:transactWriteItemsOutput)=>assoc_to_yojson([
-    ( "ItemCollectionMetrics"
-      option_to_yojson(itemCollectionMetricsPerTable_to_yojson)(x.itemCollectionMetrics)
-      )( "ConsumedCapacity"
-      option_to_yojson(consumedCapacityMultiple_to_yojson)(x.consumedCapacity)
-      )])
-    ;
+  let conditionCheck_to_yojson = 
+    (x: conditionCheck) => assoc_to_yojson(
+      [(
+           "ReturnValuesOnConditionCheckFailure",
+           option_to_yojson(returnValuesOnConditionCheckFailure_to_yojson)(x.returnValuesOnConditionCheckFailure)),
+         (
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ConditionExpression",
+           Some(conditionExpression_to_yojson(x.conditionExpression))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         (
+           "Key",
+           Some(key_to_yojson(x.key))),
+         
+    ]);
   
-  let conditionCheck_to_yojson =
-  (x:conditionCheck)=>assoc_to_yojson([
-    ( "ReturnValuesOnConditionCheckFailure"
-      option_to_yojson(returnValuesOnConditionCheckFailure_to_yojson)(x.returnValuesOnConditionCheckFailure)
-      )( "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ConditionExpression"
-      Some(conditionExpression_to_yojson(x.conditionExpression)) )(
-      "TableName" Some(tableName_to_yojson(x.tableName)) )( "Key"
-      Some(key_to_yojson(x.key)) )])
-    ;
+  let put_to_yojson = 
+    (x: put) => assoc_to_yojson(
+      [(
+           "ReturnValuesOnConditionCheckFailure",
+           option_to_yojson(returnValuesOnConditionCheckFailure_to_yojson)(x.returnValuesOnConditionCheckFailure)),
+         (
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ConditionExpression",
+           option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         (
+           "Item",
+           Some(putItemInputAttributeMap_to_yojson(x.item))),
+         
+    ]);
   
-  let put_to_yojson =
-  (x:put)=>assoc_to_yojson([
-    ( "ReturnValuesOnConditionCheckFailure"
-      option_to_yojson(returnValuesOnConditionCheckFailure_to_yojson)(x.returnValuesOnConditionCheckFailure)
-      )( "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ConditionExpression"
-      option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)
-      )( "TableName" Some(tableName_to_yojson(x.tableName)) )( "Item"
-      Some(putItemInputAttributeMap_to_yojson(x.item)) )])
-    ;
+  let delete_to_yojson = 
+    (x: delete) => assoc_to_yojson(
+      [(
+           "ReturnValuesOnConditionCheckFailure",
+           option_to_yojson(returnValuesOnConditionCheckFailure_to_yojson)(x.returnValuesOnConditionCheckFailure)),
+         (
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ConditionExpression",
+           option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         (
+           "Key",
+           Some(key_to_yojson(x.key))),
+         
+    ]);
   
-  let delete_to_yojson =
-  (x:delete)=>assoc_to_yojson([
-    ( "ReturnValuesOnConditionCheckFailure"
-      option_to_yojson(returnValuesOnConditionCheckFailure_to_yojson)(x.returnValuesOnConditionCheckFailure)
-      )( "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ConditionExpression"
-      option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)
-      )( "TableName" Some(tableName_to_yojson(x.tableName)) )( "Key"
-      Some(key_to_yojson(x.key)) )])
-    ;
+  let transactWriteItem_to_yojson = 
+    (x: transactWriteItem) => assoc_to_yojson(
+      [(
+           "Update",
+           option_to_yojson(update_to_yojson)(x.update)),
+         (
+           "Delete",
+           option_to_yojson(delete_to_yojson)(x.delete)),
+         (
+           "Put",
+           option_to_yojson(put_to_yojson)(x.put)),
+         (
+           "ConditionCheck",
+           option_to_yojson(conditionCheck_to_yojson)(x.conditionCheck)),
+         
+    ]);
   
-  let transactWriteItem_to_yojson =
-  (x:transactWriteItem)=>assoc_to_yojson([
-    ( "Update" option_to_yojson(update_to_yojson)(x.update) )( "Delete"
-      option_to_yojson(delete_to_yojson)(x.delete) )( "Put"
-      option_to_yojson(put_to_yojson)(x.put) )( "ConditionCheck"
-      option_to_yojson(conditionCheck_to_yojson)(x.conditionCheck) )])
-    ;
-  
-  let transactWriteItemList_to_yojson =
-  list_to_yojson( transactWriteItem_to_yojson );
+  let transactWriteItemList_to_yojson = 
+    (x) => list_to_yojson(
+      transactWriteItem_to_yojson
+    ,x
+    );
   
   let clientRequestToken_to_yojson = string_to_yojson;
   
-  let transactWriteItemsInput_to_yojson =
-  (x:transactWriteItemsInput)=>assoc_to_yojson([
-    ( "ClientRequestToken"
-      option_to_yojson(clientRequestToken_to_yojson)(x.clientRequestToken) )(
-      "ReturnItemCollectionMetrics"
-      option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)
-      )( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "TransactItems"
-      Some(transactWriteItemList_to_yojson(x.transactItems)) )])
-    ;
+  let transactWriteItemsInput_to_yojson = 
+    (x: transactWriteItemsInput) => assoc_to_yojson(
+      [(
+           "ClientRequestToken",
+           option_to_yojson(clientRequestToken_to_yojson)(x.clientRequestToken)),
+         (
+           "ReturnItemCollectionMetrics",
+           option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)),
+         (
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "TransactItems",
+           Some(transactWriteItemList_to_yojson(x.transactItems))),
+         
+    ]);
   
-  let idempotentParameterMismatchException_to_yojson =
-  (x:idempotentParameterMismatchException)=>assoc_to_yojson([
-    ( "Message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let itemResponse_to_yojson = 
+    (x: itemResponse) => assoc_to_yojson(
+      [(
+           "Item",
+           option_to_yojson(attributeMap_to_yojson)(x.item)),
+         
+    ]);
   
-  let itemResponse_to_yojson =
-  (x:itemResponse)=>assoc_to_yojson([
-    ( "Item" option_to_yojson(attributeMap_to_yojson)(x.item) )]);
+  let itemResponseList_to_yojson = 
+    (x) => list_to_yojson(
+      itemResponse_to_yojson
+    ,x
+    );
   
-  let itemResponseList_to_yojson =
-  list_to_yojson( itemResponse_to_yojson );
-  
-  let transactGetItemsOutput_to_yojson =
-  (x:transactGetItemsOutput)=>assoc_to_yojson([
-    ( "Responses" option_to_yojson(itemResponseList_to_yojson)(x.responses)
-      )( "ConsumedCapacity"
-      option_to_yojson(consumedCapacityMultiple_to_yojson)(x.consumedCapacity)
-      )])
-    ;
+  let transactGetItemsOutput_to_yojson = 
+    (x: transactGetItemsOutput) => assoc_to_yojson(
+      [(
+           "Responses",
+           option_to_yojson(itemResponseList_to_yojson)(x.responses)),
+         (
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacityMultiple_to_yojson)(x.consumedCapacity)),
+         
+    ]);
   
   let projectionExpression_to_yojson = string_to_yojson;
   
-  let get_to_yojson =
-  (x:get)=>assoc_to_yojson([
-    ( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ProjectionExpression"
-      option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)
-      )( "TableName" Some(tableName_to_yojson(x.tableName)) )( "Key"
-      Some(key_to_yojson(x.key)) )])
-    ;
+  let get_to_yojson = 
+    (x: get) => assoc_to_yojson(
+      [(
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ProjectionExpression",
+           option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         (
+           "Key",
+           Some(key_to_yojson(x.key))),
+         
+    ]);
   
-  let transactGetItem_to_yojson =
-  (x:transactGetItem)=>assoc_to_yojson([
-    ( "Get" Some(get_to_yojson(x.get)) )]);
+  let transactGetItem_to_yojson = 
+    (x: transactGetItem) => assoc_to_yojson(
+      [(
+           "Get",
+           Some(get_to_yojson(x.get))),
+         
+    ]);
   
-  let transactGetItemList_to_yojson =
-  list_to_yojson( transactGetItem_to_yojson );
+  let transactGetItemList_to_yojson = 
+    (x) => list_to_yojson(
+      transactGetItem_to_yojson
+    ,x
+    );
   
-  let transactGetItemsInput_to_yojson =
-  (x:transactGetItemsInput)=>assoc_to_yojson([
-    ( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "TransactItems" Some(transactGetItemList_to_yojson(x.transactItems))
-      )])
-    ;
+  let transactGetItemsInput_to_yojson = 
+    (x: transactGetItemsInput) => assoc_to_yojson(
+      [(
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "TransactItems",
+           Some(transactGetItemList_to_yojson(x.transactItems))),
+         
+    ]);
   
-  let timeToLiveStatus_to_yojson =
-  fun
-    | ENABLING => "ENABLING"
-| DISABLING => "DISABLING"
-| ENABLED => "ENABLED"
-| DISABLED => "DISABLED"
-    ;
+  let timeToLiveStatus_to_yojson = 
+    (x: timeToLiveStatus) => 
+    switch (x) {
+      | ENABLING => `String("ENABLING")
+        | DISABLING => `String("DISABLING")
+        | ENABLED => `String("ENABLED")
+        | DISABLED => `String("DISABLED")
+        
+        };
   
-  let timeToLiveDescription_to_yojson =
-  (x:timeToLiveDescription)=>assoc_to_yojson([
-    ( "AttributeName"
-      option_to_yojson(timeToLiveAttributeName_to_yojson)(x.attributeName) )(
-      "TimeToLiveStatus"
-      option_to_yojson(timeToLiveStatus_to_yojson)(x.timeToLiveStatus) )])
-    ;
+  let timeToLiveDescription_to_yojson = 
+    (x: timeToLiveDescription) => assoc_to_yojson(
+      [(
+           "AttributeName",
+           option_to_yojson(timeToLiveAttributeName_to_yojson)(x.attributeName)),
+         (
+           "TimeToLiveStatus",
+           option_to_yojson(timeToLiveStatus_to_yojson)(x.timeToLiveStatus)),
+         
+    ]);
   
   let timeRangeUpperBound_to_yojson = timestamp_to_yojson;
   
@@ -3120,166 +3755,266 @@ module Serialize = {
   
   let tagValueString_to_yojson = string_to_yojson;
   
-  let tag_to_yojson =
-  (x:tag)=>assoc_to_yojson([
-    ( "Value" Some(tagValueString_to_yojson(x.value)) )( "Key"
-      Some(tagKeyString_to_yojson(x.key)) )])
-    ;
+  let tag_to_yojson = 
+    (x: tag) => assoc_to_yojson(
+      [(
+           "Value",
+           Some(tagValueString_to_yojson(x.value))),
+         (
+           "Key",
+           Some(tagKeyString_to_yojson(x.key))),
+         
+    ]);
   
-  let tagList_to_yojson = list_to_yojson( tag_to_yojson );
+  let tagList_to_yojson = (x) => list_to_yojson(
+                            tag_to_yojson
+                          ,x
+                          );
   
-  let tagResourceInput_to_yojson =
-  (x:tagResourceInput)=>assoc_to_yojson([
-    ( "Tags" Some(tagList_to_yojson(x.tags)) )( "ResourceArn"
-      Some(resourceArnString_to_yojson(x.resourceArn)) )])
-    ;
+  let tagResourceInput_to_yojson = 
+    (x: tagResourceInput) => assoc_to_yojson(
+      [(
+           "Tags",
+           Some(tagList_to_yojson(x.tags))),
+         (
+           "ResourceArn",
+           Some(resourceArnString_to_yojson(x.resourceArn))),
+         
+    ]);
   
-  let tableNameList_to_yojson = list_to_yojson( tableName_to_yojson );
-  
-  let tableInUseException_to_yojson =
-  (x:tableInUseException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let tableNameList_to_yojson = 
+    (x) => list_to_yojson(
+      tableName_to_yojson
+    ,x
+    );
   
   let tableCreationDateTime_to_yojson = timestamp_to_yojson;
   
-  let tableAlreadyExistsException_to_yojson =
-  (x:tableAlreadyExistsException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let localSecondaryIndexInfo_to_yojson = 
+    (x: localSecondaryIndexInfo) => assoc_to_yojson(
+      [(
+           "Projection",
+           option_to_yojson(projection_to_yojson)(x.projection)),
+         (
+           "KeySchema",
+           option_to_yojson(keySchema_to_yojson)(x.keySchema)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         
+    ]);
   
-  let localSecondaryIndexInfo_to_yojson =
-  (x:localSecondaryIndexInfo)=>assoc_to_yojson([
-    ( "Projection" option_to_yojson(projection_to_yojson)(x.projection) )(
-      "KeySchema" option_to_yojson(keySchema_to_yojson)(x.keySchema) )(
-      "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )])
-    ;
+  let localSecondaryIndexes_to_yojson = 
+    (x) => list_to_yojson(
+      localSecondaryIndexInfo_to_yojson
+    ,x
+    );
   
-  let localSecondaryIndexes_to_yojson =
-  list_to_yojson( localSecondaryIndexInfo_to_yojson );
+  let globalSecondaryIndexInfo_to_yojson = 
+    (x: globalSecondaryIndexInfo) => assoc_to_yojson(
+      [(
+           "ProvisionedThroughput",
+           option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)),
+         (
+           "Projection",
+           option_to_yojson(projection_to_yojson)(x.projection)),
+         (
+           "KeySchema",
+           option_to_yojson(keySchema_to_yojson)(x.keySchema)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         
+    ]);
   
-  let globalSecondaryIndexInfo_to_yojson =
-  (x:globalSecondaryIndexInfo)=>assoc_to_yojson([
-    ( "ProvisionedThroughput"
-      option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)
-      )( "Projection" option_to_yojson(projection_to_yojson)(x.projection) )(
-      "KeySchema" option_to_yojson(keySchema_to_yojson)(x.keySchema) )(
-      "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )])
-    ;
+  let globalSecondaryIndexes_to_yojson = 
+    (x) => list_to_yojson(
+      globalSecondaryIndexInfo_to_yojson
+    ,x
+    );
   
-  let globalSecondaryIndexes_to_yojson =
-  list_to_yojson( globalSecondaryIndexInfo_to_yojson );
+  let sourceTableFeatureDetails_to_yojson = 
+    (x: sourceTableFeatureDetails) => assoc_to_yojson(
+      [(
+           "SSEDescription",
+           option_to_yojson(ssedescription_to_yojson)(x.ssedescription)),
+         (
+           "TimeToLiveDescription",
+           option_to_yojson(timeToLiveDescription_to_yojson)(x.timeToLiveDescription)),
+         (
+           "StreamDescription",
+           option_to_yojson(streamSpecification_to_yojson)(x.streamDescription)),
+         (
+           "GlobalSecondaryIndexes",
+           option_to_yojson(globalSecondaryIndexes_to_yojson)(x.globalSecondaryIndexes)),
+         (
+           "LocalSecondaryIndexes",
+           option_to_yojson(localSecondaryIndexes_to_yojson)(x.localSecondaryIndexes)),
+         
+    ]);
   
-  let sourceTableFeatureDetails_to_yojson =
-  (x:sourceTableFeatureDetails)=>assoc_to_yojson([
-    ( "SSEDescription"
-      option_to_yojson(ssedescription_to_yojson)(x.ssedescription) )(
-      "TimeToLiveDescription"
-      option_to_yojson(timeToLiveDescription_to_yojson)(x.timeToLiveDescription)
-      )( "StreamDescription"
-      option_to_yojson(streamSpecification_to_yojson)(x.streamDescription) )(
-      "GlobalSecondaryIndexes"
-      option_to_yojson(globalSecondaryIndexes_to_yojson)(x.globalSecondaryIndexes)
-      )( "LocalSecondaryIndexes"
-      option_to_yojson(localSecondaryIndexes_to_yojson)(x.localSecondaryIndexes)
-      )])
-    ;
+  let itemCount_to_yojson = long_to_yojson;
   
-  let itemCount_to_yojson = int_to_yojson;
+  let sourceTableDetails_to_yojson = 
+    (x: sourceTableDetails) => assoc_to_yojson(
+      [(
+           "BillingMode",
+           option_to_yojson(billingMode_to_yojson)(x.billingMode)),
+         (
+           "ItemCount",
+           option_to_yojson(itemCount_to_yojson)(x.itemCount)),
+         (
+           "ProvisionedThroughput",
+           Some(provisionedThroughput_to_yojson(x.provisionedThroughput))),
+         (
+           "TableCreationDateTime",
+           Some(tableCreationDateTime_to_yojson(x.tableCreationDateTime))),
+         (
+           "KeySchema",
+           Some(keySchema_to_yojson(x.keySchema))),
+         (
+           "TableSizeBytes",
+           option_to_yojson(long_to_yojson)(x.tableSizeBytes)),
+         (
+           "TableArn",
+           option_to_yojson(tableArn_to_yojson)(x.tableArn)),
+         (
+           "TableId",
+           Some(tableId_to_yojson(x.tableId))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let sourceTableDetails_to_yojson =
-  (x:sourceTableDetails)=>assoc_to_yojson([
-    ( "BillingMode" option_to_yojson(billingMode_to_yojson)(x.billingMode) )(
-      "ItemCount" option_to_yojson(itemCount_to_yojson)(x.itemCount) )(
-      "ProvisionedThroughput"
-      Some(provisionedThroughput_to_yojson(x.provisionedThroughput)) )(
-      "TableCreationDateTime"
-      Some(tableCreationDateTime_to_yojson(x.tableCreationDateTime)) )(
-      "KeySchema" Some(keySchema_to_yojson(x.keySchema)) )( "TableSizeBytes"
-      option_to_yojson(long_to_yojson)(x.tableSizeBytes) )( "TableArn"
-      option_to_yojson(tableArn_to_yojson)(x.tableArn) )( "TableId"
-      Some(tableId_to_yojson(x.tableId)) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )])
-    ;
-  
-  let select_to_yojson =
-  fun
-    | ALL_ATTRIBUTES => "ALL_ATTRIBUTES"
-| ALL_PROJECTED_ATTRIBUTES => "ALL_PROJECTED_ATTRIBUTES"
-| SPECIFIC_ATTRIBUTES => "SPECIFIC_ATTRIBUTES"
-| COUNT => "COUNT"
-    ;
+  let select_to_yojson = 
+    (x: select) => 
+    switch (x) {
+      | ALL_ATTRIBUTES => `String("ALL_ATTRIBUTES")
+        | ALL_PROJECTED_ATTRIBUTES => `String("ALL_PROJECTED_ATTRIBUTES")
+        | SPECIFIC_ATTRIBUTES => `String("SPECIFIC_ATTRIBUTES")
+        | COUNT => `String("COUNT")
+        
+        };
   
   let scanTotalSegments_to_yojson = int_to_yojson;
   
   let scanSegment_to_yojson = int_to_yojson;
   
-  let itemList_to_yojson = list_to_yojson( attributeMap_to_yojson );
+  let itemList_to_yojson = 
+    (x) => list_to_yojson(
+      attributeMap_to_yojson
+    ,x
+    );
   
   let integer_to_yojson = int_to_yojson;
   
-  let scanOutput_to_yojson =
-  (x:scanOutput)=>assoc_to_yojson([
-    ( "ConsumedCapacity"
-      option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity) )(
-      "LastEvaluatedKey" option_to_yojson(key_to_yojson)(x.lastEvaluatedKey)
-      )( "ScannedCount" option_to_yojson(integer_to_yojson)(x.scannedCount)
-      )( "Count" option_to_yojson(integer_to_yojson)(x.count) )( "Items"
-      option_to_yojson(itemList_to_yojson)(x.items) )])
-    ;
+  let scanOutput_to_yojson = 
+    (x: scanOutput) => assoc_to_yojson(
+      [(
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity)),
+         (
+           "LastEvaluatedKey",
+           option_to_yojson(key_to_yojson)(x.lastEvaluatedKey)),
+         (
+           "ScannedCount",
+           option_to_yojson(integer_to_yojson)(x.scannedCount)),
+         (
+           "Count",
+           option_to_yojson(integer_to_yojson)(x.count)),
+         (
+           "Items",
+           option_to_yojson(itemList_to_yojson)(x.items)),
+         
+    ]);
   
-  let attributeNameList_to_yojson =
-  list_to_yojson( attributeName_to_yojson );
+  let attributeNameList_to_yojson = 
+    (x) => list_to_yojson(
+      attributeName_to_yojson
+    ,x
+    );
   
   let positiveIntegerObject_to_yojson = int_to_yojson;
   
-  let condition_to_yojson =
-  (x:condition)=>assoc_to_yojson([
-    ( "ComparisonOperator"
-      Some(comparisonOperator_to_yojson(x.comparisonOperator)) )(
-      "AttributeValueList"
-      option_to_yojson(attributeValueList_to_yojson)(x.attributeValueList) )])
-    ;
+  let condition_to_yojson = 
+    (x: condition) => assoc_to_yojson(
+      [(
+           "ComparisonOperator",
+           Some(comparisonOperator_to_yojson(x.comparisonOperator))),
+         (
+           "AttributeValueList",
+           option_to_yojson(attributeValueList_to_yojson)(x.attributeValueList)),
+         
+    ]);
   
-  let filterConditionMap_to_yojson = map_to_yojson;
+  let filterConditionMap_to_yojson = 
+    (x) => map_to_yojson(condition_to_yojson, x);
   
   let consistentRead_to_yojson = bool_to_yojson;
   
-  let scanInput_to_yojson =
-  (x:scanInput)=>assoc_to_yojson([
-    ( "ConsistentRead"
-      option_to_yojson(consistentRead_to_yojson)(x.consistentRead) )(
-      "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "FilterExpression"
-      option_to_yojson(conditionExpression_to_yojson)(x.filterExpression) )(
-      "ProjectionExpression"
-      option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)
-      )( "Segment" option_to_yojson(scanSegment_to_yojson)(x.segment) )(
-      "TotalSegments"
-      option_to_yojson(scanTotalSegments_to_yojson)(x.totalSegments) )(
-      "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "ExclusiveStartKey"
-      option_to_yojson(key_to_yojson)(x.exclusiveStartKey) )(
-      "ConditionalOperator"
-      option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)
-      )( "ScanFilter"
-      option_to_yojson(filterConditionMap_to_yojson)(x.scanFilter) )(
-      "Select" option_to_yojson(select_to_yojson)(x.select) )( "Limit"
-      option_to_yojson(positiveIntegerObject_to_yojson)(x.limit) )(
-      "AttributesToGet"
-      option_to_yojson(attributeNameList_to_yojson)(x.attributesToGet) )(
-      "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )(
-      "TableName" Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let scanInput_to_yojson = 
+    (x: scanInput) => assoc_to_yojson(
+      [(
+           "ConsistentRead",
+           option_to_yojson(consistentRead_to_yojson)(x.consistentRead)),
+         (
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "FilterExpression",
+           option_to_yojson(conditionExpression_to_yojson)(x.filterExpression)),
+         (
+           "ProjectionExpression",
+           option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)),
+         (
+           "Segment",
+           option_to_yojson(scanSegment_to_yojson)(x.segment)),
+         (
+           "TotalSegments",
+           option_to_yojson(scanTotalSegments_to_yojson)(x.totalSegments)),
+         (
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "ExclusiveStartKey",
+           option_to_yojson(key_to_yojson)(x.exclusiveStartKey)),
+         (
+           "ConditionalOperator",
+           option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)),
+         (
+           "ScanFilter",
+           option_to_yojson(filterConditionMap_to_yojson)(x.scanFilter)),
+         (
+           "Select",
+           option_to_yojson(select_to_yojson)(x.select)),
+         (
+           "Limit",
+           option_to_yojson(positiveIntegerObject_to_yojson)(x.limit)),
+         (
+           "AttributesToGet",
+           option_to_yojson(attributeNameList_to_yojson)(x.attributesToGet)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
   let s3SseKmsKeyId_to_yojson = string_to_yojson;
   
-  let s3SseAlgorithm_to_yojson = fun
-                                   | AES256 => "AES256"
-| KMS => "KMS"
-                                   ;
+  let s3SseAlgorithm_to_yojson = 
+    (x: s3SseAlgorithm) => 
+    switch (x) {
+      | AES256 => `String("AES256")
+        | KMS => `String("KMS")
+        
+        };
   
   let s3Prefix_to_yojson = string_to_yojson;
   
@@ -3287,514 +4022,789 @@ module Serialize = {
   
   let s3Bucket_to_yojson = string_to_yojson;
   
-  let restoreTableToPointInTimeOutput_to_yojson =
-  (x:restoreTableToPointInTimeOutput)=>assoc_to_yojson([
-    ( "TableDescription"
-      option_to_yojson(tableDescription_to_yojson)(x.tableDescription) )])
-    ;
+  let restoreTableToPointInTimeOutput_to_yojson = 
+    (x: restoreTableToPointInTimeOutput) => assoc_to_yojson(
+      [(
+           "TableDescription",
+           option_to_yojson(tableDescription_to_yojson)(x.tableDescription)),
+         
+    ]);
   
-  let globalSecondaryIndex_to_yojson =
-  (x:globalSecondaryIndex)=>assoc_to_yojson([
-    ( "ProvisionedThroughput"
-      option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)
-      )( "Projection" Some(projection_to_yojson(x.projection)) )( "KeySchema"
-      Some(keySchema_to_yojson(x.keySchema)) )( "IndexName"
-      Some(indexName_to_yojson(x.indexName)) )])
-    ;
+  let globalSecondaryIndex_to_yojson = 
+    (x: globalSecondaryIndex) => assoc_to_yojson(
+      [(
+           "ProvisionedThroughput",
+           option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)),
+         (
+           "Projection",
+           Some(projection_to_yojson(x.projection))),
+         (
+           "KeySchema",
+           Some(keySchema_to_yojson(x.keySchema))),
+         (
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let globalSecondaryIndexList_to_yojson =
-  list_to_yojson( globalSecondaryIndex_to_yojson );
+  let globalSecondaryIndexList_to_yojson = 
+    (x) => list_to_yojson(
+      globalSecondaryIndex_to_yojson
+    ,x
+    );
   
-  let localSecondaryIndex_to_yojson =
-  (x:localSecondaryIndex)=>assoc_to_yojson([
-    ( "Projection" Some(projection_to_yojson(x.projection)) )( "KeySchema"
-      Some(keySchema_to_yojson(x.keySchema)) )( "IndexName"
-      Some(indexName_to_yojson(x.indexName)) )])
-    ;
+  let localSecondaryIndex_to_yojson = 
+    (x: localSecondaryIndex) => assoc_to_yojson(
+      [(
+           "Projection",
+           Some(projection_to_yojson(x.projection))),
+         (
+           "KeySchema",
+           Some(keySchema_to_yojson(x.keySchema))),
+         (
+           "IndexName",
+           Some(indexName_to_yojson(x.indexName))),
+         
+    ]);
   
-  let localSecondaryIndexList_to_yojson =
-  list_to_yojson( localSecondaryIndex_to_yojson );
+  let localSecondaryIndexList_to_yojson = 
+    (x) => list_to_yojson(
+      localSecondaryIndex_to_yojson
+    ,x
+    );
   
-  let restoreTableToPointInTimeInput_to_yojson =
-  (x:restoreTableToPointInTimeInput)=>assoc_to_yojson([
-    ( "SSESpecificationOverride"
-      option_to_yojson(ssespecification_to_yojson)(x.ssespecificationOverride)
-      )( "ProvisionedThroughputOverride"
-      option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughputOverride)
-      )( "LocalSecondaryIndexOverride"
-      option_to_yojson(localSecondaryIndexList_to_yojson)(x.localSecondaryIndexOverride)
-      )( "GlobalSecondaryIndexOverride"
-      option_to_yojson(globalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexOverride)
-      )( "BillingModeOverride"
-      option_to_yojson(billingMode_to_yojson)(x.billingModeOverride) )(
-      "RestoreDateTime" option_to_yojson(date_to_yojson)(x.restoreDateTime)
-      )( "UseLatestRestorableTime"
-      option_to_yojson(booleanObject_to_yojson)(x.useLatestRestorableTime) )(
-      "TargetTableName" Some(tableName_to_yojson(x.targetTableName)) )(
-      "SourceTableName"
-      option_to_yojson(tableName_to_yojson)(x.sourceTableName) )(
-      "SourceTableArn" option_to_yojson(tableArn_to_yojson)(x.sourceTableArn)
-      )])
-    ;
+  let restoreTableToPointInTimeInput_to_yojson = 
+    (x: restoreTableToPointInTimeInput) => assoc_to_yojson(
+      [(
+           "SSESpecificationOverride",
+           option_to_yojson(ssespecification_to_yojson)(x.ssespecificationOverride)),
+         (
+           "ProvisionedThroughputOverride",
+           option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughputOverride)),
+         (
+           "LocalSecondaryIndexOverride",
+           option_to_yojson(localSecondaryIndexList_to_yojson)(x.localSecondaryIndexOverride)),
+         (
+           "GlobalSecondaryIndexOverride",
+           option_to_yojson(globalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexOverride)),
+         (
+           "BillingModeOverride",
+           option_to_yojson(billingMode_to_yojson)(x.billingModeOverride)),
+         (
+           "RestoreDateTime",
+           option_to_yojson(date_to_yojson)(x.restoreDateTime)),
+         (
+           "UseLatestRestorableTime",
+           option_to_yojson(booleanObject_to_yojson)(x.useLatestRestorableTime)),
+         (
+           "TargetTableName",
+           Some(tableName_to_yojson(x.targetTableName))),
+         (
+           "SourceTableName",
+           option_to_yojson(tableName_to_yojson)(x.sourceTableName)),
+         (
+           "SourceTableArn",
+           option_to_yojson(tableArn_to_yojson)(x.sourceTableArn)),
+         
+    ]);
   
-  let pointInTimeRecoveryUnavailableException_to_yojson =
-  (x:pointInTimeRecoveryUnavailableException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let restoreTableFromBackupOutput_to_yojson = 
+    (x: restoreTableFromBackupOutput) => assoc_to_yojson(
+      [(
+           "TableDescription",
+           option_to_yojson(tableDescription_to_yojson)(x.tableDescription)),
+         
+    ]);
   
-  let invalidRestoreTimeException_to_yojson =
-  (x:invalidRestoreTimeException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let restoreTableFromBackupInput_to_yojson = 
+    (x: restoreTableFromBackupInput) => assoc_to_yojson(
+      [(
+           "SSESpecificationOverride",
+           option_to_yojson(ssespecification_to_yojson)(x.ssespecificationOverride)),
+         (
+           "ProvisionedThroughputOverride",
+           option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughputOverride)),
+         (
+           "LocalSecondaryIndexOverride",
+           option_to_yojson(localSecondaryIndexList_to_yojson)(x.localSecondaryIndexOverride)),
+         (
+           "GlobalSecondaryIndexOverride",
+           option_to_yojson(globalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexOverride)),
+         (
+           "BillingModeOverride",
+           option_to_yojson(billingMode_to_yojson)(x.billingModeOverride)),
+         (
+           "BackupArn",
+           Some(backupArn_to_yojson(x.backupArn))),
+         (
+           "TargetTableName",
+           Some(tableName_to_yojson(x.targetTableName))),
+         
+    ]);
   
-  let restoreTableFromBackupOutput_to_yojson =
-  (x:restoreTableFromBackupOutput)=>assoc_to_yojson([
-    ( "TableDescription"
-      option_to_yojson(tableDescription_to_yojson)(x.tableDescription) )])
-    ;
+  let replica_to_yojson = 
+    (x: replica) => assoc_to_yojson(
+      [(
+           "RegionName",
+           option_to_yojson(regionName_to_yojson)(x.regionName)),
+         
+    ]);
   
-  let restoreTableFromBackupInput_to_yojson =
-  (x:restoreTableFromBackupInput)=>assoc_to_yojson([
-    ( "SSESpecificationOverride"
-      option_to_yojson(ssespecification_to_yojson)(x.ssespecificationOverride)
-      )( "ProvisionedThroughputOverride"
-      option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughputOverride)
-      )( "LocalSecondaryIndexOverride"
-      option_to_yojson(localSecondaryIndexList_to_yojson)(x.localSecondaryIndexOverride)
-      )( "GlobalSecondaryIndexOverride"
-      option_to_yojson(globalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexOverride)
-      )( "BillingModeOverride"
-      option_to_yojson(billingMode_to_yojson)(x.billingModeOverride) )(
-      "BackupArn" Some(backupArn_to_yojson(x.backupArn)) )( "TargetTableName"
-      Some(tableName_to_yojson(x.targetTableName)) )])
-    ;
+  let replicaList_to_yojson = 
+    (x) => list_to_yojson(
+      replica_to_yojson
+    ,x
+    );
   
-  let backupNotFoundException_to_yojson =
-  (x:backupNotFoundException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let queryOutput_to_yojson = 
+    (x: queryOutput) => assoc_to_yojson(
+      [(
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity)),
+         (
+           "LastEvaluatedKey",
+           option_to_yojson(key_to_yojson)(x.lastEvaluatedKey)),
+         (
+           "ScannedCount",
+           option_to_yojson(integer_to_yojson)(x.scannedCount)),
+         (
+           "Count",
+           option_to_yojson(integer_to_yojson)(x.count)),
+         (
+           "Items",
+           option_to_yojson(itemList_to_yojson)(x.items)),
+         
+    ]);
   
-  let backupInUseException_to_yojson =
-  (x:backupInUseException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
-  let replica_to_yojson =
-  (x:replica)=>assoc_to_yojson([
-    ( "RegionName" option_to_yojson(regionName_to_yojson)(x.regionName) )]);
-  
-  let replicaList_to_yojson = list_to_yojson( replica_to_yojson );
-  
-  let queryOutput_to_yojson =
-  (x:queryOutput)=>assoc_to_yojson([
-    ( "ConsumedCapacity"
-      option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity) )(
-      "LastEvaluatedKey" option_to_yojson(key_to_yojson)(x.lastEvaluatedKey)
-      )( "ScannedCount" option_to_yojson(integer_to_yojson)(x.scannedCount)
-      )( "Count" option_to_yojson(integer_to_yojson)(x.count) )( "Items"
-      option_to_yojson(itemList_to_yojson)(x.items) )])
-    ;
-  
-  let keyConditions_to_yojson = map_to_yojson;
+  let keyConditions_to_yojson = 
+    (x) => map_to_yojson(condition_to_yojson, x);
   
   let keyExpression_to_yojson = string_to_yojson;
   
-  let queryInput_to_yojson =
-  (x:queryInput)=>assoc_to_yojson([
-    ( "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "KeyConditionExpression"
-      option_to_yojson(keyExpression_to_yojson)(x.keyConditionExpression) )(
-      "FilterExpression"
-      option_to_yojson(conditionExpression_to_yojson)(x.filterExpression) )(
-      "ProjectionExpression"
-      option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)
-      )( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "ExclusiveStartKey"
-      option_to_yojson(key_to_yojson)(x.exclusiveStartKey) )(
-      "ScanIndexForward"
-      option_to_yojson(booleanObject_to_yojson)(x.scanIndexForward) )(
-      "ConditionalOperator"
-      option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)
-      )( "QueryFilter"
-      option_to_yojson(filterConditionMap_to_yojson)(x.queryFilter) )(
-      "KeyConditions"
-      option_to_yojson(keyConditions_to_yojson)(x.keyConditions) )(
-      "ConsistentRead"
-      option_to_yojson(consistentRead_to_yojson)(x.consistentRead) )( "Limit"
-      option_to_yojson(positiveIntegerObject_to_yojson)(x.limit) )(
-      "AttributesToGet"
-      option_to_yojson(attributeNameList_to_yojson)(x.attributesToGet) )(
-      "Select" option_to_yojson(select_to_yojson)(x.select) )( "IndexName"
-      option_to_yojson(indexName_to_yojson)(x.indexName) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let queryInput_to_yojson = 
+    (x: queryInput) => assoc_to_yojson(
+      [(
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "KeyConditionExpression",
+           option_to_yojson(keyExpression_to_yojson)(x.keyConditionExpression)),
+         (
+           "FilterExpression",
+           option_to_yojson(conditionExpression_to_yojson)(x.filterExpression)),
+         (
+           "ProjectionExpression",
+           option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)),
+         (
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "ExclusiveStartKey",
+           option_to_yojson(key_to_yojson)(x.exclusiveStartKey)),
+         (
+           "ScanIndexForward",
+           option_to_yojson(booleanObject_to_yojson)(x.scanIndexForward)),
+         (
+           "ConditionalOperator",
+           option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)),
+         (
+           "QueryFilter",
+           option_to_yojson(filterConditionMap_to_yojson)(x.queryFilter)),
+         (
+           "KeyConditions",
+           option_to_yojson(keyConditions_to_yojson)(x.keyConditions)),
+         (
+           "ConsistentRead",
+           option_to_yojson(consistentRead_to_yojson)(x.consistentRead)),
+         (
+           "Limit",
+           option_to_yojson(positiveIntegerObject_to_yojson)(x.limit)),
+         (
+           "AttributesToGet",
+           option_to_yojson(attributeNameList_to_yojson)(x.attributesToGet)),
+         (
+           "Select",
+           option_to_yojson(select_to_yojson)(x.select)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let putItemOutput_to_yojson =
-  (x:putItemOutput)=>assoc_to_yojson([
-    ( "ItemCollectionMetrics"
-      option_to_yojson(itemCollectionMetrics_to_yojson)(x.itemCollectionMetrics)
-      )( "ConsumedCapacity"
-      option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity) )(
-      "Attributes" option_to_yojson(attributeMap_to_yojson)(x.attributes) )])
-    ;
+  let putItemOutput_to_yojson = 
+    (x: putItemOutput) => assoc_to_yojson(
+      [(
+           "ItemCollectionMetrics",
+           option_to_yojson(itemCollectionMetrics_to_yojson)(x.itemCollectionMetrics)),
+         (
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity)),
+         (
+           "Attributes",
+           option_to_yojson(attributeMap_to_yojson)(x.attributes)),
+         
+    ]);
   
-  let putItemInput_to_yojson =
-  (x:putItemInput)=>assoc_to_yojson([
-    ( "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ConditionExpression"
-      option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)
-      )( "ConditionalOperator"
-      option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)
-      )( "ReturnItemCollectionMetrics"
-      option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)
-      )( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "ReturnValues"
-      option_to_yojson(returnValue_to_yojson)(x.returnValues) )( "Expected"
-      option_to_yojson(expectedAttributeMap_to_yojson)(x.expected) )( "Item"
-      Some(putItemInputAttributeMap_to_yojson(x.item)) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let putItemInput_to_yojson = 
+    (x: putItemInput) => assoc_to_yojson(
+      [(
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ConditionExpression",
+           option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)),
+         (
+           "ConditionalOperator",
+           option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)),
+         (
+           "ReturnItemCollectionMetrics",
+           option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)),
+         (
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "ReturnValues",
+           option_to_yojson(returnValue_to_yojson)(x.returnValues)),
+         (
+           "Expected",
+           option_to_yojson(expectedAttributeMap_to_yojson)(x.expected)),
+         (
+           "Item",
+           Some(putItemInputAttributeMap_to_yojson(x.item))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let preparedStatementParameters_to_yojson =
-  list_to_yojson( attributeValue_to_yojson );
+  let preparedStatementParameters_to_yojson = 
+    (x) => list_to_yojson(
+      attributeValue_to_yojson
+    ,x
+    );
   
   let partiQLStatement_to_yojson = string_to_yojson;
   
   let partiQLNextToken_to_yojson = string_to_yojson;
   
-  let batchStatementErrorCodeEnum_to_yojson =
-  fun
-    | ConditionalCheckFailed => "ConditionalCheckFailed"
-| ItemCollectionSizeLimitExceeded => "ItemCollectionSizeLimitExceeded"
-| RequestLimitExceeded => "RequestLimitExceeded"
-| ValidationError => "ValidationError"
-| ProvisionedThroughputExceeded => "ProvisionedThroughputExceeded"
-| TransactionConflict => "TransactionConflict"
-| ThrottlingError => "ThrottlingError"
-| InternalServerError => "InternalServerError"
-| ResourceNotFound => "ResourceNotFound"
-| AccessDenied => "AccessDenied"
-| DuplicateItem => "DuplicateItem"
-    ;
+  let batchStatementErrorCodeEnum_to_yojson = 
+    (x: batchStatementErrorCodeEnum) => 
+    switch (x) {
+      | ConditionalCheckFailed => `String("ConditionalCheckFailed")
+        | ItemCollectionSizeLimitExceeded => `String("ItemCollectionSizeLimitExceeded")
+        | RequestLimitExceeded => `String("RequestLimitExceeded")
+        | ValidationError => `String("ValidationError")
+        | ProvisionedThroughputExceeded => `String("ProvisionedThroughputExceeded")
+        | TransactionConflict => `String("TransactionConflict")
+        | ThrottlingError => `String("ThrottlingError")
+        | InternalServerError => `String("InternalServerError")
+        | ResourceNotFound => `String("ResourceNotFound")
+        | AccessDenied => `String("AccessDenied")
+        | DuplicateItem => `String("DuplicateItem")
+        
+        };
   
-  let batchStatementError_to_yojson =
-  (x:batchStatementError)=>assoc_to_yojson([
-    ( "Message" option_to_yojson(string_to_yojson)(x.message) )( "Code"
-      option_to_yojson(batchStatementErrorCodeEnum_to_yojson)(x.code) )])
-    ;
+  let batchStatementError_to_yojson = 
+    (x: batchStatementError) => assoc_to_yojson(
+      [(
+           "Message",
+           option_to_yojson(string_to_yojson)(x.message)),
+         (
+           "Code",
+           option_to_yojson(batchStatementErrorCodeEnum_to_yojson)(x.code)),
+         
+    ]);
   
-  let batchStatementResponse_to_yojson =
-  (x:batchStatementResponse)=>assoc_to_yojson([
-    ( "Item" option_to_yojson(attributeMap_to_yojson)(x.item) )( "TableName"
-      option_to_yojson(tableName_to_yojson)(x.tableName) )( "Error"
-      option_to_yojson(batchStatementError_to_yojson)(x.error) )])
-    ;
+  let batchStatementResponse_to_yojson = 
+    (x: batchStatementResponse) => assoc_to_yojson(
+      [(
+           "Item",
+           option_to_yojson(attributeMap_to_yojson)(x.item)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         (
+           "Error",
+           option_to_yojson(batchStatementError_to_yojson)(x.error)),
+         
+    ]);
   
-  let partiQLBatchResponse_to_yojson =
-  list_to_yojson( batchStatementResponse_to_yojson );
+  let partiQLBatchResponse_to_yojson = 
+    (x) => list_to_yojson(
+      batchStatementResponse_to_yojson
+    ,x
+    );
   
-  let batchStatementRequest_to_yojson =
-  (x:batchStatementRequest)=>assoc_to_yojson([
-    ( "ConsistentRead"
-      option_to_yojson(consistentRead_to_yojson)(x.consistentRead) )(
-      "Parameters"
-      option_to_yojson(preparedStatementParameters_to_yojson)(x.parameters)
-      )( "Statement" Some(partiQLStatement_to_yojson(x.statement)) )])
-    ;
+  let batchStatementRequest_to_yojson = 
+    (x: batchStatementRequest) => assoc_to_yojson(
+      [(
+           "ConsistentRead",
+           option_to_yojson(consistentRead_to_yojson)(x.consistentRead)),
+         (
+           "Parameters",
+           option_to_yojson(preparedStatementParameters_to_yojson)(x.parameters)),
+         (
+           "Statement",
+           Some(partiQLStatement_to_yojson(x.statement))),
+         
+    ]);
   
-  let partiQLBatchRequest_to_yojson =
-  list_to_yojson( batchStatementRequest_to_yojson );
+  let partiQLBatchRequest_to_yojson = 
+    (x) => list_to_yojson(
+      batchStatementRequest_to_yojson
+    ,x
+    );
   
-  let parameterizedStatement_to_yojson =
-  (x:parameterizedStatement)=>assoc_to_yojson([
-    ( "Parameters"
-      option_to_yojson(preparedStatementParameters_to_yojson)(x.parameters)
-      )( "Statement" Some(partiQLStatement_to_yojson(x.statement)) )])
-    ;
+  let parameterizedStatement_to_yojson = 
+    (x: parameterizedStatement) => assoc_to_yojson(
+      [(
+           "Parameters",
+           option_to_yojson(preparedStatementParameters_to_yojson)(x.parameters)),
+         (
+           "Statement",
+           Some(partiQLStatement_to_yojson(x.statement))),
+         
+    ]);
   
-  let parameterizedStatements_to_yojson =
-  list_to_yojson( parameterizedStatement_to_yojson );
+  let parameterizedStatements_to_yojson = 
+    (x) => list_to_yojson(
+      parameterizedStatement_to_yojson
+    ,x
+    );
   
   let nextTokenString_to_yojson = string_to_yojson;
   
-  let listTagsOfResourceOutput_to_yojson =
-  (x:listTagsOfResourceOutput)=>assoc_to_yojson([
-    ( "NextToken" option_to_yojson(nextTokenString_to_yojson)(x.nextToken) )(
-      "Tags" option_to_yojson(tagList_to_yojson)(x.tags) )])
-    ;
+  let listTagsOfResourceOutput_to_yojson = 
+    (x: listTagsOfResourceOutput) => assoc_to_yojson(
+      [(
+           "NextToken",
+           option_to_yojson(nextTokenString_to_yojson)(x.nextToken)),
+         (
+           "Tags",
+           option_to_yojson(tagList_to_yojson)(x.tags)),
+         
+    ]);
   
-  let listTagsOfResourceInput_to_yojson =
-  (x:listTagsOfResourceInput)=>assoc_to_yojson([
-    ( "NextToken" option_to_yojson(nextTokenString_to_yojson)(x.nextToken) )(
-      "ResourceArn" Some(resourceArnString_to_yojson(x.resourceArn)) )])
-    ;
+  let listTagsOfResourceInput_to_yojson = 
+    (x: listTagsOfResourceInput) => assoc_to_yojson(
+      [(
+           "NextToken",
+           option_to_yojson(nextTokenString_to_yojson)(x.nextToken)),
+         (
+           "ResourceArn",
+           Some(resourceArnString_to_yojson(x.resourceArn))),
+         
+    ]);
   
-  let listTablesOutput_to_yojson =
-  (x:listTablesOutput)=>assoc_to_yojson([
-    ( "LastEvaluatedTableName"
-      option_to_yojson(tableName_to_yojson)(x.lastEvaluatedTableName) )(
-      "TableNames" option_to_yojson(tableNameList_to_yojson)(x.tableNames) )])
-    ;
+  let listTablesOutput_to_yojson = 
+    (x: listTablesOutput) => assoc_to_yojson(
+      [(
+           "LastEvaluatedTableName",
+           option_to_yojson(tableName_to_yojson)(x.lastEvaluatedTableName)),
+         (
+           "TableNames",
+           option_to_yojson(tableNameList_to_yojson)(x.tableNames)),
+         
+    ]);
   
   let listTablesInputLimit_to_yojson = int_to_yojson;
   
-  let listTablesInput_to_yojson =
-  (x:listTablesInput)=>assoc_to_yojson([
-    ( "Limit" option_to_yojson(listTablesInputLimit_to_yojson)(x.limit) )(
-      "ExclusiveStartTableName"
-      option_to_yojson(tableName_to_yojson)(x.exclusiveStartTableName) )])
-    ;
+  let listTablesInput_to_yojson = 
+    (x: listTablesInput) => assoc_to_yojson(
+      [(
+           "Limit",
+           option_to_yojson(listTablesInputLimit_to_yojson)(x.limit)),
+         (
+           "ExclusiveStartTableName",
+           option_to_yojson(tableName_to_yojson)(x.exclusiveStartTableName)),
+         
+    ]);
   
-  let globalTable_to_yojson =
-  (x:globalTable)=>assoc_to_yojson([
-    ( "ReplicationGroup"
-      option_to_yojson(replicaList_to_yojson)(x.replicationGroup) )(
-      "GlobalTableName"
-      option_to_yojson(tableName_to_yojson)(x.globalTableName) )])
-    ;
+  let globalTable_to_yojson = 
+    (x: globalTable) => assoc_to_yojson(
+      [(
+           "ReplicationGroup",
+           option_to_yojson(replicaList_to_yojson)(x.replicationGroup)),
+         (
+           "GlobalTableName",
+           option_to_yojson(tableName_to_yojson)(x.globalTableName)),
+         
+    ]);
   
-  let globalTableList_to_yojson = list_to_yojson( globalTable_to_yojson );
+  let globalTableList_to_yojson = 
+    (x) => list_to_yojson(
+      globalTable_to_yojson
+    ,x
+    );
   
-  let listGlobalTablesOutput_to_yojson =
-  (x:listGlobalTablesOutput)=>assoc_to_yojson([
-    ( "LastEvaluatedGlobalTableName"
-      option_to_yojson(tableName_to_yojson)(x.lastEvaluatedGlobalTableName)
-      )( "GlobalTables"
-      option_to_yojson(globalTableList_to_yojson)(x.globalTables) )])
-    ;
+  let listGlobalTablesOutput_to_yojson = 
+    (x: listGlobalTablesOutput) => assoc_to_yojson(
+      [(
+           "LastEvaluatedGlobalTableName",
+           option_to_yojson(tableName_to_yojson)(x.lastEvaluatedGlobalTableName)),
+         (
+           "GlobalTables",
+           option_to_yojson(globalTableList_to_yojson)(x.globalTables)),
+         
+    ]);
   
-  let listGlobalTablesInput_to_yojson =
-  (x:listGlobalTablesInput)=>assoc_to_yojson([
-    ( "RegionName" option_to_yojson(regionName_to_yojson)(x.regionName) )(
-      "Limit" option_to_yojson(positiveIntegerObject_to_yojson)(x.limit) )(
-      "ExclusiveStartGlobalTableName"
-      option_to_yojson(tableName_to_yojson)(x.exclusiveStartGlobalTableName)
-      )])
-    ;
+  let listGlobalTablesInput_to_yojson = 
+    (x: listGlobalTablesInput) => assoc_to_yojson(
+      [(
+           "RegionName",
+           option_to_yojson(regionName_to_yojson)(x.regionName)),
+         (
+           "Limit",
+           option_to_yojson(positiveIntegerObject_to_yojson)(x.limit)),
+         (
+           "ExclusiveStartGlobalTableName",
+           option_to_yojson(tableName_to_yojson)(x.exclusiveStartGlobalTableName)),
+         
+    ]);
   
   let exportArn_to_yojson = string_to_yojson;
   
-  let exportStatus_to_yojson =
-  fun
-    | IN_PROGRESS => "IN_PROGRESS"
-| COMPLETED => "COMPLETED"
-| FAILED => "FAILED"
-    ;
+  let exportStatus_to_yojson = 
+    (x: exportStatus) => 
+    switch (x) {
+      | IN_PROGRESS => `String("IN_PROGRESS")
+        | COMPLETED => `String("COMPLETED")
+        | FAILED => `String("FAILED")
+        
+        };
   
-  let exportSummary_to_yojson =
-  (x:exportSummary)=>assoc_to_yojson([
-    ( "ExportStatus" option_to_yojson(exportStatus_to_yojson)(x.exportStatus)
-      )( "ExportArn" option_to_yojson(exportArn_to_yojson)(x.exportArn) )])
-    ;
+  let exportSummary_to_yojson = 
+    (x: exportSummary) => assoc_to_yojson(
+      [(
+           "ExportStatus",
+           option_to_yojson(exportStatus_to_yojson)(x.exportStatus)),
+         (
+           "ExportArn",
+           option_to_yojson(exportArn_to_yojson)(x.exportArn)),
+         
+    ]);
   
-  let exportSummaries_to_yojson =
-  list_to_yojson( exportSummary_to_yojson );
+  let exportSummaries_to_yojson = 
+    (x) => list_to_yojson(
+      exportSummary_to_yojson
+    ,x
+    );
   
   let exportNextToken_to_yojson = string_to_yojson;
   
-  let listExportsOutput_to_yojson =
-  (x:listExportsOutput)=>assoc_to_yojson([
-    ( "NextToken" option_to_yojson(exportNextToken_to_yojson)(x.nextToken) )(
-      "ExportSummaries"
-      option_to_yojson(exportSummaries_to_yojson)(x.exportSummaries) )])
-    ;
+  let listExportsOutput_to_yojson = 
+    (x: listExportsOutput) => assoc_to_yojson(
+      [(
+           "NextToken",
+           option_to_yojson(exportNextToken_to_yojson)(x.nextToken)),
+         (
+           "ExportSummaries",
+           option_to_yojson(exportSummaries_to_yojson)(x.exportSummaries)),
+         
+    ]);
   
   let listExportsMaxLimit_to_yojson = int_to_yojson;
   
-  let listExportsInput_to_yojson =
-  (x:listExportsInput)=>assoc_to_yojson([
-    ( "NextToken" option_to_yojson(exportNextToken_to_yojson)(x.nextToken) )(
-      "MaxResults"
-      option_to_yojson(listExportsMaxLimit_to_yojson)(x.maxResults) )(
-      "TableArn" option_to_yojson(tableArn_to_yojson)(x.tableArn) )])
-    ;
+  let listExportsInput_to_yojson = 
+    (x: listExportsInput) => assoc_to_yojson(
+      [(
+           "NextToken",
+           option_to_yojson(exportNextToken_to_yojson)(x.nextToken)),
+         (
+           "MaxResults",
+           option_to_yojson(listExportsMaxLimit_to_yojson)(x.maxResults)),
+         (
+           "TableArn",
+           option_to_yojson(tableArn_to_yojson)(x.tableArn)),
+         
+    ]);
   
-  let contributorInsightsSummary_to_yojson =
-  (x:contributorInsightsSummary)=>assoc_to_yojson([
-    ( "ContributorInsightsStatus"
-      option_to_yojson(contributorInsightsStatus_to_yojson)(x.contributorInsightsStatus)
-      )( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )(
-      "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let contributorInsightsSummary_to_yojson = 
+    (x: contributorInsightsSummary) => assoc_to_yojson(
+      [(
+           "ContributorInsightsStatus",
+           option_to_yojson(contributorInsightsStatus_to_yojson)(x.contributorInsightsStatus)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
-  let contributorInsightsSummaries_to_yojson =
-  list_to_yojson( contributorInsightsSummary_to_yojson );
+  let contributorInsightsSummaries_to_yojson = 
+    (x) => list_to_yojson(
+      contributorInsightsSummary_to_yojson
+    ,x
+    );
   
-  let listContributorInsightsOutput_to_yojson =
-  (x:listContributorInsightsOutput)=>assoc_to_yojson([
-    ( "NextToken" option_to_yojson(nextTokenString_to_yojson)(x.nextToken) )(
-      "ContributorInsightsSummaries"
-      option_to_yojson(contributorInsightsSummaries_to_yojson)(x.contributorInsightsSummaries)
-      )])
-    ;
+  let listContributorInsightsOutput_to_yojson = 
+    (x: listContributorInsightsOutput) => assoc_to_yojson(
+      [(
+           "NextToken",
+           option_to_yojson(nextTokenString_to_yojson)(x.nextToken)),
+         (
+           "ContributorInsightsSummaries",
+           option_to_yojson(contributorInsightsSummaries_to_yojson)(x.contributorInsightsSummaries)),
+         
+    ]);
   
   let listContributorInsightsLimit_to_yojson = int_to_yojson;
   
-  let listContributorInsightsInput_to_yojson =
-  (x:listContributorInsightsInput)=>assoc_to_yojson([
-    ( "MaxResults"
-      option_to_yojson(listContributorInsightsLimit_to_yojson)(x.maxResults)
-      )( "NextToken" option_to_yojson(nextTokenString_to_yojson)(x.nextToken)
-      )( "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let listContributorInsightsInput_to_yojson = 
+    (x: listContributorInsightsInput) => assoc_to_yojson(
+      [(
+           "MaxResults",
+           option_to_yojson(listContributorInsightsLimit_to_yojson)(x.maxResults)),
+         (
+           "NextToken",
+           option_to_yojson(nextTokenString_to_yojson)(x.nextToken)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
   let backupName_to_yojson = string_to_yojson;
   
   let backupCreationDateTime_to_yojson = timestamp_to_yojson;
   
-  let backupStatus_to_yojson =
-  fun
-    | CREATING => "CREATING"
-| DELETED => "DELETED"
-| AVAILABLE => "AVAILABLE"
-    ;
+  let backupStatus_to_yojson = 
+    (x: backupStatus) => 
+    switch (x) {
+      | CREATING => `String("CREATING")
+        | DELETED => `String("DELETED")
+        | AVAILABLE => `String("AVAILABLE")
+        
+        };
   
-  let backupType_to_yojson =
-  fun
-    | USER => "USER"
-| SYSTEM => "SYSTEM"
-| AWS_BACKUP => "AWS_BACKUP"
-    ;
+  let backupType_to_yojson = 
+    (x: backupType) => 
+    switch (x) {
+      | USER => `String("USER")
+        | SYSTEM => `String("SYSTEM")
+        | AWS_BACKUP => `String("AWS_BACKUP")
+        
+        };
   
-  let backupSizeBytes_to_yojson = int_to_yojson;
+  let backupSizeBytes_to_yojson = long_to_yojson;
   
-  let backupSummary_to_yojson =
-  (x:backupSummary)=>assoc_to_yojson([
-    ( "BackupSizeBytes"
-      option_to_yojson(backupSizeBytes_to_yojson)(x.backupSizeBytes) )(
-      "BackupType" option_to_yojson(backupType_to_yojson)(x.backupType) )(
-      "BackupStatus" option_to_yojson(backupStatus_to_yojson)(x.backupStatus)
-      )( "BackupExpiryDateTime"
-      option_to_yojson(date_to_yojson)(x.backupExpiryDateTime) )(
-      "BackupCreationDateTime"
-      option_to_yojson(backupCreationDateTime_to_yojson)(x.backupCreationDateTime)
-      )( "BackupName" option_to_yojson(backupName_to_yojson)(x.backupName) )(
-      "BackupArn" option_to_yojson(backupArn_to_yojson)(x.backupArn) )(
-      "TableArn" option_to_yojson(tableArn_to_yojson)(x.tableArn) )(
-      "TableId" option_to_yojson(tableId_to_yojson)(x.tableId) )( "TableName"
-      option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let backupSummary_to_yojson = 
+    (x: backupSummary) => assoc_to_yojson(
+      [(
+           "BackupSizeBytes",
+           option_to_yojson(backupSizeBytes_to_yojson)(x.backupSizeBytes)),
+         (
+           "BackupType",
+           option_to_yojson(backupType_to_yojson)(x.backupType)),
+         (
+           "BackupStatus",
+           option_to_yojson(backupStatus_to_yojson)(x.backupStatus)),
+         (
+           "BackupExpiryDateTime",
+           option_to_yojson(date_to_yojson)(x.backupExpiryDateTime)),
+         (
+           "BackupCreationDateTime",
+           option_to_yojson(backupCreationDateTime_to_yojson)(x.backupCreationDateTime)),
+         (
+           "BackupName",
+           option_to_yojson(backupName_to_yojson)(x.backupName)),
+         (
+           "BackupArn",
+           option_to_yojson(backupArn_to_yojson)(x.backupArn)),
+         (
+           "TableArn",
+           option_to_yojson(tableArn_to_yojson)(x.tableArn)),
+         (
+           "TableId",
+           option_to_yojson(tableId_to_yojson)(x.tableId)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
-  let backupSummaries_to_yojson =
-  list_to_yojson( backupSummary_to_yojson );
+  let backupSummaries_to_yojson = 
+    (x) => list_to_yojson(
+      backupSummary_to_yojson
+    ,x
+    );
   
-  let listBackupsOutput_to_yojson =
-  (x:listBackupsOutput)=>assoc_to_yojson([
-    ( "LastEvaluatedBackupArn"
-      option_to_yojson(backupArn_to_yojson)(x.lastEvaluatedBackupArn) )(
-      "BackupSummaries"
-      option_to_yojson(backupSummaries_to_yojson)(x.backupSummaries) )])
-    ;
+  let listBackupsOutput_to_yojson = 
+    (x: listBackupsOutput) => assoc_to_yojson(
+      [(
+           "LastEvaluatedBackupArn",
+           option_to_yojson(backupArn_to_yojson)(x.lastEvaluatedBackupArn)),
+         (
+           "BackupSummaries",
+           option_to_yojson(backupSummaries_to_yojson)(x.backupSummaries)),
+         
+    ]);
   
   let backupsInputLimit_to_yojson = int_to_yojson;
   
-  let backupTypeFilter_to_yojson =
-  fun
-    | USER => "USER"
-| SYSTEM => "SYSTEM"
-| AWS_BACKUP => "AWS_BACKUP"
-| ALL => "ALL"
-    ;
+  let backupTypeFilter_to_yojson = 
+    (x: backupTypeFilter) => 
+    switch (x) {
+      | USER => `String("USER")
+        | SYSTEM => `String("SYSTEM")
+        | AWS_BACKUP => `String("AWS_BACKUP")
+        | ALL => `String("ALL")
+        
+        };
   
-  let listBackupsInput_to_yojson =
-  (x:listBackupsInput)=>assoc_to_yojson([
-    ( "BackupType" option_to_yojson(backupTypeFilter_to_yojson)(x.backupType)
-      )( "ExclusiveStartBackupArn"
-      option_to_yojson(backupArn_to_yojson)(x.exclusiveStartBackupArn) )(
-      "TimeRangeUpperBound"
-      option_to_yojson(timeRangeUpperBound_to_yojson)(x.timeRangeUpperBound)
-      )( "TimeRangeLowerBound"
-      option_to_yojson(timeRangeLowerBound_to_yojson)(x.timeRangeLowerBound)
-      )( "Limit" option_to_yojson(backupsInputLimit_to_yojson)(x.limit) )(
-      "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let listBackupsInput_to_yojson = 
+    (x: listBackupsInput) => assoc_to_yojson(
+      [(
+           "BackupType",
+           option_to_yojson(backupTypeFilter_to_yojson)(x.backupType)),
+         (
+           "ExclusiveStartBackupArn",
+           option_to_yojson(backupArn_to_yojson)(x.exclusiveStartBackupArn)),
+         (
+           "TimeRangeUpperBound",
+           option_to_yojson(timeRangeUpperBound_to_yojson)(x.timeRangeUpperBound)),
+         (
+           "TimeRangeLowerBound",
+           option_to_yojson(timeRangeLowerBound_to_yojson)(x.timeRangeLowerBound)),
+         (
+           "Limit",
+           option_to_yojson(backupsInputLimit_to_yojson)(x.limit)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
   let lastUpdateDateTime_to_yojson = timestamp_to_yojson;
   
-  let destinationStatus_to_yojson =
-  fun
-    | ENABLING => "ENABLING"
-| ACTIVE => "ACTIVE"
-| DISABLING => "DISABLING"
-| DISABLED => "DISABLED"
-| ENABLE_FAILED => "ENABLE_FAILED"
-    ;
+  let destinationStatus_to_yojson = 
+    (x: destinationStatus) => 
+    switch (x) {
+      | ENABLING => `String("ENABLING")
+        | ACTIVE => `String("ACTIVE")
+        | DISABLING => `String("DISABLING")
+        | DISABLED => `String("DISABLED")
+        | ENABLE_FAILED => `String("ENABLE_FAILED")
+        
+        };
   
-  let kinesisStreamingDestinationOutput_to_yojson =
-  (x:kinesisStreamingDestinationOutput)=>assoc_to_yojson([
-    ( "DestinationStatus"
-      option_to_yojson(destinationStatus_to_yojson)(x.destinationStatus) )(
-      "StreamArn" option_to_yojson(streamArn_to_yojson)(x.streamArn) )(
-      "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let kinesisStreamingDestinationOutput_to_yojson = 
+    (x: kinesisStreamingDestinationOutput) => assoc_to_yojson(
+      [(
+           "DestinationStatus",
+           option_to_yojson(destinationStatus_to_yojson)(x.destinationStatus)),
+         (
+           "StreamArn",
+           option_to_yojson(streamArn_to_yojson)(x.streamArn)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
-  let kinesisStreamingDestinationInput_to_yojson =
-  (x:kinesisStreamingDestinationInput)=>assoc_to_yojson([
-    ( "StreamArn" Some(streamArn_to_yojson(x.streamArn)) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let kinesisStreamingDestinationInput_to_yojson = 
+    (x: kinesisStreamingDestinationInput) => assoc_to_yojson(
+      [(
+           "StreamArn",
+           Some(streamArn_to_yojson(x.streamArn))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let kinesisDataStreamDestination_to_yojson =
-  (x:kinesisDataStreamDestination)=>assoc_to_yojson([
-    ( "DestinationStatusDescription"
-      option_to_yojson(string_to_yojson)(x.destinationStatusDescription) )(
-      "DestinationStatus"
-      option_to_yojson(destinationStatus_to_yojson)(x.destinationStatus) )(
-      "StreamArn" option_to_yojson(streamArn_to_yojson)(x.streamArn) )])
-    ;
+  let kinesisDataStreamDestination_to_yojson = 
+    (x: kinesisDataStreamDestination) => assoc_to_yojson(
+      [(
+           "DestinationStatusDescription",
+           option_to_yojson(string_to_yojson)(x.destinationStatusDescription)),
+         (
+           "DestinationStatus",
+           option_to_yojson(destinationStatus_to_yojson)(x.destinationStatus)),
+         (
+           "StreamArn",
+           option_to_yojson(streamArn_to_yojson)(x.streamArn)),
+         
+    ]);
   
-  let kinesisDataStreamDestinations_to_yojson =
-  list_to_yojson( kinesisDataStreamDestination_to_yojson );
+  let kinesisDataStreamDestinations_to_yojson = 
+    (x) => list_to_yojson(
+      kinesisDataStreamDestination_to_yojson
+    ,x
+    );
   
-  let keyList_to_yojson = list_to_yojson( key_to_yojson );
+  let keyList_to_yojson = (x) => list_to_yojson(
+                            key_to_yojson
+                          ,x
+                          );
   
-  let keysAndAttributes_to_yojson =
-  (x:keysAndAttributes)=>assoc_to_yojson([
-    ( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ProjectionExpression"
-      option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)
-      )( "ConsistentRead"
-      option_to_yojson(consistentRead_to_yojson)(x.consistentRead) )(
-      "AttributesToGet"
-      option_to_yojson(attributeNameList_to_yojson)(x.attributesToGet) )(
-      "Keys" Some(keyList_to_yojson(x.keys)) )])
-    ;
+  let keysAndAttributes_to_yojson = 
+    (x: keysAndAttributes) => assoc_to_yojson(
+      [(
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ProjectionExpression",
+           option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)),
+         (
+           "ConsistentRead",
+           option_to_yojson(consistentRead_to_yojson)(x.consistentRead)),
+         (
+           "AttributesToGet",
+           option_to_yojson(attributeNameList_to_yojson)(x.attributesToGet)),
+         (
+           "Keys",
+           Some(keyList_to_yojson(x.keys))),
+         
+    ]);
   
-  let invalidExportTimeException_to_yojson =
-  (x:invalidExportTimeException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let getItemOutput_to_yojson = 
+    (x: getItemOutput) => assoc_to_yojson(
+      [(
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity)),
+         (
+           "Item",
+           option_to_yojson(attributeMap_to_yojson)(x.item)),
+         
+    ]);
   
-  let globalTableAlreadyExistsException_to_yojson =
-  (x:globalTableAlreadyExistsException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
-  
-  let getItemOutput_to_yojson =
-  (x:getItemOutput)=>assoc_to_yojson([
-    ( "ConsumedCapacity"
-      option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity) )(
-      "Item" option_to_yojson(attributeMap_to_yojson)(x.item) )])
-    ;
-  
-  let getItemInput_to_yojson =
-  (x:getItemInput)=>assoc_to_yojson([
-    ( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ProjectionExpression"
-      option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)
-      )( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "ConsistentRead"
-      option_to_yojson(consistentRead_to_yojson)(x.consistentRead) )(
-      "AttributesToGet"
-      option_to_yojson(attributeNameList_to_yojson)(x.attributesToGet) )(
-      "Key" Some(key_to_yojson(x.key)) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let getItemInput_to_yojson = 
+    (x: getItemInput) => assoc_to_yojson(
+      [(
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ProjectionExpression",
+           option_to_yojson(projectionExpression_to_yojson)(x.projectionExpression)),
+         (
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "ConsistentRead",
+           option_to_yojson(consistentRead_to_yojson)(x.consistentRead)),
+         (
+           "AttributesToGet",
+           option_to_yojson(attributeNameList_to_yojson)(x.attributesToGet)),
+         (
+           "Key",
+           Some(key_to_yojson(x.key))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
   let failureMessage_to_yojson = string_to_yojson;
   
@@ -3802,13 +4812,16 @@ module Serialize = {
   
   let exceptionDescription_to_yojson = string_to_yojson;
   
-  let failureException_to_yojson =
-  (x:failureException)=>assoc_to_yojson([
-    ( "ExceptionDescription"
-      option_to_yojson(exceptionDescription_to_yojson)(x.exceptionDescription)
-      )( "ExceptionName"
-      option_to_yojson(exceptionName_to_yojson)(x.exceptionName) )])
-    ;
+  let failureException_to_yojson = 
+    (x: failureException) => assoc_to_yojson(
+      [(
+           "ExceptionDescription",
+           option_to_yojson(exceptionDescription_to_yojson)(x.exceptionDescription)),
+         (
+           "ExceptionName",
+           option_to_yojson(exceptionName_to_yojson)(x.exceptionName)),
+         
+    ]);
   
   let failureCode_to_yojson = string_to_yojson;
   
@@ -3822,433 +4835,687 @@ module Serialize = {
   
   let clientToken_to_yojson = string_to_yojson;
   
-  let exportFormat_to_yojson =
-  fun
-    | DYNAMODB_JSON => "DYNAMODB_JSON"
-| ION => "ION"
-    ;
+  let exportFormat_to_yojson = 
+    (x: exportFormat) => 
+    switch (x) {
+      | DYNAMODB_JSON => `String("DYNAMODB_JSON")
+        | ION => `String("ION")
+        
+        };
   
-  let billedSizeBytes_to_yojson = int_to_yojson;
+  let billedSizeBytes_to_yojson = long_to_yojson;
   
-  let exportDescription_to_yojson =
-  (x:exportDescription)=>assoc_to_yojson([
-    ( "ItemCount" option_to_yojson(itemCount_to_yojson)(x.itemCount) )(
-      "BilledSizeBytes"
-      option_to_yojson(billedSizeBytes_to_yojson)(x.billedSizeBytes) )(
-      "ExportFormat" option_to_yojson(exportFormat_to_yojson)(x.exportFormat)
-      )( "FailureMessage"
-      option_to_yojson(failureMessage_to_yojson)(x.failureMessage) )(
-      "FailureCode" option_to_yojson(failureCode_to_yojson)(x.failureCode) )(
-      "S3SseKmsKeyId"
-      option_to_yojson(s3SseKmsKeyId_to_yojson)(x.s3SseKmsKeyId) )(
-      "S3SseAlgorithm"
-      option_to_yojson(s3SseAlgorithm_to_yojson)(x.s3SseAlgorithm) )(
-      "S3Prefix" option_to_yojson(s3Prefix_to_yojson)(x.s3Prefix) )(
-      "S3BucketOwner"
-      option_to_yojson(s3BucketOwner_to_yojson)(x.s3BucketOwner) )(
-      "S3Bucket" option_to_yojson(s3Bucket_to_yojson)(x.s3Bucket) )(
-      "ClientToken" option_to_yojson(clientToken_to_yojson)(x.clientToken) )(
-      "ExportTime" option_to_yojson(exportTime_to_yojson)(x.exportTime) )(
-      "TableId" option_to_yojson(tableId_to_yojson)(x.tableId) )( "TableArn"
-      option_to_yojson(tableArn_to_yojson)(x.tableArn) )( "ExportManifest"
-      option_to_yojson(exportManifest_to_yojson)(x.exportManifest) )(
-      "EndTime" option_to_yojson(exportEndTime_to_yojson)(x.endTime) )(
-      "StartTime" option_to_yojson(exportStartTime_to_yojson)(x.startTime) )(
-      "ExportStatus" option_to_yojson(exportStatus_to_yojson)(x.exportStatus)
-      )( "ExportArn" option_to_yojson(exportArn_to_yojson)(x.exportArn) )])
-    ;
+  let exportDescription_to_yojson = 
+    (x: exportDescription) => assoc_to_yojson(
+      [(
+           "ItemCount",
+           option_to_yojson(itemCount_to_yojson)(x.itemCount)),
+         (
+           "BilledSizeBytes",
+           option_to_yojson(billedSizeBytes_to_yojson)(x.billedSizeBytes)),
+         (
+           "ExportFormat",
+           option_to_yojson(exportFormat_to_yojson)(x.exportFormat)),
+         (
+           "FailureMessage",
+           option_to_yojson(failureMessage_to_yojson)(x.failureMessage)),
+         (
+           "FailureCode",
+           option_to_yojson(failureCode_to_yojson)(x.failureCode)),
+         (
+           "S3SseKmsKeyId",
+           option_to_yojson(s3SseKmsKeyId_to_yojson)(x.s3SseKmsKeyId)),
+         (
+           "S3SseAlgorithm",
+           option_to_yojson(s3SseAlgorithm_to_yojson)(x.s3SseAlgorithm)),
+         (
+           "S3Prefix",
+           option_to_yojson(s3Prefix_to_yojson)(x.s3Prefix)),
+         (
+           "S3BucketOwner",
+           option_to_yojson(s3BucketOwner_to_yojson)(x.s3BucketOwner)),
+         (
+           "S3Bucket",
+           option_to_yojson(s3Bucket_to_yojson)(x.s3Bucket)),
+         (
+           "ClientToken",
+           option_to_yojson(clientToken_to_yojson)(x.clientToken)),
+         (
+           "ExportTime",
+           option_to_yojson(exportTime_to_yojson)(x.exportTime)),
+         (
+           "TableId",
+           option_to_yojson(tableId_to_yojson)(x.tableId)),
+         (
+           "TableArn",
+           option_to_yojson(tableArn_to_yojson)(x.tableArn)),
+         (
+           "ExportManifest",
+           option_to_yojson(exportManifest_to_yojson)(x.exportManifest)),
+         (
+           "EndTime",
+           option_to_yojson(exportEndTime_to_yojson)(x.endTime)),
+         (
+           "StartTime",
+           option_to_yojson(exportStartTime_to_yojson)(x.startTime)),
+         (
+           "ExportStatus",
+           option_to_yojson(exportStatus_to_yojson)(x.exportStatus)),
+         (
+           "ExportArn",
+           option_to_yojson(exportArn_to_yojson)(x.exportArn)),
+         
+    ]);
   
-  let exportTableToPointInTimeOutput_to_yojson =
-  (x:exportTableToPointInTimeOutput)=>assoc_to_yojson([
-    ( "ExportDescription"
-      option_to_yojson(exportDescription_to_yojson)(x.exportDescription) )])
-    ;
+  let exportTableToPointInTimeOutput_to_yojson = 
+    (x: exportTableToPointInTimeOutput) => assoc_to_yojson(
+      [(
+           "ExportDescription",
+           option_to_yojson(exportDescription_to_yojson)(x.exportDescription)),
+         
+    ]);
   
-  let exportTableToPointInTimeInput_to_yojson =
-  (x:exportTableToPointInTimeInput)=>assoc_to_yojson([
-    ( "ExportFormat" option_to_yojson(exportFormat_to_yojson)(x.exportFormat)
-      )( "S3SseKmsKeyId"
-      option_to_yojson(s3SseKmsKeyId_to_yojson)(x.s3SseKmsKeyId) )(
-      "S3SseAlgorithm"
-      option_to_yojson(s3SseAlgorithm_to_yojson)(x.s3SseAlgorithm) )(
-      "S3Prefix" option_to_yojson(s3Prefix_to_yojson)(x.s3Prefix) )(
-      "S3BucketOwner"
-      option_to_yojson(s3BucketOwner_to_yojson)(x.s3BucketOwner) )(
-      "S3Bucket" Some(s3Bucket_to_yojson(x.s3Bucket)) )( "ClientToken"
-      option_to_yojson(clientToken_to_yojson)(x.clientToken) )( "ExportTime"
-      option_to_yojson(exportTime_to_yojson)(x.exportTime) )( "TableArn"
-      Some(tableArn_to_yojson(x.tableArn)) )])
-    ;
+  let exportTableToPointInTimeInput_to_yojson = 
+    (x: exportTableToPointInTimeInput) => assoc_to_yojson(
+      [(
+           "ExportFormat",
+           option_to_yojson(exportFormat_to_yojson)(x.exportFormat)),
+         (
+           "S3SseKmsKeyId",
+           option_to_yojson(s3SseKmsKeyId_to_yojson)(x.s3SseKmsKeyId)),
+         (
+           "S3SseAlgorithm",
+           option_to_yojson(s3SseAlgorithm_to_yojson)(x.s3SseAlgorithm)),
+         (
+           "S3Prefix",
+           option_to_yojson(s3Prefix_to_yojson)(x.s3Prefix)),
+         (
+           "S3BucketOwner",
+           option_to_yojson(s3BucketOwner_to_yojson)(x.s3BucketOwner)),
+         (
+           "S3Bucket",
+           Some(s3Bucket_to_yojson(x.s3Bucket))),
+         (
+           "ClientToken",
+           option_to_yojson(clientToken_to_yojson)(x.clientToken)),
+         (
+           "ExportTime",
+           option_to_yojson(exportTime_to_yojson)(x.exportTime)),
+         (
+           "TableArn",
+           Some(tableArn_to_yojson(x.tableArn))),
+         
+    ]);
   
-  let exportConflictException_to_yojson =
-  (x:exportConflictException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let executeTransactionOutput_to_yojson = 
+    (x: executeTransactionOutput) => assoc_to_yojson(
+      [(
+           "Responses",
+           option_to_yojson(itemResponseList_to_yojson)(x.responses)),
+         
+    ]);
   
-  let exportNotFoundException_to_yojson =
-  (x:exportNotFoundException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let executeTransactionInput_to_yojson = 
+    (x: executeTransactionInput) => assoc_to_yojson(
+      [(
+           "ClientRequestToken",
+           option_to_yojson(clientRequestToken_to_yojson)(x.clientRequestToken)),
+         (
+           "TransactStatements",
+           Some(parameterizedStatements_to_yojson(x.transactStatements))),
+         
+    ]);
   
-  let executeTransactionOutput_to_yojson =
-  (x:executeTransactionOutput)=>assoc_to_yojson([
-    ( "Responses" option_to_yojson(itemResponseList_to_yojson)(x.responses) )])
-    ;
+  let executeStatementOutput_to_yojson = 
+    (x: executeStatementOutput) => assoc_to_yojson(
+      [(
+           "NextToken",
+           option_to_yojson(partiQLNextToken_to_yojson)(x.nextToken)),
+         (
+           "Items",
+           option_to_yojson(itemList_to_yojson)(x.items)),
+         
+    ]);
   
-  let executeTransactionInput_to_yojson =
-  (x:executeTransactionInput)=>assoc_to_yojson([
-    ( "ClientRequestToken"
-      option_to_yojson(clientRequestToken_to_yojson)(x.clientRequestToken) )(
-      "TransactStatements"
-      Some(parameterizedStatements_to_yojson(x.transactStatements)) )])
-    ;
+  let executeStatementInput_to_yojson = 
+    (x: executeStatementInput) => assoc_to_yojson(
+      [(
+           "NextToken",
+           option_to_yojson(partiQLNextToken_to_yojson)(x.nextToken)),
+         (
+           "ConsistentRead",
+           option_to_yojson(consistentRead_to_yojson)(x.consistentRead)),
+         (
+           "Parameters",
+           option_to_yojson(preparedStatementParameters_to_yojson)(x.parameters)),
+         (
+           "Statement",
+           Some(partiQLStatement_to_yojson(x.statement))),
+         
+    ]);
   
-  let executeStatementOutput_to_yojson =
-  (x:executeStatementOutput)=>assoc_to_yojson([
-    ( "NextToken" option_to_yojson(partiQLNextToken_to_yojson)(x.nextToken)
-      )( "Items" option_to_yojson(itemList_to_yojson)(x.items) )])
-    ;
+  let endpoint_to_yojson = 
+    (x: endpoint) => assoc_to_yojson(
+      [(
+           "CachePeriodInMinutes",
+           Some(long_to_yojson(x.cachePeriodInMinutes))),
+         (
+           "Address",
+           Some(string_to_yojson(x.address))),
+         
+    ]);
   
-  let executeStatementInput_to_yojson =
-  (x:executeStatementInput)=>assoc_to_yojson([
-    ( "NextToken" option_to_yojson(partiQLNextToken_to_yojson)(x.nextToken)
-      )( "ConsistentRead"
-      option_to_yojson(consistentRead_to_yojson)(x.consistentRead) )(
-      "Parameters"
-      option_to_yojson(preparedStatementParameters_to_yojson)(x.parameters)
-      )( "Statement" Some(partiQLStatement_to_yojson(x.statement)) )])
-    ;
+  let endpoints_to_yojson = (x) => list_to_yojson(
+                              endpoint_to_yojson
+                            ,x
+                            );
   
-  let duplicateItemException_to_yojson =
-  (x:duplicateItemException)=>assoc_to_yojson([
-    ( "message" option_to_yojson(errorMessage_to_yojson)(x.message) )]);
+  let describeTimeToLiveOutput_to_yojson = 
+    (x: describeTimeToLiveOutput) => assoc_to_yojson(
+      [(
+           "TimeToLiveDescription",
+           option_to_yojson(timeToLiveDescription_to_yojson)(x.timeToLiveDescription)),
+         
+    ]);
   
-  let endpoint_to_yojson =
-  (x:endpoint)=>assoc_to_yojson([
-    ( "CachePeriodInMinutes" Some(long_to_yojson(x.cachePeriodInMinutes)) )(
-      "Address" Some(string_to_yojson(x.address)) )])
-    ;
+  let describeTimeToLiveInput_to_yojson = 
+    (x: describeTimeToLiveInput) => assoc_to_yojson(
+      [(
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let endpoints_to_yojson = list_to_yojson( endpoint_to_yojson );
+  let describeTableReplicaAutoScalingOutput_to_yojson = 
+    (x: describeTableReplicaAutoScalingOutput) => assoc_to_yojson(
+      [(
+           "TableAutoScalingDescription",
+           option_to_yojson(tableAutoScalingDescription_to_yojson)(x.tableAutoScalingDescription)),
+         
+    ]);
   
-  let describeTimeToLiveOutput_to_yojson =
-  (x:describeTimeToLiveOutput)=>assoc_to_yojson([
-    ( "TimeToLiveDescription"
-      option_to_yojson(timeToLiveDescription_to_yojson)(x.timeToLiveDescription)
-      )])
-    ;
+  let describeTableReplicaAutoScalingInput_to_yojson = 
+    (x: describeTableReplicaAutoScalingInput) => assoc_to_yojson(
+      [(
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let describeTimeToLiveInput_to_yojson =
-  (x:describeTimeToLiveInput)=>assoc_to_yojson([
-    ( "TableName" Some(tableName_to_yojson(x.tableName)) )]);
+  let describeTableOutput_to_yojson = 
+    (x: describeTableOutput) => assoc_to_yojson(
+      [(
+           "Table",
+           option_to_yojson(tableDescription_to_yojson)(x.table)),
+         
+    ]);
   
-  let describeTableReplicaAutoScalingOutput_to_yojson =
-  (x:describeTableReplicaAutoScalingOutput)=>assoc_to_yojson([
-    ( "TableAutoScalingDescription"
-      option_to_yojson(tableAutoScalingDescription_to_yojson)(x.tableAutoScalingDescription)
-      )])
-    ;
+  let describeTableInput_to_yojson = 
+    (x: describeTableInput) => assoc_to_yojson(
+      [(
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let describeTableReplicaAutoScalingInput_to_yojson =
-  (x:describeTableReplicaAutoScalingInput)=>assoc_to_yojson([
-    ( "TableName" Some(tableName_to_yojson(x.tableName)) )]);
+  let describeLimitsOutput_to_yojson = 
+    (x: describeLimitsOutput) => assoc_to_yojson(
+      [(
+           "TableMaxWriteCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.tableMaxWriteCapacityUnits)),
+         (
+           "TableMaxReadCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.tableMaxReadCapacityUnits)),
+         (
+           "AccountMaxWriteCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.accountMaxWriteCapacityUnits)),
+         (
+           "AccountMaxReadCapacityUnits",
+           option_to_yojson(positiveLongObject_to_yojson)(x.accountMaxReadCapacityUnits)),
+         
+    ]);
   
-  let describeTableOutput_to_yojson =
-  (x:describeTableOutput)=>assoc_to_yojson([
-    ( "Table" option_to_yojson(tableDescription_to_yojson)(x.table) )]);
+  let describeLimitsInput_to_yojson = 
+    (x: describeLimitsInput) => assoc_to_yojson(
+      [
+    ]);
   
-  let describeTableInput_to_yojson =
-  (x:describeTableInput)=>assoc_to_yojson([
-    ( "TableName" Some(tableName_to_yojson(x.tableName)) )]);
+  let describeKinesisStreamingDestinationOutput_to_yojson = 
+    (x: describeKinesisStreamingDestinationOutput) => assoc_to_yojson(
+      [(
+           "KinesisDataStreamDestinations",
+           option_to_yojson(kinesisDataStreamDestinations_to_yojson)(x.kinesisDataStreamDestinations)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
-  let describeLimitsOutput_to_yojson =
-  (x:describeLimitsOutput)=>assoc_to_yojson([
-    ( "TableMaxWriteCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.tableMaxWriteCapacityUnits)
-      )( "TableMaxReadCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.tableMaxReadCapacityUnits)
-      )( "AccountMaxWriteCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.accountMaxWriteCapacityUnits)
-      )( "AccountMaxReadCapacityUnits"
-      option_to_yojson(positiveLongObject_to_yojson)(x.accountMaxReadCapacityUnits)
-      )])
-    ;
+  let describeKinesisStreamingDestinationInput_to_yojson = 
+    (x: describeKinesisStreamingDestinationInput) => assoc_to_yojson(
+      [(
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let describeLimitsInput_to_yojson =
-  (x:describeLimitsInput)=>assoc_to_yojson([]);
+  let describeGlobalTableSettingsOutput_to_yojson = 
+    (x: describeGlobalTableSettingsOutput) => assoc_to_yojson(
+      [(
+           "ReplicaSettings",
+           option_to_yojson(replicaSettingsDescriptionList_to_yojson)(x.replicaSettings)),
+         (
+           "GlobalTableName",
+           option_to_yojson(tableName_to_yojson)(x.globalTableName)),
+         
+    ]);
   
-  let describeKinesisStreamingDestinationOutput_to_yojson =
-  (x:describeKinesisStreamingDestinationOutput)=>assoc_to_yojson([
-    ( "KinesisDataStreamDestinations"
-      option_to_yojson(kinesisDataStreamDestinations_to_yojson)(x.kinesisDataStreamDestinations)
-      )( "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let describeGlobalTableSettingsInput_to_yojson = 
+    (x: describeGlobalTableSettingsInput) => assoc_to_yojson(
+      [(
+           "GlobalTableName",
+           Some(tableName_to_yojson(x.globalTableName))),
+         
+    ]);
   
-  let describeKinesisStreamingDestinationInput_to_yojson =
-  (x:describeKinesisStreamingDestinationInput)=>assoc_to_yojson([
-    ( "TableName" Some(tableName_to_yojson(x.tableName)) )]);
+  let describeGlobalTableOutput_to_yojson = 
+    (x: describeGlobalTableOutput) => assoc_to_yojson(
+      [(
+           "GlobalTableDescription",
+           option_to_yojson(globalTableDescription_to_yojson)(x.globalTableDescription)),
+         
+    ]);
   
-  let describeGlobalTableSettingsOutput_to_yojson =
-  (x:describeGlobalTableSettingsOutput)=>assoc_to_yojson([
-    ( "ReplicaSettings"
-      option_to_yojson(replicaSettingsDescriptionList_to_yojson)(x.replicaSettings)
-      )( "GlobalTableName"
-      option_to_yojson(tableName_to_yojson)(x.globalTableName) )])
-    ;
+  let describeGlobalTableInput_to_yojson = 
+    (x: describeGlobalTableInput) => assoc_to_yojson(
+      [(
+           "GlobalTableName",
+           Some(tableName_to_yojson(x.globalTableName))),
+         
+    ]);
   
-  let describeGlobalTableSettingsInput_to_yojson =
-  (x:describeGlobalTableSettingsInput)=>assoc_to_yojson([
-    ( "GlobalTableName" Some(tableName_to_yojson(x.globalTableName)) )]);
+  let describeExportOutput_to_yojson = 
+    (x: describeExportOutput) => assoc_to_yojson(
+      [(
+           "ExportDescription",
+           option_to_yojson(exportDescription_to_yojson)(x.exportDescription)),
+         
+    ]);
   
-  let describeGlobalTableOutput_to_yojson =
-  (x:describeGlobalTableOutput)=>assoc_to_yojson([
-    ( "GlobalTableDescription"
-      option_to_yojson(globalTableDescription_to_yojson)(x.globalTableDescription)
-      )])
-    ;
+  let describeExportInput_to_yojson = 
+    (x: describeExportInput) => assoc_to_yojson(
+      [(
+           "ExportArn",
+           Some(exportArn_to_yojson(x.exportArn))),
+         
+    ]);
   
-  let describeGlobalTableInput_to_yojson =
-  (x:describeGlobalTableInput)=>assoc_to_yojson([
-    ( "GlobalTableName" Some(tableName_to_yojson(x.globalTableName)) )]);
+  let describeEndpointsResponse_to_yojson = 
+    (x: describeEndpointsResponse) => assoc_to_yojson(
+      [(
+           "Endpoints",
+           Some(endpoints_to_yojson(x.endpoints))),
+         
+    ]);
   
-  let describeExportOutput_to_yojson =
-  (x:describeExportOutput)=>assoc_to_yojson([
-    ( "ExportDescription"
-      option_to_yojson(exportDescription_to_yojson)(x.exportDescription) )])
-    ;
-  
-  let describeExportInput_to_yojson =
-  (x:describeExportInput)=>assoc_to_yojson([
-    ( "ExportArn" Some(exportArn_to_yojson(x.exportArn)) )]);
-  
-  let describeEndpointsResponse_to_yojson =
-  (x:describeEndpointsResponse)=>assoc_to_yojson([
-    ( "Endpoints" Some(endpoints_to_yojson(x.endpoints)) )]);
-  
-  let describeEndpointsRequest_to_yojson =
-  (x:describeEndpointsRequest)=>assoc_to_yojson([]);
+  let describeEndpointsRequest_to_yojson = 
+    (x: describeEndpointsRequest) => assoc_to_yojson(
+      [
+    ]);
   
   let contributorInsightsRule_to_yojson = string_to_yojson;
   
-  let contributorInsightsRuleList_to_yojson =
-  list_to_yojson( contributorInsightsRule_to_yojson );
+  let contributorInsightsRuleList_to_yojson = 
+    (x) => list_to_yojson(
+      contributorInsightsRule_to_yojson
+    ,x
+    );
   
-  let describeContributorInsightsOutput_to_yojson =
-  (x:describeContributorInsightsOutput)=>assoc_to_yojson([
-    ( "FailureException"
-      option_to_yojson(failureException_to_yojson)(x.failureException) )(
-      "LastUpdateDateTime"
-      option_to_yojson(lastUpdateDateTime_to_yojson)(x.lastUpdateDateTime) )(
-      "ContributorInsightsStatus"
-      option_to_yojson(contributorInsightsStatus_to_yojson)(x.contributorInsightsStatus)
-      )( "ContributorInsightsRuleList"
-      option_to_yojson(contributorInsightsRuleList_to_yojson)(x.contributorInsightsRuleList)
-      )( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )(
-      "TableName" option_to_yojson(tableName_to_yojson)(x.tableName) )])
-    ;
+  let describeContributorInsightsOutput_to_yojson = 
+    (x: describeContributorInsightsOutput) => assoc_to_yojson(
+      [(
+           "FailureException",
+           option_to_yojson(failureException_to_yojson)(x.failureException)),
+         (
+           "LastUpdateDateTime",
+           option_to_yojson(lastUpdateDateTime_to_yojson)(x.lastUpdateDateTime)),
+         (
+           "ContributorInsightsStatus",
+           option_to_yojson(contributorInsightsStatus_to_yojson)(x.contributorInsightsStatus)),
+         (
+           "ContributorInsightsRuleList",
+           option_to_yojson(contributorInsightsRuleList_to_yojson)(x.contributorInsightsRuleList)),
+         (
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         (
+           "TableName",
+           option_to_yojson(tableName_to_yojson)(x.tableName)),
+         
+    ]);
   
-  let describeContributorInsightsInput_to_yojson =
-  (x:describeContributorInsightsInput)=>assoc_to_yojson([
-    ( "IndexName" option_to_yojson(indexName_to_yojson)(x.indexName) )(
-      "TableName" Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let describeContributorInsightsInput_to_yojson = 
+    (x: describeContributorInsightsInput) => assoc_to_yojson(
+      [(
+           "IndexName",
+           option_to_yojson(indexName_to_yojson)(x.indexName)),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let describeContinuousBackupsOutput_to_yojson =
-  (x:describeContinuousBackupsOutput)=>assoc_to_yojson([
-    ( "ContinuousBackupsDescription"
-      option_to_yojson(continuousBackupsDescription_to_yojson)(x.continuousBackupsDescription)
-      )])
-    ;
+  let describeContinuousBackupsOutput_to_yojson = 
+    (x: describeContinuousBackupsOutput) => assoc_to_yojson(
+      [(
+           "ContinuousBackupsDescription",
+           option_to_yojson(continuousBackupsDescription_to_yojson)(x.continuousBackupsDescription)),
+         
+    ]);
   
-  let describeContinuousBackupsInput_to_yojson =
-  (x:describeContinuousBackupsInput)=>assoc_to_yojson([
-    ( "TableName" Some(tableName_to_yojson(x.tableName)) )]);
+  let describeContinuousBackupsInput_to_yojson = 
+    (x: describeContinuousBackupsInput) => assoc_to_yojson(
+      [(
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let backupDetails_to_yojson =
-  (x:backupDetails)=>assoc_to_yojson([
-    ( "BackupExpiryDateTime"
-      option_to_yojson(date_to_yojson)(x.backupExpiryDateTime) )(
-      "BackupCreationDateTime"
-      Some(backupCreationDateTime_to_yojson(x.backupCreationDateTime)) )(
-      "BackupType" Some(backupType_to_yojson(x.backupType)) )( "BackupStatus"
-      Some(backupStatus_to_yojson(x.backupStatus)) )( "BackupSizeBytes"
-      option_to_yojson(backupSizeBytes_to_yojson)(x.backupSizeBytes) )(
-      "BackupName" Some(backupName_to_yojson(x.backupName)) )( "BackupArn"
-      Some(backupArn_to_yojson(x.backupArn)) )])
-    ;
+  let backupDetails_to_yojson = 
+    (x: backupDetails) => assoc_to_yojson(
+      [(
+           "BackupExpiryDateTime",
+           option_to_yojson(date_to_yojson)(x.backupExpiryDateTime)),
+         (
+           "BackupCreationDateTime",
+           Some(backupCreationDateTime_to_yojson(x.backupCreationDateTime))),
+         (
+           "BackupType",
+           Some(backupType_to_yojson(x.backupType))),
+         (
+           "BackupStatus",
+           Some(backupStatus_to_yojson(x.backupStatus))),
+         (
+           "BackupSizeBytes",
+           option_to_yojson(backupSizeBytes_to_yojson)(x.backupSizeBytes)),
+         (
+           "BackupName",
+           Some(backupName_to_yojson(x.backupName))),
+         (
+           "BackupArn",
+           Some(backupArn_to_yojson(x.backupArn))),
+         
+    ]);
   
-  let backupDescription_to_yojson =
-  (x:backupDescription)=>assoc_to_yojson([
-    ( "SourceTableFeatureDetails"
-      option_to_yojson(sourceTableFeatureDetails_to_yojson)(x.sourceTableFeatureDetails)
-      )( "SourceTableDetails"
-      option_to_yojson(sourceTableDetails_to_yojson)(x.sourceTableDetails) )(
-      "BackupDetails"
-      option_to_yojson(backupDetails_to_yojson)(x.backupDetails) )])
-    ;
+  let backupDescription_to_yojson = 
+    (x: backupDescription) => assoc_to_yojson(
+      [(
+           "SourceTableFeatureDetails",
+           option_to_yojson(sourceTableFeatureDetails_to_yojson)(x.sourceTableFeatureDetails)),
+         (
+           "SourceTableDetails",
+           option_to_yojson(sourceTableDetails_to_yojson)(x.sourceTableDetails)),
+         (
+           "BackupDetails",
+           option_to_yojson(backupDetails_to_yojson)(x.backupDetails)),
+         
+    ]);
   
-  let describeBackupOutput_to_yojson =
-  (x:describeBackupOutput)=>assoc_to_yojson([
-    ( "BackupDescription"
-      option_to_yojson(backupDescription_to_yojson)(x.backupDescription) )])
-    ;
+  let describeBackupOutput_to_yojson = 
+    (x: describeBackupOutput) => assoc_to_yojson(
+      [(
+           "BackupDescription",
+           option_to_yojson(backupDescription_to_yojson)(x.backupDescription)),
+         
+    ]);
   
-  let describeBackupInput_to_yojson =
-  (x:describeBackupInput)=>assoc_to_yojson([
-    ( "BackupArn" Some(backupArn_to_yojson(x.backupArn)) )]);
+  let describeBackupInput_to_yojson = 
+    (x: describeBackupInput) => assoc_to_yojson(
+      [(
+           "BackupArn",
+           Some(backupArn_to_yojson(x.backupArn))),
+         
+    ]);
   
-  let deleteTableOutput_to_yojson =
-  (x:deleteTableOutput)=>assoc_to_yojson([
-    ( "TableDescription"
-      option_to_yojson(tableDescription_to_yojson)(x.tableDescription) )])
-    ;
+  let deleteTableOutput_to_yojson = 
+    (x: deleteTableOutput) => assoc_to_yojson(
+      [(
+           "TableDescription",
+           option_to_yojson(tableDescription_to_yojson)(x.tableDescription)),
+         
+    ]);
   
-  let deleteTableInput_to_yojson =
-  (x:deleteTableInput)=>assoc_to_yojson([
-    ( "TableName" Some(tableName_to_yojson(x.tableName)) )]);
+  let deleteTableInput_to_yojson = 
+    (x: deleteTableInput) => assoc_to_yojson(
+      [(
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let deleteItemOutput_to_yojson =
-  (x:deleteItemOutput)=>assoc_to_yojson([
-    ( "ItemCollectionMetrics"
-      option_to_yojson(itemCollectionMetrics_to_yojson)(x.itemCollectionMetrics)
-      )( "ConsumedCapacity"
-      option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity) )(
-      "Attributes" option_to_yojson(attributeMap_to_yojson)(x.attributes) )])
-    ;
+  let deleteItemOutput_to_yojson = 
+    (x: deleteItemOutput) => assoc_to_yojson(
+      [(
+           "ItemCollectionMetrics",
+           option_to_yojson(itemCollectionMetrics_to_yojson)(x.itemCollectionMetrics)),
+         (
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacity_to_yojson)(x.consumedCapacity)),
+         (
+           "Attributes",
+           option_to_yojson(attributeMap_to_yojson)(x.attributes)),
+         
+    ]);
   
-  let deleteItemInput_to_yojson =
-  (x:deleteItemInput)=>assoc_to_yojson([
-    ( "ExpressionAttributeValues"
-      option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)
-      )( "ExpressionAttributeNames"
-      option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)
-      )( "ConditionExpression"
-      option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)
-      )( "ReturnItemCollectionMetrics"
-      option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)
-      )( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "ReturnValues"
-      option_to_yojson(returnValue_to_yojson)(x.returnValues) )(
-      "ConditionalOperator"
-      option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)
-      )( "Expected"
-      option_to_yojson(expectedAttributeMap_to_yojson)(x.expected) )( "Key"
-      Some(key_to_yojson(x.key)) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let deleteItemInput_to_yojson = 
+    (x: deleteItemInput) => assoc_to_yojson(
+      [(
+           "ExpressionAttributeValues",
+           option_to_yojson(expressionAttributeValueMap_to_yojson)(x.expressionAttributeValues)),
+         (
+           "ExpressionAttributeNames",
+           option_to_yojson(expressionAttributeNameMap_to_yojson)(x.expressionAttributeNames)),
+         (
+           "ConditionExpression",
+           option_to_yojson(conditionExpression_to_yojson)(x.conditionExpression)),
+         (
+           "ReturnItemCollectionMetrics",
+           option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)),
+         (
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "ReturnValues",
+           option_to_yojson(returnValue_to_yojson)(x.returnValues)),
+         (
+           "ConditionalOperator",
+           option_to_yojson(conditionalOperator_to_yojson)(x.conditionalOperator)),
+         (
+           "Expected",
+           option_to_yojson(expectedAttributeMap_to_yojson)(x.expected)),
+         (
+           "Key",
+           Some(key_to_yojson(x.key))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let deleteBackupOutput_to_yojson =
-  (x:deleteBackupOutput)=>assoc_to_yojson([
-    ( "BackupDescription"
-      option_to_yojson(backupDescription_to_yojson)(x.backupDescription) )])
-    ;
+  let deleteBackupOutput_to_yojson = 
+    (x: deleteBackupOutput) => assoc_to_yojson(
+      [(
+           "BackupDescription",
+           option_to_yojson(backupDescription_to_yojson)(x.backupDescription)),
+         
+    ]);
   
-  let deleteBackupInput_to_yojson =
-  (x:deleteBackupInput)=>assoc_to_yojson([
-    ( "BackupArn" Some(backupArn_to_yojson(x.backupArn)) )]);
+  let deleteBackupInput_to_yojson = 
+    (x: deleteBackupInput) => assoc_to_yojson(
+      [(
+           "BackupArn",
+           Some(backupArn_to_yojson(x.backupArn))),
+         
+    ]);
   
-  let createTableOutput_to_yojson =
-  (x:createTableOutput)=>assoc_to_yojson([
-    ( "TableDescription"
-      option_to_yojson(tableDescription_to_yojson)(x.tableDescription) )])
-    ;
+  let createTableOutput_to_yojson = 
+    (x: createTableOutput) => assoc_to_yojson(
+      [(
+           "TableDescription",
+           option_to_yojson(tableDescription_to_yojson)(x.tableDescription)),
+         
+    ]);
   
-  let createTableInput_to_yojson =
-  (x:createTableInput)=>assoc_to_yojson([
-    ( "Tags" option_to_yojson(tagList_to_yojson)(x.tags) )(
-      "SSESpecification"
-      option_to_yojson(ssespecification_to_yojson)(x.ssespecification) )(
-      "StreamSpecification"
-      option_to_yojson(streamSpecification_to_yojson)(x.streamSpecification)
-      )( "ProvisionedThroughput"
-      option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)
-      )( "BillingMode" option_to_yojson(billingMode_to_yojson)(x.billingMode)
-      )( "GlobalSecondaryIndexes"
-      option_to_yojson(globalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexes)
-      )( "LocalSecondaryIndexes"
-      option_to_yojson(localSecondaryIndexList_to_yojson)(x.localSecondaryIndexes)
-      )( "KeySchema" Some(keySchema_to_yojson(x.keySchema)) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )( "AttributeDefinitions"
-      Some(attributeDefinitions_to_yojson(x.attributeDefinitions)) )])
-    ;
+  let createTableInput_to_yojson = 
+    (x: createTableInput) => assoc_to_yojson(
+      [(
+           "Tags",
+           option_to_yojson(tagList_to_yojson)(x.tags)),
+         (
+           "SSESpecification",
+           option_to_yojson(ssespecification_to_yojson)(x.ssespecification)),
+         (
+           "StreamSpecification",
+           option_to_yojson(streamSpecification_to_yojson)(x.streamSpecification)),
+         (
+           "ProvisionedThroughput",
+           option_to_yojson(provisionedThroughput_to_yojson)(x.provisionedThroughput)),
+         (
+           "BillingMode",
+           option_to_yojson(billingMode_to_yojson)(x.billingMode)),
+         (
+           "GlobalSecondaryIndexes",
+           option_to_yojson(globalSecondaryIndexList_to_yojson)(x.globalSecondaryIndexes)),
+         (
+           "LocalSecondaryIndexes",
+           option_to_yojson(localSecondaryIndexList_to_yojson)(x.localSecondaryIndexes)),
+         (
+           "KeySchema",
+           Some(keySchema_to_yojson(x.keySchema))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         (
+           "AttributeDefinitions",
+           Some(attributeDefinitions_to_yojson(x.attributeDefinitions))),
+         
+    ]);
   
-  let createGlobalTableOutput_to_yojson =
-  (x:createGlobalTableOutput)=>assoc_to_yojson([
-    ( "GlobalTableDescription"
-      option_to_yojson(globalTableDescription_to_yojson)(x.globalTableDescription)
-      )])
-    ;
+  let createGlobalTableOutput_to_yojson = 
+    (x: createGlobalTableOutput) => assoc_to_yojson(
+      [(
+           "GlobalTableDescription",
+           option_to_yojson(globalTableDescription_to_yojson)(x.globalTableDescription)),
+         
+    ]);
   
-  let createGlobalTableInput_to_yojson =
-  (x:createGlobalTableInput)=>assoc_to_yojson([
-    ( "ReplicationGroup" Some(replicaList_to_yojson(x.replicationGroup)) )(
-      "GlobalTableName" Some(tableName_to_yojson(x.globalTableName)) )])
-    ;
+  let createGlobalTableInput_to_yojson = 
+    (x: createGlobalTableInput) => assoc_to_yojson(
+      [(
+           "ReplicationGroup",
+           Some(replicaList_to_yojson(x.replicationGroup))),
+         (
+           "GlobalTableName",
+           Some(tableName_to_yojson(x.globalTableName))),
+         
+    ]);
   
-  let createBackupOutput_to_yojson =
-  (x:createBackupOutput)=>assoc_to_yojson([
-    ( "BackupDetails"
-      option_to_yojson(backupDetails_to_yojson)(x.backupDetails) )])
-    ;
+  let createBackupOutput_to_yojson = 
+    (x: createBackupOutput) => assoc_to_yojson(
+      [(
+           "BackupDetails",
+           option_to_yojson(backupDetails_to_yojson)(x.backupDetails)),
+         
+    ]);
   
-  let createBackupInput_to_yojson =
-  (x:createBackupInput)=>assoc_to_yojson([
-    ( "BackupName" Some(backupName_to_yojson(x.backupName)) )( "TableName"
-      Some(tableName_to_yojson(x.tableName)) )])
-    ;
+  let createBackupInput_to_yojson = 
+    (x: createBackupInput) => assoc_to_yojson(
+      [(
+           "BackupName",
+           Some(backupName_to_yojson(x.backupName))),
+         (
+           "TableName",
+           Some(tableName_to_yojson(x.tableName))),
+         
+    ]);
   
-  let batchWriteItemRequestMap_to_yojson = map_to_yojson;
+  let batchWriteItemRequestMap_to_yojson = 
+    (x) => map_to_yojson(writeRequests_to_yojson, x);
   
-  let batchWriteItemOutput_to_yojson =
-  (x:batchWriteItemOutput)=>assoc_to_yojson([
-    ( "ConsumedCapacity"
-      option_to_yojson(consumedCapacityMultiple_to_yojson)(x.consumedCapacity)
-      )( "ItemCollectionMetrics"
-      option_to_yojson(itemCollectionMetricsPerTable_to_yojson)(x.itemCollectionMetrics)
-      )( "UnprocessedItems"
-      option_to_yojson(batchWriteItemRequestMap_to_yojson)(x.unprocessedItems)
-      )])
-    ;
+  let batchWriteItemOutput_to_yojson = 
+    (x: batchWriteItemOutput) => assoc_to_yojson(
+      [(
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacityMultiple_to_yojson)(x.consumedCapacity)),
+         (
+           "ItemCollectionMetrics",
+           option_to_yojson(itemCollectionMetricsPerTable_to_yojson)(x.itemCollectionMetrics)),
+         (
+           "UnprocessedItems",
+           option_to_yojson(batchWriteItemRequestMap_to_yojson)(x.unprocessedItems)),
+         
+    ]);
   
-  let batchWriteItemInput_to_yojson =
-  (x:batchWriteItemInput)=>assoc_to_yojson([
-    ( "ReturnItemCollectionMetrics"
-      option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)
-      )( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "RequestItems"
-      Some(batchWriteItemRequestMap_to_yojson(x.requestItems)) )])
-    ;
+  let batchWriteItemInput_to_yojson = 
+    (x: batchWriteItemInput) => assoc_to_yojson(
+      [(
+           "ReturnItemCollectionMetrics",
+           option_to_yojson(returnItemCollectionMetrics_to_yojson)(x.returnItemCollectionMetrics)),
+         (
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "RequestItems",
+           Some(batchWriteItemRequestMap_to_yojson(x.requestItems))),
+         
+    ]);
   
-  let batchGetResponseMap_to_yojson = map_to_yojson;
+  let batchGetResponseMap_to_yojson = 
+    (x) => map_to_yojson(itemList_to_yojson, x);
   
-  let batchGetRequestMap_to_yojson = map_to_yojson;
+  let batchGetRequestMap_to_yojson = 
+    (x) => map_to_yojson(keysAndAttributes_to_yojson, x);
   
-  let batchGetItemOutput_to_yojson =
-  (x:batchGetItemOutput)=>assoc_to_yojson([
-    ( "ConsumedCapacity"
-      option_to_yojson(consumedCapacityMultiple_to_yojson)(x.consumedCapacity)
-      )( "UnprocessedKeys"
-      option_to_yojson(batchGetRequestMap_to_yojson)(x.unprocessedKeys) )(
-      "Responses"
-      option_to_yojson(batchGetResponseMap_to_yojson)(x.responses) )])
-    ;
+  let batchGetItemOutput_to_yojson = 
+    (x: batchGetItemOutput) => assoc_to_yojson(
+      [(
+           "ConsumedCapacity",
+           option_to_yojson(consumedCapacityMultiple_to_yojson)(x.consumedCapacity)),
+         (
+           "UnprocessedKeys",
+           option_to_yojson(batchGetRequestMap_to_yojson)(x.unprocessedKeys)),
+         (
+           "Responses",
+           option_to_yojson(batchGetResponseMap_to_yojson)(x.responses)),
+         
+    ]);
   
-  let batchGetItemInput_to_yojson =
-  (x:batchGetItemInput)=>assoc_to_yojson([
-    ( "ReturnConsumedCapacity"
-      option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)
-      )( "RequestItems" Some(batchGetRequestMap_to_yojson(x.requestItems)) )])
-    ;
+  let batchGetItemInput_to_yojson = 
+    (x: batchGetItemInput) => assoc_to_yojson(
+      [(
+           "ReturnConsumedCapacity",
+           option_to_yojson(returnConsumedCapacity_to_yojson)(x.returnConsumedCapacity)),
+         (
+           "RequestItems",
+           Some(batchGetRequestMap_to_yojson(x.requestItems))),
+         
+    ]);
   
-  let batchExecuteStatementOutput_to_yojson =
-  (x:batchExecuteStatementOutput)=>assoc_to_yojson([
-    ( "Responses"
-      option_to_yojson(partiQLBatchResponse_to_yojson)(x.responses) )])
-    ;
+  let batchExecuteStatementOutput_to_yojson = 
+    (x: batchExecuteStatementOutput) => assoc_to_yojson(
+      [(
+           "Responses",
+           option_to_yojson(partiQLBatchResponse_to_yojson)(x.responses)),
+         
+    ]);
   
-  let batchExecuteStatementInput_to_yojson =
-  (x:batchExecuteStatementInput)=>assoc_to_yojson([
-    ( "Statements" Some(partiQLBatchRequest_to_yojson(x.statements)) )]);
+  let batchExecuteStatementInput_to_yojson = 
+    (x: batchExecuteStatementInput) => assoc_to_yojson(
+      [(
+           "Statements",
+           Some(partiQLBatchRequest_to_yojson(x.statements))),
+         
+    ]);
   
   let baseString_to_yojson = string_to_yojson;
   
@@ -4258,7 +5525,7 @@ module Serialize = {
   
   let baseTimestamp_to_yojson = timestamp_to_yojson;
   
-  let baseLong_to_yojson = int_to_yojson;
+  let baseLong_to_yojson = long_to_yojson;
   
   
 }

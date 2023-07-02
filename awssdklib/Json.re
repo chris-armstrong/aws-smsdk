@@ -2,6 +2,7 @@ module SerializeHelpers = {
   type t = Yojson.Safe.t;
   let string_to_yojson = (x: string): t => `String(x);
   let int_to_yojson = (x: int): t => `Int(x);
+  let long_to_yojson = (x: int): t => `Int(x);
   let float_to_yojson = (x: float): t => `Float(x);
   let double_to_yojson = (x: float): t => `Float(x);
   let list_to_yojson = (converter: 'a => t, x: list('a)): t =>

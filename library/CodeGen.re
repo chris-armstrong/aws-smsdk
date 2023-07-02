@@ -54,7 +54,7 @@ let generateDoc = traits =>
 
 /* OCaml ints aren't quite 32bit like Smithy int's, but this is more convenient */
 let generateIntegerShape = () => "int";
-let generateLongShape = () => "int64";
+let generateLongShape = () => "int";
 let generateDoubleShape = () => "float";
 let generateFloatShape = () => "float";
 let generateBooleanShape = () => "bool";
@@ -73,10 +73,13 @@ let generateStringShape = (details: Shape.primitiveShapeDetails) =>
       Option.(details.traits >>= List.find(~f=Trait.isEnumTrait));
     switch (enumTrait) {
     | Some(EnumTrait(pairs)) =>
-      List.map(pairs, ~f=({name, value}) =>
-        "| " ++ safeConstructorName(Option.value(name, ~default=value))
+      "\n"
+      ++ (
+        List.map(pairs, ~f=({name, value}) =>
+          "  | " ++ safeConstructorName(Option.value(name, ~default=value))
+        )
+        |> String.concat(~sep="\n")
       )
-      |> String.concat(~sep="\n")
     | _ => "string"
     };
   };
@@ -122,158 +125,28 @@ let generateStructureShape =
     );
   };
 
-let generateUnionShape = (details: Shape.structureShapeDetails) =>
-  [@ns.braces] generateStructureShape(details);
-
-let safeUnionValue = (members: list(Shape.member), member: Shape.member) =>
-  [@ns.braces]
-  {
-    let nones =
-      List.filter_map(members, ~f=candidate =>
-        [@ns.ternary]
-        (
-          if (!Shape.equal_member(candidate, member)) {
-            Some(safeTypeName(candidate.name) ++ ": None");
-          } else {
-            None;
-          }
-        )
-      );
-    (
-      (("{ " ++ safeTypeName(member.name)) ++ ": Some(x), ")
-      ++ String.concat(nones, ~sep=",")
-    )
-    ++ " }";
-  };
-
-let generateUnionHelperModule =
-    (name: string, details: Shape.structureShapeDetails) =>
-  [@ns.braces]
-  {
-    let tConstructors =
-      List.map(details.members, ~f=member =>
-        (
-          (safeVariantName(member.name) ++ "(") ++ safeTypeName(member.target)
-        )
-        ++ ")"
-      );
-    let t =
-      ("type t = " ++ String.concat(tConstructors, ~sep=" | ")) ++ {js|;|js};
-    let classifyLines =
-      List.map(details.members, ~f=member =>
-        (
-          (("  | { " ++ safeMemberName(member.name)) ++ ": Some(x) } => ")
-          ++ safeConstructorName(member.name)
-        )
-        ++ {js|(x);|js}
-      );
-    let exceptionName =
-      safeConstructorName(symbolName(name)) ++ "Unspecified";
-    let classify =
-      (
-        (
-          (
-            "let classify = value => switch value {\n"
-            ++ String.concat(classifyLines, ~sep="\n")
-          )
-          ++ "\n| _ => raise("
-        )
-        ++ exceptionName
-      )
-      ++ ")\n};\n";
-
-    let makeLines =
-      List.map(details.members, ~f=member =>
-        (({js|| |js} ++ safeConstructorName(member.name)) ++ "(x) => ")
-        ++ safeUnionValue(details.members, member)
-      );
-    let make =
-      (
-        {js|let make = value => switch value {
-    |js}
-        ++ String.concat(makeLines, ~sep="\\n")
-      )
-      ++ {js|
-  };
-  |js};
-    let exc = ({js|exception |js} ++ exceptionName) ++ {js|;|js};
-    (
-      (
-        (
-          (
-            (
-              (
-                (
-                  (
-                    ({js|
-  module |js} ++ symbolName(name))
-                    ++ {js| = {
-    |js}
-                  )
-                  ++ t
-                )
-                ++ {js|
-    |js}
-              )
-              ++ exc
-            )
-            ++ {js|
-    |js}
-          )
-          ++ classify
-        )
-        ++ {js|
-    |js}
-      )
-      ++ make
-    )
-    ++ {js|
-  }|js};
-  };
+let generateUnionShape =
+    (details: Shape.structureShapeDetails, ~genDoc=false, ()) => {
+  let tConstructors =
+    List.map(details.members, ~f=member =>
+      ((safeVariantName(member.name) ++ "(") ++ safeTypeName(member.target))
+      ++ ")"
+    );
+  let t = String.concat(tConstructors, ~sep=" | ");
+  t;
+};
 
 let generateListShape = target => ("list(" ++ safeTypeName(target)) ++ ")";
 
 let generateMapShape = (_, mapValue: Shape.mapKeyValue) => {
   let valueType = safeTypeName(mapValue.target);
   "list((string, " ++ valueType ++ "))";
-  // ("Map.S with type key = string and type t = " ++ valueType) ++ "";
 };
 exception NoServiceTrait(string) /* * thrown for unknown timestamp format trait */;
 
 exception UnknownTimestampFormat(string);
 
-let generateServiceShape = (serviceName, cloudFormationName) =>
-  [@ns.braces]
-  (
-    (
-      (
-        (
-          {js|type awsServiceClient;\\n@module("@aws-sdk/client-|js}
-          ++ serviceName
-        )
-        ++ {js|") @new external createClient: unit => awsServiceClient = "|js}
-      )
-      ++ cloudFormationName
-    )
-    ++ {js|Client";|js}
-  );
-
 let generateSetShape = (details: Shape.setShapeDetails) => {
-  // let targetModule =
-  //   Shape.(
-  //     switch (details.target) {
-  //     | "string" => "String"
-  //     | "blob" => "Bytes"
-  //     | "integer" => "Int"
-  //     | "long" => "Int64"
-  //     | "bigInteger" => "Big_int"
-  //     | "bigDecimal" => "Bigdecimal"
-  //     | _ => raise (Invalid_argument(
-  //         "Unexpected target for Set shape: " ++ details.target,
-  //       ));
-  //     }
-  //   );
-  // ""ith type t = " ++ targetModule ++ ".t";
   "list(" ++ safeTypeName(details.target) ++ ")";
 };
 
@@ -483,20 +356,25 @@ let generateTypeBlock = ({name, descriptor}: Shape.t, ~genDoc=false, ()) => {
   | StructureShape(details)
       when Trait.hasTrait(details.traits, Trait.isErrorTrait) =>
     docs ++ generateExceptionBlock(name, details)
-  | UnionShape(details) =>
-    let shapeModule = generateUnionHelperModule(name, details);
-    t ++ shapeModule;
   | _ => docs ++ t
   };
 };
 
-let generateRecursiveTypeBlock = (shapes: list(Shape.t), ~genDoc=false, ()) =>
-  [@ns.braces]
-  {
-    let shapeTypes =
-      List.map(shapes, ~f=shape =>
-        (safeTypeName(shape.name) ++ {js| = |js})
-        ++ generateTypeTarget(shape.descriptor, ~genDoc, ())
-      );
-    "type " ++ String.concat(shapeTypes, ~sep=" and ");
-  };
+let generateRecursiveTypeBlock = (shapes: list(Shape.t), ~genDoc=false, ()) => {
+  let shapeTypes =
+    List.map(shapes, ~f=shape =>
+      (safeTypeName(shape.name) ++ " = ")
+      ++ generateTypeTarget(shape.descriptor, ~genDoc, ())
+    );
+  let shapeModules =
+    shapes
+    |> List.filter_map(~f=(Shape.{name, descriptor}) =>
+         switch (descriptor) {
+         // TODO: Insert any complex shapes here (i.e. those that require their own module)
+         | _ => None
+         }
+       )
+    |> String.concat(~sep="\n");
+
+  "type " ++ String.concat(shapeTypes, ~sep=" and ") ++ shapeModules;
+};

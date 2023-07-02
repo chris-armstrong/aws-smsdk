@@ -11,7 +11,7 @@ let rec generateStructureSerialiserFuncBody =
         (fmt, name, descriptor: structureShapeDetails) => {
   Fmt.pf(
     fmt,
-    "(x:@,%s)@,=>@,assoc_to_yojson@,([@,@[<2>",
+    "(x: %s) => assoc_to_yojson(@;<0 2>[@[<v 2>",
     SafeNames.safeTypeName(name),
   );
   List.iter(
@@ -32,13 +32,26 @@ let rec generateStructureSerialiserFuncBody =
           ++ SafeNames.safeMemberName(name)
           ++ ")";
         };
-      Fmt.pf(fmt, "(@;\"%s\"@,,@;%s@;),@\n", name, extractedValue);
+      Fmt.pf(fmt, "(@;<0 2>\"%s\",@;<0 2>%s),@;", name, extractedValue);
     },
   );
-  Fmt.pf(fmt, "@,@]])@,");
+  Fmt.pf(fmt, "@]@;])");
 }
-and generateUnionSerialiserFuncBody = (fmt, name, descriptor) =>
-  Fmt.pf(fmt, "")
+and generateUnionSerialiserFuncBody = (fmt, name, descriptor) => {
+  Fmt.pf(fmt, "(x: %s) => {@\n@[<v 2>", SafeNames.safeTypeName(name));
+  Fmt.pf(fmt, "switch (x) {@\n@[<v 2>");
+  List.iter(descriptor.members, ~f=member => {
+    Fmt.pf(
+      fmt,
+      "| %s(arg) => assoc_to_yojson([(\"%s\", Some(%s(arg)))]);@\n",
+      SafeNames.safeConstructorName(member.name),
+      member.name,
+      generateSerialiserFuncName(member.target),
+    )
+  });
+  Fmt.pf(fmt, "@\n@]}");
+  Fmt.pf(fmt, "@\n@]}");
+}
 
 and generateStringSerialiserFuncBody =
     (fmt, name, stringDescriptor: Shape.primitiveShapeDetails) =>
@@ -53,17 +66,22 @@ and generateStringSerialiserFuncBody =
              | _ => None,
          )
       |> List.hd_exn;
-    let entries =
-      enumValue
-      |> List.map(~f=(Trait.{name, value}) =>
-           "| "
-           ++ safeVariantName(Option.value(name, ~default=value))
-           ++ " => \""
-           ++ value
-           ++ "\""
+    Fmt.pf(
+      fmt,
+      "(x: %s) => @,@[<v 2>switch (x) {@,@[<v 2>",
+      SafeNames.safeTypeName(name),
+    );
+    enumValue
+    |> List.iter(~f=(Trait.{name, value}) =>
+         Fmt.pf(
+           fmt,
+           "| %s => `String(\"%s\")@;",
+           safeVariantName(Option.value(name, ~default=value)),
+           value,
          )
-      |> String.concat(~sep="\n");
-    Fmt.pf(fmt, "fun@\n%s@\n", entries);
+       );
+
+    Fmt.pf(fmt, "@\n@]}@]");
   } else {
     Fmt.pf(fmt, "string_to_yojson");
   }
@@ -78,19 +96,24 @@ and generateSerialiserFuncBody = (fmt, name, shapeDescriptor) => {
   | BigDecimalShape(x) => Fmt.pf(fmt, "big_decimal_to_yojson")
   | TimestampShape(x) => Fmt.pf(fmt, "timestamp_to_yojson")
   | BlobShape(x) => Fmt.pf(fmt, "blob_to_yojson")
-  | MapShape(x) => Fmt.pf(fmt, "map_to_yojson")
+  | MapShape(x) =>
+    Fmt.pf(
+      fmt,
+      "(x) => map_to_yojson(%s, x)",
+      generateSerialiserFuncName(x.mapValue.target),
+    )
   | UnionShape(x) => generateUnionSerialiserFuncBody(fmt, name, x)
   | SetShape(x) =>
     Fmt.pf(
       fmt,
-      "list_to_yojson(@;%s@;)",
+      "(x) => list_to_yojson(@;<0 2>%s@;,x@;)",
       generateSerialiserFuncName(x.target),
     )
-  | LongShape(x) => Fmt.pf(fmt, "int_to_yojson")
+  | LongShape(x) => Fmt.pf(fmt, "long_to_yojson")
   | ListShape(x) =>
     Fmt.pf(
       fmt,
-      "list_to_yojson(@;%s@;)",
+      "(x) => list_to_yojson(@;<0 2>%s@;,x@;)",
       generateSerialiserFuncName(x.target),
     )
   | FloatShape(x) => Fmt.pf(fmt, "float_to_yojson")
@@ -102,7 +125,7 @@ and generateSerialiserFuncBody = (fmt, name, shapeDescriptor) => {
 
 let descriptorHasBody =
   fun
-  | StructureShape(_)
+  | StructureShape(x) => !Trait.hasTrait(x.traits, Trait.isErrorTrait)
   | StringShape(_)
   | IntegerShape(_)
   | BooleanShape(_)
@@ -123,15 +146,32 @@ let descriptorHasBody =
 
 let generateSerialisers =
     (fmt, structureShapes: list(Dependencies.shapeWithTarget)) => {
-  Fmt.pf(fmt, "module Serialize = {@\n@[<2>@\n");
-  Fmt.pf(fmt, "open AwsSdkLib.Json.SerializeHelpers@\n");
+  Fmt.pf(fmt, "module Serialize = {@\n@[<2>");
+  Fmt.pf(fmt, "open AwsSdkLib.Json.SerializeHelpers;@\n@\n");
   structureShapes
-  |> List.iter(~f=(Dependencies.{name, descriptor, _}) => {
+  |> List.iter(~f=(Dependencies.{name, descriptor, recursWith, _}) => {
        let to_func = generateSerialiserFuncName(name);
-       if (descriptorHasBody(descriptor)) {
-         Fmt.pf(fmt, "let@ %s@ =@ @[<2>@,", to_func);
+       switch (recursWith) {
+       | Some(others) =>
+         Fmt.pf(fmt, "let rec@ %s@ =@ @;<0 2>@[<v 0>", to_func);
          generateSerialiserFuncBody(fmt, name, descriptor);
+         List.iter(others, ~f=other =>
+           if (descriptorHasBody(other.descriptor)) {
+             Fmt.pf(
+               fmt,
+               "@]@\n@\nand %s =@ @;<0 2>@[<v 0>",
+               generateSerialiserFuncName(other.name),
+             );
+             generateSerialiserFuncBody(fmt, other.name, other.descriptor);
+           }
+         );
          Fmt.pf(fmt, ";@]@\n@\n");
+       | None =>
+         if (descriptorHasBody(descriptor)) {
+           Fmt.pf(fmt, "let@ %s@ =@ @;<0 2>@[<v 0>", to_func);
+           generateSerialiserFuncBody(fmt, name, descriptor);
+           Fmt.pf(fmt, ";@]@\n@\n");
+         }
        };
      });
   Fmt.pf(fmt, "@]@\n}@\n");
