@@ -1,6 +1,5 @@
 open Base;
 open Parselib;
-open! SQSClientProto;
 
 let shapeWithTarget = (Shape.{name, descriptor}) =>
   Dependencies.{
@@ -10,12 +9,35 @@ let shapeWithTarget = (Shape.{name, descriptor}) =>
     recursWith: None,
   };
 
+let generateServiceMetadata = (fmt, service: Shape.serviceShapeDetails) => {
+  Fmt.pf(fmt, "let service =@;<0 2>@[<v 0>");
+  Fmt.pf(fmt, "Aws.Service.{@;<0 2>@[<v 0>");
+  let serviceDetails =
+    List.find_map_exn(
+      Option.value(service.traits, ~default=[]),
+      ~f=
+        fun
+        | Trait.ServiceTrait(x) => Some(x)
+        | _ => None,
+    );
+  Fmt.pf(
+    fmt,
+    "namespace: \"%s\",@;endpointPrefix: \"%s\",@;version: \"%s\"",
+    serviceDetails.arnNamespace,
+    Option.value(serviceDetails.endpointPrefix, ~default=""),
+    service.version,
+  );
+  Fmt.pf(fmt, "@]@\n};@]@\n");
+};
+
 let render = (fmt, shapes) => {
   let ordered = shapes |> List.map(~f=shapeWithTarget) |> Dependencies.order;
   let ((name, service), operationShapes, structureShapes) =
     Organize.partitionOperationShapes(ordered);
 
-  Fmt.pf(fmt, "open AwsSdkLib;");
+  Fmt.pf(fmt, "open AwsSdkLib;@\n");
+
+  generateServiceMetadata(fmt, service);
 
   structureShapes
   |> List.map(
@@ -50,81 +72,11 @@ let render = (fmt, shapes) => {
         | _ => false,
       )) {
     AwsProtocolJson.generateSerialisers(fmt, structureShapes);
+
+    AwsProtocolJson.generateOperations(fmt, ordered);
     Fmt.pf(fmt, "@\n@\n");
   };
   ();
-};
-
-let printProtocol = (traits: option(list(Trait.t))) => {
-  traits
-  |> Option.value(~default=[])
-  |> List.find_map(
-       ~f=
-         fun
-         | Trait.AwsProtocolAwsJson1_0Trait => Some("AWS JSON 1.0")
-         | Trait.AwsProtocolAwsJson1_1Trait => Some("AWS JSON 1.1")
-         | Trait.AwsProtocolRestJson1Trait => Some("AWS REST JSON 1")
-         | Trait.AwsProtocolRestXmlTrait => Some("AWS REST XML")
-         | Trait.AwsProtocolAwsQueryTrait => Some("AWS Query")
-         | Trait.AwsProtocolEc2QueryTrait => Some("EC2 Query")
-         | _ => None,
-     )
-  |> Option.value(~default="<unknown>");
-};
-
-let printServiceTrait = traits => {
-  traits
-  |> Option.value(~default=[])
-  |> List.find_map(
-       ~f=
-         fun
-         | Trait.ServiceTrait({sdkId, arnNamespace, endpointPrefix, _}) =>
-           Some(
-             Fmt.str(
-               "{ Sdk %s Namespace %s endpointPrefix %s }",
-               sdkId,
-               arnNamespace,
-               Option.value(endpointPrefix, ~default="<>"),
-             ),
-           )
-         | _ => None,
-     )
-  |> Option.value(~default="<unknown>");
-};
-
-let printOperations = operations => {
-  operations
-  |> List.filter_map(
-       ~f=
-         fun
-         | Shape.{name, descriptor: Shape.OperationShape({input, output, _})} => {
-             Some(
-               Printf.sprintf(
-                 "operation %s = %s => %s",
-                 name,
-                 Option.value(input, ~default="()"),
-                 Option.value(output, ~default="void"),
-               ),
-             );
-           }
-         | _ => None,
-     )
-  |> List.iter(~f=str => Stdio.print_endline(str));
-};
-
-let printServiceDetails = shapes => {
-  List.iter(shapes, ~f=(Shape.{descriptor, _}) =>
-    switch (descriptor) {
-    | Shape.ServiceShape(details) =>
-      Stdio.printf(
-        "Service: version=%s\n, protocol=%s, %s",
-        details.version,
-        printProtocol(details.traits),
-        printServiceTrait(details.traits),
-      )
-    | _ => ()
-    }
-  );
 };
 
 type command =
@@ -176,8 +128,8 @@ let _ = {
     shapes => {
       switch (command) {
       | TypesCommand => render(Fmt.stdout, shapes)
-      | ServiceCommand => printServiceDetails(shapes)
-      | OperationsCommand => printOperations(shapes)
+      | ServiceCommand => SmithyHelpers.printServiceDetails(shapes)
+      | OperationsCommand => SmithyHelpers.printOperations(shapes)
       };
     }
   )

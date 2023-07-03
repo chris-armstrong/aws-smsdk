@@ -176,3 +176,23 @@ let generateSerialisers =
      });
   Fmt.pf(fmt, "@]@\n}@\n");
 };
+
+let generateOperations = (fmt, operationShapes) => {
+  operationShapes
+  |> List.filter_map(
+       ~f=
+         fun
+         | Dependencies.{name, descriptor: OperationShape(os), _} =>
+           Some((name, os))
+         | _ => None,
+     )
+  |> List.iter(~f=((name, os)) => {
+       Fmt.pf(
+         fmt,
+         "module %s {@\n@[<v 2>",
+         SafeNames.safeConstructorName(name),
+       );
+
+       Fmt.pf(fmt, "@]@\n}@\n@\n");
+     });
+};

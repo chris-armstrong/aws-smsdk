@@ -1,4 +1,11 @@
-open AwsSdkLib;type stringAttributeValue = string
+open AwsSdkLib;
+let service =
+  Aws.Service.{
+    namespace: "dynamodb",
+    endpointPrefix: "dynamodb",
+    version: "2012-08-10"
+  }
+type stringAttributeValue = string
 
 type numberAttributeValue = string
 
@@ -5529,5 +5536,205 @@ open AwsSdkLib.Json.SerializeHelpers;
   
   
 }
+module UpdateTimeToLive {
+
+}
+
+module UpdateTableReplicaAutoScaling {
+
+}
+
+module UpdateTable {
+
+}
+
+module UpdateItem {
+
+}
+
+module UpdateGlobalTableSettings {
+
+}
+
+module UpdateGlobalTable {
+
+}
+
+module UpdateContributorInsights {
+
+}
+
+module UpdateContinuousBackups {
+
+}
+
+module UntagResource {
+
+}
+
+module TransactWriteItems {
+
+}
+
+module TransactGetItems {
+
+}
+
+module TagResource {
+
+}
+
+module Scan {
+
+}
+
+module RestoreTableToPointInTime {
+
+}
+
+module RestoreTableFromBackup {
+
+}
+
+module Query {
+
+}
+
+module PutItem {
+
+}
+
+module ListTagsOfResource {
+
+}
+
+module ListTables {
+
+}
+
+module ListGlobalTables {
+
+}
+
+module ListExports {
+
+}
+
+module ListContributorInsights {
+
+}
+
+module ListBackups {
+
+}
+
+module GetItem {
+
+}
+
+module ExportTableToPointInTime {
+
+}
+
+module ExecuteTransaction {
+
+}
+
+module ExecuteStatement {
+
+}
+
+module EnableKinesisStreamingDestination {
+
+}
+
+module DisableKinesisStreamingDestination {
+
+}
+
+module DescribeTimeToLive {
+
+}
+
+module DescribeTableReplicaAutoScaling {
+
+}
+
+module DescribeTable {
+
+}
+
+module DescribeLimits {
+
+}
+
+module DescribeKinesisStreamingDestination {
+
+}
+
+module DescribeGlobalTableSettings {
+
+}
+
+module DescribeGlobalTable {
+
+}
+
+module DescribeExport {
+
+}
+
+module DescribeEndpoints {
+
+}
+
+module DescribeContributorInsights {
+
+}
+
+module DescribeContinuousBackups {
+
+}
+
+module DescribeBackup {
+
+}
+
+module DeleteTable {
+
+}
+
+module DeleteItem {
+
+}
+
+module DeleteBackup {
+
+}
+
+module CreateTable {
+
+}
+
+module CreateGlobalTable {
+
+}
+
+module CreateBackup {
+
+}
+
+module BatchWriteItem {
+
+}
+
+module BatchGetItem {
+
+}
+
+module BatchExecuteStatement {
+
+}
+
 
 
