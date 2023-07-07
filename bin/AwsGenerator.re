@@ -73,7 +73,9 @@ let render = (fmt, shapes) => {
       )) {
     AwsProtocolJson.generateSerialisers(fmt, structureShapes);
 
+    Fmt.pf(fmt, "module Client = {@;<0 2>@[<v>");
     AwsProtocolJson.generateOperations(fmt, ordered);
+    Fmt.pf(fmt, "@\n@]}@\n");
     Fmt.pf(fmt, "@\n@\n");
   };
   ();

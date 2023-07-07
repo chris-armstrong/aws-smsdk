@@ -1,5 +1,3 @@
-open Base;
-
 module DateTime = {
   let amzDate = now => {
     let Unix.{tm_year, tm_mon, tm_mday, _} = Unix.gmtime(now);
@@ -23,18 +21,20 @@ module DateTime = {
 type apiResult('a) = {
   result: 'a,
   requestId: string,
-}
+};
 
 type emptyErrorDetails = {.};
 
-type apiErrorType = ApiSenderType | ApiReceiverType;
+type apiErrorType =
+  | ApiSenderType
+  | ApiReceiverType;
 
 type apiError('a) = {
   requestId: string,
   code: string,
   type_: apiErrorType,
-  details: 'a
-}
+  details: 'a,
+};
 
 exception AwsError(apiError(emptyErrorDetails));
 
@@ -45,19 +45,23 @@ module Auth = {
     sessionToken: option(string),
   };
 
+  exception AuthError(string);
+
   type resolver = unit => t;
-  let environmentAuthResolver = () => {
-    let accessKeyId = Sys.getenv("AWS_ACCESS_KEY_ID");
-    let secretAccessKey = Sys.getenv("AWS_SECRET_ACCESS_KEY");
-    let sessionToken = Sys.getenv("AWS_SESSION_TOKEN");
-    let (accessKeyId, secretAccessKey) =
-      Option.both(accessKeyId, secretAccessKey)
-      |> Option.value_exn(
-           ~message=
-             "Could not resolve AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY from environment",
-         );
-    {accessKeyId, secretAccessKey, sessionToken};
-  };
+  let environmentAuthResolver = () =>
+    try({
+      let accessKeyId = Sys.getenv("AWS_ACCESS_KEY_ID");
+      let secretAccessKey = Sys.getenv("AWS_SECRET_ACCESS_KEY");
+      let sessionToken = Sys.getenv_opt("AWS_SESSION_TOKEN");
+      {accessKeyId, secretAccessKey, sessionToken};
+    }) {
+    | _ =>
+      raise(
+        AuthError(
+          "Could not resolve AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY from environment",
+        ),
+      )
+    };
 };
 
 module Config = {
@@ -89,23 +93,6 @@ module Service = {
     );
 };
 
-module Http = {
-  type method = [
-    | `GET
-    | `POST
-    | `PUT
-    | `DELETE
-    | `OPTIONS
-    | `DELETE
-    | `PATCH
-    | `CONNECT
-    | `HEAD
-    | `TRACE
-    | `Other(string)
-  ];
-
-};
-
 module Sign = {
   module SHA256 = Digestif.SHA256;
   let sign_request =
@@ -113,49 +100,50 @@ module Sign = {
         ~config: Config.t,
         ~service: Service.descriptor,
         ~uri: Uri.t,
-        ~method: Http.method,
+        ~method: Http.M.method,
         ~headers: list((string, string)),
         ~body: string,
       ) => {
     let httpRequestMethod =
-      Cohttp.Code.string_of_method(method) |> String.uppercase;
+      Http.M.string_of_method(method) |> String.uppercase_ascii;
     let canonicalUri =
       Uri.path(uri)
       |> Str.split(Str.regexp("/"))
-      |> List.map(~f=Uri.pct_encode)
-      |> String.concat
-      |> (str => String.is_empty(str) ? "/" : "/" ++ str ++ "/");
+      |> List.map(str => Uri.pct_encode(str))
+      |> String.concat("/")
+      |> (str => String.equal(str, "") ? "/" : "/" ++ str ++ "/");
     let canonicalQuery = "";
-    let host = Option.value_exn(Uri.host(uri));
+    let host = Option.get(Uri.host(uri));
     let now = Unix.time();
     let xAmzDate = DateTime.amzDateTime(now);
     let auth = Config.resolveAuth(config);
-    let extendedHeaders = List.concat([[
-      ("X-Amz-Date", xAmzDate),
-      ("Host", host),
-    ],
-      (Option.value_map(auth.sessionToken, ~f=token => [("X-Amz-Security-Token", token)], ~default=[])),
-      headers,
-    ]);
+    let extendedHeaders =
+      List.concat([
+        [("X-Amz-Date", xAmzDate), ("Host", host)],
+        auth.sessionToken
+        |> Option.map(token => [("X-Amz-Security-Token", token)])
+        |> Option.value(~default=[]),
+        headers,
+      ]);
     let canonicalHeaders =
       (
         extendedHeaders
-        |> List.map(~f=((key, value)) => (String.lowercase(key), value))
-        |> List.sort(~compare=((key1, _), (key2, _)) =>
-             String.compare(key1, key2)
+        |> List.map(((key, value)) =>
+             (String.lowercase_ascii(key), value)
            )
-        |> List.map(~f=((key, value)) => key ++ ":" ++ value)
-        |> String.concat(~sep="\n")
+        |> List.sort(((key1, _), (key2, _)) => String.compare(key1, key2))
+        |> List.map(((key, value)) => key ++ ":" ++ value)
+        |> String.concat("\n")
       )
       ++ "\n";
     let signedHeaders =
       extendedHeaders
-      |> List.map(~f=((key, _)) => String.lowercase(key))
-      |> List.sort(~compare=String.compare)
-      |> String.concat(~sep=";");
+      |> List.map(((key, _)) => String.lowercase_ascii(key))
+      |> List.sort(String.compare)
+      |> String.concat(";");
 
     let hash =
-      SHA256.digest_string(body) |> SHA256.to_hex |> String.lowercase;
+      SHA256.digest_string(body) |> SHA256.to_hex |> String.lowercase_ascii;
 
     let canonicalRequest =
       httpRequestMethod
@@ -169,23 +157,18 @@ module Sign = {
       ++ signedHeaders
       ++ "\n"
       ++ hash;
-      Stdio.printf("canoncial, %s\n", canonicalRequest)
+    Stdio.printf("canoncial, %s\n", canonicalRequest);
     let canonicalRequestHash =
       canonicalRequest
       |> Digestif.SHA256.digest_string
       |> Digestif.SHA256.to_hex
-      |> String.lowercase;
+      |> String.lowercase_ascii;
 
     let algorithm = "AWS4-HMAC-SHA256";
     let date = DateTime.amzDate(now);
     let region = Config.resolveRegion(config);
     let credentialScope =
-      date
-      ++ "/"
-      ++ region
-      ++ "/"
-      ++ service.namespace
-      ++ "/aws4_request";
+      date ++ "/" ++ region ++ "/" ++ service.namespace ++ "/aws4_request";
     let stringToSign =
       algorithm
       ++ "\n"
@@ -198,10 +181,7 @@ module Sign = {
     let kSecret = auth.secretAccessKey;
     let kDate = SHA256.hmac_string(~key="AWS4" ++ kSecret, date);
     let kRegion =
-      SHA256.hmac_string(
-        ~key=SHA256.to_raw_string(kDate),
-        region,
-      );
+      SHA256.hmac_string(~key=SHA256.to_raw_string(kDate), region);
     let kService =
       SHA256.hmac_string(
         ~key=SHA256.to_raw_string(kRegion),
@@ -216,7 +196,7 @@ module Sign = {
     let signature =
       SHA256.hmac_string(~key=SHA256.to_raw_string(kSigning), stringToSign)
       |> SHA256.to_hex
-      |> String.lowercase;
+      |> String.lowercase_ascii;
     let authorization =
       Printf.sprintf(
         "%s Credential=%s/%s, SignedHeaders=%s, Signature=%s",

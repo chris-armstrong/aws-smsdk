@@ -176,6 +176,15 @@ let generateSerialisers =
      });
   Fmt.pf(fmt, "@]@\n}@\n");
 };
+/*
+ *
+  type request = describeTableInput;
+  type response = describeTableOutput;
+
+  let send = (~config: AwsSdkLib.Aws.Config.t) => {
+    let request = Cohttp_lwt_unix.Client.post()
+    }
+    */
 
 let generateOperations = (fmt, operationShapes) => {
   operationShapes
