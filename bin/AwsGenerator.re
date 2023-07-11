@@ -30,6 +30,11 @@ let generateServiceMetadata = (fmt, service: Shape.serviceShapeDetails) => {
   Fmt.pf(fmt, "@]@\n};@]@\n");
 };
 
+let generateClientType = (fmt, name) => {
+  Fmt.pf(fmt, "type t = {config: Aws.config};@\n");
+  Fmt.pf(fmt, "let make = (config: Aws.config) => {@;<0 2>config@;};@\n");
+};
+
 let render = (fmt, shapes) => {
   let ordered = shapes |> List.map(~f=shapeWithTarget) |> Dependencies.order;
   let ((name, service), operationShapes, structureShapes) =
@@ -74,8 +79,9 @@ let render = (fmt, shapes) => {
     AwsProtocolJson.generateSerialisers(fmt, structureShapes);
 
     Fmt.pf(fmt, "module Client = {@;<0 2>@[<v>");
-    AwsProtocolJson.generateOperations(fmt, ordered);
-    Fmt.pf(fmt, "@\n@]}@\n");
+    generateClientType(fmt, name);
+    AwsProtocolJson.generateOperations(fmt, name, ordered);
+    Fmt.pf(fmt, "@]@\n}@\n");
     Fmt.pf(fmt, "@\n@\n");
   };
   ();

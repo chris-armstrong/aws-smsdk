@@ -8,13 +8,13 @@ type mapper('a) = (list(string), 'a) => field;
 let join_path = path => String.concat(path, ~sep=".");
 
 module Request = {
-
   let map_string = (path, value: string) => (join_path(path), [value]);
   let map_int = (path, value) => (
     join_path(path),
     [Int.to_string(value)],
   );
-  let map_required = (mapper: mapper('a), path, value) => Some(mapper(path, value));
+  let map_required = (mapper: mapper('a), path, value) =>
+    Some(mapper(path, value));
   let map_opt = (mapper: mapper('a), path, value) =>
     Option.map(value, ~f=v => mapper(path, v));
   let make =
@@ -42,10 +42,13 @@ module Request = {
     let* stringbody = Body.to_string(body);
     Stdio.printf("Action %s on %s\n", action, Uri.to_string(uri));
     Stdio.printf("Sending body %s\n", stringbody);
+    let* auth = config.resolveAuth();
+    let region = config.resolveRegion();
     let headers =
       Cohttp.Header.of_list(
         Sign.sign_request(
-          ~config,
+          ~region,
+          ~auth,
           ~service,
           ~headers=basicHeaders,
           ~uri,
@@ -103,55 +106,57 @@ module Response = {
     );
   };
 
-  let parse_xml_error_response =
-      (~body: string) => {
+  let parse_xml_error_response = (~body: string) => {
     open Xml.Parse;
     let xmlSource = source_with_encoding(~src=body, ~encoding=None);
     Read.dtd(xmlSource);
-    try (Read.sequence(
-      xmlSource,
-      "ErrorResponse",
-      (_, _) => {
-        let error =
-          Read.sequence(
-            xmlSource,
-            "Error",
-            (i, _) => {
-              let type_ = Read.element(i, "Type", ());
-              let code =Read.element(i, "Code", ())
-              let errorType =
-                switch (type_) {
-                | "Sender" => Error.Sender
-                | "Receiver" => Error.Receiver
-                | _ =>
-                  raise(
-                    Unparseable(
-                      "Unknown Error type (expected Sender/Receiver)",
-                      body,
-                    ),
-                  )
-                };
-              Error.{errorType, code};
-            },
-            (),
-          );
-        let metadata =
-          Read.sequence(
-            xmlSource,
-            "ResponseMetadata",
-            (_, _) => {
-              let requestId = Read.element(xmlSource, "RequestId", ());
-              requestId;
-            },
-            (),
-          );
-        (metadata, error);
-      },
-      (),
-    )) {
-      | Xml.Parse.XmlParse(_) => { raise(Unparseable("xmlm error", body))}
-      | Xml.Parse.XmlUnexpectedConstruct(_, _, _) => { raise(Unparseable("construct error", body))}
-    }
+    try(
+      Read.sequence(
+        xmlSource,
+        "ErrorResponse",
+        (_, _) => {
+          let error =
+            Read.sequence(
+              xmlSource,
+              "Error",
+              (i, _) => {
+                let type_ = Read.element(i, "Type", ());
+                let code = Read.element(i, "Code", ());
+                let errorType =
+                  switch (type_) {
+                  | "Sender" => Error.Sender
+                  | "Receiver" => Error.Receiver
+                  | _ =>
+                    raise(
+                      Unparseable(
+                        "Unknown Error type (expected Sender/Receiver)",
+                        body,
+                      ),
+                    )
+                  };
+                Error.{errorType, code};
+              },
+              (),
+            );
+          let metadata =
+            Read.sequence(
+              xmlSource,
+              "ResponseMetadata",
+              (_, _) => {
+                let requestId = Read.element(xmlSource, "RequestId", ());
+                requestId;
+              },
+              (),
+            );
+          (metadata, error);
+        },
+        (),
+      )
+    ) {
+    | Xml.Parse.XmlParse(_) => raise(Unparseable("xmlm error", body))
+    | Xml.Parse.XmlUnexpectedConstruct(_, _, _) =>
+      raise(Unparseable("construct error", body))
+    };
   };
 };
 

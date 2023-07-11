@@ -18,6 +18,8 @@ module DateTime = {
   };
 };
 
+type region = string;
+
 type apiResult('a) = {
   result: 'a,
   requestId: string,
@@ -47,31 +49,37 @@ module Auth = {
 
   exception AuthError(string);
 
-  type resolver = unit => t;
-  let environmentAuthResolver = () =>
+  type resolver = unit => Lwt.t(t);
+  let fromEnvironment = () =>
     try({
       let accessKeyId = Sys.getenv("AWS_ACCESS_KEY_ID");
       let secretAccessKey = Sys.getenv("AWS_SECRET_ACCESS_KEY");
       let sessionToken = Sys.getenv_opt("AWS_SESSION_TOKEN");
-      {accessKeyId, secretAccessKey, sessionToken};
+      Lwt.return({accessKeyId, secretAccessKey, sessionToken});
     }) {
     | _ =>
-      raise(
+      Lwt.fail(
         AuthError(
           "Could not resolve AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY from environment",
         ),
       )
     };
+  let fromIni = () => {};
 };
 
-module Config = {
-  type t = {
-    region: option(string),
-    authResolver: Auth.resolver,
-  };
-  let resolveAuth = ({authResolver, _}) => authResolver();
-  let resolveRegion = ({region, _}) =>
-    Option.value(region, ~default="us-east-1");
+type config = {
+  resolveAuth: unit => Lwt.t(Auth.t),
+  resolveRegion: unit => string,
+};
+
+let defaultConfig = () => {
+  let auth = Auth.fromEnvironment();
+  let region =
+    Sys.getenv_opt("AWS_DEFAULT_REGION")
+    |> Option.value(~default="us-east-1");
+  let resolveRegion = () => region;
+  let resolveAuth = () => auth;
+  {resolveRegion, resolveAuth};
 };
 
 module Service = {
@@ -80,14 +88,14 @@ module Service = {
     endpointPrefix: string,
     version: string,
   };
-  let makeUri = (config: Config.t, service: descriptor) =>
+  let makeUri = (config, service: descriptor) =>
     Uri.make(
       ~scheme="https",
       ~host=
         Printf.sprintf(
           "%s.%s.amazonaws.com",
           service.endpointPrefix,
-          Config.resolveRegion(config),
+          config.resolveRegion(),
         ),
       (),
     );
@@ -97,7 +105,8 @@ module Sign = {
   module SHA256 = Digestif.SHA256;
   let sign_request =
       (
-        ~config: Config.t,
+        ~auth: Auth.t,
+        ~region: string,
         ~service: Service.descriptor,
         ~uri: Uri.t,
         ~method: Http.M.method,
@@ -116,7 +125,6 @@ module Sign = {
     let host = Option.get(Uri.host(uri));
     let now = Unix.time();
     let xAmzDate = DateTime.amzDateTime(now);
-    let auth = Config.resolveAuth(config);
     let extendedHeaders =
       List.concat([
         [("X-Amz-Date", xAmzDate), ("Host", host)],
@@ -166,7 +174,6 @@ module Sign = {
 
     let algorithm = "AWS4-HMAC-SHA256";
     let date = DateTime.amzDate(now);
-    let region = Config.resolveRegion(config);
     let credentialScope =
       date ++ "/" ++ region ++ "/" ++ service.namespace ++ "/aws4_request";
     let stringToSign =

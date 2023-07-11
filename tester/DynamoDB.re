@@ -5537,210 +5537,761 @@ open AwsSdkLib.Json.SerializeHelpers;
   
 }
 module Client = {
+  type t = {config: Aws.config};
+  let make = (config: Aws.config) => {
+    config
+  };
   module UpdateTimeToLive {
-  
+    let request = (client, request: updateTimeToLiveInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.updateTimeToLiveInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UpdateTimeToLive",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module UpdateTableReplicaAutoScaling {
-  
+    let request = (client, request: updateTableReplicaAutoScalingInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.updateTableReplicaAutoScalingInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UpdateTableReplicaAutoScaling",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module UpdateTable {
-  
+    let request = (client, request: updateTableInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.updateTableInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UpdateTable",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module UpdateItem {
-  
+    let request = (client, request: updateItemInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.updateItemInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UpdateItem",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module UpdateGlobalTableSettings {
-  
+    let request = (client, request: updateGlobalTableSettingsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.updateGlobalTableSettingsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UpdateGlobalTableSettings",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module UpdateGlobalTable {
-  
+    let request = (client, request: updateGlobalTableInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.updateGlobalTableInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UpdateGlobalTable",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module UpdateContributorInsights {
-  
+    let request = (client, request: updateContributorInsightsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.updateContributorInsightsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UpdateContributorInsights",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module UpdateContinuousBackups {
-  
+    let request = (client, request: updateContinuousBackupsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.updateContinuousBackupsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UpdateContinuousBackups",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module UntagResource {
-  
+    let request = (client, request: untagResourceInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.untagResourceInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.UntagResource",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module TransactWriteItems {
-  
+    let request = (client, request: transactWriteItemsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.transactWriteItemsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.TransactWriteItems",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module TransactGetItems {
-  
+    let request = (client, request: transactGetItemsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.transactGetItemsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.TransactGetItems",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module TagResource {
-    let send = (~config: Aws.Config.t, request: tagResourceInput) => {
-      let request = AwsSdkLib.AwsProtocolson  
+    let request = (client, request: tagResourceInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.tagResourceInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.TagResource",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
     }
-  
+    
   }
   
   module Scan {
-  
+    let request = (client, request: scanInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.scanInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.Scan",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module RestoreTableToPointInTime {
-  
+    let request = (client, request: restoreTableToPointInTimeInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.restoreTableToPointInTimeInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.RestoreTableToPointInTime",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module RestoreTableFromBackup {
-  
+    let request = (client, request: restoreTableFromBackupInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.restoreTableFromBackupInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.RestoreTableFromBackup",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module Query {
-  
+    let request = (client, request: queryInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.queryInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.Query",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module PutItem {
-  
+    let request = (client, request: putItemInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.putItemInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.PutItem",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ListTagsOfResource {
-  
+    let request = (client, request: listTagsOfResourceInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.listTagsOfResourceInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ListTagsOfResource",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ListTables {
-  
+    let request = (client, request: listTablesInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.listTablesInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ListTables",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ListGlobalTables {
-  
+    let request = (client, request: listGlobalTablesInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.listGlobalTablesInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ListGlobalTables",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ListExports {
-  
+    let request = (client, request: listExportsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.listExportsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ListExports",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ListContributorInsights {
-  
+    let request = (client, request: listContributorInsightsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.listContributorInsightsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ListContributorInsights",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ListBackups {
-  
+    let request = (client, request: listBackupsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.listBackupsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ListBackups",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module GetItem {
-  
+    let request = (client, request: getItemInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.getItemInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.GetItem",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ExportTableToPointInTime {
-  
+    let request = (client, request: exportTableToPointInTimeInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.exportTableToPointInTimeInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ExportTableToPointInTime",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ExecuteTransaction {
-  
+    let request = (client, request: executeTransactionInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.executeTransactionInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ExecuteTransaction",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module ExecuteStatement {
-  
+    let request = (client, request: executeStatementInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.executeStatementInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.ExecuteStatement",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module EnableKinesisStreamingDestination {
-  
+    let request = (client, request: kinesisStreamingDestinationInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.kinesisStreamingDestinationInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.EnableKinesisStreamingDestination",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DisableKinesisStreamingDestination {
-  
+    let request = (client, request: kinesisStreamingDestinationInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.kinesisStreamingDestinationInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DisableKinesisStreamingDestination",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeTimeToLive {
-  
+    let request = (client, request: describeTimeToLiveInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeTimeToLiveInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeTimeToLive",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeTableReplicaAutoScaling {
-  
+    let request = (client, request: describeTableReplicaAutoScalingInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeTableReplicaAutoScalingInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeTableReplicaAutoScaling",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeTable {
-  
+    let request = (client, request: describeTableInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeTableInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeTable",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeLimits {
-  
+    let request = (client, request: describeLimitsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeLimitsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeLimits",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeKinesisStreamingDestination {
-  
+    let request = (client, request: describeKinesisStreamingDestinationInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeKinesisStreamingDestinationInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeKinesisStreamingDestination",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeGlobalTableSettings {
-  
+    let request = (client, request: describeGlobalTableSettingsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeGlobalTableSettingsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeGlobalTableSettings",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeGlobalTable {
-  
+    let request = (client, request: describeGlobalTableInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeGlobalTableInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeGlobalTable",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeExport {
-  
+    let request = (client, request: describeExportInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeExportInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeExport",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeEndpoints {
-  
+    let request = (client, request: describeEndpointsRequest) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeEndpointsRequest_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeEndpoints",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeContributorInsights {
-  
+    let request = (client, request: describeContributorInsightsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeContributorInsightsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeContributorInsights",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeContinuousBackups {
-  
+    let request = (client, request: describeContinuousBackupsInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeContinuousBackupsInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeContinuousBackups",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DescribeBackup {
-  
+    let request = (client, request: describeBackupInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.describeBackupInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DescribeBackup",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DeleteTable {
-  
+    let request = (client, request: deleteTableInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.deleteTableInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DeleteTable",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DeleteItem {
-  
+    let request = (client, request: deleteItemInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.deleteItemInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DeleteItem",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module DeleteBackup {
-  
+    let request = (client, request: deleteBackupInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.deleteBackupInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.DeleteBackup",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module CreateTable {
-  
+    let request = (client, request: createTableInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.createTableInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.CreateTable",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module CreateGlobalTable {
-  
+    let request = (client, request: createGlobalTableInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.createGlobalTableInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.CreateGlobalTable",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module CreateBackup {
-  
+    let request = (client, request: createBackupInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.createBackupInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.CreateBackup",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module BatchWriteItem {
-  
+    let request = (client, request: batchWriteItemInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.batchWriteItemInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.BatchWriteItem",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module BatchGetItem {
-  
+    let request = (client, request: batchGetItemInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.batchGetItemInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.BatchGetItem",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   module BatchExecuteStatement {
-  
+    let request = (client, request: batchExecuteStatementInput) => {
+      open Lwt.Syntax;
+      let input = Serialize.batchExecuteStatementInput_to_yojson(request);
+      AwsJson.make_request(
+        ~shapeName="DynamoDB_20120810.BatchExecuteStatement",
+        ~service,
+        ~config=client.config,
+        ~input,
+      );
+      
+    }
+    
   }
   
   
-  }
+}
 
 

@@ -186,7 +186,7 @@ let generateSerialisers =
     }
     */
 
-let generateOperations = (fmt, operationShapes) => {
+let generateOperations = (fmt, serviceName, operationShapes) => {
   operationShapes
   |> List.filter_map(
        ~f=
@@ -198,9 +198,48 @@ let generateOperations = (fmt, operationShapes) => {
   |> List.iter(~f=((name, os)) => {
        Fmt.pf(
          fmt,
-         "module %s {@\n@[<v 2>",
+         "module %s {@;<0 2>@[<v>",
          SafeNames.safeConstructorName(name),
        );
+       let requestShape =
+         os.input
+         |> Option.map(~f=input =>
+              Fmt.str("request: %s", SafeNames.safeTypeName(input))
+            )
+         |> Option.value(~default="");
+
+       Fmt.pf(
+         fmt,
+         "let request = (client, %s) => {@;<0 2>@[<v>",
+         requestShape,
+       );
+       Fmt.pf(fmt, "open Lwt.Syntax;@\n");
+       Fmt.pf(
+         fmt,
+         "let input = %s;@\n",
+         os.input
+         |> Option.map(~f=input =>
+              Fmt.str(
+                "Serialize.%s_to_yojson(request)",
+                SafeNames.safeTypeName(input),
+              )
+            )
+         |> Option.value(~default="`Assoc([])"),
+       );
+       let serviceShape =
+         Fmt.str(
+           "%s.%s",
+           Util.symbolName(serviceName),
+           Util.symbolName(name),
+         );
+       Fmt.pf(
+         fmt,
+         "AwsJson.make_request(@;<0 2>@[<v>~shapeName=\"%s\",@;",
+         serviceShape,
+       );
+       Fmt.pf(fmt, "~service,@;~config=client.config,@;~input,@]@;);@\n");
+
+       Fmt.pf(fmt, "@]@;}@\n");
 
        Fmt.pf(fmt, "@]@\n}@\n@\n");
      });

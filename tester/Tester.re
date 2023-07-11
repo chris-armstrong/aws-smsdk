@@ -11,11 +11,6 @@ let service =
   };
 
 let xmlNamespace = "http://queue.amazonaws.com/doc/2012-11-05/";
-let config =
-  Aws.Config.{
-    region: Some("ap-southeast-2"),
-    authResolver: Aws.Auth.environmentAuthResolver,
-  };
 
 let charset = headers =>
   Option.(
@@ -83,6 +78,7 @@ let exceptionMapper = (~errorType, ~code, ~requestId) => {
 let listQueues = (input: SQS.listQueuesRequest) => {
   open Lwt.Syntax;
   let action = "ListQueues";
+  let config = Aws.defaultConfig();
   let request =
     AwsSdkLib.AwsQuery.Request.make(
       ~service,
@@ -123,6 +119,7 @@ let listQueues = (input: SQS.listQueuesRequest) => {
 let listQueueTags = (input: SQS.listQueueTagsRequest) => {
   open Lwt.Syntax;
   let action = "ListQueueTags";
+  let config = Aws.defaultConfig();
   let request =
     AwsSdkLib.AwsQuery.Request.make(
       ~service,
@@ -152,17 +149,21 @@ let listQueueTags = (input: SQS.listQueueTagsRequest) => {
                 type_:
                   InputStructuresElement(
                     (xmlSource, _) => {
-                      let (key, value) = item2(
-                        xmlSource,
-                        {tag: "Key", type_: InputStringElement},
-                        {tag: "Value", type_: InputStringElement},
+                      let (key, value) =
+                        item2(
+                          xmlSource,
+                          {tag: "Key", type_: InputStringElement},
+                          {tag: "Value", type_: InputStringElement},
+                        );
+                      (
+                        Xml.Parse.required("Key", key, xmlSource),
+                        Xml.Parse.required("Value", value, xmlSource),
                       );
-                      (Xml.Parse.required("Key", key, xmlSource), Xml.Parse.required("Value", value, xmlSource));
                     },
                   ),
               },
             );
-          let result: SQS.listQueueTagsResult = { tags : tags };
+          let result: SQS.listQueueTagsResult = {tags: tags};
           result;
         },
       ~exceptionMapper,
@@ -170,20 +171,38 @@ let listQueueTags = (input: SQS.listQueueTagsRequest) => {
   Lwt.return(result);
 };
 
+module DynamoDBClient = {
+  type t = {config: Aws.config};
+
+  let make = (config: Aws.config) => {config: config};
+};
+
+let tagResource =
+    (client: DynamoDBClient.t, tagResource: DynamoDB.tagResourceInput) => {
+  open Lwt.Syntax;
+  let input = DynamoDB.Serialize.tagResourceInput_to_yojson(tagResource);
+  let* (status_code, body) =
+    AwsSdkLib.AwsJson.make_request(
+      ~shapeName=Fmt.str("%s.TagResource", "DynamoDB_20120810"),
+      ~service=DynamoDB.service,
+      ~config=client.config,
+      ~input,
+    );
+  Lwt.return((status_code, body));
+};
+
 Lwt_main.run(
-  (
-    () =>
-      listQueues({
-        maxResults: Some(1),
-        queueNamePrefix: None,
-        nextToken: None,
-      })
-  )
-  |> Lwt.catch(
-       _,
-       exn => {
-         Fmt.pr("Rethrowing: %a\n", Exn.pp, exn);
-         raise(exn);
-       },
-     ),
+  /*() =>
+    listQueues({
+      maxResults: Some(1),
+      queueNamePrefix: None,
+      nextToken: None,
+    })*/
+  tagResource(
+    DynamoDBClient.make(Aws.defaultConfig()),
+    {
+      resourceArn: "arn:aws:dynamodb:ap-southeast-2:201232004111:table/test-table",
+      tags: [{key: "test_tag", value: "test_value"}],
+    },
+  ),
 );
