@@ -1,2 +1,36 @@
-(lang dune 3.3)
-(name aws-reason2)
+(lang dune 3.14)
+(name aws-reason)
+
+(generate_opam_files true)
+(package
+ (name aws-reason)
+ (allow_empty)
+ (synopsis "Generate AWS API bindings")
+ (description
+  "Generate API bindings for AWS")
+ (authors "Chris Armstrong")
+ (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
+ (homepage https://github.com/chris-armstrong/aws-reason)
+ (bug_reports https://github.com/chris-armstrong/aws-reason/issues)
+ (source
+  (github chris-armstrong/aws-reason))
+ (license MIT)
+ (depends
+  (dune
+   (>= "3.14"))
+  (ocaml
+   (>= "4.14"))
+  (yojson
+   (>= "2.0.0"))
+  containers
+  (fmt
+   (>= "0.9.0"))
+  xmlm
+  base64
+  cohttp-lwt-unix
+  digestif
+  ppx_inline_test
+  ppx_deriving
+  ppx_expect
+  (odoc :with-doc)))
+
