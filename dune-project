@@ -1,9 +1,9 @@
 (lang dune 3.14)
-(name aws-reason)
+(name aws-smsdk)
 
 (generate_opam_files true)
 (package
- (name aws-reason)
+ (name aws-smsdk)
  (allow_empty)
  (synopsis "Generate AWS API bindings")
  (description
@@ -32,5 +32,6 @@
   ppx_inline_test
   ppx_deriving
   ppx_expect
+  blink
   (odoc :with-doc)))
 

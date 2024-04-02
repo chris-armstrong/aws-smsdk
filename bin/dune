@@ -9,5 +9,5 @@
   fmt
   lwt
   lwt.unix
-  cohttp
-  cohttp-lwt-unix))
+
+  ))

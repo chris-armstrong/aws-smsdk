@@ -16,11 +16,11 @@ depends: [
   "xmlm"
   "base64"
   "cohttp-lwt-unix"
-  "reason"
   "digestif"
   "ppx_inline_test"
   "ppx_deriving"
   "ppx_expect"
+  "blink"
   "odoc" {with-doc}
 ]
 build: [
