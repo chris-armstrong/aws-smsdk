@@ -1,0 +1,4 @@
+(executable
+ (name http_get)
+ (public_name http_get)
+ (libraries AwsSdkLib eio_main logs fmt))

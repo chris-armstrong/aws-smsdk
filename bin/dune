@@ -1,13 +1,4 @@
 (executable
  (name AwsGenerator)
  (public_name AwsGenerator)
- (libraries
-  yojson
-  base
-  stdio
-  Parselib
-  fmt
-  lwt
-  lwt.unix
-
-  ))
+ (libraries yojson base stdio Parselib fmt))

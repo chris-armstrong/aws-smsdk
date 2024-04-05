@@ -10,16 +10,16 @@
   "Generate API bindings for AWS")
  (authors "Chris Armstrong")
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
- (homepage https://github.com/chris-armstrong/aws-reason)
- (bug_reports https://github.com/chris-armstrong/aws-reason/issues)
+ (homepage https://github.com/chris-armstrong/aws-smsdk)
+ (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
  (source
-  (github chris-armstrong/aws-reason))
+  (github chris-armstrong/aws-smsdk))
  (license MIT)
  (depends
   (dune
    (>= "3.14"))
   (ocaml
-   (>= "4.14"))
+   (>= "5.0"))
   (yojson
    (>= "2.0.0"))
   containers
@@ -27,11 +27,16 @@
    (>= "0.9.0"))
   xmlm
   base64
-  cohttp-lwt-unix
   digestif
   ppx_inline_test
   ppx_deriving
   ppx_expect
-  blink
+  h2-eio
+  h2
+  eio-ssl
+  ocamlgraph
+  uri
+  logs
+  (eio_main :with-dev)
   (odoc :with-doc)))
 

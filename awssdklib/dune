@@ -1,5 +1,18 @@
 (library
  (name AwsSdkLib)
- (libraries stdio str fmt uri base64 h2-eio h2 eio-ssl digestif xmlm yojson)
+ (libraries
+  logs
+  stdio
+  str
+  fmt
+  uri
+  base64
+  h2-eio
+  h2
+  eio-ssl
+  digestif
+  xmlm
+  yojson
+  )
  (preprocess
   (pps ppx_deriving.show ppx_deriving.eq)))

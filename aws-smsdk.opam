@@ -5,22 +5,27 @@ description: "Generate API bindings for AWS"
 maintainer: ["Chris Armstrong <oss@chrisarmstrong.dev>"]
 authors: ["Chris Armstrong"]
 license: "MIT"
-homepage: "https://github.com/chris-armstrong/aws-reason"
-bug-reports: "https://github.com/chris-armstrong/aws-reason/issues"
+homepage: "https://github.com/chris-armstrong/aws-smsdk"
+bug-reports: "https://github.com/chris-armstrong/aws-smsdk/issues"
 depends: [
   "dune" {>= "3.14" & >= "3.14"}
-  "ocaml" {>= "4.14"}
+  "ocaml" {>= "5.0"}
   "yojson" {>= "2.0.0"}
   "containers"
   "fmt" {>= "0.9.0"}
   "xmlm"
   "base64"
-  "cohttp-lwt-unix"
   "digestif"
   "ppx_inline_test"
   "ppx_deriving"
   "ppx_expect"
-  "blink"
+  "h2-eio"
+  "h2"
+  "eio-ssl"
+  "ocamlgraph"
+  "uri"
+  "logs"
+  "eio_main" {with-dev}
   "odoc" {with-doc}
 ]
 build: [
@@ -37,4 +42,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/chris-armstrong/aws-reason.git"
+dev-repo: "git+https://github.com/chris-armstrong/aws-smsdk.git"
