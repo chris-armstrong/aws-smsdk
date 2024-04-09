@@ -17,7 +17,10 @@ let load_ini path =
       in
       Seq.iteri
         (fun line_no line ->
-          let without_comment = line |> Str.split hash |> List.hd in
+          Fmt.pr "[%d] %s@." line_no line;
+          let without_comment =
+            line |> Str.split hash |> List.hd_opt |> Option.value ~default:""
+          in
           if Str.string_match section_marker without_comment 0 then (
             push_section ();
             section := Some (Str.matched_group 1 without_comment))
