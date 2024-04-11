@@ -115,8 +115,9 @@ module Auth = struct
              (Fmt.str "Unable to find profile '%s' in credentials file"
                 profile_name))
 
-  let fromProfile env profile_name =
+  let fromProfile env ?profile_name () =
     try
+      let profile_name = Option.value profile_name ~default:"default" in
       let credentials_file = load_credentials_profiles env in
       let config_file = load_config_profiles env in
 

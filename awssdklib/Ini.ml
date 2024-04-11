@@ -17,7 +17,6 @@ let load_ini path =
       in
       Seq.iteri
         (fun line_no line ->
-          Fmt.pr "[%d] %s@." line_no line;
           let without_comment =
             line |> Str.split hash |> List.hd_opt |> Option.value ~default:""
           in

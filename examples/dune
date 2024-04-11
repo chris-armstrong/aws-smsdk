@@ -9,3 +9,9 @@
  (modules ini_examples)
  (public_name ini_examples)
  (libraries AwsSdkLib eio_main logs fmt))
+
+(executable
+ (name signed)
+ (modules signed)
+ (public_name signed)
+ (libraries AwsSdkLib eio_main logs fmt))

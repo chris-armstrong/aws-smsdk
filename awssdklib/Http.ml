@@ -49,6 +49,7 @@ type headers = (string * string) list
 type input_body = [ `String of string | `Form of (string * string list) list ]
 
 exception InvalidUri of Uri.t
+exception ConnectionError of H2.Client_connection.error
 
 type connection = { client : H2_eio.Client.t; ssl_socket : Eio_ssl.t }
 
@@ -81,6 +82,7 @@ let response_handler response_promise response body_reader =
 let create_ssl_context () =
   let ctx = Ssl.create_context Ssl.TLSv1_2 Ssl.Client_context in
   Ssl.honor_cipher_order ctx;
+  (* TODO: get http/1.1 into this mix *)
   Ssl.set_context_alpn_protos ctx [ "h2" ];
   Ssl.set_min_protocol_version ctx Ssl.TLSv1_2;
   Ssl.set_max_protocol_version ctx Ssl.TLSv1_3;
@@ -129,6 +131,8 @@ let create_or_retrieve_connection ~host ~port ~scheme ~error_handler ~sw network
         (ssl_underlying_socket |> Ssl.get_cipher |> Ssl.get_cipher_name)
         (ssl_underlying_socket |> Ssl.get_negotiated_alpn_protocol
         |> Option.value ~default:"<none>");
+      (* FIXME: if negotiated alpn protocol is none, drop out*)
+      (* TODO: Implement fallback to HTTP1.1  *)
       let config = H2.Config.default in
       let client =
         H2_eio.Client.create_connection ~config ~sw ~error_handler ssl_socket
@@ -149,7 +153,7 @@ let request ~sw ~method_ ~uri ?headers ?body env =
   let error_handler = error_handler response_resolver in
   let response_handler = response_handler response_resolver in
   match host with
-  | Some host ->
+  | Some host -> (
       let connection =
         create_or_retrieve_connection ~host ~port ~scheme ~sw ~error_handler
           network
@@ -196,6 +200,7 @@ let request ~sw ~method_ ~uri ?headers ?body env =
         body_string;
       H2.Body.Writer.close body_writer;
       Fmt.pr "Closed body writer.@.";
-      let result = Eio.Promise.await response_promise in
-      result
+      match Eio.Promise.await response_promise with
+      | Ok res -> res
+      | Error connection_error -> raise (ConnectionError connection_error))
   | _ -> raise (InvalidUri uri)

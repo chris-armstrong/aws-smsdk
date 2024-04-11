@@ -13,6 +13,7 @@ end
 type input_body = [ `String of string | `Form of (string * string list) list ]
 
 exception InvalidUri of Uri.t
+exception ConnectionError of H2.Client_connection.error
 
 type method_ =
   [ `GET
@@ -38,5 +39,5 @@ val request :
   ?headers:headers ->
   ?body:input_body ->
   < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t ; .. > ->
-  (Response.t * Body.t, H2.Client_connection.error) result
+  Response.t * Body.t
 (* val response_status_code : response -> int *)
