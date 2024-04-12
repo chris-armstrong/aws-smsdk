@@ -1,0 +1,15 @@
+profile = default
+version = 0.26.1
+
+# preserve begin/end where it appears (instead of converting to parenthesis, the default)
+exp-grouping = preserve
+# 100 columns line width
+margin = 100
+
+# parenthesis around multi-line if/else expressions
+parens-ite=true
+
+parse-docstrings=true
+
+
+
