@@ -1,0 +1,3 @@
+(library
+ (name http)
+ (libraries logs uri eio_main eio eio-ssl h2-eio httpaf httpaf-eio ssl))

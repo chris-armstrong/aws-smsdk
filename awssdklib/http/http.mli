@@ -10,28 +10,19 @@ module Body : sig
   val to_string : t -> string
 end
 
-type input_body = [ `String of string | `Form of (string * string list) list ]
+type input_body = [ `None | `String of string | `Form of (string * string list) list ]
 
 exception InvalidUri of Uri.t
 exception ConnectionError of H2.Client_connection.error
+exception NoSupportedProtocol
 
 type method_ =
-  [ `GET
-  | `POST
-  | `CONNECT
-  | `DELETE
-  | `HEAD
-  | `OPTIONS
-  | `Other of string
-  | `PUT
-  | `TRACE ]
+  [ `GET | `POST | `CONNECT | `DELETE | `HEAD | `OPTIONS | `Other of string | `PUT | `TRACE ]
 
 val string_of_method : method_ -> string
 
 type headers = (string * string) list
 
-(* val body_to_string : body -> string Lwt.t *)
-(* val body_of_string : string -> body *)
 val request :
   sw:Eio.Switch.t ->
   method_:method_ ->
@@ -40,4 +31,5 @@ val request :
   ?body:input_body ->
   < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t ; .. > ->
   Response.t * Body.t
-(* val response_status_code : response -> int *)
+
+val close_all_connections : unit -> unit

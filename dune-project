@@ -37,6 +37,8 @@
   ocamlgraph
   uri
   logs
+  httpaf 
+  httpaf-eio
   (eio_main :with-dev)
   (odoc :with-doc)))
 
