@@ -23,8 +23,9 @@ let make_http2_error_handler error_promise err =
 let make_http2_response_handler response_promise response body_reader =
   Logs.debug (fun m -> m "Response: %a@." H2.Response.pp_hum response);
   let status_code = H2.Status.to_code H2.Response.(response.status) in
+  let new_headers = H2.Headers.to_list H2.Response.(response.headers) in
   Eio.Promise.resolve_ok response_promise
-    (Response.{ status = status_code }, make_http2_body_reader body_reader)
+    (Response.{ status = status_code; headers = new_headers }, make_http2_body_reader body_reader)
 
 let make_http2_client ~sw ~scheme ssl_socket =
   let config = H2.Config.default in
@@ -37,32 +38,24 @@ let make_http2_client ~sw ~scheme ssl_socket =
     let request ~body ~method_ ~headers ~sw host path =
       let response_promise, response_resolver = Eio.Promise.create () in
       let response_handler = make_http2_response_handler response_resolver in
-      let error_promise, error_resolver = Eio.Promise.create () in
-      let error_handler = make_http2_error_handler error_resolver in
+      let error_handler = make_http2_error_handler response_resolver in
       let headers =
         List.concat
-          [
-            [
-              (":authority", host);
-              ("accept", "text/html");
-              ("user-agent", "ocaml/1.0.0-experimental");
-            ];
-            headers;
-          ]
+          [ [ (":authority", host); ("user-agent", "ocaml/1.0.0-experimental") ]; headers ]
       in
       Format.printf "Request: %s %s@." (H2.Method.to_string method_) path;
       let request = H2.Request.create ~headers:(H2.Headers.of_list headers) ~scheme method_ path in
       let body_string =
         match body with
         | `String body ->
-            Format.printf "Write string body@.";
+            Log.debug (fun m -> m "Writing string body %d bytes@." (body |> String.length));
             Some body
         | `Form body_values ->
-            Format.printf "Write form body@.";
+            Log.debug (fun m -> m "Writing form body@.");
             let body_string = Uri.encoded_of_query ~scheme:"utf-8" body_values in
             Some body_string
         | `None ->
-            Format.printf "Write empty request body@.";
+            Log.debug (fun m -> m "Write empty request body@.");
             None
       in
       let body_writer =
@@ -73,7 +66,7 @@ let make_http2_client ~sw ~scheme ssl_socket =
         (fun body_string -> H2.Body.Writer.write_string body_writer body_string)
         body_string;
       H2.Body.Writer.close body_writer;
-      Fmt.pr "Closed body writer.@.";
+      Log.debug (fun m -> m "Written request body");
       match Eio.Promise.await response_promise with
       | Ok res -> res
       | Error connection_error -> raise (ConnectionError connection_error)

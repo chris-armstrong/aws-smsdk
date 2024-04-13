@@ -6,8 +6,7 @@ let _ =
       Eio.Switch.run (fun sw ->
           let open AwsSdkLib in
           let credentials = AwsSdkLib.Aws.Auth.fromProfile env () in
-          Fmt.pr
-            "has_access_key_id has_secret_access_key has_session_token=%b\n"
+          Fmt.pr "has_access_key_id has_secret_access_key has_session_token=%b\n"
             (credentials.sessionToken |> Option.is_some);
 
           let config : Aws.config =
@@ -18,8 +17,7 @@ let _ =
           in
           let body = {| {} |} in
           let descriptor =
-            Aws.Service.
-              { namespace = "sqs"; endpointPrefix = "sqs"; version = "" }
+            Aws.Service.{ namespace = "sqs"; endpointPrefix = "sqs"; version = "" }
           in
           let uri = Aws.Service.makeUri config descriptor in
           let headers =
@@ -30,17 +28,14 @@ let _ =
             ]
           in
           let headers =
-            AwsSdkLib.Aws.Sign.sign_request ~auth:credentials
-              ~region:(config.resolveRegion ()) ~service:descriptor ~uri
-              ~method_:`POST ~headers ~body
+            AwsSdkLib.Aws.Sign.sign_request ~auth:credentials ~region:(config.resolveRegion ())
+              ~service:descriptor ~uri ~method_:`POST ~headers ~body
           in
           let body = `String body in
 
           try
-            let response, body =
-              Http.request ~sw ~method_:`POST ~uri ~headers ~body env
-            in
-            Fmt.pr "Response %d: %s\n"
-              (Http.Response.status response)
-              (Http.Body.to_string body)
+            let response, body = Http.request ~sw ~method_:`POST ~uri ~headers ~body env in
+            let body = Http.Body.to_string body in
+            Fmt.pr "Response %d: [%d]%s@." (Http.Response.status response) (body |> String.length)
+              body
           with error -> Fmt.pr "Error! %s\n" (Printexc.to_string error)))
