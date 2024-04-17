@@ -15,18 +15,22 @@ exception NoSupportedProtocol = Http_intf.NoSupportedProtocol
 exception InvalidUri = Http_intf.InvalidUri
 exception ConnectionError = Http_intf.ConnectionError
 
-type connectionState = ConnectionPending | ConnectionAvailable | ConnectionInRequest
-type connection = { client : (module HttpClientImpl); state : connectionState }
+[@@@warning "-37"]
 
-let connections : connection StringHash.t = StringHash.create 5
+type connectionState = ConnectionAvailable | ConnectionInRequest
+type connection = { client : (module HttpClientImpl); state : connectionState ref }
+
+let host_connections : connection list StringHash.t = StringHash.create 5
 let string_of_method = H2.Method.to_string
 
 let close_all_connections () =
-  connections |> StringHash.to_seq_values
-  |> Seq.iter (fun connection ->
-         let module Client = (val connection.client : Protocol_intf.HttpClientImpl) in
-         Log.debug (fun m -> m "Closing connection@.");
-         Client.shutdown () |> Eio.Promise.await)
+  host_connections |> StringHash.to_seq_values
+  |> Seq.iter (fun connections ->
+         connections |> List.to_seq
+         |> Seq.iter (fun connection ->
+                let module Client = (val connection.client : Protocol_intf.HttpClientImpl) in
+                Log.debug (fun m -> m "Closing connection@.");
+                Client.shutdown () |> Eio.Promise.await))
 
 let create_ssl_context () =
   let ctx = Ssl.create_context Ssl.TLSv1_2 Ssl.Client_context in
@@ -37,6 +41,7 @@ let create_ssl_context () =
   let _ = Ssl.set_default_verify_paths ctx in
   Ssl.set_verify ctx [ Ssl.Verify_peer ] (Some Ssl.client_verify_callback);
   Ssl.set_verify_depth ctx 5;
+  Ssl.set_client_verify_callback_verbose false;
   ctx
 
 let resolve_address host port =
@@ -55,9 +60,20 @@ let resolve_address host port =
   addr
 
 let create_or_retrieve_connection ~host ~port ~scheme ~error_handler ~sw network =
-  match StringHash.find_opt connections host with
-  | Some connection -> connection
+  let hostname = (host |> String.lowercase_ascii) ^ ":" ^ (port |> Int.to_string) in
+
+  let connections = StringHash.find_opt host_connections hostname |> Option.value ~default:[] in
+  let available_connection =
+    connections
+    |> List.find_opt (fun connection ->
+           match connection.state.contents with ConnectionAvailable -> true | _ -> false)
+  in
+  match available_connection with
+  | Some connection ->
+      Logs.debug (fun m -> m "Existing connection found for hostname %s" hostname);
+      connection
   | None ->
+      Logs.debug (fun m -> m "Creating new connection to hostname %s" hostname);
       let ctx = create_ssl_context () in
       Log.debug (fun m -> m "Resolving address for %s://%s:%d" scheme host port);
       let addr = resolve_address host port in
@@ -75,15 +91,13 @@ let create_or_retrieve_connection ~host ~port ~scheme ~error_handler ~sw network
           m "Established SSL Connection with protocol %s" (alpn |> Option.value ~default:"<none>"));
       let client =
         match alpn with
-        | Some "h2" -> begin
-            let client = Http2_impl.make_http2_client ~sw ~scheme ssl_socket in
-            client
-          end
+        | Some "h2" -> begin Http2_impl.make_http2_client ~sw ~scheme ssl_socket end
         | Some "http/1.1" -> Http1_1_impl.make_http_1_1_client ~sw ~scheme ssl_socket
         | _ -> raise NoSupportedProtocol
       in
-      let connection = { client } in
-      StringHash.add connections host connection;
+      let connection = { client; state = ref ConnectionAvailable } in
+      let connections = connection :: connections in
+      StringHash.replace host_connections hostname connections;
       connection
 
 let make_connection_error_handler error_promise err =
@@ -108,8 +122,10 @@ let request ~sw ~method_ ~uri ?(headers : headers option) ?(body : input_body op
       let connection =
         create_or_retrieve_connection ~host ~port ~scheme ~sw ~error_handler network
       in
+      connection.state := ConnectionInRequest;
       let module ProtocolImpl = (val connection.client : HttpClientImpl) in
       let response, body_reader = ProtocolImpl.request ~body ~method_ ~headers host path in
       let body = Body.{ body_reader } in
+      connection.state := ConnectionAvailable;
       (response, body)
   | _ -> raise (InvalidUri uri)

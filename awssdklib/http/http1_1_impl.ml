@@ -3,10 +3,11 @@ open Http_intf
 open Protocol_intf
 
 let make_http_1_1_body_reader reader =
-  let module Http2Reader = struct
+  let module Http11Reader = struct
     let schedule_read = Httpaf.Body.Reader.schedule_read reader
+    let close = Httpaf.Body.Reader.close reader
   end in
-  (module Http2Reader : BodyImpl)
+  (module Http11Reader : BodyImpl)
 
 let make_http_1_1_response_handler resolver response body_reader =
   let new_status = Httpaf.Status.to_code Httpaf.Response.(response.status) in
@@ -49,6 +50,7 @@ let make_http_1_1_client ~sw ~scheme ssl_socket =
       body_string |> Option.iter (fun str -> Httpaf.Body.Writer.write_string body_writer str);
       Httpaf.Body.Writer.close body_writer;
       Log.debug (fun m -> m "Written HTTP body@.");
+
       match Eio.Promise.await response_promise with
       | Ok (response, body) -> (response, body)
       | Error exn -> raise (ConnectionError exn)
