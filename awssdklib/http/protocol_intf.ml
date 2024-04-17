@@ -8,7 +8,6 @@ module type HttpClientImpl = sig
     body:Http_intf.input_body ->
     method_:Http_intf.method_ ->
     headers:Http_intf.headers ->
-    sw:Eio.Switch.t ->
     string ->
     string ->
     Response.t * (module BodyImpl)

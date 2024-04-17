@@ -1,3 +1,7 @@
+module Log =
+  (val Logs.src_log (Logs.Src.create "awssdklib.http" ~doc:"AwsSdkLib Http implementation")
+      : Logs.LOG)
+
 open Import
 open Protocol_intf
 module Response = Response
@@ -11,7 +15,8 @@ exception NoSupportedProtocol = Http_intf.NoSupportedProtocol
 exception InvalidUri = Http_intf.InvalidUri
 exception ConnectionError = Http_intf.ConnectionError
 
-type connection = { client : (module HttpClientImpl) }
+type connectionState = ConnectionPending | ConnectionAvailable | ConnectionInRequest
+type connection = { client : (module HttpClientImpl); state : connectionState }
 
 let connections : connection StringHash.t = StringHash.create 5
 let string_of_method = H2.Method.to_string
@@ -26,10 +31,12 @@ let close_all_connections () =
 let create_ssl_context () =
   let ctx = Ssl.create_context Ssl.TLSv1_2 Ssl.Client_context in
   Ssl.honor_cipher_order ctx;
-  (* TODO: get http/1.1 into this mix *)
   Ssl.set_context_alpn_protos ctx [ "h2"; "http/1.1" ];
   Ssl.set_min_protocol_version ctx Ssl.TLSv1_2;
   Ssl.set_max_protocol_version ctx Ssl.TLSv1_3;
+  let _ = Ssl.set_default_verify_paths ctx in
+  Ssl.set_verify ctx [ Ssl.Verify_peer ] (Some Ssl.client_verify_callback);
+  Ssl.set_verify_depth ctx 5;
   ctx
 
 let resolve_address host port =
@@ -100,11 +107,9 @@ let request ~sw ~method_ ~uri ?(headers : headers option) ?(body : input_body op
   | Some host ->
       let connection =
         create_or_retrieve_connection ~host ~port ~scheme ~sw ~error_handler network
-        (* let connection = *)
-        (*   create_or_retrieve_connection ~host ~port ~scheme ~sw ~error_handler network *)
       in
       let module ProtocolImpl = (val connection.client : HttpClientImpl) in
-      let response, body_reader = ProtocolImpl.request ~body ~method_ ~headers ~sw host path in
+      let response, body_reader = ProtocolImpl.request ~body ~method_ ~headers host path in
       let body = Body.{ body_reader } in
       (response, body)
   | _ -> raise (InvalidUri uri)

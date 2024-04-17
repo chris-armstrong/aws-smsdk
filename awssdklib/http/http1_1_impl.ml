@@ -22,7 +22,7 @@ let make_http_1_1_client ~sw ~scheme ssl_socket =
   let module Http1_1_Client = struct
     let shutdown () = Httpaf_eio.Client.shutdown client
 
-    let request ~body ~method_ ~headers ~sw host path =
+    let request ~body ~method_ ~headers host path =
       let response_promise, response_resolver = Eio.Promise.create () in
       let response_handler = make_http_1_1_response_handler response_resolver in
       let error_handler = make_http_1_1_error_handler response_resolver in

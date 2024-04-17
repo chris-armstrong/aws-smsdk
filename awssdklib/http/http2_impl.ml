@@ -35,7 +35,7 @@ let make_http2_client ~sw ~scheme ssl_socket =
   let module Http2Client = struct
     let shutdown () = H2_eio.Client.shutdown client
 
-    let request ~body ~method_ ~headers ~sw host path =
+    let request ~body ~method_ ~headers host path =
       let response_promise, response_resolver = Eio.Promise.create () in
       let response_handler = make_http2_response_handler response_resolver in
       let error_handler = make_http2_error_handler response_resolver in
