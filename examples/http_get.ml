@@ -7,8 +7,9 @@ Eio_main.run (fun env ->
         let response, body =
           Http.request ~method_:`GET ~uri:(Uri.of_string "https://www.abc.net.au/") ~sw env
         in
-        let body = Http.Body.to_string body in
-        Format.printf "Retrieve news";
+        let body = Http.Body.drain body in
+        Eio.Fiber.yield ();
+        Format.printf "Retrieve news@.";
         Eio.Fiber.both
           (fun () ->
             let response, body =

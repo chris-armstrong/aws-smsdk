@@ -24,6 +24,7 @@ end
 module Body : sig
   type t
 
+  val drain : t -> unit
   val to_string : t -> string
 end
 
