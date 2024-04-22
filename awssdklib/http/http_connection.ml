@@ -1,11 +1,23 @@
 open Import
 
 type connection_info = { host : string; port : int; scheme : string }
-type connection = (module Protocol_intf.HttpClientImpl)
+
+type connection = {
+  http_client : (module Protocol_intf.HttpClientImpl);
+  socket : Eio_unix.Net.stream_socket_ty Eio.Net.stream_socket;
+}
 
 let connection_info_to_string { host; port; _ } =
   let hostname = (host |> String.lowercase_ascii) ^ ":" ^ (port |> Int.to_string) in
   hostname
+
+let shutdown connection =
+  let module ProtocolImpl = (val connection.http_client : Protocol_intf.HttpClientImpl) in
+  ProtocolImpl.shutdown ()
+
+let max_concurrency connection =
+  let module ProtocolImpl = (val connection.http_client : Protocol_intf.HttpClientImpl) in
+  ProtocolImpl.max_concurrency
 
 let connect ~info:{ host; port; scheme } ~sw env =
   let network = Eio.Stdenv.net env in
@@ -32,4 +44,18 @@ let connect ~info:{ host; port; scheme } ~sw env =
     | Some "http/1.1" -> Http1_1_impl.make_http_1_1_client ~sw ~scheme ssl_socket
     | _ -> raise Http_intf.NoSupportedProtocol
   in
-  client
+  { http_client = client; socket }
+
+let request ~connection ~body ~method_ ~headers ~sw ~on_ready host path =
+  let body_reader_promise, body_reader_resolver =
+    Eio.Promise.create ~label:"HTTP Response Body Read" ()
+  in
+  let module ProtocolImpl = (val connection.http_client : Protocol_intf.HttpClientImpl) in
+  let response, body_reader = ProtocolImpl.request ~body ~method_ ~headers host path in
+  let body = Body.{ reader = body_reader; resolver = body_reader_resolver } in
+  (* Return connection to the pool once the body is read *)
+  Eio.Fiber.fork ~sw (fun () ->
+      Eio.Promise.await body_reader_promise;
+      Logs.debug (fun m -> m "Response body consumed");
+      on_ready ());
+  (response, body)

@@ -54,5 +54,7 @@ let make_http_1_1_client ~sw ~scheme ssl_socket =
       match Eio.Promise.await response_promise with
       | Ok (response, body) -> (response, body)
       | Error exn -> raise (ConnectionError exn)
+
+    let max_concurrency = 1
   end in
   (module Http1_1_Client : HttpClientImpl)

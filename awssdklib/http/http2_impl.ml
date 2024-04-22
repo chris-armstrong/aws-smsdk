@@ -70,5 +70,7 @@ let make_http2_client ~sw ~scheme ssl_socket =
       match Eio.Promise.await response_promise with
       | Ok res -> res
       | Error connection_error -> raise (ConnectionError connection_error)
+
+    let max_concurrency = 10
   end in
   (module Http2Client : HttpClientImpl)

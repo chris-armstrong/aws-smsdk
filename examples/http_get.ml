@@ -20,7 +20,7 @@ Eio_main.run (fun env ->
           (fun () ->
             let response, body =
               Http.request ~method_:`GET
-                ~uri:(Uri.of_string "https://abc.net.au/news/business")
+                ~uri:(Uri.of_string "https://www.abc.net.au/news/business")
                 ~sw env
             in
             let body = Http.Body.to_string body in
