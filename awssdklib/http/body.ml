@@ -24,10 +24,11 @@ let to_string body =
   let rec read () =
     BodyReader.schedule_read
       ~on_read:(fun s ~off ~len ->
+        Fmt.pr "Read body string %d@." len;
         body_string := String.cat !body_string (Bigstringaf.to_string s);
-        read ();
-        Eio.Fiber.yield ())
+        read ())
       ~on_eof:(fun () ->
+        Fmt.pr "EOF@.";
         Eio.Promise.resolve resolver !body_string;
         Eio.Promise.resolve body.resolver ())
   in

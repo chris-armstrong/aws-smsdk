@@ -26,9 +26,13 @@ let make_connection_error_handler error_promise err =
 
 module HttpConnectionPool = Connection_pool.Make (Http_connection)
 
-let close_all_connections () = HttpConnectionPool.close_all_connections ()
+type t = { sw : Eio.Switch.t; pool : HttpConnectionPool.t }
 
-let request ~sw ~method_ ~uri ?(headers : headers option) ?(body : input_body option) env =
+let make ~sw = { pool = HttpConnectionPool.make ~sw; sw }
+let close_all_connections http = HttpConnectionPool.close_all_connections ~pool:http.pool
+
+let request ~method_ ~uri ?(headers : headers option) ?(body : input_body option) http env =
+  let { pool; sw } = http in
   let network = Eio.Stdenv.net env in
   let host = Uri.host uri |> Option.map String.lowercase_ascii in
   let port = Uri.port uri |> Option.value ~default:443 in
@@ -42,7 +46,7 @@ let request ~sw ~method_ ~uri ?(headers : headers option) ?(body : input_body op
   match host with
   | Some host ->
       let info = Http_connection.{ host; port; scheme } in
-      let connection = HttpConnectionPool.get_connection ~info ~sw env in
+      let connection = HttpConnectionPool.get_connection ~info ~pool env in
       Http_connection.request ~sw
         ~connection:(HttpConnectionPool.client connection)
         ~method_ ~headers ~body

@@ -40,12 +40,17 @@ exception ConnectionError of H2.Client_connection.error
 exception NoSupportedProtocol
 (** The server has no supported HTTP protocol support (HTTP 1.1 or 2.0) *)
 
+type t
+(** Instance of a HTTP client connection pool. Create one per switch (stores the switch context) *)
+
+val make : sw:Eio.Switch.t -> t
+
 val request :
-  sw:Eio.Switch.t ->
   method_:method_ ->
   uri:Uri.t ->
   ?headers:headers ->
   ?body:input_body ->
+  t ->
   < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t ; .. > ->
   Response.t * Body.t
 (** Make a HTTP request, establishing a connection to the host if one doesn't already exist.
@@ -53,4 +58,4 @@ val request :
     Connections are reused where possible and kept open indefinitely. Use close_all_connections to
     close any outstanding HTTP connections. *)
 
-val close_all_connections : unit -> unit
+val close_all_connections : t -> unit

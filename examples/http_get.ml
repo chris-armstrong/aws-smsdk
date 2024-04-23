@@ -3,9 +3,10 @@ Logs.set_level (Some Logs.Debug);
 
 Eio_main.run (fun env ->
     Eio.Switch.run (fun sw ->
+        let http = Http.make ~sw in
         Format.printf "Making request@.";
         let response, body =
-          Http.request ~method_:`GET ~uri:(Uri.of_string "https://www.abc.net.au/") ~sw env
+          Http.request ~method_:`GET ~uri:(Uri.of_string "https://www.abc.net.au/") http env
         in
         let body = Http.Body.drain body in
         Eio.Fiber.yield ();
@@ -13,7 +14,7 @@ Eio_main.run (fun env ->
         Eio.Fiber.both
           (fun () ->
             let response, body =
-              Http.request ~method_:`GET ~uri:(Uri.of_string "https://www.abc.net.au/news") ~sw env
+              Http.request ~method_:`GET ~uri:(Uri.of_string "https://www.abc.net.au/news") http env
             in
             let body = Http.Body.to_string body in
             Format.printf "Response 1: %d@." (Http.Response.status response))
@@ -21,10 +22,10 @@ Eio_main.run (fun env ->
             let response, body =
               Http.request ~method_:`GET
                 ~uri:(Uri.of_string "https://www.abc.net.au/news/business")
-                ~sw env
+                http env
             in
             let body = Http.Body.to_string body in
             Format.printf "Response 2: %d@." (Http.Response.status response));
         Format.printf "Closing all connections@.";
-        Http.close_all_connections ();
+        Http.close_all_connections http;
         ()))
