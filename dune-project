@@ -39,6 +39,7 @@
   logs
   httpaf 
   httpaf-eio
+  eio_main
   (eio_main :with-dev)
   (odoc :with-doc)))
 

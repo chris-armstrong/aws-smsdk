@@ -15,7 +15,7 @@ let _ =
               resolveAuth = (fun () -> Aws.Auth.fromProfile env ());
             }
           in
-          let body = {| {} |} in
+          let body = {|{}|} in
           Fmt.pr "before context@.";
           let context = Aws.Context.make ~sw ~config () in
           let service = Aws.Service.{ namespace = "sqs"; endpointPrefix = "sqs"; version = "" } in
@@ -24,7 +24,7 @@ let _ =
             [
               ("X-Amz-Target", "AmazonSQS.ListQueues");
               ("Content-Type", "application/x-amz-json-1.0");
-              ("Content-Length", body |> String.length |> Int.to_string);
+              ("Accept", "application/json");
             ]
           in
           Fmt.pr "before signing@.";
@@ -38,6 +38,12 @@ let _ =
               Http.request ~method_:`POST ~uri ~headers ~body (Aws.Context.http context) env
             in
             let body = Http.Body.to_string body in
+            Fmt.pr "Headers %a@."
+              (Fmt.list ~sep:Fmt.comma Fmt.string)
+              (response |> Http.Response.headers |> List.map (fun (k, v) -> k ^ ":" ^ v));
             Fmt.pr "Response %d: [%d]%s@." (Http.Response.status response) (body |> String.length)
               body
-          with error -> Fmt.pr "Error! %s\n" (Printexc.to_string error)))
+          with error -> (
+            Fmt.pr "Error! %s\n" (Printexc.to_string error);
+            try Http.close_all_connections (Aws.Context.http context)
+            with error -> Fmt.pr "Error closing all connections: %s@." (Printexc.to_string error))))

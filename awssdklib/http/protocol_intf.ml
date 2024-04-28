@@ -1,6 +1,8 @@
 module type BodyImpl = sig
   val schedule_read :
     on_eof:(unit -> unit) -> on_read:(Bigstringaf.t -> off:int -> len:int -> unit) -> unit
+
+  val close : unit -> unit
 end
 
 module type HttpClientImpl = sig

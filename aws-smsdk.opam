@@ -27,6 +27,7 @@ depends: [
   "logs"
   "httpaf"
   "httpaf-eio"
+  "eio_main"
   "eio_main" {with-dev}
   "odoc" {with-doc}
 ]
@@ -46,6 +47,7 @@ build: [
 ]
 dev-repo: "git+https://github.com/chris-armstrong/aws-smsdk.git"
 pin-depends: [
-              ["httpaf.dev" "git+https://github.com:anmonteiro/httpaf.git"]
-              ["eio-ssl.0.2.0" "git+https://github.com:anmonteiro/eio-ssl.git"]
-              ]
+  ["httpaf-eio.dev" "git+https://github.com/anmonteiro/httpaf.git"]
+  ["httpaf.dev" "git+https://github.com/anmonteiro/httpaf.git"]
+  ["eio-ssl.0.2.0" "git+https://github.com/anmonteiro/eio-ssl.git"]
+]

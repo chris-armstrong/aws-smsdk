@@ -11,7 +11,14 @@
  (libraries AwsSdkLib eio_main logs fmt))
 
 (executable
+ (name sqs_ListQueues)
+ (modules sqs_ListQueues)
+ (public_name sqs_ListQueues)
+ (libraries AwsSdkLib eio_main logs fmt))
+
+(executable
  (name signed)
  (modules signed)
+ (modes byte exe)
  (public_name signed)
  (libraries AwsSdkLib eio_main logs fmt))

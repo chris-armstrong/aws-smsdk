@@ -5,6 +5,7 @@ open Import
 let make_http2_body_reader reader =
   let module Http2Reader = struct
     let schedule_read = H2.Body.Reader.schedule_read reader
+    let close () = H2.Body.Reader.close reader
   end in
   (module Http2Reader : BodyImpl)
 
