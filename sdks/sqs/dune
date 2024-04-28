@@ -1,0 +1,4 @@
+(rule
+ (deps (:gen ../../bin/AwsGenerator.exe ) (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/sqs.2012-11-05.json))
+ (target types.ml)
+ (action (run %{gen} -run types -input %{input} -output %{target})))
