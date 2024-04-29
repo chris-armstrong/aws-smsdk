@@ -1,24 +1,20 @@
 (executable
  (name http_get)
  (modules http_get)
- (public_name http_get)
- (libraries AwsSdkLib eio_main logs fmt))
+ (libraries aws-smsdk-lib eio_main logs fmt))
 
 (executable
  (name ini_examples)
  (modules ini_examples)
- (public_name ini_examples)
- (libraries AwsSdkLib eio_main logs fmt))
+ (libraries aws-smsdk-lib eio_main logs fmt))
 
 (executable
  (name sqs_ListQueues)
  (modules sqs_ListQueues)
- (public_name sqs_ListQueues)
- (libraries AwsSdkLib eio_main logs fmt))
+ (libraries aws-smsdk-lib eio_main logs fmt))
 
 (executable
  (name signed)
  (modules signed)
  (modes byte exe)
- (public_name signed)
- (libraries AwsSdkLib eio_main logs fmt))
+ (libraries aws-smsdk-lib eio_main logs fmt))

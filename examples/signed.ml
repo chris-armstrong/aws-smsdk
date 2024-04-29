@@ -4,8 +4,8 @@ Logs.set_level (Some Logs.Debug)
 let _ =
   Eio_main.run (fun env ->
       Eio.Switch.run (fun sw ->
-          let open AwsSdkLib in
-          let credentials = AwsSdkLib.Aws.Auth.fromProfile env () in
+          let open Aws_SmSdk_Lib in
+          let credentials = Aws.Auth.fromProfile env () in
           Fmt.pr "has_access_key_id has_secret_access_key has_session_token=%b\n"
             (credentials.sessionToken |> Option.is_some);
 

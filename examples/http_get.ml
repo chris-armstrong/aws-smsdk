@@ -1,3 +1,5 @@
+open Aws_SmSdk_Lib;;
+
 Logs.set_reporter (Logs.format_reporter ());
 Logs.set_level (Some Logs.Debug);
 

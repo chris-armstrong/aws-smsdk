@@ -1,4 +1,4 @@
-open AwsSdkLib
+open Aws_SmSdk_Lib
 
 module List = struct
   include List

@@ -1,5 +1,6 @@
 (library
- (name AwsSdkLib)
+ (name Aws_SmSdk_Lib)
+ (public_name aws-smsdk-lib)
  (libraries
   logs
   stdio
@@ -7,12 +8,14 @@
   fmt
   uri
   base64
+  httpaf-eio
   h2-eio
   h2
   eio-ssl
   digestif
   xmlm
-  yojson
-  http)
+  yojson)
  (preprocess
   (pps ppx_deriving.show ppx_deriving.eq)))
+
+(include_subdirs qualified)

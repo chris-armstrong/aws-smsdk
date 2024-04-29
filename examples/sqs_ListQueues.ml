@@ -4,8 +4,8 @@ Logs.set_level (Some Logs.Debug)
 let _ =
   Eio_main.run (fun env ->
       Eio.Switch.run (fun sw ->
-          let open AwsSdkLib in
-          let credentials = AwsSdkLib.Aws.Auth.fromProfile env () in
+          let open Aws_SmSdk_Lib in
+          let credentials = Aws.Auth.fromProfile env () in
           let config : Aws.Config.t =
             {
               resolveRegion =
