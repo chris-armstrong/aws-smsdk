@@ -176,27 +176,34 @@ let generateOperationModule moduleName
    ^ {js| = "send";\\n|js} ^ {js|}\\n|js})
   [@ns.braces]
 
+let generateEnumShape (details : Shape.enumShapeDetails) =
+  details.members
+  |> List.map ~f:(fun ({ name; _ } : Shape.member) -> "| " ^ (name |> safeConstructorName))
+  |> String.concat ~sep:"\n  "
+
 let generateTypeTarget descriptor ?(genDoc = false) () =
-  ((let open Shape in
-    match descriptor with
-    | ((StringShape details) [@explicit_arity]) -> generateStringShape details
-    | ((StructureShape details) [@explicit_arity]) -> generateStructureShape details ~genDoc ()
-    | ((ListShape { target; _ }) [@explicit_arity]) -> generateListShape target
-    | IntegerShape _ -> generateIntegerShape ()
-    | LongShape _ -> generateLongShape ()
-    | DoubleShape _ -> generateDoubleShape ()
-    | FloatShape _ -> generateFloatShape ()
-    | BooleanShape _ -> generateBooleanShape ()
-    | BlobShape _ -> generateBinaryShape ()
-    | BigIntegerShape _ -> generateBigIntegerShape ()
-    | BigDecimalShape _ -> generateBigDecimalShape ()
-    | ((MapShape details) [@explicit_arity]) -> generateMapShape details.mapKey details.mapValue
-    | ServiceShape _ -> ""
-    | ((UnionShape details) [@explicit_arity]) -> generateUnionShape details ~genDoc ()
-    | ((TimestampShape details) [@explicit_arity]) -> generateTimestampShape details
-    | ResourceShape -> ""
-    | OperationShape _ -> ""
-    | ((SetShape details) [@explicit_arity]) -> generateSetShape details) [@ns.braces])
+  let open Shape in
+  match descriptor with
+  | StringShape details -> generateStringShape details
+  | StructureShape details -> generateStructureShape details ~genDoc ()
+  | ListShape { target; _ } -> generateListShape target
+  | IntegerShape _ -> generateIntegerShape ()
+  | LongShape _ -> generateLongShape ()
+  | DoubleShape _ -> generateDoubleShape ()
+  | FloatShape _ -> generateFloatShape ()
+  | BooleanShape _ -> generateBooleanShape ()
+  | BlobShape _ -> generateBinaryShape ()
+  | BigIntegerShape _ -> generateBigIntegerShape ()
+  | BigDecimalShape _ -> generateBigDecimalShape ()
+  | MapShape details -> generateMapShape details.mapKey details.mapValue
+  | ServiceShape _ -> ""
+  | UnionShape details -> generateUnionShape details ~genDoc ()
+  | TimestampShape details -> generateTimestampShape details
+  | ResourceShape -> ""
+  | OperationShape _ -> ""
+  | UnitShape -> ""
+  | SetShape details -> generateSetShape details
+  | EnumShape details -> generateEnumShape details
 
 let getStructureShape =
   let open Shape in

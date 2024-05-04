@@ -31,15 +31,15 @@ let readCommandLine () =
     | Some input, Some output ->
         ( input,
           (match !command with
-          | ((Some "types") [@explicit_arity]) -> TypesCommand
-          | ((Some "service") [@explicit_arity]) -> ServiceCommand
-          | ((Some "operations") [@explicit_arity]) -> OperationsCommand
-          | ((Some "serialisers") [@explicit_arity]) -> SerialisersCommand
+          | Some "types" -> TypesCommand
+          | Some "service" -> ServiceCommand
+          | Some "operations" -> OperationsCommand
+          | Some "serialisers" -> SerialisersCommand
           | _ ->
               Stdio.eprintf "You must specify a -run <command>\n";
               Stdlib.exit 1),
           output )
-  with ((Invalid_argument x) [@explicit_arity]) ->
+  with Invalid_argument x ->
     Stdio.eprintf "You must supply a model file as the first parameter: %s\n" x;
     Stdlib.exit 1
 
