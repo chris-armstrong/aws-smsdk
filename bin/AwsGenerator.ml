@@ -1,7 +1,12 @@
 open Base
 open Parselib
 
-type command = TypesCommand | ServiceCommand | OperationsCommand | SerialisersCommand
+type command =
+  | TypesCommand
+  | ServiceCommand
+  | OperationsCommand
+  | SerialisersCommand
+  | DeserialisersCommand
 
 let readCommandLine () =
   try
@@ -13,7 +18,8 @@ let readCommandLine () =
     let argumentTypes =
       [
         ( "-run",
-          (Stdlib.Arg.Symbol ([ "types"; "service"; "operations"; "serialisers" ], setCommand)
+          (Stdlib.Arg.Symbol
+             ([ "types"; "service"; "operations"; "serialisers"; "deserialisers" ], setCommand)
           [@explicit_arity]),
           "command to execute" );
         ("-input", Stdlib.Arg.String (fun s -> filename := Some s), "Input definition file");
@@ -35,6 +41,7 @@ let readCommandLine () =
           | Some "service" -> ServiceCommand
           | Some "operations" -> OperationsCommand
           | Some "serialisers" -> SerialisersCommand
+          | Some "deserialisers" -> DeserialisersCommand
           | _ ->
               Stdio.eprintf "You must specify a -run <command>\n";
               Stdlib.exit 1),
@@ -63,9 +70,12 @@ let _ =
       | TypesCommand ->
           Gen_types.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
       | ServiceCommand -> SmithyHelpers.printServiceDetails shapes
-      | OperationsCommand -> SmithyHelpers.printOperations shapes
+      | OperationsCommand ->
+          Gen_operations.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
       | SerialisersCommand ->
-          Gen_serialisers.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt);
+          Gen_serialisers.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
+      | DeserialisersCommand ->
+          Gen_deserialisers.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt);
 
       Stdlib.Format.pp_print_flush output_fmt ();
       Out_channel.flush output_channel

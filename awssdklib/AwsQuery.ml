@@ -28,7 +28,7 @@ module Request = struct
     let headers =
       Sign.sign_request ~context ~service ~headers:basicHeaders ~uri ~method_:`POST ~body
     in
-    Http.request ~method_:`POST ~headers ~body:(`String body) context.http env ~uri
+    Http.request ~method_:`POST ~headers ~body:(`String body) context.http ~uri
 end
 
 module Error = struct

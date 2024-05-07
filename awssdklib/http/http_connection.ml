@@ -1,4 +1,7 @@
 open Import
+open Http_intf
+
+let ( let* ) = Result.bind
 
 type connection_info = { host : string; port : int; scheme : string }
 
@@ -40,22 +43,23 @@ let connect ~info:{ host; port; scheme } ~sw env =
       m "Established SSL Connection with protocol %s" (alpn |> Option.value ~default:"<none>"));
   let client =
     match alpn with
-    | Some "h2" -> begin Http2_impl.make_http2_client ~sw ~scheme ssl_socket end
-    | Some "http/1.1" -> Http1_1_impl.make_http_1_1_client ~sw ~scheme ssl_socket
-    | _ -> raise Http_intf.NoSupportedProtocol
+    | Some "h2" -> Ok (Http2_impl.make_http2_client ~sw ~scheme ssl_socket)
+    | Some "http/1.1" -> Ok (Http1_1_impl.make_http_1_1_client ~sw ~scheme ssl_socket)
+    | _ -> Error NoSupportedProtocol
   in
-  { http_client = client; socket }
+
+  Result.map (fun client -> { http_client = client; socket }) client
 
 let request ~connection ~body ~method_ ~headers ~sw ~on_ready host path =
   let body_reader_promise, body_reader_resolver =
     Eio.Promise.create ~label:"HTTP Response Body Read" ()
   in
   let module ProtocolImpl = (val connection.http_client : Protocol_intf.HttpClientImpl) in
-  let response, body_reader = ProtocolImpl.request ~body ~method_ ~headers host path in
+  let* response, body_reader = ProtocolImpl.request ~body ~method_ ~headers host path in
   let body = Body.{ reader = body_reader; resolver = body_reader_resolver } in
   (* Return connection to the pool once the body is read *)
   Eio.Fiber.fork ~sw (fun () ->
       Eio.Promise.await body_reader_promise;
       Logs.debug (fun m -> m "Response body consumed");
       on_ready ());
-  (response, body)
+  Ok (response, body)

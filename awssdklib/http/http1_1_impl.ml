@@ -20,7 +20,8 @@ let make_http_1_1_response_handler resolver response body_reader =
   Eio.Promise.resolve_ok resolver
     (Response.{ status = new_status; headers = new_headers }, make_http_1_1_body_reader body_reader)
 
-let make_http_1_1_error_handler resolver connection_error = ()
+let make_http_1_1_error_handler resolver (connection_error : Httpaf.Client_connection.error) =
+  Eio.Promise.resolve_error resolver connection_error
 
 let make_http_1_1_client ~sw ~scheme ssl_socket =
   let config = Httpaf.Config.default in
@@ -67,8 +68,15 @@ let make_http_1_1_client ~sw ~scheme ssl_socket =
       Log.debug (fun m -> m "Written HTTP body@.");
 
       match Eio.Promise.await response_promise with
-      | Ok (response, body) -> (response, body)
-      | Error exn -> raise (ConnectionError exn)
+      | Ok (response, body) -> Ok (response, body)
+      | Error error ->
+          let response_error_string =
+            match error with
+            | `Malformed_response x -> MalformedResponse x
+            | `Invalid_response_body_length response -> InvalidResponseBodyLength
+            | `Exn e -> HttpException e
+          in
+          Error response_error_string
 
     let max_concurrency = 1
   end in

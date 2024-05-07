@@ -17,7 +17,11 @@ let _ =
           in
           let body = {|{}|} in
           Fmt.pr "before context@.";
-          let context = Aws.Context.make ~sw ~config () in
+          let context =
+            Aws.Context.make ~sw ~config
+              (env :> < net : [ `Generic | `Unix ] Eio.Net.ty Eio.Resource.t >)
+              ()
+          in
           let service = Aws.Service.{ namespace = "sqs"; endpointPrefix = "sqs"; version = "" } in
           let uri = Aws.Service.makeUri ~context ~service in
           let headers =
@@ -33,17 +37,22 @@ let _ =
           in
           let body = `String body in
 
-          try
-            let response, body =
-              Http.request ~method_:`POST ~uri ~headers ~body (Aws.Context.http context) env
+          let ( let* ) res map = Result.map map res in
+          match
+            let* response, body =
+              Http.request ~method_:`POST ~uri ~headers ~body (Aws.Context.http context)
             in
             let body = Http.Body.to_string body in
             Fmt.pr "Headers %a@."
               (Fmt.list ~sep:Fmt.comma Fmt.string)
               (response |> Http.Response.headers |> List.map (fun (k, v) -> k ^ ":" ^ v));
+
             Fmt.pr "Response %d: [%d]%s@." (Http.Response.status response) (body |> String.length)
               body
-          with error -> (
-            Fmt.pr "Error! %s\n" (Printexc.to_string error);
-            try Http.close_all_connections (Aws.Context.http context)
-            with error -> Fmt.pr "Error closing all connections: %s@." (Printexc.to_string error))))
+          with
+          | Ok body -> ()
+          | Error error -> (
+              Fmt.pr "Error! %a\n" Http.pp_http_failure error;
+              try Http.close_all_connections (Aws.Context.http context)
+              with error ->
+                Fmt.pr "Error closing all connections: %s@." (Printexc.to_string error))))

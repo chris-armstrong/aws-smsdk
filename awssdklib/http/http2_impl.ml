@@ -10,16 +10,14 @@ let make_http2_body_reader reader =
   (module Http2Reader : BodyImpl)
 
 let make_http2_error_handler error_promise err =
-  let _ =
+  let error =
     match err with
-    | `Exn exn -> Log.warn (fun m -> m "Exception: %s" (Printexc.to_string exn))
-    | `Invalid_response_body_length response ->
-        Log.warn (fun m -> m "Invalid response body length %a" H2.Response.pp_hum response)
-    | `Malformed_response s -> Logs.warn (fun m -> m "Malformed response: %s@." s)
-    | `Protocol_error (err, s) ->
-        Logs.warn (fun m -> m "Protocol Error: %a %S@." H2.Error_code.pp_hum err s)
+    | `Exn exn -> HttpException exn
+    | `Invalid_response_body_length response -> InvalidResponseBodyLength
+    | `Malformed_response s -> MalformedResponse s
+    | `Protocol_error (err, s) -> ProtocolError (Fmt.str "%a %S" H2.Error_code.pp_hum err s)
   in
-  Eio.Promise.resolve error_promise (Error err)
+  Eio.Promise.resolve_error error_promise error
 
 let make_http2_response_handler response_promise response body_reader =
   Logs.debug (fun m -> m "Response: %a@." H2.Response.pp_hum response);
@@ -69,8 +67,8 @@ let make_http2_client ~sw ~scheme ssl_socket =
       H2.Body.Writer.close body_writer;
       Log.debug (fun m -> m "Written request body");
       match Eio.Promise.await response_promise with
-      | Ok res -> res
-      | Error connection_error -> raise (ConnectionError connection_error)
+      | Ok res -> Ok res
+      | Error connection_error -> Error connection_error
 
     let max_concurrency = 10
   end in

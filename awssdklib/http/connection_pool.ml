@@ -14,7 +14,7 @@ module type ConnectionType = sig
     info:connection_info ->
     sw:Eio.Switch.t ->
     < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t ; .. > ->
-    connection
+    (connection, Http_intf.http_failure) result
 
   val shutdown : connection -> unit Eio.Promise.t
   val max_concurrency : connection -> int
@@ -34,7 +34,7 @@ module type S = sig
     pool:t ->
     info:client_info ->
     < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t ; .. > ->
-    connection
+    (connection, Http_intf.http_failure) result
 
   val close_all_connections : pool:t -> unit
 end
@@ -70,14 +70,15 @@ struct
         Logs.debug (fun m ->
             m "Found available connection with ID %s and ref count %d" info_id !(connection.count));
         connection.count := !(connection.count) + 1;
-        connection
+        Ok connection
     | None ->
+        let ( let* ) = Result.bind in
         Logs.debug (fun m -> m "No available connection, establishing new one with ID %s" info_id);
-        let client = Connection.connect ~info ~sw:pool.sw env in
+        let* client = Connection.connect ~info ~sw:pool.sw env in
         let connection = { client; count = ref 1 } in
         let connections = connection :: connections in
         StringHash.replace pool.connections info_id connections;
-        connection
+        Ok connection
 
   let close_all_connections ~pool =
     pool.connections |> StringHash.to_seq_values

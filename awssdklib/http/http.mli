@@ -31,19 +31,21 @@ end
 type input_body = [ `None | `String of string | `Form of (string * string list) list ]
 (** The input body to a HTTP request *)
 
-exception InvalidUri of Uri.t
-(** The specified URI was invalid for a HTTP request *)
+type http_failure =
+  | NoSupportedProtocol  (** The server has no supported HTTP protocol support (HTTP 1.1 or 2.0) *)
+  | InvalidUri of Uri.t  (** The specified URI was invalid for a HTTP request *)
+  | ConnectionError of string
+  | MalformedResponse of string
+  | InvalidResponseBodyLength
+  | ProtocolError of string
+  | HttpException of exn
 
-exception ConnectionError of H2.Client_connection.error
-(** There was a connection error when making a HTTP request *)
-
-exception NoSupportedProtocol
-(** The server has no supported HTTP protocol support (HTTP 1.1 or 2.0) *)
+val pp_http_failure : Format.formatter -> http_failure -> unit
 
 type t
 (** Instance of a HTTP client connection pool. Create one per switch (stores the switch context) *)
 
-val make : sw:Eio.Switch.t -> t
+val make : sw:Eio.Switch.t -> < net : [ `Generic | `Unix ] Eio.Net.ty Eio.Resource.t ; .. > -> t
 
 val request :
   method_:method_ ->
@@ -51,8 +53,7 @@ val request :
   ?headers:headers ->
   ?body:input_body ->
   t ->
-  < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t ; .. > ->
-  Response.t * Body.t
+  (Response.t * Body.t, http_failure) result
 (** Make a HTTP request, establishing a connection to the host if one doesn't already exist.
 
     Connections are reused where possible and kept open indefinitely. Use close_all_connections to

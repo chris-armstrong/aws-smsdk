@@ -10,11 +10,27 @@
  (deps
   (:gen ../../bin/AwsGenerator.exe)
   (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/sqs.json))
- (target serialisers.ml)
+ (target serializers.ml)
  (action
   (run %{gen} -run serialisers -input %{input} -output %{target})))
 
+(rule
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/sqs.json))
+ (target deserializers.ml)
+ (action
+  (run %{gen} -run deserialisers -input %{input} -output %{target})))
+
+(rule
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/sqs.json))
+ (target operations.ml)
+ (action
+  (run %{gen} -run operations -input %{input} -output %{target})))
+
 (library
  (name aws_smsdk_sqs)
- (modules aws_smsdk_sqs types serialisers)
+ (modules aws_smsdk_sqs types serializers deserializers operations)
  (libraries aws-smsdk-lib))

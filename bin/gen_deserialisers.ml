@@ -6,4 +6,4 @@ let generate ~name ~(service : Shape.serviceShapeDetails) ~operation_shapes ~str
       | Trait.AwsProtocolAwsJson1_1Trait -> true
       | Trait.AwsProtocolAwsJson1_0Trait -> true
       | _ -> false)
-  then AwsProtocolJson.Serialiser.generate ~structure_shapes oc
+  then AwsProtocolJson.Deserialiser.generate ~name ~structure_shapes oc

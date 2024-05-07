@@ -14,7 +14,7 @@ let _ =
             }
           in
           let input = `Assoc [] in
-          let context = Aws.Context.make ~sw ~config () in
+          let context = Aws.Context.make ~sw ~config env () in
           let service = Aws.Service.{ namespace = "sqs"; endpointPrefix = "sqs"; version = "" } in
           let ( let* ) = Result.bind in
           let ( and* ) = Result.bind in
@@ -22,7 +22,7 @@ let _ =
           let res =
             begin
               let* response, body =
-                AwsJson.make_request ~shapeName:"AmazonSQS.ListQueues" ~service ~context ~input env
+                AwsJson.make_request ~shapeName:"AmazonSQS.ListQueues" ~service ~context ~input
               in
               Fmt.pr "[%d]: %s@."
                 (response |> Http.Response.status)
@@ -32,4 +32,4 @@ let _ =
           in
           match res with
           | Ok res -> ()
-          | Error error -> Fmt.pr "Error: %s@." (Printexc.to_string error)))
+          | Error error -> Fmt.pr "Error: %a@." Http.pp_http_failure error))
