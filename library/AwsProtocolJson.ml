@@ -5,7 +5,7 @@ open Shape
 exception UnexpectedType of string
 
 let has_func_body = function
-  | StructureShape x -> not (Trait.hasTrait x.traits Trait.isErrorTrait)
+  | StructureShape x -> true
   | StringShape _ | IntegerShape _ | BooleanShape _ | BigIntegerShape _ | BigDecimalShape _
   | TimestampShape _ | BlobShape _ | MapShape _ | UnionShape _ | SetShape _ | LongShape _
   | ListShape _ | FloatShape _ | DoubleShape _ | EnumShape _ | UnitShape ->
@@ -117,7 +117,10 @@ module Serialiser = struct
 end
 
 module Deserialiser = struct
-  let func_name name = SafeNames.safeFunctionName (name ^ "_of_yojson")
+  let func_name ?(is_exception_type = false) name =
+    SafeNames.safeFunctionName name
+    ^ (if is_exception_type then "_exception_details" else "")
+    ^ "_of_yojson"
 
   let rec structure_func_body fmt name (x : structureShapeDetails) =
     let open Shape in
@@ -126,12 +129,18 @@ module Deserialiser = struct
 
     List.iter x.members ~f:(fun { name; target; traits } ->
         let isRequired = Trait.hasTrait traits Trait.isRequiredTrait in
-        let converter_name =
-          if isRequired then func_name target else "option_of_yojson " ^ func_name target
-        in
+        let converter_name = func_name ~is_exception_type:false target in
         let key_name = SafeNames.safeMemberName name in
 
-        Fmt.pf fmt "%s = value_for_key (%s) _list \"%s\" path;@;" key_name converter_name name);
+        Fmt.pf fmt "%s" key_name;
+        Fmt.pf fmt " = ";
+        if not isRequired then Fmt.pf fmt "option_of_yojson (";
+
+        Fmt.pf fmt "value_for_key (%s) \"%s\"" converter_name name;
+        if not isRequired then Fmt.pf fmt ")";
+        Fmt.pf fmt " _list path";
+        Fmt.pf fmt ";@;");
+
     Fmt.pf fmt "@]@;} in _res"
 
   and string_func_body fmt name x = Fmt.pf fmt "string_of_yojson"
@@ -181,25 +190,49 @@ module Deserialiser = struct
     Fmt.pf fmt "open Types@\n@\n";
     structure_shapes
     |> List.iter ~f:(fun shapeWithTarget ->
-           print_shape_func ~printer:func_body ~func_name ~fmt shapeWithTarget)
+           print_shape_func ~printer:func_body
+             ~func_name:(fun s ->
+               let is_exception_type =
+                 match Dependencies.(shapeWithTarget.descriptor) with
+                 | StructureShape s when Trait.(hasTrait s.traits isErrorTrait) -> true
+                 | _ -> false
+               in
+               func_name ~is_exception_type s)
+             ~fmt shapeWithTarget)
 end
 
 module Operations = struct
   let generate ~name ~operation_shapes fmt =
     Fmt.pf fmt "open Aws_SmSdk_Lib @\n";
     Fmt.pf fmt "open Types @\n";
-    Fmt.pf fmt "let (let*) = Result.bind@\n";
+    Fmt.pf fmt "let (let+) res map = Result.map map res@\n";
     operation_shapes
     (* |> List.filter_map ~f:(function *)
     (*      | Dependencies.{ name; descriptor = OperationShape os; _ } -> Some (name, os) *)
     (*      | _ -> None) *)
-    |> List.iter ~f:(fun (name, os, dependencies) ->
-           Fmt.pf fmt "module %s = struct@;<0 2>@[<v>" (SafeNames.safeConstructorName name);
+    |> List.iter ~f:(fun (operation_name, os, dependencies) ->
+           Fmt.pf fmt "module %s = struct@;<0 2>@[<v>"
+             (SafeNames.safeConstructorName operation_name);
            let request_shape =
              os.input
              |> Option.map ~f:(fun input -> Fmt.str "(request: %s)" (SafeNames.safeTypeName input))
              |> Option.value ~default:""
            in
+           Fmt.pf fmt "let error_deserializer tree path = @[<v 2>@;";
+           Fmt.pf fmt "let _obj = Json.DeserializeHelpers.assoc_of_yojson tree path in@;";
+           Fmt.pf fmt
+             "let _type = Json.DeserializeHelpers.value_for_key \
+              Json.DeserializeHelpers.string_of_yojson \"__type\" _obj in@;";
+           Fmt.pf fmt "Result.map (function @[<v 2>@;";
+           List.iter
+             ~f:(fun exc ->
+               let exc_name = exc in
+               let constructor_name = SafeNames.safeConstructorName exc in
+               let deserializer_func_name = Deserialiser.func_name exc ~is_exception_type:true in
+               Fmt.pf fmt "| \"%s\" -> (`%s (Deserializers.%s _obj))@;" exc_name constructor_name
+                 deserializer_func_name)
+             (os.errors |> Option.value ~default:[]);
+           Fmt.pf fmt "@]) _type@]@\n";
            let response_shape_deserialiser =
              os.output
              |> Option.map ~f:(fun output -> Deserialiser.func_name output)
@@ -211,15 +244,12 @@ module Operations = struct
              |> Option.map ~f:(fun input ->
                     Fmt.str "Serializers.%s_to_yojson request" (SafeNames.safeTypeName input))
              |> Option.value ~default:"`Assoc([])");
-           let serviceShape = Fmt.str "%s.%s" (Util.symbolName name) (Util.symbolName name) in
-           Fmt.pf fmt
-             "let* (response, body) = AwsJson.make_request @;<0 2>@[<v>~shapeName:\"%s\" @;"
-             serviceShape;
-           Fmt.pf fmt "~service @;~context @;~input @]@; in@\n";
-           Fmt.pf fmt
-             "let* output = Json.DeserializeHelpers.deserialize_res Deserializers.%s body in@\n"
-             response_shape_deserialiser;
-           Fmt.pf fmt "output";
-           Fmt.pf fmt "@]@;@\n";
-           Fmt.pf fmt "@]@\nend@\n@\n")
+           let serviceShape =
+             Fmt.str "%s.%s" (Util.symbolName name) (Util.symbolName operation_name)
+           in
+           Fmt.pf fmt "AwsJson.make_request @;<0 2>@[<v>~shape_name:\"%s\" @;" serviceShape;
+           Fmt.pf fmt "~service @;~context @;~input@\n";
+           Fmt.pf fmt "~output_deserializer:Deserializers.%s@\n" response_shape_deserialiser;
+           Fmt.pf fmt "~error_deserializer@\n";
+           Fmt.pf fmt "@]@]@]@\nend@\n@\n")
 end

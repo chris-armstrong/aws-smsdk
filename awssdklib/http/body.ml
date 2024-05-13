@@ -15,12 +15,11 @@ let to_string body =
   let rec read () =
     BodyReader.schedule_read
       ~on_read:(fun s ~off ~len ->
-        (* Logs.debug (fun m -> m "on_read offset=%d len=%d" off len); *)
+        Logs.debug (fun m -> m "on_read offset=%d len=%d" off len);
         body_string := String.cat !body_string (Bigstringaf.substring s ~off ~len);
         read ())
       ~on_eof:(fun () ->
-        Logs.debug (fun m -> m "on_eof len=%d" (!body_string |> String.length));
-        Printexc.print_backtrace stdout;
+        Logs.debug (fun m -> m "on_eof len=%d %s" (!body_string |> String.length) !body_string);
         Eio.Promise.resolve resolver !body_string;
         Eio.Promise.resolve body.resolver ())
   in

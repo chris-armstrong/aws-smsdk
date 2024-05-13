@@ -31,6 +31,7 @@
   (run %{gen} -run operations -input %{input} -output %{target})))
 
 (library
- (name aws_smsdk_sqs)
- (modules aws_smsdk_sqs types serializers deserializers operations)
+ (name Aws_SmSdk_Client_Sqs)
+ (public_name aws-smsdk-client-sqs)
+ (modules aws_smsdk_client_sqs types serializers deserializers operations)
  (libraries aws-smsdk-lib))

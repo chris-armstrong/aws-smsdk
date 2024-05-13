@@ -1,5 +1,5 @@
 module SerializeHelpers = struct
-  type t = Yojson.Safe.t
+  type t = Yojson.Basic.t
 
   let unit_to_yojson () : t = `Assoc []
   let string_to_yojson (x : string) : t = `String x
@@ -122,11 +122,12 @@ module DeserializeHelpers = struct
   let timestamp_of_yojson (tree : t) path =
     match tree with `Float str -> str | _ -> raise (deserialize_wrong_type_error path "timestamp")
 
-  let value_for_key converter (l : (string * t) list) key path =
+  let value_for_key converter key (l : (string * t) list) path =
     match List.assoc_opt key l with
     | Some value -> converter value (key :: path)
     | None -> raise (JsonDeserializeError (NoValueError (path_to_string (key :: path))))
 
-  let option_of_yojson (converter : t -> string list -> 'a) (tree : t) path =
+  let option_of_yojson (converter : (string * t) list -> string list -> 'a)
+      (tree : (string * t) list) path =
     try Some (converter tree path) with JsonDeserializeError (NoValueError v) -> None
 end

@@ -83,3 +83,23 @@
   eio_main
   (eio_main :with-dev)
   (odoc :with-doc)))
+
+(package
+ (name aws-smsdk-client-sqs)
+ (allow_empty)
+ (synopsis "SQS")
+ (description "SQS")
+ (authors "Chris Armstrong")
+ (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
+ (homepage https://github.com/chris-armstrong/aws-smsdk)
+ (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
+ (source
+  (github chris-armstrong/aws-smsdk))
+ (license MIT)
+ (depends
+  (dune
+   (>= "3.14"))
+  (ocaml
+   (>= "5.0"))
+  aws-smsdk-lib
+  (odoc :with-doc)))

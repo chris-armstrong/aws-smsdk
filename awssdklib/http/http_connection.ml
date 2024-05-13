@@ -60,6 +60,6 @@ let request ~connection ~body ~method_ ~headers ~sw ~on_ready host path =
   (* Return connection to the pool once the body is read *)
   Eio.Fiber.fork ~sw (fun () ->
       Eio.Promise.await body_reader_promise;
-      Logs.debug (fun m -> m "Response body consumed");
+      Logs.debug (fun m -> m "[%d] Response body consumed" response.status);
       on_ready ());
   Ok (response, body)

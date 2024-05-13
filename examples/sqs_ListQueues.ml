@@ -5,31 +5,36 @@ let _ =
   Eio_main.run (fun env ->
       Eio.Switch.run (fun sw ->
           let open Aws_SmSdk_Lib in
-          let credentials = Aws.Auth.fromProfile env () in
-          let config : Aws.Config.t =
-            {
-              resolveRegion =
-                (fun () -> Sys.getenv_opt "AWS_REGION" |> Option.value ~default:"ap-southeast-2");
-              resolveAuth = (fun () -> Aws.Auth.fromProfile env ());
-            }
+          let config =
+            Aws.Config.
+              {
+                resolveRegion = (fun () -> "ap-southeast-2");
+                resolveAuth = (fun () -> Aws.Auth.fromProfile env ());
+              }
           in
-          let input = `Assoc [] in
           let context = Aws.Context.make ~sw ~config env () in
-          let service = Aws.Service.{ namespace = "sqs"; endpointPrefix = "sqs"; version = "" } in
-          let ( let* ) = Result.bind in
-          let ( and* ) = Result.bind in
+          let ( let+ ) res map = Result.map map res in
 
-          let res =
-            begin
-              let* response, body =
-                AwsJson.make_request ~shapeName:"AmazonSQS.ListQueues" ~service ~context ~input
-              in
-              Fmt.pr "[%d]: %s@."
-                (response |> Http.Response.status)
-                (body |> Yojson.Basic.to_string ~std:true);
-              Ok ()
-            end
-          in
-          match res with
-          | Ok res -> ()
-          | Error error -> Fmt.pr "Error: %a@." Http.pp_http_failure error))
+          match
+            let+ result =
+              Aws_SmSdk_Client_Sqs.Operations.ListQueues.request context
+                Aws_SmSdk_Client_Sqs.Types.
+                  {
+                    next_token = None;
+                    max_results = Some (-1);
+                    queue_name_prefix = Some (Array.get Sys.argv 1);
+                  }
+            in
+            Logs.info (fun m ->
+                m "SUCCESS!: %s@."
+                  (result |> Aws_SmSdk_Client_Sqs.Serializers.list_queues_result_to_yojson
+                 |> Yojson.Basic.to_string))
+          with
+          | Ok _ -> ()
+          | Error (`HttpError e) ->
+              Logs.err (fun m -> m "HTTP Error %a" Aws_SmSdk_Lib.Http.pp_http_failure e)
+          | Error (`JsonParseError e) ->
+              Logs.err (fun m ->
+                  m "Parse Error! %s" (AwsSdkLib.Json.DeserializeHelpers.jsonParseErrorToString e))
+          | Error (`InvalidAddress s) -> Logs.err (fun m -> m "Invalid address: %s" s)
+          | Error `SubstituteError -> Logs.err (fun m -> m "General all-purpose error")))

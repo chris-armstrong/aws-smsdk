@@ -1,13 +1,7 @@
 module Log =
-  (val Logs.src_log (Logs.Src.create "awssdklib.Aws" ~doc:"AwsSdkLib Http implementation")
-      : Logs.LOG)
+  (val Logs.src_log (Logs.Src.create "awssdklib.Aws" ~doc:"AwsSdkLib implementation") : Logs.LOG)
 
-type 'a apiResult = { result : 'a; requestId : string }
-type emptyErrorDetails = < >
-type apiErrorType = ApiSenderType | ApiReceiverType
-type 'a apiError = { requestId : string; code : string; type_ : apiErrorType; details : 'a }
-
-exception AwsError of emptyErrorDetails apiError
+type 'a awsErrorType = [ `AwsError of 'a ]
 
 module Auth = Auth
 module Context = Context

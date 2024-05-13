@@ -1,16 +1,17 @@
 open Base
-open Util
 open SafeNames
 
-let generateType name definition = (("type " ^ safeTypeName name) ^ " = ") ^ definition
+let generateType name definition ~is_exception_type =
+  Fmt.str "type %s%s = %s" (safeTypeName name)
+    (if is_exception_type then "_exception_details" else "")
+    definition
 
 let generateField ?doc fieldName typeName =
   ((Option.value_map doc ~default:"" ~f:(fun x -> x ^ " ") ^ safeMemberName fieldName) ^ ": ")
   ^ typeName
 
 let generateRecordTypeDefinition members =
-  (if List.is_empty members then "{.}" else ("{\n  " ^ String.concat members ~sep:";\n  ") ^ "\n}")
-  [@ns.ternary]
+  if List.is_empty members then "unit" else ("{\n  " ^ String.concat members ~sep:";\n  ") ^ "\n}"
 
 let reBSlashBSlash = Str.regexp "\\\\"
 let reBSlashDQuote = Str.regexp "\\\""
@@ -73,8 +74,25 @@ let indentString indent =
   [@ns.braces]
 
 let generateStructureShape (details : Shape.structureShapeDetails) ?(genDoc = false) () =
-  (generateRecordTypeDefinition
-     (List.map details.members ~f:(fun member -> generateMember member ~genDoc ())) [@ns.braces])
+  let is_error = Trait.hasTrait details.traits Trait.isErrorTrait in
+  let record_type_definition =
+    generateRecordTypeDefinition
+      (List.map details.members ~f:(fun member -> generateMember member ~genDoc ()))
+  in
+  record_type_definition
+
+(* let generate_exception_type name (descriptor : Shape.structureShapeDetails) = *)
+(*   let type_name = SafeNames.safeTypeName name in *)
+(*   let constructor_name = SafeNames.safeConstructorName name in *)
+(*   let constructor_parameters = *)
+(*     if List.is_empty descriptor.members then "" *)
+(*     else *)
+(*       " of " *)
+(*       ^ (descriptor.members *)
+(*         |> List.map ~f:(fun member -> generateMember member ()) *)
+(*         |> generateRecordTypeDefinition) *)
+(*   in *)
+(*   Fmt.str "type %s_exception = [> `%s%s]" type_name constructor_name constructor_parameters *)
 
 let generateUnionShape (details : Shape.structureShapeDetails) ?(genDoc = false) () =
   let tConstructors =
@@ -93,7 +111,7 @@ let generateMapShape _ (mapValue : Shape.mapKeyValue) =
 exception NoServiceTrait of string
 exception UnknownTimestampFormat of string
 
-let generateSetShape (details : Shape.setShapeDetails) = "list(" ^ safeTypeName details.target ^ ")"
+let generateSetShape (details : Shape.setShapeDetails) = safeTypeName details.target ^ " list"
 
 let generateTimestampShape ({ traits } : Shape.timestampShapeDetails) =
   (let timestampFormat =
@@ -105,75 +123,6 @@ let generateTimestampShape ({ traits } : Shape.timestampShapeDetails) =
    | ((Some ((TimestampFormatTrait "epoch-seconds") [@explicit_arity])) [@explicit_arity]) ->
        {js|float;|js}
    | _ -> {js|float|js})
-  [@ns.braces]
-
-type operationStructure =
-  | OperationStructure of Shape.structureShapeDetails
-  | OperationStructureRef of string
-  | OperationStructureNone
-
-let generateOperationStructureType varName opStruct ?(genDoc = false) () =
-  match opStruct with
-  | ((OperationStructure details) [@explicit_arity]) ->
-      (let docs = generateDoc details.traits in
-       docs ^ generateType ({js|#|js} ^ varName) (generateStructureShape details ~genDoc ()))
-      [@ns.braces]
-  | ((OperationStructureRef name) [@explicit_arity]) ->
-      generateType ({js|#|js} ^ varName) (safeTypeName name)
-  | OperationStructureNone ->
-      generateType ({js|#|js} ^ varName)
-        (generateStructureShape { traits = None; members = [] } ~genDoc ()) [@ns.braces]
-
-let isOperationStructureNone opStruct =
-  match opStruct with OperationStructureNone -> true | _ -> false
-
-let generateMake input =
-  match input with
-  | ((OperationStructure { members; _ }) [@explicit_arity]) ->
-      (let requiredMembers, optionalMembers =
-         List.partition_tf members ~f:(fun x -> Trait.hasTrait x.traits Trait.isRequiredTrait)
-       in
-       let requiredArguments =
-         List.map requiredMembers ~f:(fun member -> {js|~|js} ^ safeMemberName member.name)
-       in
-       let optionalArguments =
-         List.map optionalMembers ~f:(fun member ->
-             ({js|~|js} ^ safeMemberName member.name) ^ {js|=?|js})
-       in
-       let arguments =
-         List.concat [ requiredArguments; optionalArguments ] |> String.concat ~sep:", "
-       in
-       let fields =
-         List.map members ~f:(fun member ->
-             safeMemberName member.name ^ ": " ^ safeMemberName member.name)
-         |> String.concat ~sep:", "
-       in
-       ((({js|let make = (|js} ^ arguments) ^ {js|, ()) => new({ |js}) ^ fields) ^ {js| })|js})
-      [@ns.braces]
-  | OperationStructureNone -> ({js|let make = () => new(Js.Obj.empty())|js} [@ns.braces])
-  | OperationStructureRef _ -> ""
-
-let generateOperationModule moduleName
-    ((name, input, output) : string * operationStructure * operationStructure) ?(genDoc = false) ()
-    =
-  (let commandName = symbolName name ^ {js|Command|js} in
-   let request = generateOperationStructureType "request" input ~genDoc () in
-   let response = generateOperationStructureType "response" output ~genDoc () in
-   let inputType = "request" in
-   let outputType =
-     (if isOperationStructureNone output then "Js.Promise.t<unit>" else "Js.Promise.t<response>")
-     [@ns.ternary]
-   in
-   let make = generateMake input in
-   ((("module " ^ symbolName name ^ " = {\\n" ^ "  type t;\\n" ^ ("  " ^ request) ^ "\\n"
-    ^ ("  " ^ response) ^ "\\n"
-     ^ (((("  @module(\"@aws-sdk/client" ^ moduleName) ^ "\" @new external new: (") ^ inputType)
-       ^ ") => t = \"")
-     ^ commandName)
-    ^ "\";\\n")
-   ^ ("  " ^ make) ^ {js|\\n|js})
-   ^ ({js|  @send external send: (awsServiceClient, t) => |js} ^ outputType)
-   ^ {js| = "send";\\n|js} ^ {js|}\\n|js})
   [@ns.braces]
 
 let generateEnumShape (details : Shape.enumShapeDetails) =
@@ -207,24 +156,20 @@ let generateTypeTarget descriptor ?(genDoc = false) () =
 
 let getStructureShape =
   let open Shape in
-  function
-  | ((StructureShape details) [@explicit_arity]) -> Some details [@explicit_arity] | _ -> None
-
-let generateExceptionBlock name _ =
-  "exception " ^ safeConstructorName name ^ " of Aws.emptyErrorDetails Aws.apiError"
+  function StructureShape details -> Some details | _ -> None
 
 let generateTypeBlock ({ name; descriptor } : Shape.t) ?(genDoc = false) () =
   let docs =
     match genDoc with true -> generateDoc (Shape.getShapeTraits descriptor) | false -> ""
   in
   let result = generateTypeTarget descriptor ~genDoc:false () in
-  let t = (if String.equal result "" then "" else generateType name result) [@ns.ternary] in
-  match descriptor with
-  | ((StructureShape details)
-  [@explicit_arity])
-    when Trait.hasTrait details.traits Trait.isErrorTrait ->
-      docs ^ generateExceptionBlock name details
-  | _ -> docs ^ t
+  let is_exception_type =
+    match descriptor with
+    | StructureShape s when Trait.(hasTrait s.traits isErrorTrait) -> true
+    | _ -> false
+  in
+  let t = if String.equal result "" then "" else generateType name result ~is_exception_type in
+  docs ^ t
 
 let generateRecursiveTypeBlock (shapes : Shape.t list) ?(genDoc = false) () =
   let shapeTypes =

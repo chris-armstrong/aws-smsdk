@@ -11,7 +11,7 @@
 (executable
  (name sqs_ListQueues)
  (modules sqs_ListQueues)
- (libraries aws-smsdk-lib eio_main logs fmt))
+ (libraries aws-smsdk-lib eio_main logs fmt aws-smsdk-client-sqs))
 
 (executable
  (name signed)

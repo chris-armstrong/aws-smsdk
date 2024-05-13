@@ -68,7 +68,12 @@ let make_http_1_1_client ~sw ~scheme ssl_socket =
       Log.debug (fun m -> m "Written HTTP body@.");
 
       match Eio.Promise.await response_promise with
-      | Ok (response, body) -> Ok (response, body)
+      | Ok (response, body) ->
+          Logs.debug (fun m ->
+              m "Response headers: %a"
+                (Fmt.list (Fmt.pair ~sep:(Fmt.any "=") Fmt.string Fmt.string) ~sep:(Fmt.any ";@;"))
+                (Response.headers response));
+          Ok (response, body)
       | Error error ->
           let response_error_string =
             match error with
