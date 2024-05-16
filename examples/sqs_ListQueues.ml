@@ -16,19 +16,19 @@ let _ =
           let ( let+ ) res map = Result.map map res in
 
           match
+            let open Aws_SmSdk_Client_Sqs in
             let+ result =
-              Aws_SmSdk_Client_Sqs.Operations.ListQueues.request context
-                Aws_SmSdk_Client_Sqs.Types.
+              Operations.ListQueues.request context
+                Types.
                   {
                     next_token = None;
-                    max_results = Some (-1);
+                    max_results = Some 13;
                     queue_name_prefix = Some (Array.get Sys.argv 1);
                   }
             in
             Logs.info (fun m ->
                 m "SUCCESS!: %s@."
-                  (result |> Aws_SmSdk_Client_Sqs.Serializers.list_queues_result_to_yojson
-                 |> Yojson.Basic.to_string))
+                  (result |> Serializers.list_queues_result_to_yojson |> Yojson.Basic.to_string))
           with
           | Ok _ -> ()
           | Error (`HttpError e) ->
@@ -36,5 +36,9 @@ let _ =
           | Error (`JsonParseError e) ->
               Logs.err (fun m ->
                   m "Parse Error! %s" (AwsSdkLib.Json.DeserializeHelpers.jsonParseErrorToString e))
-          | Error (`InvalidAddress s) -> Logs.err (fun m -> m "Invalid address: %s" s)
-          | Error `SubstituteError -> Logs.err (fun m -> m "General all-purpose error")))
+          | Error (`InvalidAddress s) ->
+              Logs.err (fun m -> m "Invalid address: %s" (s.message |> Option.value ~default:"<>"))
+          | Error (`AWSServiceError { _type = namespace, name; message }) ->
+              Logs.err (fun m ->
+                  m "Unknown AWS error %s:%s - %s" namespace name (Option.value ~default:"" message))
+          | Error _ -> Logs.err (fun m -> m "Another error")))

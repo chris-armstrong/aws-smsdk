@@ -87,8 +87,8 @@
 (package
  (name aws-smsdk-client-sqs)
  (allow_empty)
- (synopsis "SQS")
- (description "SQS")
+ (synopsis "Amazon SQS client using EIO")
+ (description "This is a generated AWS SDK client for Amazon SQS. It uses EIO for asynchronous requests.")
  (authors "Chris Armstrong")
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
  (homepage https://github.com/chris-armstrong/aws-smsdk)
@@ -103,3 +103,25 @@
    (>= "5.0"))
   aws-smsdk-lib
   (odoc :with-doc)))
+
+(package
+ (name aws-smsdk-client-dynamodb)
+ (allow_empty)
+ (synopsis "Amazon DynamoDB client using EIO")
+ (description "This is a generated AWS SDK client for Amazon DynamoDB. It uses EIO for asynchronous requests.")
+ (authors "Chris Armstrong")
+ (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
+ (homepage https://github.com/chris-armstrong/aws-smsdk)
+ (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
+ (source
+  (github chris-armstrong/aws-smsdk))
+ (license MIT)
+ (depends
+  (dune
+   (>= "3.14"))
+  (ocaml
+   (>= "5.0"))
+  aws-smsdk-lib
+  (odoc :with-doc)))
+
+

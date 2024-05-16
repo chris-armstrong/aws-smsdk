@@ -1,0 +1,37 @@
+(rule
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
+ (target types.ml)
+ (action
+  (run %{gen} -run types -input %{input} -output %{target})))
+
+(rule
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
+ (target serializers.ml)
+ (action
+  (run %{gen} -run serialisers -input %{input} -output %{target})))
+
+(rule
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
+ (target deserializers.ml)
+ (action
+  (run %{gen} -run deserialisers -input %{input} -output %{target})))
+
+(rule
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
+ (target operations.ml)
+ (action
+  (run %{gen} -run operations -input %{input} -output %{target})))
+
+(library
+ (name Aws_SmSdk_Client_DynamoDB)
+ (public_name aws-smsdk-client-dynamodb)
+ (modules aws_smsdk_client_dynamodb types serializers deserializers operations)
+ (libraries aws-smsdk-lib))

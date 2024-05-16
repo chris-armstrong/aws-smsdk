@@ -1,10 +1,11 @@
 open Base
 open SafeNames
 
+let type_name ~is_exception_type name =
+  Fmt.str "%s%s" (safeTypeName name) (if is_exception_type then "_exception_details" else "")
+
 let generateType name definition ~is_exception_type =
-  Fmt.str "type %s%s = %s" (safeTypeName name)
-    (if is_exception_type then "_exception_details" else "")
-    definition
+  Fmt.str "type %s = %s" (type_name ~is_exception_type name) definition
 
 let generateField ?doc fieldName typeName =
   ((Option.value_map doc ~default:"" ~f:(fun x -> x ^ " ") ^ safeMemberName fieldName) ^ ": ")
@@ -81,23 +82,10 @@ let generateStructureShape (details : Shape.structureShapeDetails) ?(genDoc = fa
   in
   record_type_definition
 
-(* let generate_exception_type name (descriptor : Shape.structureShapeDetails) = *)
-(*   let type_name = SafeNames.safeTypeName name in *)
-(*   let constructor_name = SafeNames.safeConstructorName name in *)
-(*   let constructor_parameters = *)
-(*     if List.is_empty descriptor.members then "" *)
-(*     else *)
-(*       " of " *)
-(*       ^ (descriptor.members *)
-(*         |> List.map ~f:(fun member -> generateMember member ()) *)
-(*         |> generateRecordTypeDefinition) *)
-(*   in *)
-(*   Fmt.str "type %s_exception = [> `%s%s]" type_name constructor_name constructor_parameters *)
-
 let generateUnionShape (details : Shape.structureShapeDetails) ?(genDoc = false) () =
   let tConstructors =
     List.map details.members ~f:(fun member ->
-        ((safeVariantName member.name ^ "(") ^ safeTypeName member.target) ^ ")")
+        (safeVariantName member.name ^ " of ") ^ safeTypeName member.target)
   in
   let t = String.concat tConstructors ~sep:" | " in
   t

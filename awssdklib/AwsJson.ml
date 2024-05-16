@@ -37,3 +37,17 @@ let make_request ~(shape_name : string) ~(service : Aws.Service.descriptor) ~(co
           | Error error -> Error (`JsonParseError error))
     end
   | Error error -> Error (`HttpError error)
+
+let error_deserializer handler tree path =
+  let _obj = Json.DeserializeHelpers.assoc_of_yojson tree path in
+  let _type =
+    Json.DeserializeHelpers.value_for_key Json.DeserializeHelpers.string_of_yojson "__type" _obj
+      path
+  in
+  let typepair =
+    match String.split_on_char '#' _type with
+    | namespace :: name :: _ -> (namespace, name)
+    | _ -> ("", _type)
+  in
+
+  handler tree path typepair
