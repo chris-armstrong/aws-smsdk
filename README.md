@@ -3,15 +3,17 @@
 This is a project to generate OCaml bindings for the AWS SDK using
 Smithy definitions.
 
-Bindings use the [eio]() library for async, leveraging [httpaf]
-and [h2] by @anmonteiro for HTTP communication.
 
 ## Status
 
-This is a work in progress. 
+This is a work in progress. Only some services are defined as SDKs,
+and the protocol generators may only be able to work on some services
+(and their implementations may incomplete or buggy).
 
 At the moment, we can generate bindings for the AwsJson_1.0 protocol,
-which covers a significant number of SKs
+which covers a significant number of SDKs but has not been thoroughly
+tested for completeness or compliance. (If you know of good compliance
+suites for AWS service implementations, please reach out!)
 
 ## Installation
 
@@ -41,4 +43,10 @@ for supported services.
 
 `opam install aws-smsdk-sqs`
 
+## Developing
 
+See the [Developers Guide](DEVELOPERS.md)
+
+## Licence
+
+MIT Licence, see [LICENCE.md](LICENCE.md)

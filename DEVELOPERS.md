@@ -4,6 +4,15 @@ This is a guide for those working on this repository - see
 the README and reference documentation for how to use consume
 its libraries and SDKs in your own code.
 
+## Base Libraries
+
+All the SDK bindings use the [eio](https://github.com/ocaml-multicore/eio) library for async, leveraging [httpaf](https://github.com/anmonteiro/httpaf)
+and [h2](https://github.com/anmonteiro/ocaml-h2) by [@anmonteiro](https://github.com/anmonteiro/) for HTTP communication via the `awssdklib`.
+
+Jane Street [Base](https://opensource.janestreet.com/base/) is used in some of the parsers and code generators, but
+the `awssdklib` shared library used by SDKs has minimal dependencies on
+external libraries.
+
 ## Repository layout
 
 ```
