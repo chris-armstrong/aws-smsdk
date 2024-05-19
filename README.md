@@ -21,7 +21,13 @@ The code in this repository is not currently available through opam.
 
 However, you can use it by pinning the opam repository:
 
-`opam pin https://github.com/chris-armstrong/aws-smsdk`
+`opam pin https://github.com/chris-armstrong/aws-smsdk.git`
+
+You will also need to pin some of its dependencies too:
+
+* [httpaf](https://opam.ocaml.org/packages/httpaf/): https://github.com/anmonteiro/httpaf.git
+* h2: https://github.com/anmonteiro/ocaml-h2.git
+* eio-ssl: https://github.com/anmonteiro/eio-ssl.git
 
 ## Usage
 
