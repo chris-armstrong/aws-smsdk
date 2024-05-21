@@ -136,11 +136,11 @@ module Deserialiser = struct
     let open Shape in
     let is_exception_type = Trait.(hasTrait x.traits isErrorTrait) in
     let type_name = CodeGen.type_name ~is_exception_type name in
-    Fmt.pf fmt "fun tree path ->@;let _list = assoc_of_yojson tree path in@;";
+    Fmt.pf fmt "fun tree path : %s ->@;let _list = assoc_of_yojson tree path in@;" type_name;
     Fmt.pf fmt "let _res : %s = " type_name;
 
     if List.length x.members > 0 then begin
-      Fmt.pf fmt "{@ @[<v 2>@;";
+      Fmt.pf fmt "{@;<1 2>@[<v>";
       List.iter x.members ~f:(fun { name; target; traits } ->
           let isRequired = Trait.hasTrait traits Trait.isRequiredTrait in
           let converter_name = func_name ~is_exception_type:false target in
@@ -158,29 +158,33 @@ module Deserialiser = struct
     end
     else Fmt.pf fmt "()";
 
-    Fmt.pf fmt " in _res"
+    Fmt.pf fmt "@ in _res"
 
   and string_func_body fmt name x = Fmt.pf fmt "string_of_yojson"
 
   and union_func_body fmt name (x : Shape.structureShapeDetails) =
-    (* { "B": true } || { "STRING": "my string value" } *)
-    Fmt.pf fmt "fun (tree: t) path ->@;";
+    let is_exception_type = Trait.(hasTrait x.traits isErrorTrait) in
+    let type_name = CodeGen.type_name ~is_exception_type name in
+    Fmt.pf fmt "fun (tree: t) path : %s ->@;" type_name;
     Fmt.pf fmt "let _list = assoc_of_yojson tree path in@;";
-    Fmt.pf fmt "match _list with@;@[<v 2>@;";
-    Fmt.pf fmt "| (key, value_) :: _ -> (@;";
-    Fmt.pf fmt "@[<v 2>match key with@;";
+    Fmt.pf fmt "let key, value_ = match _list with@;<1 2>@[<v 0>";
+    Fmt.pf fmt "| (key, value_) :: _ -> key, value_ @;";
+    Fmt.pf fmt "| _ -> raise (deserialize_wrong_type_error path \"union\")@]@;in@;";
+    Fmt.pf fmt "match key with@;<1 2>@[";
     List.iter
       ~f:(fun { name; target; traits } ->
-        Fmt.pf fmt "| \"%s\" -> %s (%s value_ (\"%s\"::path))@;" name
+        Fmt.pf fmt "| \"%s\" -> %s (%s value_ (path))@;" name
           (SafeNames.safeConstructorName name)
-          (func_name target) name)
+          (func_name target))
       x.members;
-    Fmt.pf fmt "@])@;";
-    Fmt.pf fmt "| _ -> raise (deserialize_wrong_type_error path \"union\")@;";
+    Fmt.pf fmt
+      "| _ as unknown -> raise@[(deserialize_unknown_enum_value_error@ path@ \"%s\"@ unknown)@]"
+      (name |> Util.symbolName);
     Fmt.pf fmt "@]@;"
 
   and enum_func_body fmt name s =
-    Fmt.pf fmt "fun (tree: t) path -> match tree with @;@[<v 2>@;";
+    let _type = SafeNames.safeTypeName name in
+    Fmt.pf fmt "fun (tree: t) path : %s -> match tree with @;<1 2>@[<v>" _type;
     List.iter
       ~f:(fun { name; traits; _ } ->
         let value =
@@ -192,9 +196,8 @@ module Deserialiser = struct
       s.members;
 
     Fmt.pf fmt "| `String value -> raise (deserialize_unknown_enum_value_error path \"%s\" value)@;"
-      (SafeNames.safeTypeName name);
-    Fmt.pf fmt "| _ -> raise (deserialize_wrong_type_error path \"%s\")@]"
-      (SafeNames.safeTypeName name)
+      (Util.symbolName name);
+    Fmt.pf fmt "| _ -> raise (deserialize_wrong_type_error path \"%s\")@]" (Util.symbolName name)
 
   and func_body fmt name shapeDescriptor =
     match shapeDescriptor with
@@ -237,19 +240,23 @@ end
 
 module Operations = struct
   let generate_error_handler fmt os =
-    Fmt.pf fmt "let error_deserializer tree path = @;@[<v 2>@;";
-    Fmt.pf fmt "let open Deserializers in@;";
-    Fmt.pf fmt "let handler = fun handler tree path -> function@ @[<hov 2>";
-    List.iter
-      ~f:(fun exc ->
-        let exc_namespace, exc_name = Util.symbolPair exc in
-        let constructor_name = SafeNames.safeConstructorName exc in
-        let deserializer_func_name = Deserialiser.func_name exc ~is_exception_type:true in
-        Fmt.pf fmt "| \"%s\", \"%s\" -> (`%s (%s tree path))@;" exc_namespace exc_name
-          constructor_name deserializer_func_name)
-      (os.errors |> Option.value ~default:[]);
-    Fmt.pf fmt "| _type -> handler tree path _type@;";
-    Fmt.pf fmt "@]@ in@\n";
+    Fmt.pf fmt "let error_deserializer tree path = @;<1 2>@[<v>";
+    let errors = os.errors |> Option.value ~default:[] in
+    if List.length errors > 0 then begin
+      Fmt.pf fmt "let open Deserializers in@;";
+      Fmt.pf fmt "let handler = fun handler tree path -> function@;<1 2>@[<v>";
+      List.iter
+        ~f:(fun exc ->
+          let exc_namespace, exc_name = Util.symbolPair exc in
+          let constructor_name = SafeNames.safeConstructorName exc in
+          let deserializer_func_name = Deserialiser.func_name exc ~is_exception_type:true in
+          Fmt.pf fmt "| \"%s\", \"%s\" ->@;<1 2> (`%s (%s tree path))@;" exc_namespace exc_name
+            constructor_name deserializer_func_name)
+        errors;
+      Fmt.pf fmt "| _type -> handler tree path _type@;";
+      Fmt.pf fmt "@]@ in@\n"
+    end
+    else Fmt.pf fmt "let handler a = a in@;";
     Fmt.pf fmt "AwsJson.error_deserializer (handler Errors.default_handler) tree path@\n@]@;"
 
   let generate ~name ~operation_shapes fmt =

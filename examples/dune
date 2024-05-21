@@ -18,3 +18,8 @@
  (modules signed)
  (modes byte exe)
  (libraries aws-smsdk-lib eio_main logs fmt))
+
+(executable
+ (name dynamodb_createTableAndWriteData)
+ (modules dynamodb_createTableAndWriteData)
+ (libraries aws-smsdk-lib eio_main logs fmt aws-smsdk-client-dynamodb))

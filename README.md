@@ -3,7 +3,6 @@
 This is a project to generate OCaml bindings for the AWS SDK using
 Smithy definitions.
 
-
 ## Status
 
 This is a work in progress. Only some services are defined as SDKs,
