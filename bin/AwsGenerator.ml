@@ -7,10 +7,13 @@ type command =
   | OperationsCommand
   | SerialisersCommand
   | DeserialisersCommand
+  | BuildersCommand
 
 let readCommandLine () =
   try
-    let usage = "AwsGenerator -run [types|service|operations|serialisers] <definition> <output>" in
+    let usage =
+      "AwsGenerator -run [types|builders|service|operations|serialisers] <definition> <output>"
+    in
     let command = ref None in
     let filename = ref None in
     let output = ref None in
@@ -19,7 +22,8 @@ let readCommandLine () =
       [
         ( "-run",
           (Stdlib.Arg.Symbol
-             ([ "types"; "service"; "operations"; "serialisers"; "deserialisers" ], setCommand)
+             ( [ "types"; "builders"; "service"; "operations"; "serialisers"; "deserialisers" ],
+               setCommand )
           [@explicit_arity]),
           "command to execute" );
         ("-input", Stdlib.Arg.String (fun s -> filename := Some s), "Input definition file");
@@ -42,6 +46,7 @@ let readCommandLine () =
           | Some "operations" -> OperationsCommand
           | Some "serialisers" -> SerialisersCommand
           | Some "deserialisers" -> DeserialisersCommand
+          | Some "builders" -> BuildersCommand
           | _ ->
               Stdio.eprintf "You must specify a -run <command>\n";
               Stdlib.exit 1),
@@ -69,6 +74,8 @@ let _ =
       (match command with
       | TypesCommand ->
           Gen_types.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
+      | BuildersCommand ->
+          Gen_builders.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
       | ServiceCommand -> SmithyHelpers.printServiceDetails shapes
       | OperationsCommand ->
           Gen_operations.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt

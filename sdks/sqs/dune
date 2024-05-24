@@ -30,8 +30,22 @@
  (action
   (run %{gen} -run operations -input %{input} -output %{target})))
 
+(rule
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/sqs.json))
+ (target builders.ml)
+ (action
+  (run %{gen} -run builders -input %{input} -output %{target})))
+
 (library
  (name Aws_SmSdk_Client_Sqs)
  (public_name aws-smsdk-client-sqs)
- (modules aws_smsdk_client_sqs types serializers deserializers operations)
+ (modules
+  aws_smsdk_client_sqs
+  types
+  serializers
+  deserializers
+  operations
+  builders)
  (libraries aws-smsdk-lib))
