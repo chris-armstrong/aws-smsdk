@@ -5,3 +5,6 @@
 [x] Return connection to connection pool only once the body is drained / read
 [ ] Run multiple requests in parallel for HTTP/2 connections but not HTTP/1.1 connections
 [ ] HTTP 301 redirect handling
+[ ] Rewrite connection pool to use Eio.Pool
+[ ] Builder functions for major types
+[ ] Incorporate documentation nodes into code
