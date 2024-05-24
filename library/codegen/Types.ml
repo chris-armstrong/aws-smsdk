@@ -1,5 +1,6 @@
 open Base
 open SafeNames
+open Ast
 
 let type_name ~is_exception_type name =
   Fmt.str "%s%s" (safeTypeName name) (if is_exception_type then "_exception_details" else "")

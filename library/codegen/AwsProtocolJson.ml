@@ -1,6 +1,8 @@
 open Base
 open SafeNames
-open Shape
+open Ast.Shape
+open Ast.Trait
+open Ast.Dependencies
 
 exception UnexpectedType of string
 
@@ -12,7 +14,7 @@ let has_func_body = function
       true
   | ResourceShape | OperationShape _ | ServiceShape _ -> false
 
-let print_shape_func ~printer ~func_name ~fmt Dependencies.{ name; descriptor; recursWith; _ } =
+let print_shape_func ~printer ~func_name ~fmt { name; descriptor; recursWith; _ } =
   let to_func = func_name name in
   match recursWith with
   | Some others ->
@@ -35,11 +37,11 @@ module Serialiser = struct
     Fmt.str "%s%s_to_yojson" (SafeNames.safeFunctionName name) exception_extension
 
   let rec structure_func_body fmt name (descriptor : structureShapeDetails) =
-    let is_exception_type = Trait.(hasTrait descriptor.traits isErrorTrait) in
+    let is_exception_type = hasTrait descriptor.traits isErrorTrait in
     Fmt.pf fmt "fun (x: %s) -> assoc_to_yojson(@;<0 2>[@[<v 2>"
-      (CodeGen.type_name ~is_exception_type name);
+      (Types.type_name ~is_exception_type name);
     List.iter descriptor.members ~f:(fun { name; target; traits } ->
-        let isRequired = Trait.hasTrait traits Trait.isRequiredTrait in
+        let isRequired = hasTrait traits isRequiredTrait in
         let extractedValue =
           if isRequired then
             "(Some (" ^ func_name target ^ " x." ^ SafeNames.safeMemberName name ^ "))"
@@ -48,7 +50,7 @@ module Serialiser = struct
         Fmt.pf fmt "(@;<0 2>\"%s\",@;<0 2>%s);@;" name extractedValue);
     Fmt.pf fmt "@]@;])"
 
-  and union_func_body fmt name (descriptor : Shape.structureShapeDetails) =
+  and union_func_body fmt name (descriptor : structureShapeDetails) =
     Fmt.pf fmt "fun (x: %s) -> @\n@[<v 2>" (SafeNames.safeTypeName name);
     Fmt.pf fmt "match x with @\n@[<v 2>";
     List.iter descriptor.members ~f:(fun member ->
@@ -58,18 +60,16 @@ module Serialiser = struct
     Fmt.pf fmt "@\n@]";
     Fmt.pf fmt "@\n@]"
 
-  and string_func_body fmt name (stringDescriptor : Shape.primitiveShapeDetails) =
-    if Trait.hasTrait stringDescriptor.traits Trait.isEnumTrait then (
+  and string_func_body fmt name (stringDescriptor : primitiveShapeDetails) =
+    if hasTrait stringDescriptor.traits isEnumTrait then (
       let enumValue =
         stringDescriptor.traits |> Option.value ~default:[]
-        |> List.filter_map ~f:(function
-             | ((Trait.EnumTrait x) [@explicit_arity]) -> Some x [@explicit_arity]
-             | _ -> None)
+        |> List.filter_map ~f:(function EnumTrait x -> Some x | _ -> None)
         |> List.hd_exn
       in
       Fmt.pf fmt "(x: %s) => @,@[<v 2>switch (x) {@,@[<v 2>" (SafeNames.safeTypeName name);
       enumValue
-      |> List.iter ~f:(fun Trait.{ name; value } ->
+      |> List.iter ~f:(fun { name; value } ->
              Fmt.pf fmt "| %s => `String(\"%s\")@;"
                (safeVariantName (Option.value name ~default:value))
                value);
@@ -93,8 +93,7 @@ module Serialiser = struct
           ~f:(fun { name; traits; _ } ->
             let value =
               List.find_map_exn
-                ~f:(fun (t : Trait.t) ->
-                  match t with Trait.EnumValueTrait e -> Some e | _ -> None)
+                ~f:(fun (t : Ast.Trait.t) -> match t with EnumValueTrait e -> Some e | _ -> None)
                 (traits |> Option.value ~default:[])
             in
             Fmt.pf fmt "| %s -> `String \"%s\"@;" (safeConstructorName name) value)
@@ -110,15 +109,15 @@ module Serialiser = struct
     | UnitShape -> Fmt.pf fmt "unit_to_yojson"
     | _ -> raise (UnexpectedType name)
 
-  let generate ~(structure_shapes : Dependencies.shapeWithTarget list) fmt =
+  let generate ~(structure_shapes : shapeWithTarget list) fmt =
     Fmt.pf fmt "open Aws_SmSdk_Lib.Json.SerializeHelpers@\n@\n";
     Fmt.pf fmt "open Types@\n@\n";
     structure_shapes
     |> List.iter ~f:(fun shapeWithTarget ->
            let func_name str =
              let is_exception_type =
-               match Dependencies.(shapeWithTarget.descriptor) with
-               | StructureShape s when Trait.(hasTrait s.traits isErrorTrait) -> true
+               match shapeWithTarget.descriptor with
+               | StructureShape s when hasTrait s.traits isErrorTrait -> true
                | _ -> false
              in
              func_name ~is_exception_type str
@@ -133,16 +132,15 @@ module Deserialiser = struct
     ^ "_of_yojson"
 
   let rec structure_func_body fmt name (x : structureShapeDetails) =
-    let open Shape in
-    let is_exception_type = Trait.(hasTrait x.traits isErrorTrait) in
-    let type_name = CodeGen.type_name ~is_exception_type name in
+    let is_exception_type = hasTrait x.traits isErrorTrait in
+    let type_name = Types.type_name ~is_exception_type name in
     Fmt.pf fmt "fun tree path : %s ->@;let _list = assoc_of_yojson tree path in@;" type_name;
     Fmt.pf fmt "let _res : %s = " type_name;
 
     if List.length x.members > 0 then begin
       Fmt.pf fmt "{@;<1 2>@[<v>";
       List.iter x.members ~f:(fun { name; target; traits } ->
-          let isRequired = Trait.hasTrait traits Trait.isRequiredTrait in
+          let isRequired = hasTrait traits isRequiredTrait in
           let converter_name = func_name ~is_exception_type:false target in
           let key_name = SafeNames.safeMemberName name in
 
@@ -162,9 +160,9 @@ module Deserialiser = struct
 
   and string_func_body fmt name x = Fmt.pf fmt "string_of_yojson"
 
-  and union_func_body fmt name (x : Shape.structureShapeDetails) =
-    let is_exception_type = Trait.(hasTrait x.traits isErrorTrait) in
-    let type_name = CodeGen.type_name ~is_exception_type name in
+  and union_func_body fmt name (x : structureShapeDetails) =
+    let is_exception_type = hasTrait x.traits isErrorTrait in
+    let type_name = Types.type_name ~is_exception_type name in
     Fmt.pf fmt "fun (tree: t) path : %s ->@;" type_name;
     Fmt.pf fmt "let _list = assoc_of_yojson tree path in@;";
     Fmt.pf fmt "let key, value_ = match _list with@;<1 2>@[<v 0>";
@@ -189,7 +187,7 @@ module Deserialiser = struct
       ~f:(fun { name; traits; _ } ->
         let value =
           List.find_map_exn
-            ~f:(fun (t : Trait.t) -> match t with Trait.EnumValueTrait e -> Some e | _ -> None)
+            ~f:(fun (t : Ast.Trait.t) -> match t with EnumValueTrait e -> Some e | _ -> None)
             (traits |> Option.value ~default:[])
         in
         Fmt.pf fmt "| `String \"%s\" -> %s@;" value (safeConstructorName name))
@@ -230,8 +228,8 @@ module Deserialiser = struct
            print_shape_func ~printer:func_body
              ~func_name:(fun s ->
                let is_exception_type =
-                 match Dependencies.(shapeWithTarget.descriptor) with
-                 | StructureShape s when Trait.(hasTrait s.traits isErrorTrait) -> true
+                 match shapeWithTarget.descriptor with
+                 | StructureShape s when hasTrait s.traits isErrorTrait -> true
                  | _ -> false
                in
                func_name ~is_exception_type s)

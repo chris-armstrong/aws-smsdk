@@ -50,9 +50,9 @@ let readCommandLine () =
     Stdio.eprintf "You must supply a model file as the first parameter: %s\n" x;
     Stdlib.exit 1
 
-let shapeWithTarget Shape.{ name; descriptor } =
-  let open Dependencies in
-  { name; descriptor; targets = Dependencies.getTargets descriptor; recursWith = None }
+let shapeWithTarget Ast.Shape.{ name; descriptor } =
+  let open Ast.Dependencies in
+  { name; descriptor; targets = getTargets descriptor; recursWith = None }
 
 let ( let* ) = Stdlib.Result.bind
 
@@ -60,11 +60,11 @@ let _ =
   let input_filename, command, output = readCommandLine () in
   let output_channel = Out_channel.open_text output in
   let output_fmt = output_channel |> Stdlib.Format.formatter_of_out_channel in
-  match Json.Decode.parseJsonFile input_filename Parse.parseModel with
+  match Parse.Json.Decode.parseJsonFile input_filename Parse.Smithy.parseModel with
   | Ok shapes -> begin
-      let ordered = shapes |> List.map ~f:shapeWithTarget |> Dependencies.order in
+      let ordered = shapes |> List.map ~f:shapeWithTarget |> Ast.Dependencies.order in
       let (name, service), operation_shapes, structure_shapes =
-        Organize.partitionOperationShapes ordered
+        Ast.Organize.partitionOperationShapes ordered
       in
       (match command with
       | TypesCommand ->
@@ -81,5 +81,5 @@ let _ =
       Out_channel.flush output_channel
     end
   | Error error ->
-      Stdio.eprintf "Error parsing model: %s\n" (Json.Decode.jsonParseErrorToString error);
+      Stdio.eprintf "Error parsing model: %s\n" (Parse.Json.Decode.jsonParseErrorToString error);
       Stdlib.exit 1

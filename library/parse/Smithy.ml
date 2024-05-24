@@ -1,4 +1,5 @@
 open Base
+open Ast
 open Json.Decode
 open Json.ResultHelpers
 

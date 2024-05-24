@@ -1,4 +1,5 @@
 open Parselib
+open Ast
 
 let generate ~name ~(service : Shape.serviceShapeDetails) ~operation_shapes ~structure_shapes oc =
   if
@@ -6,4 +7,4 @@ let generate ~name ~(service : Shape.serviceShapeDetails) ~operation_shapes ~str
       | Trait.AwsProtocolAwsJson1_1Trait -> true
       | Trait.AwsProtocolAwsJson1_0Trait -> true
       | _ -> false)
-  then AwsProtocolJson.Operations.generate ~name ~operation_shapes oc
+  then Codegen.AwsProtocolJson.Operations.generate ~name ~operation_shapes oc

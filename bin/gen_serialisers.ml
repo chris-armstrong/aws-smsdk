@@ -1,9 +1,10 @@
 open Parselib
 
-let generate ~name ~(service : Shape.serviceShapeDetails) ~operation_shapes ~structure_shapes oc =
+let generate ~name ~(service : Ast.Shape.serviceShapeDetails) ~operation_shapes ~structure_shapes oc
+    =
   if
-    Trait.hasTrait service.traits (function
-      | Trait.AwsProtocolAwsJson1_1Trait -> true
-      | Trait.AwsProtocolAwsJson1_0Trait -> true
+    Ast.Trait.hasTrait service.traits (function
+      | Ast.Trait.AwsProtocolAwsJson1_1Trait -> true
+      | Ast.Trait.AwsProtocolAwsJson1_0Trait -> true
       | _ -> false)
-  then AwsProtocolJson.Serialiser.generate ~structure_shapes oc
+  then Codegen.AwsProtocolJson.Serialiser.generate ~structure_shapes oc
