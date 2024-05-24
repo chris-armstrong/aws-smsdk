@@ -1,21 +1,20 @@
-open Base
 open Aws
 
 type field = string * string list
 type 'a mapper = string list -> 'a -> field
 
-let join_path path = String.concat path ~sep:"."
+let join_path path = String.concat "." path
 
 module Request = struct
   let map_string path (value : string) = (join_path path, [ value ])
   let map_int path value = (join_path path, [ Int.to_string value ])
-  let map_required (mapper : 'a mapper) path value = (Some (mapper path value) [@explicit_arity])
-  let map_opt (mapper : 'a mapper) path value = Option.map value ~f:(fun v -> mapper path v)
+  let map_required (mapper : 'a mapper) path value = Some (mapper path value)
+  let map_opt (mapper : 'a mapper) path value = Option.map (fun v -> mapper path v) value
 
   let make ~(service : Aws.Service.descriptor) ~context ~action ~(fields : field option list) ~sw
       env =
     let basicHeaders = [ ("content-type", "application/x-www-form-urlencoded") ] in
-    let filteredFields = fields |> List.filter_opt in
+    let filteredFields = fields |> List.filter_map (fun x -> x) in
     let uri = Aws.Service.makeUri ~context ~service in
     let body_values =
       ("Action", [ action ]) :: ("Version", [ service.version ]) :: filteredFields
