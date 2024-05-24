@@ -16,19 +16,17 @@ let _ =
           let ( let+ ) res map = Result.map map res in
 
           match
-            let open Aws_SmSdk_Client_Sqs in
-            let+ result =
-              Operations.ListQueues.request context
-                Types.
-                  {
-                    next_token = None;
-                    max_results = Some 13;
-                    queue_name_prefix = Some (Array.get Sys.argv 1);
-                  }
-            in
-            Logs.info (fun m ->
-                m "SUCCESS!: %s@."
-                  (result |> Serializers.list_queues_result_to_yojson |> Yojson.Basic.to_string))
+            begin
+              let open Aws_SmSdk_Client_Sqs in
+              let+ result =
+                Operations.ListQueues.request context
+                  (Builders.make_list_queues_request ~max_results:10
+                     ~queue_name_prefix:(Array.get Sys.argv 1) ())
+              in
+              Logs.info (fun m ->
+                  m "SUCCESS!: %s@."
+                    (result |> Serializers.list_queues_result_to_yojson |> Yojson.Basic.to_string))
+            end
           with
           | Ok _ -> ()
           | Error (`HttpError e) ->

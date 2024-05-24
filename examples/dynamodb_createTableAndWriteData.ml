@@ -34,30 +34,19 @@ let _ =
             let+ ctr =
               if not table_exists then
                 Operations.CreateTable.request context
-                  Types.
-                    {
-                      table_name = table;
-                      resource_policy = None;
-                      deletion_protection_enabled = None;
-                      table_class = Some STANDARD;
-                      sse_specification = None;
-                      tags = Some [];
-                      billing_mode = Some Types.PAY_PER_REQUEST;
-                      stream_specification = None;
-                      provisioned_throughput = None;
-                      global_secondary_indexes = None;
-                      local_secondary_indexes = None;
-                      key_schema =
-                        [
-                          { key_type = HASH; attribute_name = "pk" };
-                          { key_type = RANGE; attribute_name = "sk" };
-                        ];
-                      attribute_definitions =
-                        [
-                          { attribute_name = "pk"; attribute_type = S };
-                          { attribute_name = "sk"; attribute_type = S };
-                        ];
-                    }
+                  (Builders.make_create_table_input ~table_name:table ~table_class:STANDARD
+                     ~billing_mode:Types.PAY_PER_REQUEST
+                     ~key_schema:
+                       [
+                         { key_type = HASH; attribute_name = "pk" };
+                         { key_type = RANGE; attribute_name = "sk" };
+                       ]
+                     ~attribute_definitions:
+                       [
+                         { attribute_name = "pk"; attribute_type = S };
+                         { attribute_name = "sk"; attribute_type = S };
+                       ]
+                     ())
               else Ok { table_description = None }
             in
             Logs.info (fun m ->
@@ -65,7 +54,15 @@ let _ =
                   (ctr.table_description
                   |> Option.map (fun (x : Types.table_description) -> Types.(x.table_id))
                   |> Option.join
-                  |> Option.value ~default:"<unknown id>"))
+                  |> Option.value ~default:"<unknown id>"));
+            let+ ctr =
+              Operations.PutItem.request context
+                Builders.(
+                  make_put_item_input ~table_name:table ~return_values:ALL_OLD
+                    ~item:[ ("pk", S "item1"); ("sk", S "item1") ]
+                    ())
+            in
+            ()
           with
           | Ok _ -> ()
           | Error (`HttpError e) ->
