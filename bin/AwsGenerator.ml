@@ -12,45 +12,48 @@ type command =
 let readCommandLine () =
   try
     let usage =
-      "AwsGenerator -run [types|builders|service|operations|serialisers] <definition> <output>"
+      "AwsGenerator  -input <definition> -output <output_dir> -targets \
+       [types|builders|service|operations|serialisers|deserialisers]"
     in
     let command = ref None in
     let filename = ref None in
-    let output = ref None in
-    let setCommand cmd = command := (Some cmd [@explicit_arity]) in
+    let output_dir = ref None in
+    let targets = ref None in
+    let setCommand cmd = command := Some cmd in
     let argumentTypes =
       [
-        ( "-run",
-          (Stdlib.Arg.Symbol
-             ( [ "types"; "builders"; "service"; "operations"; "serialisers"; "deserialisers" ],
-               setCommand )
-          [@explicit_arity]),
-          "command to execute" );
         ("-input", Stdlib.Arg.String (fun s -> filename := Some s), "Input definition file");
-        ("-output", Stdlib.Arg.String (fun s -> output := Some s), "Output filename");
+        ("-output", Stdlib.Arg.String (fun s -> output_dir := Some s), "Output directory");
+        ("-targets", Stdlib.Arg.Rest_all (fun args -> targets := Some args), "Targets");
       ]
     in
     Stdlib.Arg.parse argumentTypes (fun _ -> ()) usage;
-    match (!filename, !output) with
-    | None, _ ->
+    match (!filename, !output_dir, !targets) with
+    | None, _, _ ->
         Stdio.eprintf "no definition filename specified!@.";
         Stdlib.exit 1
-    | _, None ->
-        Stdio.eprintf "no output filename specified!@.";
+    | _, None, _ ->
+        Stdio.eprintf "no output directory specified!@.";
         Stdlib.exit 1
-    | Some input, Some output ->
-        ( input,
-          (match !command with
-          | Some "types" -> TypesCommand
-          | Some "service" -> ServiceCommand
-          | Some "operations" -> OperationsCommand
-          | Some "serialisers" -> SerialisersCommand
-          | Some "deserialisers" -> DeserialisersCommand
-          | Some "builders" -> BuildersCommand
-          | _ ->
-              Stdio.eprintf "You must specify a -run <command>\n";
-              Stdlib.exit 1),
-          output )
+    | _, _, None ->
+        Stdio.eprintf "no targets specified!@.";
+        Stdlib.exit 1
+    | Some input, Some output, Some targets ->
+        let targets =
+          List.map
+            ~f:(function
+              | "types" -> TypesCommand
+              | "service" -> ServiceCommand
+              | "operations" -> OperationsCommand
+              | "serializers" -> SerialisersCommand
+              | "deserializers" -> DeserialisersCommand
+              | "builders" -> BuildersCommand
+              | _ ->
+                  Stdio.eprintf "You must specify a -run <command>\n";
+                  Stdlib.exit 1)
+            targets
+        in
+        (input, output, targets)
   with Invalid_argument x ->
     Stdio.eprintf "You must supply a model file as the first parameter: %s\n" x;
     Stdlib.exit 1
@@ -62,30 +65,47 @@ let shapeWithTarget Ast.Shape.{ name; descriptor } =
 let ( let* ) = Stdlib.Result.bind
 
 let _ =
-  let input_filename, command, output = readCommandLine () in
-  let output_channel = Out_channel.open_text output in
-  let output_fmt = output_channel |> Stdlib.Format.formatter_of_out_channel in
+  let input_filename, output_dir, targets = readCommandLine () in
   match Parse.Json.Decode.parseJsonFile input_filename Parse.Smithy.parseModel with
   | Ok shapes -> begin
       let ordered = shapes |> List.map ~f:shapeWithTarget |> Ast.Dependencies.order in
       let (name, service), operation_shapes, structure_shapes =
         Ast.Organize.partitionOperationShapes ordered
       in
-      (match command with
-      | TypesCommand ->
-          Gen_types.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
-      | BuildersCommand ->
-          Gen_builders.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
-      | ServiceCommand -> SmithyHelpers.printServiceDetails shapes
-      | OperationsCommand ->
-          Gen_operations.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
-      | SerialisersCommand ->
-          Gen_serialisers.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt
-      | DeserialisersCommand ->
-          Gen_deserialisers.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt);
+      List.iter
+        ~f:(fun command ->
+          let write_output filename generate =
+            let output = Stdlib.Filename.concat output_dir filename in
+            let output_channel = Out_channel.open_text output in
+            let output_fmt = output_channel |> Stdlib.Format.formatter_of_out_channel in
+            generate output_fmt;
+            Stdlib.Format.pp_print_flush output_fmt ();
+            Out_channel.flush output_channel
+          in
 
-      Stdlib.Format.pp_print_flush output_fmt ();
-      Out_channel.flush output_channel
+          match command with
+          | TypesCommand ->
+              write_output "types.ml" (fun output_fmt ->
+                  Gen_types.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt)
+          | BuildersCommand ->
+              write_output "builders.ml" (fun output_fmt ->
+                  Gen_builders.generate ~name ~service ~operation_shapes ~structure_shapes
+                    output_fmt)
+          | ServiceCommand ->
+              write_output "service.ml" (fun output_fmt -> SmithyHelpers.printServiceDetails shapes)
+          | OperationsCommand ->
+              write_output "operations.ml" (fun output_fmt ->
+                  Gen_operations.generate ~name ~service ~operation_shapes ~structure_shapes
+                    output_fmt)
+          | SerialisersCommand ->
+              write_output "serializers.ml" (fun output_fmt ->
+                  Gen_serialisers.generate ~name ~service ~operation_shapes ~structure_shapes
+                    output_fmt)
+          | DeserialisersCommand ->
+              write_output "deserializers.ml" (fun output_fmt ->
+                  Gen_deserialisers.generate ~name ~service ~operation_shapes ~structure_shapes
+                    output_fmt))
+        targets
     end
   | Error error ->
       Stdio.eprintf "Error parsing model: %s\n" (Parse.Json.Decode.jsonParseErrorToString error);

@@ -36,6 +36,7 @@ sdks/                # service SDKs builders
       - serialisers (`serialisers`)
       - deserialisers (`deserialisers`)
       - operations (`operations`)
+      - structure type construction helpers (`builders`)
 
 ### Smithy Definitions
 

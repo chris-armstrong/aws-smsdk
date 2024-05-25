@@ -2,41 +2,20 @@
  (deps
   (:gen ../../bin/AwsGenerator.exe)
   (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
- (target types.ml)
+ (targets builders.ml serializers.ml deserializers.ml types.ml operations.ml)
  (action
-  (run %{gen} -run types -input %{input} -output %{target})))
-
-(rule
- (deps
-  (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
- (target serializers.ml)
- (action
-  (run %{gen} -run serialisers -input %{input} -output %{target})))
-
-(rule
- (deps
-  (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
- (target deserializers.ml)
- (action
-  (run %{gen} -run deserialisers -input %{input} -output %{target})))
-
-(rule
- (deps
-  (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
- (target operations.ml)
- (action
-  (run %{gen} -run operations -input %{input} -output %{target})))
-
-(rule
- (deps
-  (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
- (target builders.ml)
- (action
-  (run %{gen} -run builders -input %{input} -output %{target})))
+  (run
+   %{gen}
+   -input
+   %{input}
+   -output
+   .
+   -targets
+   builders
+   types
+   serializers
+   deserializers
+   operations)))
 
 (library
  (name Aws_SmSdk_Client_DynamoDB)
