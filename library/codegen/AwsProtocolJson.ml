@@ -290,4 +290,36 @@ module Operations = struct
            Fmt.pf fmt "~output_deserializer:Deserializers.%s@\n" response_shape_deserialiser;
            Fmt.pf fmt "~error_deserializer@\n";
            Fmt.pf fmt "@]@]@]@\nend@\n@\n")
+
+  let generate_mli ~name ~operation_shapes ?(no_open = false) fmt =
+    if not no_open then begin
+      Fmt.pf fmt "open Aws_SmSdk_Lib @\n";
+
+      Fmt.pf fmt "open Types @\n"
+    end;
+    operation_shapes
+    |> List.iter ~f:(fun (operation_name, os, dependencies) ->
+           Fmt.pf fmt "module %s : sig@;<0 2>@[<v>" (SafeNames.safeConstructorName operation_name);
+           let request_shape =
+             os.input
+             |> Option.map ~f:(fun input -> SafeNames.safeTypeName input)
+             |> Option.value ~default:"unit"
+           in
+           let result_shape =
+             os.output
+             |> Option.map ~f:(fun out -> SafeNames.safeTypeName out)
+             |> Option.value ~default:"unit"
+           in
+           Fmt.pf fmt "val request :@;<1 2>@[<hv 2>Aws.Context.t ->@;%s ->@;<0 2>@[<v>"
+             request_shape;
+           Fmt.pf fmt "(%s,@ " result_shape;
+           Fmt.pf fmt "[>@[<v 2>@;| AwsJson.error ";
+           os.errors |> Option.value ~default:[]
+           |> List.iter ~f:(fun constructor ->
+                  Fmt.pf fmt "| `%s of %s@;"
+                    (SafeNames.safeConstructorName constructor)
+                    (Types.type_name ~is_exception_type:true constructor));
+           Fmt.pf fmt "@]@;]";
+           Fmt.pf fmt "@]@;) result";
+           Fmt.pf fmt "@]@]@]@\nend@\n@\n")
 end

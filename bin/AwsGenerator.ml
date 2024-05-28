@@ -8,12 +8,13 @@ type command =
   | SerialisersCommand
   | DeserialisersCommand
   | BuildersCommand
+  | ModuleCommand
 
 let readCommandLine () =
   try
     let usage =
       "AwsGenerator  -input <definition> -output <output_dir> -targets \
-       [types|builders|service|operations|serialisers|deserialisers]"
+       [types|builders|service|operations|serialisers|deserialisers|module]"
     in
     let command = ref None in
     let filename = ref None in
@@ -48,6 +49,7 @@ let readCommandLine () =
               | "serializers" -> SerialisersCommand
               | "deserializers" -> DeserialisersCommand
               | "builders" -> BuildersCommand
+              | "module" -> ModuleCommand
               | _ ->
                   Stdio.eprintf "You must specify a -run <command>\n";
                   Stdlib.exit 1)
@@ -72,6 +74,7 @@ let _ =
       let (name, service), operation_shapes, structure_shapes =
         Ast.Organize.partitionOperationShapes ordered
       in
+      let serviceDetails = SmithyHelpers.extractServiceTrait service.traits in
       List.iter
         ~f:(fun command ->
           let write_output filename generate =
@@ -86,16 +89,25 @@ let _ =
           match command with
           | TypesCommand ->
               write_output "types.ml" (fun output_fmt ->
-                  Gen_types.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt)
+                  Gen_types.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt);
+              write_output "types.mli" (fun output_fmt ->
+                  Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
+                    output_fmt)
           | BuildersCommand ->
               write_output "builders.ml" (fun output_fmt ->
                   Gen_builders.generate ~name ~service ~operation_shapes ~structure_shapes
+                    output_fmt);
+              write_output "builders.mli" (fun output_fmt ->
+                  Gen_builders.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     output_fmt)
           | ServiceCommand ->
               write_output "service.ml" (fun output_fmt -> SmithyHelpers.printServiceDetails shapes)
           | OperationsCommand ->
               write_output "operations.ml" (fun output_fmt ->
                   Gen_operations.generate ~name ~service ~operation_shapes ~structure_shapes
+                    output_fmt);
+              write_output "operations.mli" (fun output_fmt ->
+                  Gen_operations.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     output_fmt)
           | SerialisersCommand ->
               write_output "serializers.ml" (fun output_fmt ->
@@ -104,7 +116,22 @@ let _ =
           | DeserialisersCommand ->
               write_output "deserializers.ml" (fun output_fmt ->
                   Gen_deserialisers.generate ~name ~service ~operation_shapes ~structure_shapes
-                    output_fmt))
+                    output_fmt)
+          | ModuleCommand ->
+              write_output (Fmt.str "Aws_SmSdk_Client_%s.ml" serviceDetails.sdkId)
+                (fun output_fmt ->
+                  Fmt.pf output_fmt "include Types@\n";
+                  Fmt.pf output_fmt "include Builders@\n";
+                  Fmt.pf output_fmt "include Operations@\n");
+              write_output (Fmt.str "Aws_SmSdk_Client_%s.mli" serviceDetails.sdkId)
+                (fun output_fmt ->
+                  Fmt.pf output_fmt "open Aws_SmSdk_Lib@\n";
+                  Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
+                    ~no_open:true output_fmt;
+                  Gen_builders.generate_mli ~name ~service ~operation_shapes ~structure_shapes
+                    ~no_open:true output_fmt;
+                  Gen_operations.generate_mli ~name ~service ~operation_shapes ~structure_shapes
+                    ~no_open:true output_fmt))
         targets
     end
   | Error error ->

@@ -13,14 +13,14 @@ let partitionOperationShapes shapesWithTargets =
   let service, remaining =
     List.partition_map shapesWithTargets ~f:(fun { descriptor; name; targets; recursWith } ->
         match descriptor with
-        | ((ServiceShape x) [@explicit_arity]) -> Base.Either.First (name, x)
-        | _ -> Base.Either.Second { name; descriptor; targets; recursWith } [@explicit_arity])
+        | ServiceShape x -> Base.Either.First (name, x)
+        | _ -> Base.Either.Second { name; descriptor; targets; recursWith })
   in
   let operations, structured =
     List.partition_map shapesWithTargets ~f:(fun { descriptor; name; targets; recursWith } ->
         match descriptor with
-        | ((OperationShape x) [@explicit_arity]) -> Base.Either.First (name, x, targets)
-        | _ -> Base.Either.Second { name; descriptor; targets; recursWith } [@explicit_arity])
+        | OperationShape x -> Base.Either.First (name, x, targets)
+        | _ -> Base.Either.Second { name; descriptor; targets; recursWith })
   in
   (List.hd_exn service, operations, structured)
 

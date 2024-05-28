@@ -13,16 +13,15 @@ let printProtocol (traits : Trait.t list option) =
        | _ -> None)
   |> Option.value ~default:"<unknown>"
 
+let extractTrait extractor traits =
+  List.find_map_exn (traits |> Option.value ~default:[]) ~f:extractor
+
+let extractServiceTrait = extractTrait (function Trait.ServiceTrait x -> Some x | _ -> None)
+
 let printServiceTrait traits =
-  traits |> Option.value ~default:[]
-  |> List.find_map ~f:(function
-       | ((Trait.ServiceTrait { sdkId; arnNamespace; endpointPrefix; _ }) [@explicit_arity]) ->
-           Some
-             (Fmt.str "{ Sdk %s Namespace %s endpointPrefix %s }" sdkId arnNamespace
-                (Option.value endpointPrefix ~default:"<>"))
-           [@explicit_arity]
-       | _ -> None)
-  |> Option.value ~default:"<unknown>"
+  let Trait.{ sdkId; arnNamespace; endpointPrefix; _ } = extractServiceTrait traits in
+  Fmt.str "{ Sdk %s Namespace %s endpointPrefix %s }" sdkId arnNamespace
+    (Option.value endpointPrefix ~default:"<>")
 
 let printOperations operations =
   operations

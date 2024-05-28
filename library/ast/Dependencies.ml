@@ -14,31 +14,31 @@ let smithyImplicitShapes =
     { name = "smithy.api#Unit"; descriptor = UnitShape; targets = []; recursWith = None };
     {
       name = "smithy.api#String";
-      descriptor = StringShape { traits = None } [@explicit_arity];
+      descriptor = StringShape { traits = None };
       targets = [];
       recursWith = None;
     };
     {
       name = "smithy.api#Boolean";
-      descriptor = BooleanShape { traits = None } [@explicit_arity];
+      descriptor = BooleanShape { traits = None };
       targets = [];
       recursWith = None;
     };
     {
       name = "smithy.api#Integer";
-      descriptor = IntegerShape { traits = None } [@explicit_arity];
+      descriptor = IntegerShape { traits = None };
       targets = [];
       recursWith = None;
     };
     {
       name = "smithy.api#Timestamp";
-      descriptor = TimestampShape { traits = None } [@explicit_arity];
+      descriptor = TimestampShape { traits = None };
       targets = [];
       recursWith = None;
     };
     {
       name = "smithy.api#Long";
-      descriptor = LongShape { traits = None } [@explicit_arity];
+      descriptor = LongShape { traits = None };
       targets = [];
       recursWith = None;
     };
@@ -105,5 +105,5 @@ let order shapesWithTargets =
   List.filter_map partitions ~f:(fun partition ->
       match partition with
       | [] -> None
-      | a :: [] -> Some a [@explicit_arity]
-      | a :: x -> Some { a with recursWith = Some x [@explicit_arity] } [@explicit_arity])
+      | a :: [] -> Some a
+      | a :: x -> Some { a with recursWith = Some x })

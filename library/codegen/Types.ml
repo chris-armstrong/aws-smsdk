@@ -139,7 +139,7 @@ let generateTypeTarget descriptor ?(genDoc = false) () =
   | TimestampShape details -> generateTimestampShape details
   | ResourceShape -> ""
   | OperationShape _ -> ""
-  | UnitShape -> ""
+  | UnitShape -> "unit"
   | SetShape details -> generateSetShape details
   | EnumShape details -> generateEnumShape details
 

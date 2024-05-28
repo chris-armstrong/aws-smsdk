@@ -4,7 +4,9 @@ let json_to_string = Yojson.Basic.to_string
 let json_of_string = Yojson.Basic.from_string
 
 type error =
-  [ `HttpError of Http.http_failure | `JsonParseError of Json.DeserializeHelpers.jsonParseError ]
+  [ Errors.t
+  | `HttpError of Http.http_failure
+  | `JsonParseError of Json.DeserializeHelpers.jsonParseError ]
 
 let make_request ~(shape_name : string) ~(service : Aws.Service.descriptor) ~(context : Context.t)
     ~(input : json_type) ~(output_deserializer : json_type -> string list -> 'res)

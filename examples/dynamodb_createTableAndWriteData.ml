@@ -21,8 +21,7 @@ let _ =
             let open Aws_SmSdk_Client_DynamoDB in
             let table = "create-table-test" in
             let+ { table_names; _ } =
-              Operations.ListTables.request context
-                { limit = Some 10; exclusive_start_table_name = None }
+              ListTables.request context (make_list_tables_input ~limit:1 ())
             in
             Logs.info (fun m ->
                 m "SUCCESS: table list %a" (Fmt.list Fmt.string) (table_names |> optional_empty_list));
@@ -33,9 +32,9 @@ let _ =
             in
             let+ ctr =
               if not table_exists then
-                Operations.CreateTable.request context
-                  (Builders.make_create_table_input ~table_name:table ~table_class:STANDARD
-                     ~billing_mode:Types.PAY_PER_REQUEST
+                CreateTable.request context
+                  (make_create_table_input ~table_name:table ~table_class:STANDARD
+                     ~billing_mode:PAY_PER_REQUEST
                      ~key_schema:
                        [
                          { key_type = HASH; attribute_name = "pk" };
@@ -52,15 +51,14 @@ let _ =
             Logs.info (fun m ->
                 m "table exists Success %s!"
                   (ctr.table_description
-                  |> Option.map (fun (x : Types.table_description) -> Types.(x.table_id))
+                  |> Option.map (fun (x : table_description) -> x.table_id)
                   |> Option.join
                   |> Option.value ~default:"<unknown id>"));
             let+ ctr =
-              Operations.PutItem.request context
-                Builders.(
-                  make_put_item_input ~table_name:table ~return_values:ALL_OLD
-                    ~item:[ ("pk", S "item1"); ("sk", S "item1") ]
-                    ())
+              PutItem.request context
+                (make_put_item_input ~table_name:table ~return_values:ALL_OLD
+                   ~item:[ ("pk", S "item1"); ("sk", S "item1") ]
+                   ())
             in
             ()
           with

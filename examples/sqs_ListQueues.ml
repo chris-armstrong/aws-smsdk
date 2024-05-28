@@ -17,10 +17,10 @@ let _ =
 
           match
             begin
-              let open Aws_SmSdk_Client_Sqs in
+              let open Aws_SmSdk_Client_SQS in
               let+ result =
-                Operations.ListQueues.request context
-                  (Builders.make_list_queues_request ~max_results:10
+                ListQueues.request context
+                  (make_list_queues_request ~max_results:10
                      ~queue_name_prefix:(Array.get Sys.argv 1) ())
               in
               Logs.info (fun m ->
