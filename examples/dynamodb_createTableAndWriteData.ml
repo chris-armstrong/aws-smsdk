@@ -7,6 +7,7 @@ let _ =
   Eio_main.run (fun env ->
       Eio.Switch.run (fun sw ->
           let open Aws_SmSdk_Lib in
+          let open Aws_SmSdk_Client_DynamoDB in
           let config =
             Aws.Config.
               {
@@ -18,7 +19,6 @@ let _ =
           let ( let+ ) res map = Result.map map res in
 
           match
-            let open Aws_SmSdk_Client_DynamoDB in
             let table = "create-table-test" in
             let+ { table_names; _ } =
               ListTables.request context (make_list_tables_input ~limit:1 ())
@@ -63,6 +63,8 @@ let _ =
             ()
           with
           | Ok _ -> ()
+          | Error (`RequestLimitExceededException e) ->
+              Logs.err (fun m -> m "Request limit exceeded")
           | Error (`HttpError e) ->
               Logs.err (fun m -> m "HTTP Error %a" Aws_SmSdk_Lib.Http.pp_http_failure e)
           | Error (`JsonParseError e) ->

@@ -28,12 +28,12 @@ let generateStructureShapes structure_shapes fmt =
              :: List.map recursItems ~f:(fun item ->
                     let open Ast.Shape in
                     { name = item.name; descriptor = item.descriptor }))
-             ~genDoc:false ()
+             ~genDoc:true ()
        | Ast.Dependencies.{ name; descriptor; _ } ->
            Codegen.Types.generateTypeBlock
              (let open Ast.Shape in
               { name; descriptor })
-             ~genDoc:false ())
+             ~genDoc:true ())
   |> String.concat ~sep:"\n\n"
   |> fun __x -> Fmt.pf fmt "%s\n\n" __x
 

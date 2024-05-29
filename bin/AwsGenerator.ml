@@ -74,7 +74,7 @@ let _ =
       let (name, service), operation_shapes, structure_shapes =
         Ast.Organize.partitionOperationShapes ordered
       in
-      let serviceDetails = SmithyHelpers.extractServiceTrait service.traits in
+      let serviceDetails = Ast.Trait.extractServiceTrait service.traits in
       List.iter
         ~f:(fun command ->
           let write_output filename generate =
@@ -125,11 +125,15 @@ let _ =
                   Fmt.pf output_fmt "include Operations@\n");
               write_output (Fmt.str "Aws_SmSdk_Client_%s.mli" serviceDetails.sdkId)
                 (fun output_fmt ->
-                  Fmt.pf output_fmt "open Aws_SmSdk_Lib@\n";
+                  Gen_doc.module_doc ~name ~service ~operation_shapes ~structure_shapes output_fmt;
+                  Fmt.pf output_fmt "open Aws_SmSdk_Lib@\n@\n";
+                  Fmt.pf output_fmt "(** {1:types Types} *)@\n@\n";
                   Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~no_open:true output_fmt;
+                  Fmt.pf output_fmt "(** {1:builders Builders} *)@\n@\n";
                   Gen_builders.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~no_open:true output_fmt;
+                  Fmt.pf output_fmt "(** {1:operations Operations} *)@\n@\n";
                   Gen_operations.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~no_open:true output_fmt))
         targets

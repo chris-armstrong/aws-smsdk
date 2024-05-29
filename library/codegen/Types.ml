@@ -23,16 +23,15 @@ let escapeString str =
   Str.global_replace reBSlashDQuote "\\\"" __x
 
 let generateDoc traits =
-  (let docStrs =
-     traits |> Option.value ~default:[]
-     |> List.filter_map ~f:(fun trait ->
-            match trait with
-            | ((Trait.DocumentationTrait str) [@explicit_arity]) -> Some str [@explicit_arity]
-            | _ -> None)
-   in
-   let docs = String.concat docStrs ~sep:"" in
-   if not (String.is_empty docs) then ("@ocaml.doc(\"" ^ escapeString docs) ^ "\")" else "")
-  [@ns.braces]
+  let docStrs =
+    traits |> Option.value ~default:[]
+    |> List.filter_map ~f:(fun trait ->
+           match trait with
+           | ((Trait.DocumentationTrait str) [@explicit_arity]) -> Some str [@explicit_arity]
+           | _ -> None)
+  in
+  let docs = String.concat docStrs ~sep:"" in
+  if not (String.is_empty docs) then ("(** {%html:" ^ docs) ^ " %} *)\n" else ""
 
 let generateIntegerShape () = "int"
 let generateLongShape () = "int"
