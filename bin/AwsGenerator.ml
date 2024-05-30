@@ -74,6 +74,15 @@ let _ =
       let (name, service), operation_shapes, structure_shapes =
         Ast.Organize.partitionOperationShapes ordered
       in
+      let alias_context =
+        Codegen.Types.create_alias_context
+          (structure_shapes
+          |> List.concat_map ~f:(fun Ast.Dependencies.{ name; descriptor; recursWith; _ } ->
+                 Ast.Shape.{ name; descriptor }
+                 :: Option.value_map recursWith ~default:[] ~f:(fun recurs ->
+                        List.map recurs ~f:(fun Ast.Dependencies.{ name; descriptor; _ } ->
+                            Ast.Shape.{ name; descriptor }))))
+      in
       let serviceDetails = SmithyHelpers.extractServiceTrait service.traits in
       List.iter
         ~f:(fun command ->
@@ -89,26 +98,27 @@ let _ =
           match command with
           | TypesCommand ->
               write_output "types.ml" (fun output_fmt ->
-                  Gen_types.generate ~name ~service ~operation_shapes ~structure_shapes output_fmt);
+                  Gen_types.generate ~name ~service ~operation_shapes ~structure_shapes
+                    ~alias_context output_fmt);
               write_output "types.mli" (fun output_fmt ->
                   Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
-                    output_fmt)
+                    ~alias_context output_fmt)
           | BuildersCommand ->
               write_output "builders.ml" (fun output_fmt ->
                   Gen_builders.generate ~name ~service ~operation_shapes ~structure_shapes
-                    output_fmt);
+                    ~alias_context output_fmt);
               write_output "builders.mli" (fun output_fmt ->
                   Gen_builders.generate_mli ~name ~service ~operation_shapes ~structure_shapes
-                    output_fmt)
+                    ~alias_context output_fmt)
           | ServiceCommand ->
               write_output "service.ml" (fun output_fmt -> SmithyHelpers.printServiceDetails shapes)
           | OperationsCommand ->
               write_output "operations.ml" (fun output_fmt ->
                   Gen_operations.generate ~name ~service ~operation_shapes ~structure_shapes
-                    output_fmt);
+                    ~alias_context output_fmt);
               write_output "operations.mli" (fun output_fmt ->
                   Gen_operations.generate_mli ~name ~service ~operation_shapes ~structure_shapes
-                    output_fmt)
+                    ~alias_context output_fmt)
           | SerialisersCommand ->
               write_output "serializers.ml" (fun output_fmt ->
                   Gen_serialisers.generate ~name ~service ~operation_shapes ~structure_shapes
@@ -127,11 +137,11 @@ let _ =
                 (fun output_fmt ->
                   Fmt.pf output_fmt "open Aws_SmSdk_Lib@\n";
                   Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
-                    ~no_open:true output_fmt;
+                    ~alias_context ~no_open:true output_fmt;
                   Gen_builders.generate_mli ~name ~service ~operation_shapes ~structure_shapes
-                    ~no_open:true output_fmt;
+                    ~alias_context ~no_open:true output_fmt;
                   Gen_operations.generate_mli ~name ~service ~operation_shapes ~structure_shapes
-                    ~no_open:true output_fmt))
+                    ~alias_context ~no_open:true output_fmt))
         targets
     end
   | Error error ->

@@ -9,6 +9,7 @@ type shapeWithTarget = {
 }
 [@@deriving show, equal]
 
+(** Builtin Smithy shapes which are implied to be present in every context *)
 let smithyImplicitShapes =
   [
     { name = "smithy.api#Unit"; descriptor = UnitShape; targets = []; recursWith = None };
@@ -44,28 +45,27 @@ let smithyImplicitShapes =
     };
   ]
 
+(** resolve the target shape names referenced by the specified shape descriptor *)
 let getTargets descriptor =
   match descriptor with
-  | ((ListShape listShapeDetails) [@explicit_arity]) -> [ listShapeDetails.target ]
-  | ((OperationShape details) [@explicit_arity]) ->
+  | ListShape listShapeDetails -> [ listShapeDetails.target ]
+  | OperationShape details ->
       List.concat
         [
           Option.value (Option.map details.input ~f:(fun extracted -> [ extracted ])) ~default:[];
           Option.value (Option.map details.output ~f:(fun extracted -> [ extracted ])) ~default:[];
           Option.value (Option.map details.errors ~f:(fun extracted -> extracted)) ~default:[];
         ]
-  | ((StructureShape { members; _ }) [@explicit_arity]) ->
-      List.map members ~f:(fun member -> member.target)
-  | ((ServiceShape { operations; _ }) [@explicit_arity]) -> Option.value operations ~default:[]
-  | ((MapShape { mapKey; mapValue; _ }) [@explicit_arity]) -> [ mapKey.target; mapValue.target ]
+  | StructureShape { members; _ } -> List.map members ~f:(fun member -> member.target)
+  | ServiceShape { operations; _ } -> Option.value operations ~default:[]
+  | MapShape { mapKey; mapValue; _ } -> [ mapKey.target; mapValue.target ]
   | BlobShape _ | BooleanShape _ | IntegerShape _ | StringShape _ | ResourceShape | TimestampShape _
   | BigIntegerShape _ | BigDecimalShape _ ->
       []
-  | ((UnionShape { members; _ }) [@explicit_arity]) ->
-      List.map members ~f:(fun member -> member.target)
+  | UnionShape { members; _ } -> List.map members ~f:(fun member -> member.target)
   | LongShape _ -> []
   | DoubleShape _ -> []
-  | ((SetShape { target; _ }) [@explicit_arity]) -> [ target ]
+  | SetShape { target; _ } -> [ target ]
   | EnumShape { members; _ } -> List.map members ~f:(fun member -> member.target)
   | FloatShape _ -> []
   | UnitShape -> []

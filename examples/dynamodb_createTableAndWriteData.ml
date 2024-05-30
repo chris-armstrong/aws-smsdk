@@ -15,7 +15,7 @@ let _ =
               }
           in
           let context = Aws.Context.make ~sw ~config env () in
-          let ( let+ ) res map = Result.map map res in
+          let ( let+ ) res map = Result.bind res map in
 
           match
             let open Aws_SmSdk_Client_DynamoDB in
@@ -60,7 +60,7 @@ let _ =
                    ~item:[ ("pk", S "item1"); ("sk", S "item1") ]
                    ())
             in
-            ()
+            Ok ()
           with
           | Ok _ -> ()
           | Error (`HttpError e) ->

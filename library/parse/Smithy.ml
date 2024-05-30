@@ -7,15 +7,12 @@ type nonrec ('a, 'b) dual = Primary of 'a | Secondary of 'b
 
 let fallback value parse1 parse2 =
   match parse1 value with
-  | ((Ok parsed) [@explicit_arity]) -> Ok (Primary parsed [@explicit_arity]) [@explicit_arity]
-  | ((Error error) [@explicit_arity]) -> (
+  | Ok parsed -> Ok (Primary parsed)
+  | Error error -> (
       match error with
       | WrongType _ -> (
-          match parse2 value with
-          | ((Ok parsed) [@explicit_arity]) ->
-              Ok (Secondary parsed [@explicit_arity]) [@explicit_arity]
-          | ((Error error) [@explicit_arity]) -> Error error [@explicit_arity])
-      | _ -> Error error [@explicit_arity])
+          match parse2 value with Ok parsed -> Ok (Secondary parsed) | Error error -> Error error)
+      | _ -> Error error)
 
 exception UnknownTrait of string
 
@@ -30,9 +27,8 @@ let parseServiceTrait traitResult =
   let endpointPrefix_ = optional (value |> field "endpointPrefix") |> mapOptional parseString in
   map5 sdkId_ arnNamespace_ cloudFormationName_ cloudTrailEventSource_ endpointPrefix_
     (fun sdkId arnNamespace cloudFormationName cloudTrailEventSource endpointPrefix ->
-      (Trait.ServiceTrait
-         { sdkId; arnNamespace; cloudFormationName; cloudTrailEventSource; endpointPrefix }
-      [@explicit_arity]))
+      Trait.ServiceTrait
+        { sdkId; arnNamespace; cloudFormationName; cloudTrailEventSource; endpointPrefix })
 
 let parseEnumNameValue enum : (Trait.enumPair, jsonParseError) Result.t =
   let obj_ = parseObject enum in
@@ -48,7 +44,7 @@ let parseArnReferenceTrait value : (Trait.t, jsonParseError) Result.t =
   let service_ = optional (record |> field "service") |> mapOptional parseString in
   let resource_ = optional (record |> field "resource") |> mapOptional parseString in
   map3 type__ service_ resource_ (fun type_ service resource ->
-      (Trait.AwsApiArnReferenceTrait { type_; service; resource } [@explicit_arity]))
+      Trait.AwsApiArnReferenceTrait { type_; service; resource })
 
 let parseReference value : (Trait.reference, jsonParseError) Result.t =
   let object_ = value |> parseObject in
@@ -63,44 +59,35 @@ let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
     | "aws.api#service" -> parseServiceTrait value
     | "smithy.api#documentation" ->
         value |> parseString
-        |> Result.map ~f:(fun documentation ->
-               (Trait.DocumentationTrait documentation [@explicit_arity]))
-    | "smithy.api#required" -> Ok RequiredTrait [@explicit_arity]
-    | "smithy.api#xmlFlattened" -> Ok XmlFlattenedTrait [@explicit_arity]
-    | "smithy.api#xmlName" ->
-        value |> parseString >>| fun xmlName -> (Trait.XmlNameTrait xmlName [@explicit_arity])
+        |> Result.map ~f:(fun documentation -> Trait.DocumentationTrait documentation)
+    | "smithy.api#required" -> Ok RequiredTrait
+    | "smithy.api#xmlFlattened" -> Ok XmlFlattenedTrait
+    | "smithy.api#xmlName" -> value |> parseString >>| fun xmlName -> Trait.XmlNameTrait xmlName
     | "smithy.api#error" -> (
         value |> parseString >>| fun error ->
-        match error with
-        | "server" -> Trait.ErrorTrait Server [@explicit_arity]
-        | _ -> ErrorTrait Client [@explicit_arity])
-    | "smithy.api#httpError" ->
-        value |> parseInteger >>| fun error -> (Trait.HttpErrorTrait error [@explicit_arity])
-    | "smithy.api#title" ->
-        value |> parseString >>| fun title -> (Trait.ApiTitleTrait title [@explicit_arity])
+        match error with "server" -> Trait.ErrorTrait Server | _ -> ErrorTrait Client)
+    | "smithy.api#httpError" -> value |> parseInteger >>| fun error -> Trait.HttpErrorTrait error
+    | "smithy.api#title" -> value |> parseString >>| fun title -> Trait.ApiTitleTrait title
     | "smithy.api#xmlNamespace" ->
         value |> parseObject |> field "uri" |> parseString >>| fun uri ->
-        (Trait.ApiXmlNamespaceTrait uri [@explicit_arity])
+        Trait.ApiXmlNamespaceTrait uri
     | "smithy.api#enum" ->
-        value |> parseArray parseEnumNameValue >>| fun enumPairs ->
-        (Trait.EnumTrait enumPairs [@explicit_arity])
+        value |> parseArray parseEnumNameValue >>| fun enumPairs -> Trait.EnumTrait enumPairs
     | "aws.auth#sigv4" ->
         value |> parseObject |> field "name" |> parseString >>| fun name ->
-        (Trait.AwsAuthSigV4Trait name [@explicit_arity])
-    | "aws.protocols#awsQuery" -> Ok Trait.AwsProtocolAwsQueryTrait [@explicit_arity]
-    | "smithy.api#paginated" -> Ok Trait.PaginatedTrait [@explicit_arity]
-    | "smithy.api#pattern" ->
-        value |> parseString >>| fun pattern -> (Trait.PatternTrait pattern [@explicit_arity])
-    | "smithy.api#cors" -> Ok CorsTrait [@explicit_arity]
-    | "aws.protocols#restJson1" -> Ok Trait.AwsProtocolRestJson1Trait [@explicit_arity]
-    | "smithy.api#idempotencyToken" -> Ok Trait.IdempotencyTokenTrait [@explicit_arity]
-    | "smithy.api#httpLabel" -> Ok Trait.HttpLabelTrait [@explicit_arity]
-    | "smithy.api#httpQuery" -> Ok Trait.HttpQueryTrait [@explicit_arity]
-    | "smithy.api#httpHeader" -> Ok Trait.HttpHeaderTrait [@explicit_arity]
-    | "smithy.api#retryable" -> Ok Trait.RetryableTrait [@explicit_arity]
+        Trait.AwsAuthSigV4Trait name
+    | "aws.protocols#awsQuery" -> Ok Trait.AwsProtocolAwsQueryTrait
+    | "smithy.api#paginated" -> Ok Trait.PaginatedTrait
+    | "smithy.api#pattern" -> value |> parseString >>| fun pattern -> Trait.PatternTrait pattern
+    | "smithy.api#cors" -> Ok CorsTrait
+    | "aws.protocols#restJson1" -> Ok Trait.AwsProtocolRestJson1Trait
+    | "smithy.api#idempotencyToken" -> Ok Trait.IdempotencyTokenTrait
+    | "smithy.api#httpLabel" -> Ok Trait.HttpLabelTrait
+    | "smithy.api#httpQuery" -> Ok Trait.HttpQueryTrait
+    | "smithy.api#httpHeader" -> Ok Trait.HttpHeaderTrait
+    | "smithy.api#retryable" -> Ok Trait.RetryableTrait
     | "smithy.api#timestampFormat" ->
-        value |> parseString >>| fun timestampFormat ->
-        (Trait.TimestampFormatTrait timestampFormat [@explicit_arity])
+        value |> parseString >>| fun timestampFormat -> Trait.TimestampFormatTrait timestampFormat
     | "smithy.api#range" ->
         (let obj = value |> parseObject in
          let min = optional (obj |> field "min") |> mapOptional parseInteger in
@@ -114,86 +101,76 @@ let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
            (optional (record |> field "max") |> mapOptional parseInteger)
            (fun min max -> (Trait.LengthTrait (min, max) [@implicit_arity])))
         [@ns.braces]
-    | "aws.protocols#awsJson1_0" -> Ok Trait.AwsProtocolAwsJson1_0Trait [@explicit_arity]
-    | "aws.protocols#awsJson1_1" -> Ok Trait.AwsProtocolAwsJson1_1Trait [@explicit_arity]
-    | "smithy.api#box" -> Ok Trait.BoxTrait [@explicit_arity]
-    | "smithy.api#sensitive" -> Ok Trait.SensitiveTrait [@explicit_arity]
+    | "aws.protocols#awsJson1_0" -> Ok Trait.AwsProtocolAwsJson1_0Trait
+    | "aws.protocols#awsJson1_1" -> Ok Trait.AwsProtocolAwsJson1_1Trait
+    | "smithy.api#box" -> Ok Trait.BoxTrait
+    | "smithy.api#sensitive" -> Ok Trait.SensitiveTrait
     | "aws.api#arnReference" -> parseArnReferenceTrait value >>| fun arnNamespace -> arnNamespace
     | "smithy.api#references" ->
-        value |> parseArray parseReference >>| fun references ->
-        (Trait.ReferencesTrait references [@explicit_arity])
-    | "smithy.api#jsonName" ->
-        parseString value >>| fun jsonName -> (Trait.JsonNameTrait jsonName [@explicit_arity])
-    | "smithy.api#httpPayload" -> Ok Trait.HttpPayloadTrait [@explicit_arity]
-    | "smithy.api#httpQueryParams" -> Ok Trait.HttpQueryParams [@explicit_arity]
-    | "smithy.api#tags" ->
-        value |> parseArray parseString >>| fun tags -> (Trait.TagsTrait tags [@explicit_arity])
-    | "smithy.api#deprecated" -> Ok Trait.DeprecatedTrait [@explicit_arity]
+        value |> parseArray parseReference >>| fun references -> Trait.ReferencesTrait references
+    | "smithy.api#jsonName" -> parseString value >>| fun jsonName -> Trait.JsonNameTrait jsonName
+    | "smithy.api#httpPayload" -> Ok Trait.HttpPayloadTrait
+    | "smithy.api#httpQueryParams" -> Ok Trait.HttpQueryParams
+    | "smithy.api#tags" -> value |> parseArray parseString >>| fun tags -> Trait.TagsTrait tags
+    | "smithy.api#deprecated" -> Ok Trait.DeprecatedTrait
     | "smithy.api#mediaType" ->
-        parseString value >>| fun mediaType -> (Trait.MediaTypeTrait mediaType [@explicit_arity])
-    | "aws.protocols#restXml" -> Ok Trait.AwsProtocolRestXmlTrait [@explicit_arity]
+        parseString value >>| fun mediaType -> Trait.MediaTypeTrait mediaType
+    | "aws.protocols#restXml" -> Ok Trait.AwsProtocolRestXmlTrait
     | "aws.api#clientEndpointDiscovery" ->
         (let obj = parseObject value in
          let operation = obj |> field "operation" |> parseString in
          let error = obj |> field "error" |> parseString in
          map2 operation error (fun operation error ->
-             (Trait.AwsApiClientEndpointDiscoveryTrait { operation; error } [@explicit_arity])))
+             Trait.AwsApiClientEndpointDiscoveryTrait { operation; error }))
         [@ns.braces]
     | "aws.protocols#ec2QueryName" ->
-        value |> parseString >>| fun queryName ->
-        (Trait.AwsProtocolEc2QueryNameTrait queryName [@explicit_arity])
-    | "aws.protocols#ec2Query" -> Ok Trait.AwsProtocolEc2QueryTrait [@explicit_arity]
-    | "smithy.api#httpResponseCode" -> Ok Trait.HttpResponseCodeTrait [@explicit_arity]
-    | "smithy.api#streaming" -> Ok Trait.StreamingTrait [@explicit_arity]
-    | "smithy.api#hostLabel" -> Ok Trait.HostLabelTrait [@explicit_arity]
+        value |> parseString >>| fun queryName -> Trait.AwsProtocolEc2QueryNameTrait queryName
+    | "aws.protocols#ec2Query" -> Ok Trait.AwsProtocolEc2QueryTrait
+    | "smithy.api#httpResponseCode" -> Ok Trait.HttpResponseCodeTrait
+    | "smithy.api#streaming" -> Ok Trait.StreamingTrait
+    | "smithy.api#hostLabel" -> Ok Trait.HostLabelTrait
     | "smithy.api#httpPrefixHeaders" ->
         value |> parseString >>| fun httpPrefixHeader ->
-        (Trait.HttpPrefixHeadersTrait httpPrefixHeader [@explicit_arity])
-    | "smithy.api#xmlAttribute" -> Ok Trait.XmlAttributeTrait [@explicit_arity]
+        Trait.HttpPrefixHeadersTrait httpPrefixHeader
+    | "smithy.api#xmlAttribute" -> Ok Trait.XmlAttributeTrait
     | "smithy.api#externalDocumentation" -> (
         let documentation = value |> parseObject |> field "Documentation" in
         let specification = value |> parseObject |> field "Specification" in
         match (documentation, specification) with
-        | ((Ok link) [@explicit_arity]), _ ->
-            (Ok link [@explicit_arity]) |> parseString >>| fun link ->
-            (Trait.ExternalDocumentationTrait (Trait.DocumentationLink link [@explicit_arity])
-            [@explicit_arity])
-        | _, ((Ok link) [@explicit_arity]) ->
-            (Ok link [@explicit_arity]) |> parseString >>| fun link ->
-            (Trait.ExternalDocumentationTrait (Trait.SpecificationLink link [@explicit_arity])
-            [@explicit_arity])
-        | ((Error x) [@explicit_arity]), Error _ -> Error x [@explicit_arity])
-    | "smithy.api#eventPayload" -> Ok Trait.EventPayloadTrait [@explicit_arity]
-    | "smithy.api#http" -> Ok Trait.HttpTrait [@explicit_arity]
-    | "smithy.api#idempotent" -> Ok Trait.IdempotentTrait [@explicit_arity]
-    | "smithy.api#readonly" -> Ok Trait.ReadonlyTrait [@explicit_arity]
-    | "smithy.waiters#waitable" -> Ok Trait.WaitableTrait [@explicit_arity]
-    | "smithy.api#endpoint" -> Ok Trait.EndpointTrait [@explicit_arity]
-    | "smithy.api#auth" -> Ok Trait.AuthTrait [@explicit_arity]
-    | "smithy.api#optionalAuth" -> Ok Trait.OptionalAuthTrait [@explicit_arity]
-    | "smithy.api#suppress" -> Ok Trait.SuppressTrait [@explicit_arity]
-    | "aws.auth#unsignedPayload" -> Ok Trait.AwsAuthUnsignedPayloadTrait [@explicit_arity]
-    | "smithy.api#requiresLength" -> Ok Trait.RequiresLengthTrait [@explicit_arity]
-    | "smithy.api#sparse" -> Ok Trait.SparseTrait [@explicit_arity]
-    | "smithy.api#httpChecksumRequired" -> Ok Trait.HttpChecksumRequiredTrait [@explicit_arity]
-    | "aws.api#clientDiscoveredEndpoint" ->
-        Ok Trait.AwsApiClientDiscoveredEndpointTrait [@explicit_arity]
-    | "aws.protocols#awsQueryError" -> Ok Trait.AwsProtocolAwsQueryErrorTrait [@explicit_arity]
-    | "aws.cloudformation#cfnExcludeProperty" ->
-        Ok Trait.AwsCloudFormationCfnExcludePropertyTrait [@explicit_arity]
-    | "aws.cloudformation#cfnMutability" ->
-        Ok Trait.AwsCloudFormationCfnMutabilityTrait [@explicit_arity]
-    | "aws.iam#requiredActions" -> Ok Trait.AwsIamRequiredActionsTrait [@explicit_arity]
-    | "aws.api#dataPlane" -> Ok Trait.AwsApiDataPlaneTrait [@explicit_arity]
-    | "aws.iam#defineConditionKeys" -> Ok Trait.AwsIamDefineConditionKeysTrait [@explicit_arity]
-    | "smithy.api#examples" -> Ok Trait.ExamplesTrait [@explicit_arity]
-    | "aws.api#controlPlane" -> Ok Trait.AwsApiControlPlaneTrait [@explicit_arity]
-    | "aws.iam#actionPermissionDescription" ->
-        Ok Trait.AwsIamActionPermissionDescriptionTrait [@explicit_arity]
-    | "aws.iam#conditionKeys" -> Ok Trait.AwsIamConditionKeysTrait [@explicit_arity]
-    | "aws.protocols#httpChecksum" -> Ok Trait.AwsProtocolsHttpChecksumTrait [@explicit_arity]
+        | Ok link, _ ->
+            Ok link |> parseString >>| fun link ->
+            Trait.ExternalDocumentationTrait (Trait.DocumentationLink link)
+        | _, Ok link ->
+            Ok link |> parseString >>| fun link ->
+            Trait.ExternalDocumentationTrait (Trait.SpecificationLink link)
+        | Error x, Error _ -> Error x)
+    | "smithy.api#eventPayload" -> Ok Trait.EventPayloadTrait
+    | "smithy.api#http" -> Ok Trait.HttpTrait
+    | "smithy.api#idempotent" -> Ok Trait.IdempotentTrait
+    | "smithy.api#readonly" -> Ok Trait.ReadonlyTrait
+    | "smithy.waiters#waitable" -> Ok Trait.WaitableTrait
+    | "smithy.api#endpoint" -> Ok Trait.EndpointTrait
+    | "smithy.api#auth" -> Ok Trait.AuthTrait
+    | "smithy.api#optionalAuth" -> Ok Trait.OptionalAuthTrait
+    | "smithy.api#suppress" -> Ok Trait.SuppressTrait
+    | "aws.auth#unsignedPayload" -> Ok Trait.AwsAuthUnsignedPayloadTrait
+    | "smithy.api#requiresLength" -> Ok Trait.RequiresLengthTrait
+    | "smithy.api#sparse" -> Ok Trait.SparseTrait
+    | "smithy.api#httpChecksumRequired" -> Ok Trait.HttpChecksumRequiredTrait
+    | "aws.api#clientDiscoveredEndpoint" -> Ok Trait.AwsApiClientDiscoveredEndpointTrait
+    | "aws.protocols#awsQueryError" -> Ok Trait.AwsProtocolAwsQueryErrorTrait
+    | "aws.cloudformation#cfnExcludeProperty" -> Ok Trait.AwsCloudFormationCfnExcludePropertyTrait
+    | "aws.cloudformation#cfnMutability" -> Ok Trait.AwsCloudFormationCfnMutabilityTrait
+    | "aws.iam#requiredActions" -> Ok Trait.AwsIamRequiredActionsTrait
+    | "aws.api#dataPlane" -> Ok Trait.AwsApiDataPlaneTrait
+    | "aws.iam#defineConditionKeys" -> Ok Trait.AwsIamDefineConditionKeysTrait
+    | "smithy.api#examples" -> Ok Trait.ExamplesTrait
+    | "aws.api#controlPlane" -> Ok Trait.AwsApiControlPlaneTrait
+    | "aws.iam#actionPermissionDescription" -> Ok Trait.AwsIamActionPermissionDescriptionTrait
+    | "aws.iam#conditionKeys" -> Ok Trait.AwsIamConditionKeysTrait
+    | "aws.protocols#httpChecksum" -> Ok Trait.AwsProtocolsHttpChecksumTrait
     | "aws.customizations#s3UnwrappedXmlOutput" ->
-        Ok Trait.AwsCustomizationsS3UnwrappedXmlOutputTrait [@explicit_arity]
+        Ok Trait.AwsCustomizationsS3UnwrappedXmlOutputTrait
     | "smithy.api#input" -> Ok Trait.InputTrait
     | "smithy.api#output" -> Ok Trait.OutputTrait
     | "aws.protocols#awsQueryCompatible" -> Ok Trait.AwsProtocolAwsQueryCompatibleTrait
@@ -202,7 +179,7 @@ let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
     | "smithy.api#default" -> Ok Trait.DefaultTrait
     | "smithy.api#enumValue" ->
         value |> parseString |> map ~f:(fun enumValue -> Trait.EnumValueTrait enumValue)
-    | _ -> raise (UnknownTrait name [@explicit_arity])
+    | _ -> raise (UnknownTrait name)
   in
   traitValue
 
@@ -210,8 +187,7 @@ let parseListShape shape =
   (let target_ = shape |> field "member" |> extractTargetSpec in
    let traitParser = parseRecord parseTrait in
    let traits_ = optional (shape |> field "traits" |> traitParser) in
-   map2 target_ traits_ (fun target traits ->
-       (Shape.ListShape { target; traits } [@explicit_arity])))
+   map2 target_ traits_ (fun target traits -> Shape.ListShape { target; traits }))
   [@ns.braces]
 
 let parseMember name value =
@@ -228,8 +204,7 @@ let parseMembers value = (parseRecord parseMember value [@ns.braces])
 let parseStructureShape value =
   (let members = value |> field "members" |> parseMembers in
    let traits = optional (value |> field "traits" |> parseRecord parseTrait) in
-   map2 members traits (fun members traits ->
-       (Shape.StructureShape { members; traits } [@explicit_arity])))
+   map2 members traits (fun members traits -> Shape.StructureShape { members; traits }))
   [@ns.braces]
 
 let parseOperationShape shape =
@@ -243,15 +218,14 @@ let parseOperationShape shape =
    in
    map5 inputTarget outputTarget errors documentation traits
      (fun inputValue outputValue errorsValue documentationValue traits ->
-       (Shape.OperationShape
-          {
-            input = inputValue;
-            output = outputValue;
-            errors = errorsValue;
-            documentation = documentationValue;
-            traits;
-          }
-       [@explicit_arity])))
+       Shape.OperationShape
+         {
+           input = inputValue;
+           output = outputValue;
+           errors = errorsValue;
+           documentation = documentationValue;
+           traits;
+         }))
   [@ns.braces]
 
 let parseServiceShape shapeDict =
@@ -265,7 +239,7 @@ let parseServiceShape shapeDict =
      |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
    in
    map3 version_ operations_ traits_ (fun version operations traits ->
-       (Shape.ServiceShape { version; operations; traits } [@explicit_arity])))
+       Shape.ServiceShape { version; operations; traits }))
   [@ns.braces]
 
 let parseStringShape shapeDict =
@@ -273,7 +247,7 @@ let parseStringShape shapeDict =
      shapeDict |> field "traits" |> optional
      |> mapOptional (fun traits -> parseRecord parseTrait traits)
    in
-   Result.map traits_ ~f:(fun traits -> (Shape.StringShape { traits } [@explicit_arity])))
+   Result.map traits_ ~f:(fun traits -> Shape.StringShape { traits }))
   [@ns.braces]
 
 let parseMapKey value =
@@ -296,14 +270,13 @@ let parseMapShape shapeDict =
      |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
    in
    map3 key_ value_ traits_ (fun key value traits ->
-       (Shape.MapShape { mapKey = key; mapValue = value; traits } [@explicit_arity])))
+       Shape.MapShape { mapKey = key; mapValue = value; traits }))
   [@ns.braces]
 
 let parseUnionShape value =
   (let members = value |> field "members" |> parseMembers in
    let traits = optional (value |> field "traits" |> parseRecord parseTrait) in
-   map2 members traits (fun members traits ->
-       (Shape.UnionShape { members; traits } [@explicit_arity])))
+   map2 members traits (fun members traits -> Shape.UnionShape { members; traits }))
   [@ns.braces]
 
 let parsePrimitive shapeDict =
@@ -327,7 +300,7 @@ let parseSetShape shapeDict =
      optional (shapeDict |> field "traits")
      |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
    in
-   map2 target traits (fun target traits -> (Shape.SetShape { target; traits } [@explicit_arity])))
+   map2 target traits (fun target traits -> Shape.SetShape { target; traits }))
   [@ns.braces]
 
 let parseTimestampShape shapeDict =
@@ -335,7 +308,7 @@ let parseTimestampShape shapeDict =
      optional (shapeDict |> field "traits")
      |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
    in
-   Result.map traits_ ~f:(fun traits -> (Shape.TimestampShape { traits } [@explicit_arity])))
+   Result.map traits_ ~f:(fun traits -> Shape.TimestampShape { traits }))
   [@ns.braces]
 
 let parseShape name shape =
@@ -349,35 +322,22 @@ let parseShape name shape =
           | "operation" -> parseOperationShape shapeDict
           | "structure" -> parseStructureShape shapeDict
           | "service" -> parseServiceShape shapeDict
-          | "blob" ->
-              parsePrimitive shapeDict >>| fun primitive ->
-              (Shape.BlobShape primitive [@explicit_arity])
-          | "boolean" ->
-              parsePrimitive shapeDict >>| fun primitive ->
-              (Shape.BooleanShape primitive [@explicit_arity])
-          | "integer" ->
-              parsePrimitive shapeDict >>| fun primitive ->
-              (Shape.IntegerShape primitive [@explicit_arity])
+          | "blob" -> parsePrimitive shapeDict >>| fun primitive -> Shape.BlobShape primitive
+          | "boolean" -> parsePrimitive shapeDict >>| fun primitive -> Shape.BooleanShape primitive
+          | "integer" -> parsePrimitive shapeDict >>| fun primitive -> Shape.IntegerShape primitive
           | "string" -> parseStringShape shapeDict
           | "map" -> parseMapShape shapeDict
           | "union" -> parseUnionShape shapeDict
           | "resource" -> parseResourceShape shapeDict
           | "timestamp" -> parseTimestampShape shapeDict
-          | "long" ->
-              parsePrimitive shapeDict >>| fun primitive ->
-              (Shape.LongShape primitive [@explicit_arity])
-          | "double" ->
-              parsePrimitive shapeDict >>| fun primitive ->
-              (Shape.DoubleShape primitive [@explicit_arity])
-          | "float" ->
-              parsePrimitive shapeDict >>| fun primitive ->
-              (Shape.FloatShape primitive [@explicit_arity])
+          | "long" -> parsePrimitive shapeDict >>| fun primitive -> Shape.LongShape primitive
+          | "double" -> parsePrimitive shapeDict >>| fun primitive -> Shape.DoubleShape primitive
+          | "float" -> parsePrimitive shapeDict >>| fun primitive -> Shape.FloatShape primitive
           | "set" -> parseSetShape shapeDict
           | "enum" -> parseEnumShape shapeDict
-          | _ ->
-              Error (CustomError ({js|unknown shape type |js} ^ typeValue) [@explicit_arity])
-              [@explicit_arity]
+          | _ -> Error (CustomError ({js|unknown shape type |js} ^ typeValue))
         in
+
         Result.map descriptor_ ~f:(fun descriptor ->
             ((let open Shape in
               { name; descriptor }) [@ns.braces])))) [@ns.braces])

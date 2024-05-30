@@ -61,20 +61,20 @@ module Serialiser = struct
     Fmt.pf fmt "@\n@]"
 
   and string_func_body fmt name (stringDescriptor : primitiveShapeDetails) =
-    if hasTrait stringDescriptor.traits isEnumTrait then (
-      let enumValue =
-        stringDescriptor.traits |> Option.value ~default:[]
-        |> List.filter_map ~f:(function EnumTrait x -> Some x | _ -> None)
-        |> List.hd_exn
-      in
-      Fmt.pf fmt "(x: %s) => @,@[<v 2>switch (x) {@,@[<v 2>" (SafeNames.safeTypeName name);
-      enumValue
-      |> List.iter ~f:(fun { name; value } ->
-             Fmt.pf fmt "| %s => `String(\"%s\")@;"
-               (safeVariantName (Option.value name ~default:value))
-               value);
-      Fmt.pf fmt "@\n@]}@]")
-    else Fmt.pf fmt "string_to_yojson"
+    Fmt.pf fmt "string_to_yojson"
+
+  and enum_func_body fmt name (s : enumShapeDetails) =
+    Fmt.pf fmt "fun (x: %s) -> match x with @.@;@;@[<v 2>" (safeTypeName name);
+    List.iter
+      ~f:(fun { name; traits; _ } ->
+        let value =
+          List.find_map_exn
+            ~f:(fun (t : Ast.Trait.t) -> match t with EnumValueTrait e -> Some e | _ -> None)
+            (traits |> Option.value ~default:[])
+        in
+        Fmt.pf fmt "| %s -> `String \"%s\"@;" (safeConstructorName name) value)
+      s.members;
+    Fmt.pf fmt "@]@;"
 
   and func_body fmt name shapeDescriptor =
     match shapeDescriptor with
@@ -87,18 +87,7 @@ module Serialiser = struct
     | TimestampShape x -> Fmt.pf fmt "timestamp_to_yojson"
     | BlobShape x -> Fmt.pf fmt "blob_to_yojson"
     | MapShape x -> Fmt.pf fmt "fun tree -> map_to_yojson %s tree" (func_name x.mapValue.target)
-    | EnumShape s ->
-        Fmt.pf fmt "fun (x: %s) -> match x with @.@;@;@[<v 2>" (safeTypeName name);
-        List.iter
-          ~f:(fun { name; traits; _ } ->
-            let value =
-              List.find_map_exn
-                ~f:(fun (t : Ast.Trait.t) -> match t with EnumValueTrait e -> Some e | _ -> None)
-                (traits |> Option.value ~default:[])
-            in
-            Fmt.pf fmt "| %s -> `String \"%s\"@;" (safeConstructorName name) value)
-          s.members;
-        Fmt.pf fmt "@]@;"
+    | EnumShape s -> enum_func_body fmt name s
     | UnionShape x -> union_func_body fmt name x
     | SetShape x -> Fmt.pf fmt "fun tree -> list_to_yojson %s tree" (func_name x.target)
     | LongShape x -> Fmt.pf fmt "long_to_yojson"
@@ -257,7 +246,7 @@ module Operations = struct
     else Fmt.pf fmt "let handler a = a in@;";
     Fmt.pf fmt "AwsJson.error_deserializer (handler Errors.default_handler) tree path@\n@]@;"
 
-  let generate ~name ~operation_shapes fmt =
+  let generate ~name ~operation_shapes ~alias_context fmt =
     Fmt.pf fmt "open Aws_SmSdk_Lib @\n";
     Fmt.pf fmt "open Types @\n";
     Fmt.pf fmt "let (let+) res map = Result.map map res@\n";
@@ -267,7 +256,8 @@ module Operations = struct
              (SafeNames.safeConstructorName operation_name);
            let request_shape =
              os.input
-             |> Option.map ~f:(fun input -> Fmt.str "(request: %s)" (SafeNames.safeTypeName input))
+             |> Option.map ~f:(fun input ->
+                    Fmt.str "(request: %s)" (Types.resolve alias_context input))
              |> Option.value ~default:""
            in
            generate_error_handler fmt os;
@@ -280,7 +270,7 @@ module Operations = struct
            Fmt.pf fmt "let input = %s in@\n"
              (os.input
              |> Option.map ~f:(fun input ->
-                    Fmt.str "Serializers.%s_to_yojson request" (SafeNames.safeTypeName input))
+                    Fmt.str "Serializers.%s_to_yojson request" (Types.resolve alias_context input))
              |> Option.value ~default:"`Assoc([])");
            let serviceShape =
              Fmt.str "%s.%s" (Util.symbolName name) (Util.symbolName operation_name)
@@ -291,7 +281,7 @@ module Operations = struct
            Fmt.pf fmt "~error_deserializer@\n";
            Fmt.pf fmt "@]@]@]@\nend@\n@\n")
 
-  let generate_mli ~name ~operation_shapes ?(no_open = false) fmt =
+  let generate_mli ~name ~operation_shapes ~alias_context ?(no_open = false) fmt =
     if not no_open then begin
       Fmt.pf fmt "open Aws_SmSdk_Lib @\n";
 
@@ -302,12 +292,12 @@ module Operations = struct
            Fmt.pf fmt "module %s : sig@;<0 2>@[<v>" (SafeNames.safeConstructorName operation_name);
            let request_shape =
              os.input
-             |> Option.map ~f:(fun input -> SafeNames.safeTypeName input)
+             |> Option.map ~f:(fun input -> Types.resolve alias_context input)
              |> Option.value ~default:"unit"
            in
            let result_shape =
              os.output
-             |> Option.map ~f:(fun out -> SafeNames.safeTypeName out)
+             |> Option.map ~f:(fun out -> Types.resolve alias_context out)
              |> Option.value ~default:"unit"
            in
            Fmt.pf fmt "val request :@;<1 2>@[<hv 2>Aws.Context.t ->@;%s ->@;<0 2>@[<v>"

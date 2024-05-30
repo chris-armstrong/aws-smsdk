@@ -12,8 +12,7 @@ let fromEnvironment () =
     { accessKeyId; secretAccessKey; sessionToken }
   with _ ->
     raise
-      (AuthError "Could not resolve AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY from environment"
-      [@explicit_arity])
+      (AuthError "Could not resolve AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY from environment")
 
 let load_ini_file_res file_path =
   try Ok (Ini.load_ini file_path)
