@@ -17,12 +17,11 @@ let generateServiceMetadata (service : Ast.Shape.serviceShapeDetails) fmt =
 
 let generateServiceInterface service fmt = Fmt.pf fmt "val service : Aws.Service.descriptor@\n@\n"
 
-let generateStructureShapes structure_shapes fmt =
+let generateStructureShapes ctx structure_shapes fmt =
   structure_shapes
-  |> List.map ~f:(function
-       | Ast.Dependencies.
-           { recursWith = ((Some recursItems) [@explicit_arity]); name; descriptor; _ } ->
-           Codegen.Types.generateRecursiveTypeBlock
+  |> List.filter_map ~f:(function
+       | Ast.Dependencies.{ recursWith = Some recursItems; name; descriptor; _ } ->
+           Codegen.Types.generate_recursive_types ctx
              ((let open Ast.Shape in
                { name; descriptor })
              :: List.map recursItems ~f:(fun item ->
@@ -30,7 +29,7 @@ let generateStructureShapes structure_shapes fmt =
                     { name = item.name; descriptor = item.descriptor }))
              ~genDoc:true ()
        | Ast.Dependencies.{ name; descriptor; _ } ->
-           Codegen.Types.generateTypeBlock
+           Codegen.Types.generate_type ctx
              (let open Ast.Shape in
               { name; descriptor })
              ~genDoc:true ())
@@ -38,13 +37,14 @@ let generateStructureShapes structure_shapes fmt =
   |> fun __x -> Fmt.pf fmt "%s\n\n" __x
 
 let generate ~name ~(service : Ast.Shape.serviceShapeDetails) ~operation_shapes ~structure_shapes
-    fmt =
+    ~alias_context fmt =
   Fmt.pf fmt "open Aws_SmSdk_Lib@\n";
   generateServiceMetadata service fmt;
-  generateStructureShapes structure_shapes fmt
+  generateStructureShapes alias_context structure_shapes fmt
 
-let generate_mli ~name ~service ~operation_shapes ~structure_shapes ?(no_open = false) fmt =
+let generate_mli ~name ~service ~operation_shapes ~structure_shapes ~alias_context
+    ?(no_open = false) fmt =
   if not no_open then Fmt.pf fmt "open Aws_SmSdk_Lib@\n";
 
   generateServiceInterface service fmt;
-  generateStructureShapes structure_shapes fmt
+  generateStructureShapes alias_context structure_shapes fmt

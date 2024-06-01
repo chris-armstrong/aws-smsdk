@@ -1,7 +1,7 @@
 {
   "ocaml.sandbox": {
-    "kind": "esy",
-    "root": "${workspaceFolder:aws-reason2}"
+    "kind": "opam",
+    "switch": "${workspaceFolder:aws-smsdk}"
   },
   "ocaml.trace.server": "verbose",
   "ocaml.useOcamlEnv": false

@@ -133,7 +133,6 @@ let safeVariantName name =
   |> String.substr_replace_all ~pattern:"*" ~with_:"Star"
   |> String.split ~on:'_'
   |> List.filter_map ~f:(fun x ->
-         (if String.length x > 0 then Some (camelCase x) [@explicit_arity] [@ns.braces] else None)
-         [@ns.ternary])
+         (if String.length x > 0 then Some (camelCase x) else None) [@ns.ternary])
   |> String.concat ~sep:"_")
   [@ns.braces]

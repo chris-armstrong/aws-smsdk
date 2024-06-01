@@ -29,6 +29,7 @@ let _ =
             end
           with
           | Ok _ -> ()
+          
           | Error (`HttpError e) ->
               Logs.err (fun m -> m "HTTP Error %a" Aws_SmSdk_Lib.Http.pp_http_failure e)
           | Error (`JsonParseError e) ->
