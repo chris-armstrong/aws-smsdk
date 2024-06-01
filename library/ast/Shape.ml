@@ -65,23 +65,23 @@ type shapeDescriptor =
 
 let getShapeTraits descriptor =
   match descriptor with
-  | ((ListShape { traits; _ }) [@explicit_arity])
-  | ((StructureShape { traits; _ }) [@explicit_arity])
-  | ((OperationShape { traits; _ }) [@explicit_arity])
-  | ((UnionShape { traits; _ }) [@explicit_arity])
-  | ((BlobShape { traits }) [@explicit_arity])
-  | ((ServiceShape { traits; _ }) [@explicit_arity])
-  | ((BooleanShape { traits }) [@explicit_arity])
-  | ((IntegerShape { traits }) [@explicit_arity])
-  | ((StringShape { traits }) [@explicit_arity])
-  | ((MapShape { traits; _ }) [@explicit_arity])
-  | ((TimestampShape { traits }) [@explicit_arity])
-  | ((LongShape { traits }) [@explicit_arity])
-  | ((FloatShape { traits }) [@explicit_arity])
-  | ((DoubleShape { traits }) [@explicit_arity])
-  | ((BigIntegerShape { traits }) [@explicit_arity])
-  | ((BigDecimalShape { traits }) [@explicit_arity])
-  | ((SetShape { traits; _ }) [@explicit_arity]) ->
+  | ListShape { traits; _ }
+  | StructureShape { traits; _ }
+  | OperationShape { traits; _ }
+  | UnionShape { traits; _ }
+  | BlobShape { traits }
+  | ServiceShape { traits; _ }
+  | BooleanShape { traits }
+  | IntegerShape { traits }
+  | StringShape { traits }
+  | MapShape { traits; _ }
+  | TimestampShape { traits }
+  | LongShape { traits }
+  | FloatShape { traits }
+  | DoubleShape { traits }
+  | BigIntegerShape { traits }
+  | BigDecimalShape { traits }
+  | SetShape { traits; _ } ->
       traits
   | EnumShape { traits; _ } -> traits
   | UnitShape -> None

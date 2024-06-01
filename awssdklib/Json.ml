@@ -14,8 +14,7 @@ module SerializeHelpers = struct
   let assoc_to_yojson (x : (string * t option) list) : t =
     `Assoc
       (List.filter_map
-         (fun (name, value) ->
-           match value with ((Some value) [@explicit_arity]) -> Some (name, value) | None -> None)
+         (fun (name, value) -> match value with Some value -> Some (name, value) | None -> None)
          x)
 
   let blob_to_yojson (x : Bytes.t) : t = `String (Base64.encode_exn (Bytes.to_string x))

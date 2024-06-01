@@ -32,24 +32,24 @@ module Parse = struct
         when (Option.is_none ns || String.equal nns (Option.value ns ~default:""))
              && String.equal nname tag ->
           (nns, nname, attributes)
-      | _ -> raise (XmlUnexpectedConstruct (expected, next, Xmlm.pos i) [@explicit_arity])
+      | _ -> raise (XmlUnexpectedConstruct (expected, next, Xmlm.pos i))
 
     let endTag i ~expected =
       let next = input i in
       match next with
       | `El_end -> ()
-      | _ -> raise (XmlUnexpectedConstruct (expected, next, Xmlm.pos i) [@explicit_arity])
+      | _ -> raise (XmlUnexpectedConstruct (expected, next, Xmlm.pos i))
 
     let data i ~expected =
       let next = input i in
       match next with
       | `Data data -> data
-      | _ -> raise (XmlUnexpectedConstruct (expected, next, Xmlm.pos i) [@explicit_arity])
+      | _ -> raise (XmlUnexpectedConstruct (expected, next, Xmlm.pos i))
 
     let dtd i =
       match Xmlm.input i with
       | `Dtd _ -> ()
-      | _ as va -> raise (XmlUnexpectedConstruct (XmlDtd, va, Xmlm.pos i) [@explicit_arity])
+      | _ as va -> raise (XmlUnexpectedConstruct (XmlDtd, va, Xmlm.pos i))
   end
 
   let tag_equal name ns ((nns, nname), _) =
@@ -59,19 +59,15 @@ module Parse = struct
     type 'a reader = input -> attribute list -> 'a
 
     let sequence i tag (reader : 'a reader) ?ns () =
-      let _, _, attributes =
-        Accept.startTag i tag ~ns ~expected:(XmlStartSequence (tag, ns) [@explicit_arity])
-      in
+      let _, _, attributes = Accept.startTag i tag ~ns ~expected:(XmlStartSequence (tag, ns)) in
       let res = reader i attributes in
-      let _ = Accept.endTag i ~expected:(XmlEndSequence (tag, ns) [@explicit_arity]) in
+      let _ = Accept.endTag i ~expected:(XmlEndSequence (tag, ns)) in
       res
 
     let element i tag ?ns () =
-      let _, _, _ =
-        Accept.startTag i tag ~ns ~expected:(XmlStartElement (tag, ns) [@explicit_arity])
-      in
-      let data = Accept.data i ~expected:(XmlElementData (tag, ns) [@explicit_arity]) in
-      let _ = Accept.endTag i ~expected:(XmlEndElement (tag, ns) [@explicit_arity]) in
+      let _, _, _ = Accept.startTag i tag ~ns ~expected:(XmlStartElement (tag, ns)) in
+      let data = Accept.data i ~expected:(XmlElementData (tag, ns)) in
+      let _ = Accept.endTag i ~expected:(XmlEndElement (tag, ns)) in
       data
 
     let elements i tag ?ns () =
@@ -96,11 +92,11 @@ module Parse = struct
 
     let optionalElements i tag ?ns () =
       let elements = elements i tag ?ns () in
-      match List.is_empty elements with true -> None | false -> Some elements [@explicit_arity]
+      match List.is_empty elements with true -> None | false -> Some elements
 
     let optionalElement i tag ?ns () =
       match Xmlm.peek i with
-      | `El_start el when tag_equal tag ns el -> Some (element i tag ?ns ()) [@explicit_arity]
+      | `El_start el when tag_equal tag ns el -> Some (element i tag ?ns ())
       | _ -> None
 
     let dtd i = Accept.dtd i
@@ -122,11 +118,9 @@ module Parse = struct
      fun i t1 ->
       match t1.type_ with
       | InputStringElement -> Read.optionalElement i t1.tag ()
-      | InputStringElements -> Some (Read.elements i t1.tag ()) [@explicit_arity]
-      | ((InputStructureElement reader) [@explicit_arity]) ->
-          Some (Read.sequence i t1.tag reader ()) [@explicit_arity]
-      | ((InputStructuresElement reader) [@explicit_arity]) ->
-          Some (Read.sequences i t1.tag reader ()) [@explicit_arity]
+      | InputStringElements -> Some (Read.elements i t1.tag ())
+      | InputStructureElement reader -> Some (Read.sequence i t1.tag reader ())
+      | InputStructuresElement reader -> Some (Read.sequences i t1.tag reader ())
 
     let scanSequence i expectedTags reader =
       let break = ref false in
@@ -136,10 +130,7 @@ module Parse = struct
         | `El_start ((_, tag), _) -> reader tag next
         | `El_end -> break := true
         | `Dtd _ | `Data _ ->
-            raise
-              (XmlUnexpectedConstruct
-                 ((XmlOneOfElement expectedTags [@explicit_arity]), next, Xmlm.pos i)
-              [@explicit_arity])
+            raise (XmlUnexpectedConstruct (XmlOneOfElement expectedTags, next, Xmlm.pos i))
       done
 
     let item2 : type a b. input -> a inputItem -> b inputItem -> a option * b option =
@@ -149,11 +140,7 @@ module Parse = struct
       scanSequence i [ t1.tag; t2.tag ] (fun tag next ->
           if String.equal t1.tag tag then r1 := item1 i t1
           else if String.equal t2.tag tag then r2 := item1 i t2
-          else
-            raise
-              (XmlUnexpectedConstruct
-                 ((XmlOneOfElement [ t1.tag; t2.tag ] [@explicit_arity]), next, Xmlm.pos i)
-              [@explicit_arity]));
+          else raise (XmlUnexpectedConstruct (XmlOneOfElement [ t1.tag; t2.tag ], next, Xmlm.pos i)));
       (!r1, !r2)
 
     let item3 :
@@ -171,8 +158,7 @@ module Parse = struct
           | _ ->
               raise
                 (XmlUnexpectedConstruct
-                   ((XmlOneOfElement [ t1.tag; t2.tag; t3.tag ] [@explicit_arity]), next, Xmlm.pos i)
-                [@explicit_arity]));
+                   (XmlOneOfElement [ t1.tag; t2.tag; t3.tag ], next, Xmlm.pos i)));
       (!r1, !r2, !r3)
 
     let item4 :
@@ -197,10 +183,7 @@ module Parse = struct
           | _ ->
               raise
                 (XmlUnexpectedConstruct
-                   ( (XmlOneOfElement [ t1.tag; t2.tag; t3.tag; t4.tag ] [@explicit_arity]),
-                     next,
-                     Xmlm.pos i )
-                [@explicit_arity]));
+                   (XmlOneOfElement [ t1.tag; t2.tag; t3.tag; t4.tag ], next, Xmlm.pos i)));
       (!r1, !r2, !r3, !r4)
 
     let item5 :
@@ -228,10 +211,7 @@ module Parse = struct
           | _ ->
               raise
                 (XmlUnexpectedConstruct
-                   ( (XmlOneOfElement [ t1.tag; t2.tag; t3.tag; t4.tag; t5.tag ] [@explicit_arity]),
-                     next,
-                     Xmlm.pos i )
-                [@explicit_arity]));
+                   (XmlOneOfElement [ t1.tag; t2.tag; t3.tag; t4.tag; t5.tag ], next, Xmlm.pos i)));
       (!r1, !r2, !r3, !r4, !r5)
 
     let item6 :
@@ -262,11 +242,9 @@ module Parse = struct
           | _ ->
               raise
                 (XmlUnexpectedConstruct
-                   ( (XmlOneOfElement [ t1.tag; t2.tag; t3.tag; t4.tag; t5.tag; t6.tag ]
-                     [@explicit_arity]),
+                   ( XmlOneOfElement [ t1.tag; t2.tag; t3.tag; t4.tag; t5.tag; t6.tag ],
                      next,
-                     Xmlm.pos i )
-                [@explicit_arity]));
+                     Xmlm.pos i )));
       (!r1, !r2, !r3, !r4, !r5, !r6)
 
     let item7 :
@@ -300,16 +278,12 @@ module Parse = struct
           | _ ->
               raise
                 (XmlUnexpectedConstruct
-                   ( (XmlOneOfElement [ t1.tag; t2.tag; t3.tag; t4.tag; t5.tag; t6.tag; t7.tag ]
-                     [@explicit_arity]),
+                   ( XmlOneOfElement [ t1.tag; t2.tag; t3.tag; t4.tag; t5.tag; t6.tag; t7.tag ],
                      next,
-                     Xmlm.pos i )
-                [@explicit_arity]));
+                     Xmlm.pos i )));
       (!r1, !r2, !r3, !r4, !r5, !r6, !r7)
   end
 
   let required tag value i =
-    match value with
-    | ((Some value) [@explicit_arity]) -> value
-    | None -> raise (XmlMissingElement (tag, Xmlm.pos i) [@explicit_arity])
+    match value with Some value -> value | None -> raise (XmlMissingElement (tag, Xmlm.pos i))
 end
