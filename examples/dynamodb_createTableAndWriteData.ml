@@ -37,7 +37,7 @@ let _ =
                      ~billing_mode:PAY_PER_REQUEST
                      ~key_schema:
                        [
-                         { key_type = HASH; attribute_name = "pk" };
+                         make_key_schema_element ~key_type:HASH ~attribute_name:"pk" ();
                          { key_type = RANGE; attribute_name = "sk" };
                        ]
                      ~attribute_definitions:
