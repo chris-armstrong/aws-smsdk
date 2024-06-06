@@ -32,9 +32,9 @@ type input_body = [ `None | `String of string | `Form of (string * string list) 
 (** The input body to a HTTP request *)
 
 type http_failure =
+  | NameLookupFailure
   | NoSupportedProtocol  (** The server has no supported HTTP protocol support (HTTP 1.1 or 2.0) *)
   | InvalidUri of Uri.t  (** The specified URI was invalid for a HTTP request *)
-  | ConnectionError of string
   | MalformedResponse of string
   | InvalidResponseBodyLength
   | ProtocolError of string
@@ -58,5 +58,3 @@ val request :
 
     Connections are reused where possible and kept open indefinitely. Use close_all_connections to
     close any outstanding HTTP connections. *)
-
-val close_all_connections : t -> unit

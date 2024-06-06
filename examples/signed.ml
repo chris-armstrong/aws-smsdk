@@ -51,8 +51,4 @@ let _ =
               body
           with
           | Ok body -> ()
-          | Error error -> (
-              Fmt.pr "Error! %a\n" Http.pp_http_failure error;
-              try Http.close_all_connections (Aws.Context.http context)
-              with error ->
-                Fmt.pr "Error closing all connections: %s@." (Printexc.to_string error))))
+          | Error error -> Fmt.pr "Error! %a\n" Http.pp_http_failure error))
