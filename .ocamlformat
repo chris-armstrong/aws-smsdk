@@ -1,5 +1,5 @@
 profile = default
-version = 0.26.2
+version = 0.26.1
 
 # preserve begin/end where it appears (instead of converting to parenthesis, the default)
 exp-grouping = preserve

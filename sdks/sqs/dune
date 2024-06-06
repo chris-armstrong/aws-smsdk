@@ -9,7 +9,10 @@
   deserializers.ml
   types.ml
   types.mli
-  operations.ml operations.mli)
+  operations.ml
+  operations.mli
+  Aws_SmSdk_Client_SQS.ml
+  Aws_SmSdk_Client_SQS.mli)
  (action
   (run
    %{gen}
@@ -22,7 +25,8 @@
    types
    serializers
    deserializers
-   operations)))
+   operations
+   module)))
 
 (library
  (name Aws_SmSdk_Client_SQS)

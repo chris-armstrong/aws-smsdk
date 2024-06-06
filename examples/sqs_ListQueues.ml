@@ -24,8 +24,8 @@ let _ =
                      ~queue_name_prefix:(Array.get Sys.argv 1) ())
               in
               Logs.info (fun m ->
-                  m "SUCCESS!: %s@."
-                    (result |> Serializers.list_queues_result_to_yojson |> Yojson.Basic.to_string))
+                  m "SUCCESS!: @."
+                    )
             end
           with
           | Ok _ -> ()
