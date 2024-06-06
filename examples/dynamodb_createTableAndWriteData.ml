@@ -20,9 +20,7 @@ let _ =
 
           match
             let table = "create-table-test" in
-            let+ { table_names; _ } =
-              ListTables.request context (make_list_tables_input ~limit:1 ())
-            in
+            let+ { table_names; _ } = ListTables.request context (make_list_tables_input ()) in
             Logs.info (fun m ->
                 m "SUCCESS: table list %a" (Fmt.list Fmt.string) (table_names |> optional_empty_list));
             let table_exists =

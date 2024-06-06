@@ -33,7 +33,4 @@ Eio_main.run (fun env ->
             | Ok (response, body) ->
                 let body = Http.Body.to_string body in
                 Format.printf "Response 2: %d@." (Http.Response.status response)
-            | Error err -> Format.printf "");
-        Format.printf "Closing all connections@.";
-        Http.close_all_connections http;
-        ()))
+            | Error err -> Format.printf "")))
