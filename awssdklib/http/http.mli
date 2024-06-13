@@ -45,7 +45,12 @@ val pp_http_failure : Format.formatter -> http_failure -> unit
 type t
 (** Instance of a HTTP client connection pool. Create one per switch (stores the switch context) *)
 
-val make : sw:Eio.Switch.t -> < net : [ `Generic | `Unix ] Eio.Net.ty Eio.Resource.t ; .. > -> t
+val make :
+  sw:Eio.Switch.t ->
+  < net : [> `Generic | `Unix ] Eio.Net.ty Eio.Resource.t
+  ; mono_clock : [> Eio.Time.Mono.ty ] Eio.Resource.t
+  ; .. > ->
+  t
 
 val request :
   method_:method_ ->

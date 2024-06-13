@@ -32,19 +32,20 @@ let make_connection_error_handler error_promise err =
 
 module HttpConnectionPool = Connection_pool.Make (Http_connection)
 
-type t = {
-  sw : Eio.Switch.t;
-  pool : HttpConnectionPool.t;
-  env : < net : [ `Generic | `Unix ] Eio.Net.ty Eio.Resource.t >;
-}
+type env_type =
+  < net : [ `Generic | `Unix ] Eio.Net.ty Eio.Resource.t
+  ; mono_clock : [ `Clock of Mtime.t ] Eio.Resource.t >
+
+type t = { sw : Eio.Switch.t; pool : HttpConnectionPool.t; env : env_type }
 
 let make ~sw env =
-  let env = (env :> < net : [> `Generic | `Unix ] Eio.Net.ty Eio.Resource.t >) in
+  let env = (env :> env_type) in
   { pool = HttpConnectionPool.make ~sw; sw; env }
 
 let request ~method_ ~uri ?(headers : headers option) ?(body : input_body option) http =
   let { pool; sw; env } = http in
   let network = Eio.Stdenv.net env in
+  let mono_clock = Eio.Stdenv.mono_clock env in
   let host = Uri.host uri |> Option.map String.lowercase_ascii in
   let port = Uri.port uri |> Option.value ~default:443 in
   let path = Uri.path uri in

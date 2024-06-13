@@ -15,5 +15,4 @@ module type HttpClientImpl = sig
     (Response.t * (module BodyImpl), Http_intf.http_failure) result
 
   val shutdown : unit -> unit Eio.Promise.t
-  val max_concurrency : int
 end

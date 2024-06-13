@@ -17,11 +17,7 @@ let _ =
           in
           let body = {|{}|} in
           Fmt.pr "before context@.";
-          let context =
-            Aws.Context.make ~sw ~config
-              (env :> < net : [ `Generic | `Unix ] Eio.Net.ty Eio.Resource.t >)
-              ()
-          in
+          let context = Aws.Context.make ~sw ~config env () in
           let service = Aws.Service.{ namespace = "sqs"; endpointPrefix = "sqs"; version = "" } in
           let uri = Aws.Service.makeUri ~context ~service in
           let headers =

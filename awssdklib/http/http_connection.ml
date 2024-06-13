@@ -5,6 +5,8 @@ let ( let* ) = Result.bind
 
 type connection_info = { host : string; port : int; scheme : string }
 
+let default_timeout = 5.0
+
 type connection = {
   http_client : (module Protocol_intf.HttpClientImpl);
   socket : Eio_unix.Net.stream_socket_ty Eio.Net.stream_socket;
@@ -19,27 +21,42 @@ let shutdown connection =
   let module ProtocolImpl = (val connection.http_client : Protocol_intf.HttpClientImpl) in
   ProtocolImpl.shutdown ()
 
-let max_concurrency connection =
-  let module ProtocolImpl = (val connection.http_client : Protocol_intf.HttpClientImpl) in
-  ProtocolImpl.max_concurrency
-
 let is_valid connection = Option.is_none !(connection.last_error)
 
 exception ConnectionFailure of http_failure
 
+let connect_within_timeout ?(timeout = Eio.Time.Timeout.none) ~host ~service t =
+  let open Eio in
+  Switch.run ~name:"with_tcp_connect" @@ fun sw ->
+  match
+    let rec aux = function
+      | [] -> raise @@ Net.err Net.(Connection_failure No_matching_addresses)
+      | addr :: addrs -> (
+          try Time.Timeout.run_exn timeout (fun () -> Net.connect ~sw t addr) with
+          | (Time.Timeout | Eio.Exn.Io _) when addrs <> [] -> aux addrs
+          | Time.Timeout -> raise @@ Net.err (Net.Connection_failure Timeout))
+    in
+    Net.getaddrinfo_stream ~service t host
+    |> List.filter_map (function `Tcp _ as x -> Some x | `Unix _ -> None)
+    |> aux
+  with
+  | conn -> conn
+  | exception (Eio.Exn.Io _ as ex) ->
+      let bt = Printexc.get_raw_backtrace () in
+      Eio.Exn.reraise_with_context ex bt "connecting to %S:%s" host service
+
 let connect ~info:{ host; port; scheme } ~sw env =
   let network = Eio.Stdenv.net env in
+  let mono_clock = Eio.Stdenv.mono_clock env in
   let hostname = (host |> String.lowercase_ascii) ^ ":" ^ (port |> Int.to_string) in
   Logs.debug (fun m -> m "Creating new connection to hostname %s" hostname);
   let ctx = Ssl_helpers.create_ssl_context () in
-  Log.debug (fun m -> m "Resolving address for %s://%s:%d" scheme host port);
-  let addr =
-    match Dns.resolve_address host port with
-    | Some addr -> addr
-    | None -> raise (ConnectionFailure NameLookupFailure)
-  in
   Log.debug (fun m -> m "Establishing SSL Connection to %s:%d" host port);
-  let socket = Eio.Net.connect ~sw network addr in
+  let socket =
+    connect_within_timeout
+      ~timeout:(Eio.Time.Timeout.seconds mono_clock default_timeout)
+      ~host ~service:"https" network
+  in
   let ssl_context = Eio_ssl.Context.create ~ctx socket in
 
   let ssl_socket = Eio_ssl.Context.ssl_socket ssl_context in
