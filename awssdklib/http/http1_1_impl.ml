@@ -8,26 +8,26 @@ module Log =
 
 let make_http_1_1_body_reader reader =
   let module Http11Reader = struct
-    let schedule_read = Httpaf.Body.Reader.schedule_read reader
-    let close () = Httpaf.Body.Reader.close reader
+    let schedule_read = Httpun.Body.Reader.schedule_read reader
+    let close () = Httpun.Body.Reader.close reader
   end in
   (module Http11Reader : BodyImpl)
 
 let make_http_1_1_response_handler resolver response body_reader =
   Logs.debug (fun m -> m "HTTP 1.1 response started");
-  let new_status = Httpaf.Status.to_code Httpaf.Response.(response.status) in
-  let new_headers = Httpaf.(Headers.to_list Response.(response.headers)) in
+  let new_status = Httpun.Status.to_code Httpun.Response.(response.status) in
+  let new_headers = Httpun.(Headers.to_list Response.(response.headers)) in
   Eio.Promise.resolve_ok resolver
     (Response.{ status = new_status; headers = new_headers }, make_http_1_1_body_reader body_reader)
 
-let make_http_1_1_error_handler resolver (connection_error : Httpaf.Client_connection.error) =
+let make_http_1_1_error_handler resolver (connection_error : Httpun.Client_connection.error) =
   Eio.Promise.resolve_error resolver connection_error
 
 let make_http_1_1_client ~sw ~scheme ssl_socket =
-  let config = Httpaf.Config.default in
-  let client = Httpaf_eio.Client.create_connection ~config ~sw ssl_socket in
+  let config = Httpun.Config.default in
+  let client = Httpun_eio.Client.create_connection ~config ~sw ssl_socket in
   let module Http1_1_Client = struct
-    let shutdown () = Httpaf_eio.Client.shutdown client
+    let shutdown () = Httpun_eio.Client.shutdown client
 
     let request ~body ~method_ ~headers host path =
       let response_promise, response_resolver = Eio.Promise.create () in
@@ -54,17 +54,17 @@ let make_http_1_1_client ~sw ~scheme ssl_socket =
           ]
       in
       let request =
-        Httpaf.Request.create ~headers:(Httpaf.Headers.of_list headers)
-          ~version:(Httpaf.Version.of_string "HTTP/1.1")
+        Httpun.Request.create ~headers:(Httpun.Headers.of_list headers)
+          ~version:(Httpun.Version.of_string "HTTP/1.1")
           method_ path
       in
       let body_writer =
-        Httpaf_eio.Client.request ~flush_headers_immediately:true client request ~error_handler
+        Httpun_eio.Client.request ~flush_headers_immediately:true client request ~error_handler
           ~response_handler
       in
 
-      body_string |> Option.iter (fun str -> Httpaf.Body.Writer.write_string body_writer str);
-      Httpaf.Body.Writer.close body_writer;
+      body_string |> Option.iter (fun str -> Httpun.Body.Writer.write_string body_writer str);
+      Httpun.Body.Writer.close body_writer;
       Log.debug (fun m -> m "Written HTTP body@.");
 
       match Eio.Promise.await response_promise with

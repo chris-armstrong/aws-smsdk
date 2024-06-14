@@ -25,9 +25,8 @@ let is_valid connection = Option.is_none !(connection.last_error)
 
 exception ConnectionFailure of http_failure
 
-let connect_within_timeout ?(timeout = Eio.Time.Timeout.none) ~host ~service t =
+let connect_within_timeout ?(timeout = Eio.Time.Timeout.none) ~host ~service sw t =
   let open Eio in
-  Switch.run ~name:"with_tcp_connect" @@ fun sw ->
   match
     let rec aux = function
       | [] -> raise @@ Net.err Net.(Connection_failure No_matching_addresses)
@@ -55,7 +54,7 @@ let connect ~info:{ host; port; scheme } ~sw env =
   let socket =
     connect_within_timeout
       ~timeout:(Eio.Time.Timeout.seconds mono_clock default_timeout)
-      ~host ~service:"https" network
+      ~host ~service:"https" sw network
   in
   let ssl_context = Eio_ssl.Context.create ~ctx socket in
 

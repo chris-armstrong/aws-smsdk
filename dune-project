@@ -38,8 +38,8 @@
   ocamlgraph
   uri
   logs
-  httpaf
-  httpaf-eio
+  httpun
+  httpun-eio
   eio_main
   (eio_main :with-dev)
   (odoc :with-doc)))
@@ -78,8 +78,8 @@
   eio-ssl
   uri
   logs
-  httpaf
-  httpaf-eio
+  httpun
+  httpun-eio
   eio_main
   (eio_main :with-dev)
   (odoc :with-doc)))
