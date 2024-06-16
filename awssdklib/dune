@@ -9,8 +9,6 @@
   uri
   base64
   httpun-eio
-  h2-eio
-  h2
   eio-ssl
   digestif
   xmlm

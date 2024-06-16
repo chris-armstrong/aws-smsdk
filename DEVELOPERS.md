@@ -7,7 +7,7 @@ its libraries and SDKs in your own code.
 ## Base Libraries
 
 All the SDK bindings use the [eio](https://github.com/ocaml-multicore/eio) library for async, leveraging [httpun](https://github.com/anmonteiro/httpun)
-and [h2](https://github.com/anmonteiro/ocaml-h2) by [@anmonteiro](https://github.com/anmonteiro/) for HTTP communication via the `awssdklib`.
+ by [@anmonteiro](https://github.com/anmonteiro/) for HTTP communication via the `awssdklib`.
 
 Jane Street [Base](https://opensource.janestreet.com/base/) is used in some of the parsers and code generators, but
 the `awssdklib` shared library used by SDKs has minimal dependencies on

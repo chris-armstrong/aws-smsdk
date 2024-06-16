@@ -22,7 +22,7 @@ type http_failure = Http_intf.http_failure =
   | HttpException of exn
 
 let pp_http_failure = Http_intf.pp_http_failure
-let string_of_method = H2.Method.to_string
+let string_of_method = Httpun_types.Method.to_string
 
 let make_connection_error_handler error_promise err =
   let _ =

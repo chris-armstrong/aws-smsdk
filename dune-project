@@ -32,8 +32,6 @@
   ppx_inline_test
   ppx_deriving
   ppx_expect
-  h2-eio
-  h2
   eio-ssl
   ocamlgraph
   uri
@@ -73,8 +71,6 @@
   ppx_inline_test
   ppx_deriving
   ppx_expect
-  h2-eio
-  h2
   eio-ssl
   uri
   logs
