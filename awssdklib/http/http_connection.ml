@@ -68,7 +68,6 @@ let connect ~info:{ host; port; scheme } ~sw env =
       m "Established SSL Connection with protocol %s" (alpn |> Option.value ~default:"<none>"));
   let client =
     match alpn with
-    | Some "h2" -> Http2_impl.make_http2_client ~sw ~scheme ssl_socket
     | Some "http/1.1" -> Http1_1_impl.make_http_1_1_client ~sw ~scheme ssl_socket
     | _ -> raise (ConnectionFailure NoSupportedProtocol)
   in
