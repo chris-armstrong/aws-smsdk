@@ -1,4 +1,4 @@
-type t = { accessKeyId : string; secretAccessKey : string; sessionToken : string option }
+type t = { access_key_id : string; secret_access_key : string; session_token : string option }
 
 exception AuthError of string
 
@@ -6,11 +6,11 @@ type resolver = unit -> t
 
 let fromEnvironment () =
   try
-    let accessKeyId = Sys.getenv "AWS_ACCESS_KEY_ID" in
-    let secretAccessKey = Sys.getenv "AWS_SECRET_ACCESS_KEY" in
-    let sessionToken = Sys.getenv_opt "AWS_SESSION_TOKEN" in
-    { accessKeyId; secretAccessKey; sessionToken }
-  with _ ->
+    let access_key_id = Sys.getenv "AWS_ACCESS_KEY_ID" in
+    let secret_access_key = Sys.getenv "AWS_SECRET_ACCESS_KEY" in
+    let session_token = Sys.getenv_opt "AWS_SESSION_TOKEN" in
+    { access_key_id; secret_access_key; session_token }
+  with Not_found ->
     raise
       (AuthError "Could not resolve AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY from environment")
 
@@ -40,8 +40,8 @@ type profile = {
   aws_access_key_id : string;
   aws_secret_access_key : string;
   aws_session_token : string option;
-  role_arn : string option;
-  output : string option;
+      (* role_arn : string option; *)
+      (* output : string option; *)
 }
 
 let read_profile profile_name profiles =
@@ -59,8 +59,8 @@ let read_profile profile_name profiles =
             aws_access_key_id = aws_access_key;
             aws_secret_access_key = aws_secret_key;
             aws_session_token;
-            role_arn = None;
-            output = None;
+            (* role_arn = None; *)
+            (* output = None; *)
           }
       | _ ->
           raise
@@ -88,9 +88,9 @@ let fromProfile env ?profile_name () =
       read_profile profile_name profiles
     in
     {
-      accessKeyId = aws_access_key_id;
-      secretAccessKey = aws_secret_access_key;
-      sessionToken = aws_session_token;
+      access_key_id = aws_access_key_id;
+      secret_access_key = aws_secret_access_key;
+      session_token = aws_session_token;
     }
   with Not_found ->
     raise (AuthError "Unable to find $HOME in environment for loading AWS profile")
