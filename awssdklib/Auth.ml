@@ -72,7 +72,14 @@ let read_profile profile_name profiles =
 
 let fromProfile env ?profile_name () =
   try
-    let profile_name = Option.value profile_name ~default:"default" in
+    let profile_name =
+      match profile_name with
+      | Some profile_name -> profile_name
+      | None -> (
+          match Sys.getenv_opt "AWS_PROFILE" with
+          | Some profile_name -> profile_name
+          | None -> "default")
+    in
     let credentials_file = load_credentials_profiles env in
     let config_file = load_config_profiles env in
 
