@@ -40,8 +40,6 @@ type profile = {
   aws_access_key_id : string;
   aws_secret_access_key : string;
   aws_session_token : string option;
-      (* role_arn : string option; *)
-      (* output : string option; *)
 }
 
 let read_profile profile_name profiles =
@@ -101,3 +99,17 @@ let fromProfile env ?profile_name () =
     }
   with Not_found ->
     raise (AuthError "Unable to find $HOME in environment for loading AWS profile")
+
+let rec resolverChain ~resolvers =
+  match resolvers with
+  | resolver :: remaining -> begin
+      try resolver () with
+      | AuthError e ->
+          if List.length remaining > 0 then resolverChain ~resolvers:remaining
+          else raise (AuthError e)
+      | x -> raise x
+    end
+  | [] -> raise (AuthError "No authorization resolvers in chain")
+
+let fromDummy () =
+  { access_key_id = "DUMMY"; secret_access_key = "DUMMY"; session_token = Some "DUMMY" }

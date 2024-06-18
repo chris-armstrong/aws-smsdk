@@ -1,11 +1,21 @@
+open Http_types
+
 module type S = sig
   type t
 
-  module Response = Response
-  module Body = Body
+  module Response : sig
+    type t
 
-  type input_body = Http_types.input_body
-  type headers = Http_types.headers
+    val status : t -> int
+    val headers : t -> headers
+  end
+
+  module Body : sig
+    type t
+
+    val to_string : t -> string
+    val drain : t -> unit
+  end
 
   val request :
     method_:Http_types.method_ ->

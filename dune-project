@@ -39,6 +39,7 @@
   httpun
   httpun-eio
   eio_main
+  (alcotest :with-test)
   (eio_main :with-dev)
   (odoc :with-doc)))
 

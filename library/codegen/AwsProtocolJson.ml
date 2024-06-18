@@ -244,8 +244,8 @@ module Operations = struct
       Fmt.pf fmt "@]@ in@\n"
     end
     else Fmt.pf fmt "let handler a = a in@;";
-    Fmt.pf fmt "%s.(error_deserializer (handler %s.default_handler) tree path)@\n@]@;"
-      Modules.protocolAwsJson Modules.errors
+    Fmt.pf fmt "%s.(error_deserializer (handler %s.Errors.default_handler) tree path)@\n@]@;"
+      Modules.protocolAwsJson Modules.protocolAwsJson
 
   let generate ~name ~operation_shapes ~alias_context fmt =
     Fmt.pf fmt "open Types @\n";

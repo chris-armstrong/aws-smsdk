@@ -1,8 +1,13 @@
 type method_ =
   [ `GET | `POST | `CONNECT | `DELETE | `HEAD | `OPTIONS | `Other of string | `PUT | `TRACE ]
+[@@deriving show, eq]
 
-type headers = (string * string) list
+let string_of_method = Httpun_types.Method.to_string
+
+type headers = (string * string) list [@@deriving show, eq]
+
 type input_body = [ `None | `String of string | `Form of (string * string list) list ]
+[@@deriving show, eq]
 
 type http_failure =
   | NameLookupFailure
@@ -21,3 +26,14 @@ let pp_http_failure fmt = function
   | InvalidResponseBodyLength -> Fmt.pf fmt "Invalid response body length"
   | ProtocolError e -> Fmt.pf fmt "Protocol error: %s" e
   | HttpException e -> Fmt.pf fmt "Unknown HTTP exception: %s" (Printexc.to_string e)
+
+let equal_http_failure lhs rhs =
+  match (lhs, rhs) with
+  | NameLookupFailure, NameLookupFailure -> true
+  | NoSupportedProtocol, NoSupportedProtocol -> true
+  | InvalidUri l, InvalidUri r -> Uri.equal l r
+  | MalformedResponse l, MalformedResponse r -> String.equal l r
+  | InvalidResponseBodyLength, InvalidResponseBodyLength -> true
+  | ProtocolError l, ProtocolError r -> String.equal l r
+  | HttpException l, HttpException r -> l = r
+  | _, _ -> false

@@ -6,3 +6,4 @@ type resolver = unit -> t
 
 val fromEnvironment : unit -> t
 val fromProfile : < fs : [> Eio.Fs.dir_ty ] Eio.Path.t ; .. > -> ?profile_name:string -> unit -> t
+val fromDummy : unit -> t

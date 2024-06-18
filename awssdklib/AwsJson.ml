@@ -3,7 +3,7 @@ module type S = sig
   type json_type = Yojson.Basic.t
 
   type error =
-    [ Errors.t
+    [ AwsErrors.t
     | `HttpError of Http.http_failure
     | `JsonParseError of Json.DeserializeHelpers.jsonParseError ]
 
@@ -25,6 +25,15 @@ module type S = sig
 
   val error_deserializer :
     (json_type -> string list -> string * string -> 'a) -> json_type -> string list -> 'a
+
+  module Errors : sig
+    type 'a handler = json_type -> string list -> string * string -> 'a
+
+    val default_deserializer :
+      json_type -> string list -> string * string -> AwsErrors.aws_service_error
+
+    val default_handler : json_type -> string list -> string * string -> [> AwsErrors.t ]
+  end
 end
 
 module Make (Http_module : Http.Client_intf) = struct
@@ -34,8 +43,24 @@ module Make (Http_module : Http.Client_intf) = struct
   let json_to_string = Yojson.Basic.to_string
   let json_of_string = Yojson.Basic.from_string
 
+  module Errors = struct
+    open AwsErrors
+
+    type 'a handler = Json.DeserializeHelpers.t -> string list -> string * string -> 'a
+
+    let default_deserializer tree path _type =
+      let open Json.DeserializeHelpers in
+      let obj = assoc_of_yojson tree path in
+      let message = option_of_yojson (value_for_key string_of_yojson "message") obj path in
+      { message; _type }
+
+    let default_handler (tree : Json.DeserializeHelpers.t) (path : string list)
+        (_type : string * string) : [> t ] =
+      `AWSServiceError (default_deserializer tree path _type)
+  end
+
   type error =
-    [ Errors.t
+    [ AwsErrors.t
     | `HttpError of Http.http_failure
     | `JsonParseError of Json.DeserializeHelpers.jsonParseError ]
 
