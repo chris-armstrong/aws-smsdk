@@ -99,7 +99,7 @@ module Serialiser = struct
     | _ -> raise (UnexpectedType name)
 
   let generate ~(structure_shapes : shapeWithTarget list) fmt =
-    Fmt.pf fmt "open Aws_SmSdk_Lib.Json.SerializeHelpers@\n@\n";
+    Fmt.pf fmt "open %s@\n@\n" Modules.jsonSerializeHelpers;
     Fmt.pf fmt "open Types@\n@\n";
     structure_shapes
     |> List.iter ~f:(fun shapeWithTarget ->
@@ -210,7 +210,7 @@ module Deserialiser = struct
     | _ -> raise (UnexpectedType name)
 
   let generate ~name ~structure_shapes fmt =
-    Fmt.pf fmt "open Aws_SmSdk_Lib.Json.DeserializeHelpers@\n@\n";
+    Fmt.pf fmt "open %s@\n@\n" Modules.jsonDeserializeHelpers;
     Fmt.pf fmt "open Types@\n@\n";
     structure_shapes
     |> List.iter ~f:(fun shapeWithTarget ->
@@ -244,10 +244,10 @@ module Operations = struct
       Fmt.pf fmt "@]@ in@\n"
     end
     else Fmt.pf fmt "let handler a = a in@;";
-    Fmt.pf fmt "AwsJson.error_deserializer (handler Errors.default_handler) tree path@\n@]@;"
+    Fmt.pf fmt "%s.(error_deserializer (handler %s.Errors.default_handler) tree path)@\n@]@;"
+      Modules.protocolAwsJson Modules.protocolAwsJson
 
   let generate ~name ~operation_shapes ~alias_context fmt =
-    Fmt.pf fmt "open Aws_SmSdk_Lib @\n";
     Fmt.pf fmt "open Types @\n";
     Fmt.pf fmt "let (let+) res map = Result.map map res@\n";
     operation_shapes
@@ -275,16 +275,16 @@ module Operations = struct
            let serviceShape =
              Fmt.str "%s.%s" (Util.symbolName name) (Util.symbolName operation_name)
            in
-           Fmt.pf fmt "AwsJson.make_request @;<0 2>@[<v>~shape_name:\"%s\" @;" serviceShape;
-           Fmt.pf fmt "~service @;~context @;~input@\n";
+           Fmt.pf fmt "%s.request @;<0 2>@[<v>~shape_name:\"%s\" @;" Modules.protocolAwsJson
+             serviceShape;
+           Fmt.pf fmt "~service @;~config:%s.(context.config) @;~http:%s.(context.http) @;~input@\n"
+             Modules.context Modules.context;
            Fmt.pf fmt "~output_deserializer:Deserializers.%s@\n" response_shape_deserialiser;
            Fmt.pf fmt "~error_deserializer@\n";
            Fmt.pf fmt "@]@]@]@\nend@\n@\n")
 
   let generate_mli ~name ~operation_shapes ~alias_context ?(no_open = false) fmt =
     if not no_open then begin
-      Fmt.pf fmt "open Aws_SmSdk_Lib @\n";
-
       Fmt.pf fmt "open Types @\n"
     end;
     operation_shapes
@@ -300,10 +300,10 @@ module Operations = struct
              |> Option.map ~f:(fun out -> Types.resolve alias_context out)
              |> Option.value ~default:"unit"
            in
-           Fmt.pf fmt "val request :@;<1 2>@[<hv 2>Aws.Context.t ->@;%s ->@;<0 2>@[<v>"
+           Fmt.pf fmt "val request :@;<1 2>@[<hv 2>%s.t ->@;%s ->@;<0 2>@[<v>" Modules.context
              request_shape;
            Fmt.pf fmt "(%s,@ " result_shape;
-           Fmt.pf fmt "[>@[<v 2>@;| AwsJson.error ";
+           Fmt.pf fmt "[>@[<v 2>@;| %s.error " Modules.protocolAwsJson;
            os.errors |> Option.value ~default:[]
            |> List.iter ~f:(fun constructor ->
                   Fmt.pf fmt "| `%s of %s@;"

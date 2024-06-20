@@ -1,4 +1,3 @@
-open Http_intf
 open Protocol_intf
 
 module Log =
@@ -75,6 +74,7 @@ let make_http_1_1_client ~sw ~scheme ssl_socket =
                 (Response.headers response));
           Ok (response, body)
       | Error error ->
+          let open Http_types in
           let response_error_string =
             match error with
             | `Malformed_response x -> MalformedResponse x

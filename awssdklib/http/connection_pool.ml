@@ -1,7 +1,8 @@
 open Import
 
 module Log =
-  (val Logs.src_log (Logs.Src.create "awssdklib.http.pool" ~doc:"AwsSdkLib Http implementation")
+  (val Logs.src_log
+         (Logs.Src.create "awssdklib.http.pool" ~doc:"AwsSdkLib Http connection pool implementation")
       : Logs.LOG)
 
 module type ConnectionType = sig

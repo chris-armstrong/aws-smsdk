@@ -1,10 +1,9 @@
-open Aws_SmSdk_Lib;;
-
 Logs.set_reporter (Logs.format_reporter ());
 Logs.set_level (Some Logs.Debug);
 
 Eio_main.run (fun env ->
     Eio.Switch.run (fun sw ->
+        let module Http = Aws_SmSdk_Lib.Http.Client in
         let ( let@ ) res map = Result.iter map res in
         let http = Http.make ~sw env in
         Format.printf "Making request@.";

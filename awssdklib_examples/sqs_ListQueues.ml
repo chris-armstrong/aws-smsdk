@@ -6,13 +6,13 @@ let _ =
       Eio.Switch.run (fun sw ->
           let open Aws_SmSdk_Lib in
           let config =
-            Aws.Config.
+            Config.
               {
                 resolveRegion = (fun () -> "ap-southeast-2");
-                resolveAuth = (fun () -> Aws.Auth.fromProfile env ());
+                resolveAuth = (fun () -> Auth.fromProfile env ());
               }
           in
-          let context = Aws.Context.make ~sw ~config env () in
+          let context = Context.make ~sw ~config env in
           let ( let+ ) res map = Result.map map res in
 
           match
@@ -23,18 +23,16 @@ let _ =
                   (make_list_queues_request ~max_results:10
                      ~queue_name_prefix:(Array.get Sys.argv 1) ())
               in
-              Logs.info (fun m ->
-                  m "SUCCESS!: @."
-                    )
+              Logs.info (fun m -> m "SUCCESS!: @.")
             end
           with
           | Ok _ -> ()
-          
           | Error (`HttpError e) ->
               Logs.err (fun m -> m "HTTP Error %a" Aws_SmSdk_Lib.Http.pp_http_failure e)
           | Error (`JsonParseError e) ->
               Logs.err (fun m ->
-                  m "Parse Error! %s" (AwsSdkLib.Json.DeserializeHelpers.jsonParseErrorToString e))
+                  m "Parse Error! %s"
+                    (Aws_SmSdk_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
           | Error (`InvalidAddress s) ->
               Logs.err (fun m -> m "Invalid address: %s" (s.message |> Option.value ~default:"<>"))
           | Error (`AWSServiceError { _type = namespace, name; message }) ->
