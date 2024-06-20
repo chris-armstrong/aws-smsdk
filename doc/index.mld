@@ -1,0 +1,17 @@
+{0 aws-smsdk}
+
+[aws-smsdk] generates Amazon Web Services (AWS) service SDKs for OCaml from {{: https://smithy.io/2.0/index.html }Smithy} definitions.
+
+The underlying SDKs use {{:https://github.com/ocaml-multicore/eio} EIO} for its concurrency model, taking advantage of the OCaml 5.0 Effects support, that enables a cleaner and simpler concurrency syntax without monadic support (like {{: https://github.com/ocsigen/lwt} lwt}).
+
+{1 Status}
+
+This project is very much a work in progress. The current focus is on generating correct and useful SDKs for core AWS services like STS, SQS, S3, DynamoDB, etc. rather than support for every AWS service.
+
+{1 Package Structure}
+
+[aws-smsdk] is split up into several packages:
+
+- [aws-smsdk-lib] a support library for service SDKs
+- [aws-smsdk-gen] service SDK code generator
+- [aws-smsdk-<service>] for each service SDK e.g. [aws-smsdk-sqs]

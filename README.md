@@ -1,6 +1,6 @@
 # AWS SMSDK
 
-This is a project to generate OCaml bindings for the AWS SDK using
+This is an experimental project to generate OCaml bindings for the AWS SDK using
 Smithy definitions.
 
 ## Status
@@ -9,10 +9,12 @@ This is a work in progress. Only some services are defined as SDKs,
 and the protocol generators may only be able to work on some services
 (and their implementations may incomplete or buggy).
 
-At the moment, we can generate bindings for the AwsJson_1.0 protocol,
-which covers a significant number of SDKs but has not been thoroughly
-tested for completeness or compliance. (If you know of good compliance
-suites for AWS service implementations, please reach out!)
+We currently can generate bindings for services using the `AwsJson1.0/1.1` protocols. We have added support for these services:
+
+* SQS
+* DynamoDB
+
+Note that we do not have any compliance suites to test our implementations for each service - if you have any ideas, please get in touch.
 
 ## Installation
 
@@ -24,8 +26,9 @@ However, you can use it by pinning the opam repository:
 
 You will also need to pin some of its dependencies too:
 
-* [httpaf](https://opam.ocaml.org/packages/httpaf/): https://github.com/anmonteiro/httpaf.git
-* eio-ssl: https://github.com/anmonteiro/eio-ssl.git
+* [eio-ssl](https://github.com/anmonteiro/eio-ssl.git)
+
+(you should be asked to pin `eio-ssl` when you pin `aws-smsdk`)
 
 ## Usage
 
@@ -52,5 +55,7 @@ for supported services.
 See the [Developers Guide](DEVELOPERS.md)
 
 ## Licence
+
+Copyright (C) Christopher Armstrong 2024
 
 MIT Licence, see [LICENCE.md](LICENCE.md)
