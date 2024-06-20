@@ -1,7 +1,8 @@
 open Import
 
 module Log =
-  (val Logs.src_log (Logs.Src.create "awssdklib.http.pool" ~doc:"AwsSdkLib Http implementation")
+  (val Logs.src_log
+         (Logs.Src.create "awssdklib.http.pool" ~doc:"AwsSdkLib Http connection pool implementation")
       : Logs.LOG)
 
 module type ConnectionType = sig
@@ -13,11 +14,12 @@ module type ConnectionType = sig
   val connect :
     info:connection_info ->
     sw:Eio.Switch.t ->
-    < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t ; .. > ->
+    < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t
+    ; mono_clock : [> Eio.Time.Mono.ty ] Eio.Time.Mono.t
+    ; .. > ->
     connection
 
   val shutdown : connection -> unit Eio.Promise.t
-  val max_concurrency : connection -> int
   val is_valid : connection -> bool
 end
 
@@ -33,7 +35,9 @@ module type S = sig
   val run_in_connection :
     pool:t ->
     info:client_info ->
-    < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t ; .. > ->
+    < net : [> [ `Generic | `Unix ] Eio.Net.ty ] Eio.Resource.t
+    ; mono_clock : [> Eio.Time.Mono.ty ] Eio.Time.Mono.t
+    ; .. > ->
     (connection -> 'a) ->
     'a
 end

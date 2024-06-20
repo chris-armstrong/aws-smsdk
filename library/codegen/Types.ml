@@ -2,10 +2,14 @@ open Base
 open SafeNames
 open Ast
 
+module Log =
+  (val Logs.src_log (Logs.Src.create "parselib.codegen.types" ~doc:"AWS Smithy Codegen - Types")
+      : Logs.LOG)
+
 type t = (string, string) Hashtbl.t
 
 let resolve ctx target =
-  Fmt.pr "Resolving %s\n" target;
+  Logs.debug (fun m -> m "Resolving %s\n" target);
   Hashtbl.find ctx target |> Option.value_or_thunk ~default:(fun () -> safeTypeName target)
 
 let type_name ~is_exception_type name =
@@ -199,7 +203,7 @@ let create_alias_context shapes : t =
       | BigIntegerShape _ | BigDecimalShape _ | MapShape _ | ResourceShape | TimestampShape _
       | LongShape _ | FloatShape _ | DoubleShape _ | SetShape _ ->
           let alias = generateTypeTarget tbl descriptor () in
-          Fmt.pr "Aliasing %s -> %s\n" name alias;
+          Log.debug (fun m -> m "Aliasing %s -> %s\n" name alias);
           ignore (Hashtbl.add ~key:name ~data:alias tbl)
       | _ -> ())
     shapes;

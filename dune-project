@@ -32,15 +32,14 @@
   ppx_inline_test
   ppx_deriving
   ppx_expect
-  h2-eio
-  h2
   eio-ssl
   ocamlgraph
   uri
   logs
-  httpaf
-  httpaf-eio
+  httpun
+  httpun-eio
   eio_main
+  (alcotest :with-test)
   (eio_main :with-dev)
   (odoc :with-doc)))
 
@@ -73,13 +72,11 @@
   ppx_inline_test
   ppx_deriving
   ppx_expect
-  h2-eio
-  h2
   eio-ssl
   uri
   logs
-  httpaf
-  httpaf-eio
+  httpun
+  httpun-eio
   eio_main
   (eio_main :with-dev)
   (odoc :with-doc)))

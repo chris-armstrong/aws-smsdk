@@ -32,7 +32,7 @@ module DeserializeHelpers = struct
 
   open Yojson.Basic
 
-  type nonrec jsonParseError =
+  type jsonParseError =
     | SyntaxError of string
     | WrongTypeError of string * string
     | NoValueError of string
@@ -40,6 +40,7 @@ module DeserializeHelpers = struct
     | BytesDecodeError of string
     | CustomError of string
     | UnknownEnumValueError of string * string * string
+  [@@deriving show, eq]
 
   exception JsonDeserializeError of jsonParseError
 

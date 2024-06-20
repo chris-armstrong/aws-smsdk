@@ -1,8 +1,10 @@
 module SHA256 = Digestif.SHA256
 
-let sign_request ~context ~(service : Service.descriptor) ~(uri : Uri.t) ~(method_ : Http.method_)
-    ~(headers : (string * string) list) ~(body : string) =
-  let config = Context.config context in
+module Log =
+  (val Logs.src_log (Logs.Src.create "Aws_SmSdk_Lib.Sign" ~doc:"AWS Signing Algorithm") : Logs.LOG)
+
+let sign_request_v4 ~(config : Config.t) ~(service : Service.descriptor) ~(uri : Uri.t)
+    ~(method_ : Http.method_) ~(headers : (string * string) list) ~(body : string) =
   let region = Config.(config.resolveRegion ()) in
   let auth = Config.(config.resolveAuth ()) in
   let httpRequestMethod = Http.string_of_method method_ |> String.uppercase_ascii in
@@ -21,7 +23,7 @@ let sign_request ~context ~(service : Service.descriptor) ~(uri : Uri.t) ~(metho
     List.concat
       [
         [ ("X-Amz-Date", xAmzDate); ("Host", host) ];
-        auth.sessionToken
+        auth.session_token
         |> Option.map (fun token -> [ ("X-Amz-Security-Token", token) ])
         |> Option.value ~default:[];
         headers;
@@ -56,7 +58,7 @@ let sign_request ~context ~(service : Service.descriptor) ~(uri : Uri.t) ~(metho
   let stringToSign =
     algorithm ^ "\n" ^ xAmzDate ^ "\n" ^ credentialScope ^ "\n" ^ canonicalRequestHash
   in
-  let kSecret = auth.secretAccessKey in
+  let kSecret = auth.secret_access_key in
   let kDate = SHA256.hmac_string ~key:("AWS4" ^ kSecret) date in
   let kRegion = SHA256.hmac_string ~key:(SHA256.to_raw_string kDate) region in
   let kService = SHA256.hmac_string ~key:(SHA256.to_raw_string kRegion) service.namespace in
@@ -66,8 +68,8 @@ let sign_request ~context ~(service : Service.descriptor) ~(uri : Uri.t) ~(metho
     |> SHA256.to_hex |> String.lowercase_ascii
   in
   let authorization =
-    Printf.sprintf "%s Credential=%s/%s, SignedHeaders=%s, Signature=%s" algorithm auth.accessKeyId
-      credentialScope signedHeaders signature
+    Printf.sprintf "%s Credential=%s/%s, SignedHeaders=%s, Signature=%s" algorithm
+      auth.access_key_id credentialScope signedHeaders signature
   in
   ("Authorization", authorization) :: extendedHeaders
 (* sign a request using the AWSv4 algorithm 

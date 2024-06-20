@@ -8,9 +8,7 @@
   fmt
   uri
   base64
-  httpaf-eio
-  h2-eio
-  h2
+  httpun-eio
   eio-ssl
   digestif
   xmlm

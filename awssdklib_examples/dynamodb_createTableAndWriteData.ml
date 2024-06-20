@@ -9,13 +9,13 @@ let _ =
           let open Aws_SmSdk_Lib in
           let open Aws_SmSdk_Client_DynamoDB in
           let config =
-            Aws.Config.
+            Config.
               {
                 resolveRegion = (fun () -> "ap-southeast-2");
-                resolveAuth = (fun () -> Aws.Auth.fromProfile env ());
+                resolveAuth = (fun () -> Auth.fromProfile env ());
               }
           in
-          let context = Aws.Context.make ~sw ~config env () in
+          let context = Context.make ~sw ~config env in
           let ( let+ ) res map = Result.bind res map in
 
           match
@@ -67,5 +67,6 @@ let _ =
               Logs.err (fun m -> m "HTTP Error %a" Aws_SmSdk_Lib.Http.pp_http_failure e)
           | Error (`JsonParseError e) ->
               Logs.err (fun m ->
-                  m "Parse Error! %s" (AwsSdkLib.Json.DeserializeHelpers.jsonParseErrorToString e))
+                  m "Parse Error! %s"
+                    (Aws_SmSdk_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
           | Error _ -> Logs.err (fun m -> m "Another error")))

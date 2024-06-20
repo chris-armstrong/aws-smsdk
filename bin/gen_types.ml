@@ -3,7 +3,7 @@ open Parselib
 
 let generateServiceMetadata (service : Ast.Shape.serviceShapeDetails) fmt =
   Fmt.pf fmt "let service =@;<0 2>@[<v 0>";
-  Fmt.pf fmt "Aws.Service.{@;<0 2>@[<v 0>";
+  Fmt.pf fmt "Service.{@;<0 2>@[<v 0>";
   let serviceDetails =
     List.find_map_exn (Option.value service.traits ~default:[]) ~f:(function
       | Ast.Trait.ServiceTrait x -> Some x
@@ -15,7 +15,7 @@ let generateServiceMetadata (service : Ast.Shape.serviceShapeDetails) fmt =
     service.version;
   Fmt.pf fmt "@]@\n};@]@\n"
 
-let generateServiceInterface service fmt = Fmt.pf fmt "val service : Aws.Service.descriptor@\n@\n"
+let generateServiceInterface service fmt = Fmt.pf fmt "val service : Service.descriptor@\n@\n"
 
 let generateStructureShapes ctx structure_shapes fmt =
   structure_shapes

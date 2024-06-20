@@ -1,0 +1,11 @@
+(executables
+ (names tests)
+ (modes exe)
+ (preprocess
+  (pps ppx_deriving.show ppx_deriving.eq))
+ (libraries alcotest aws-smsdk-lib))
+
+(rule
+ (alias runtest)
+ (action
+  (run %{dep:tests.exe})))
