@@ -3,7 +3,7 @@
  (modes exe)
  (preprocess
   (pps ppx_deriving.show ppx_deriving.eq))
- (libraries alcotest aws-smsdk-lib))
+ (libraries alcotest aws-smsdk-lib Parselib))
 
 (rule
  (alias runtest)
