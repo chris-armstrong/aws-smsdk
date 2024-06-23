@@ -38,8 +38,9 @@ let generateDoc traits =
     |> List.filter_map ~f:(fun trait ->
            match trait with Trait.DocumentationTrait str -> Some str | _ -> None)
   in
-  let docs = String.concat docStrs ~sep:"" in
-  if not (String.is_empty docs) then ("(** {%html:" ^ docs) ^ " %} *)\n" else ""
+  let docStrs = List.concat [ [ "<body>" ]; docStrs; [ "</body>" ] ] in
+  let docs = String.concat docStrs ~sep:"" |> Parse.Html.html_to_odoc in
+  if not (String.is_empty docs) then ("(**" ^ docs) ^ "*)\n" else ""
 
 let generateIntegerShape () = "int"
 let generateLongShape () = "int"
