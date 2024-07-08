@@ -19,13 +19,9 @@ depends: [
   "ppx_inline_test"
   "ppx_deriving"
   "ppx_expect"
-  "eio-ssl"
   "ocamlgraph"
   "uri"
   "logs"
-  "httpun"
-  "httpun-eio"
-  "eio_main"
   "alcotest" {with-test}
   "eio_main" {with-dev}
   "odoc" {with-doc}

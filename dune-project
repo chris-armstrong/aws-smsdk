@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (package
- (name aws-smsdk)
+ (name aws-smsdk-gen)
  (allow_empty)
  (synopsis "Generate AWS API bindings")
  (description "Generate API bindings for AWS")
@@ -26,19 +26,13 @@
   containers
   (fmt
    (>= "0.9.0"))
-  xmlm
   base64
   digestif
-  ppx_inline_test
   ppx_deriving
   ppx_expect
-  eio-ssl
   ocamlgraph
   uri
   logs
-  httpun
-  httpun-eio
-  eio_main
   (alcotest :with-test)
   (eio_main :with-dev)
   (odoc :with-doc)))
@@ -63,15 +57,11 @@
    (>= "5.0"))
   (yojson
    (>= "2.0.0"))
-  containers
   (fmt
    (>= "0.9.0"))
   xmlm
   base64
   digestif
-  ppx_inline_test
-  ppx_deriving
-  ppx_expect
   eio-ssl
   uri
   logs
