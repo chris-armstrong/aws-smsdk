@@ -19,8 +19,9 @@ let generateType name definition ~is_exception_type =
   Fmt.str "type %s = %s" (type_name ~is_exception_type name) definition
 
 let generateField ?doc fieldName typeName =
-  ((Option.value_map doc ~default:"" ~f:(fun x -> x ^ " ") ^ safeMemberName fieldName) ^ ": ")
+  (safeMemberName fieldName ^ ": ")
   ^ typeName
+  ^ Option.value_map doc ~default:"" ~f:(fun x -> " " ^ x)
 
 let generateRecordTypeDefinition members =
   if List.is_empty members then "unit" else ("{\n  " ^ String.concat members ~sep:";\n  ") ^ "\n}"
@@ -40,7 +41,7 @@ let generateDoc traits =
   in
   let docStrs = List.concat [ [ "<body>" ]; docStrs; [ "</body>" ] ] in
   let docs = String.concat docStrs ~sep:"" |> Parse.Html.html_to_odoc in
-  if not (String.is_empty docs) then ("(**" ^ docs) ^ "*)\n" else ""
+  if not (docs |> String.is_empty) then ("(**" ^ docs) ^ "*)\n" else ""
 
 let generateIntegerShape () = "int"
 let generateLongShape () = "int"
@@ -66,15 +67,14 @@ let generateStringShape (details : Shape.primitiveShapeDetails) =
   [@ns.braces]
 
 let generateMember ctx (m : Shape.member) ?(genDoc = false) () =
-  (let safeName = safeMemberName m.name in
-   let required = Trait.hasTrait m.traits Trait.isRequiredTrait in
-   let resolved_target = m.target |> resolve ctx in
-   let valueType =
-     (if required then resolved_target else resolved_target ^ " option") [@ns.ternary]
-   in
-   let doc = match genDoc with true -> Some (generateDoc m.traits) | false -> None in
-   generateField safeName valueType ?doc)
-  [@ns.braces]
+  let safeName = safeMemberName m.name in
+  let required = Trait.hasTrait m.traits Trait.isRequiredTrait in
+  let resolved_target = m.target |> resolve ctx in
+  let valueType =
+    (if required then resolved_target else resolved_target ^ " option") [@ns.ternary]
+  in
+  let doc = match genDoc with true -> Some (generateDoc m.traits) | false -> None in
+  generateField safeName valueType ?doc
 
 let indentString indent =
   (let is = [||] in
@@ -173,7 +173,7 @@ let generate_type ctx ({ name; descriptor } : Shape.t) ?(genDoc = false) () =
     let docs =
       match genDoc with true -> generateDoc (Shape.getShapeTraits descriptor) | false -> ""
     in
-    let result = generateTypeTarget ctx descriptor ~genDoc:false () in
+    let result = generateTypeTarget ctx descriptor ~genDoc () in
     let is_exception_type =
       match descriptor with
       | StructureShape s when Trait.(hasTrait s.traits isErrorTrait) -> true
