@@ -29,6 +29,7 @@ rec {
       alcotest
       odoc
       base
+      markup
     ];
   };
 

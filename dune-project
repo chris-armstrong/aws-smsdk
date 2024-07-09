@@ -33,6 +33,7 @@
   ocamlgraph
   uri
   logs
+  markup
   (alcotest :with-test)
   (eio_main :with-dev)
   (odoc :with-doc)))
