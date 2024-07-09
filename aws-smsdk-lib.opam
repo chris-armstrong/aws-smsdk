@@ -11,14 +11,10 @@ depends: [
   "dune" {>= "3.15" & >= "3.14"}
   "ocaml" {>= "5.0"}
   "yojson" {>= "2.0.0"}
-  "containers"
   "fmt" {>= "0.9.0"}
   "xmlm"
   "base64"
   "digestif"
-  "ppx_inline_test"
-  "ppx_deriving"
-  "ppx_expect"
   "eio-ssl"
   "uri"
   "logs"
