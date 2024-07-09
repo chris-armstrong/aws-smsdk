@@ -1,11 +1,5 @@
-(executables
- (names tests)
- (modes exe)
+(tests
+ (names parselib_tests aws_smsdk_lib_tests)
  (preprocess
   (pps ppx_deriving.show ppx_deriving.eq))
- (libraries alcotest aws-smsdk-lib))
-
-(rule
- (alias runtest)
- (action
-  (run %{dep:tests.exe})))
+ (libraries alcotest aws-smsdk-lib Parselib))

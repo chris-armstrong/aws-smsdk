@@ -26,10 +26,10 @@
   containers
   (fmt
    (>= "0.9.0"))
+  base
   base64
   digestif
   ppx_deriving
-  ppx_expect
   ocamlgraph
   uri
   logs
