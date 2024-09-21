@@ -30,6 +30,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up OCaml
         uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
       - run: opam install ./aws-smsdk-lib.opam --deps-only --with-test
       - run: opam install ./aws-smsdk-gen.opam --deps-only --with-test
