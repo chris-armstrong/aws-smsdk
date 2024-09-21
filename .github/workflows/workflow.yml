@@ -1,0 +1,35 @@
+name: Build and test
+
+on:
+  - push
+  - pull_request
+
+
+permissions: read-all
+
+jobs:
+  build-and-test:
+    permissions:
+      attestations: write
+      contents: read
+      id-token: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+      os: [ubuntu-latest, macos-latest]
+      ocaml-compiler: [5]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+      - name: Checkout tree
+        uses: actions/checkout@v4
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+
+      - run: opam install ./aws-smsdk-lib.opam --deps-only --with-test
+      - run: opam install ./aws-smsdk-gen.opam --deps-only --with-test
+
+      - run: opam exec -- dune build
+      - run: opam exec -- dune runtest
