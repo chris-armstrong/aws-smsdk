@@ -21,7 +21,7 @@ depends: [
   "httpun"
   "httpun-eio"
   "eio_main"
-  "ppx_compare"
+  "eio_main" {with-dev}
   "odoc" {with-doc}
 ]
 build: [

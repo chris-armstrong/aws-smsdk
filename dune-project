@@ -34,6 +34,7 @@
   uri
   logs
   markup
+  stdio
   (alcotest :with-test)
   (eio_main :with-dev)
   (odoc :with-doc)))
@@ -69,6 +70,7 @@
   httpun
   httpun-eio
   eio_main
+  ppx_compare
   (eio_main :with-dev)
   (odoc :with-doc)))
 
