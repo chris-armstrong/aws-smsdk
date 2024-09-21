@@ -78,7 +78,6 @@ rec {
       dune_3
       aws-smsdk-lib
     ];
-    inherit doCheck;
   };
 
   aws-smsdk-client-dynamodb = ocamlPackages.buildDunePackage {
@@ -96,6 +95,5 @@ rec {
       dune_3
       aws-smsdk-lib
     ];
-    inherit doCheck;
   };
 }
