@@ -21,6 +21,7 @@ depends: [
   "uri"
   "logs"
   "markup"
+  "ppx_compare"
   "alcotest" {with-test}
   "eio_main" {with-dev}
   "odoc" {with-doc}

@@ -71,6 +71,7 @@
   httpun-eio
   eio_main
   ppx_compare
+  stdio
   (eio_main :with-dev)
   (odoc :with-doc)))
 
