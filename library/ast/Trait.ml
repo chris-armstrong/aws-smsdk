@@ -3,8 +3,8 @@ open Base
 type serviceDetails = {
   sdkId : string;
   arnNamespace : string;
-  cloudFormationName : string;
-  cloudTrailEventSource : string;
+  cloudFormationName : string option;
+  cloudTrailEventSource : string option;
   endpointPrefix : string option;
 }
 [@@deriving show, equal]
@@ -103,6 +103,7 @@ type t =
   | SuppressTrait
   | TagsTrait of string list
   | TimestampFormatTrait of string
+  | TestSmokeTests
   | WaitableTrait
   | XmlAttributeTrait
   | XmlFlattenedTrait

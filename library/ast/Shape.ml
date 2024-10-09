@@ -61,6 +61,7 @@ type shapeDescriptor =
   | DoubleShape of primitiveShapeDetails
   | SetShape of setShapeDetails
   | EnumShape of enumShapeDetails
+  | DocumentShape
 [@@deriving show, equal]
 
 let getShapeTraits descriptor =
@@ -86,6 +87,7 @@ let getShapeTraits descriptor =
   | EnumShape { traits; _ } -> traits
   | UnitShape -> None
   | ResourceShape -> None
+  | DocumentShape -> None
 
 type t = { name : string; descriptor : shapeDescriptor } [@@deriving show, equal]
 

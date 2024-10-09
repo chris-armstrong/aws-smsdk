@@ -22,8 +22,12 @@ let parseServiceTrait traitResult =
   let value = parseObject traitResult in
   let sdkId_ = value |> field "sdkId" |> parseString in
   let arnNamespace_ = value |> field "arnNamespace" |> parseString in
-  let cloudFormationName_ = value |> field "cloudFormationName" |> parseString in
-  let cloudTrailEventSource_ = value |> field "cloudTrailEventSource" |> parseString in
+  let cloudFormationName_ =
+    optional (value |> field "cloudFormationName") |> mapOptional parseString
+  in
+  let cloudTrailEventSource_ =
+    optional (value |> field "cloudTrailEventSource") |> mapOptional parseString
+  in
   let endpointPrefix_ = optional (value |> field "endpointPrefix") |> mapOptional parseString in
   map5 sdkId_ arnNamespace_ cloudFormationName_ cloudTrailEventSource_ endpointPrefix_
     (fun sdkId arnNamespace cloudFormationName cloudTrailEventSource endpointPrefix ->
@@ -179,6 +183,7 @@ let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
     | "smithy.api#default" -> Ok Trait.DefaultTrait
     | "smithy.api#enumValue" ->
         value |> parseString |> map ~f:(fun enumValue -> Trait.EnumValueTrait enumValue)
+    | "smithy.test#smokeTests" -> Ok Trait.TestSmokeTests
     | _ -> raise (UnknownTrait name)
   in
   traitValue
@@ -243,12 +248,27 @@ let parseServiceShape shapeDict =
   [@ns.braces]
 
 let parseStringShape shapeDict =
-  (let traits_ =
-     shapeDict |> field "traits" |> optional
-     |> mapOptional (fun traits -> parseRecord parseTrait traits)
-   in
-   Result.map traits_ ~f:(fun traits -> Shape.StringShape { traits }))
-  [@ns.braces]
+  let traits_ =
+    shapeDict |> field "traits" |> optional
+    |> mapOptional (fun traits -> parseRecord parseTrait traits)
+  in
+  Result.map traits_ ~f:(fun traits ->
+      let traits = Option.value ~default:[] traits in
+      match List.find_map ~f:(function Trait.EnumTrait x -> Some x | _ -> None) traits with
+      | Some enumPairs ->
+          Shape.EnumShape
+            {
+              traits = None;
+              members =
+                List.map enumPairs ~f:(fun enumPair ->
+                    Shape.
+                      {
+                        name = Option.value ~default:enumPair.value enumPair.name;
+                        target = "smithy.api#Unit";
+                        traits = Some [ Trait.EnumValueTrait enumPair.value ];
+                      });
+            }
+      | None -> Shape.StringShape { traits = Some traits })
 
 let parseMapKey value =
   (let mapValue = value |> parseObject in

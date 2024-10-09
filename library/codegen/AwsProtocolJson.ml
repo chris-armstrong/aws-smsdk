@@ -10,7 +10,7 @@ let has_func_body = function
   | StructureShape x -> true
   | StringShape _ | IntegerShape _ | BooleanShape _ | BigIntegerShape _ | BigDecimalShape _
   | TimestampShape _ | BlobShape _ | MapShape _ | UnionShape _ | SetShape _ | LongShape _
-  | ListShape _ | FloatShape _ | DoubleShape _ | EnumShape _ | UnitShape ->
+  | DocumentShape | ListShape _ | FloatShape _ | DoubleShape _ | EnumShape _ | UnitShape ->
       true
   | ResourceShape | OperationShape _ | ServiceShape _ -> false
 
@@ -96,6 +96,7 @@ module Serialiser = struct
     | DoubleShape x -> Fmt.pf fmt "double_to_yojson"
     | ServiceShape x -> ()
     | UnitShape -> Fmt.pf fmt "unit_to_yojson"
+    | DocumentShape -> Fmt.pf fmt "fun a -> a"
     | _ -> raise (UnexpectedType name)
 
   let generate ~(structure_shapes : shapeWithTarget list) fmt =
@@ -207,6 +208,7 @@ module Deserialiser = struct
     | DoubleShape x -> Fmt.pf fmt "double_of_yojson"
     | UnitShape -> Fmt.pf fmt "unit_of_yojson"
     | ServiceShape x -> ()
+    | DocumentShape -> Fmt.pf fmt "fun a -> a"
     | _ -> raise (UnexpectedType name)
 
   let generate ~name ~structure_shapes fmt =

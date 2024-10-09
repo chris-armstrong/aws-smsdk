@@ -9,8 +9,11 @@ module Log =
 type t = (string, string) Hashtbl.t
 
 let resolve ctx target =
-  Logs.debug (fun m -> m "Resolving %s\n" target);
-  Hashtbl.find ctx target |> Option.value_or_thunk ~default:(fun () -> safeTypeName target)
+  let resolution =
+    Hashtbl.find ctx target |> Option.value_or_thunk ~default:(fun () -> safeTypeName target)
+  in
+  Logs.debug (fun m -> m "Resolving %s -> %s\n" target resolution);
+  resolution
 
 let type_name ~is_exception_type name =
   Fmt.str "%s%s" (safeTypeName name) (if is_exception_type then "_exception_details" else "")
@@ -154,6 +157,7 @@ let generateTypeTarget ctx descriptor ?(genDoc = false) () =
   | UnitShape -> "unit"
   | SetShape details -> generateSetShape ctx details
   | EnumShape details -> generateEnumShape details
+  | DocumentShape -> "Json.t"
 
 let getStructureShape =
   let open Shape in

@@ -43,6 +43,7 @@ let smithyImplicitShapes =
       targets = [];
       recursWith = None;
     };
+    { name = "smithy.api#Document"; descriptor = DocumentShape; targets = []; recursWith = None };
   ]
 
 (** resolve the target shape names referenced by the specified shape descriptor *)
@@ -69,6 +70,7 @@ let getTargets descriptor =
   | EnumShape { members; _ } -> List.map members ~f:(fun member -> member.target)
   | FloatShape _ -> []
   | UnitShape -> []
+  | DocumentShape -> []
 [@@ocaml.doc "\n * Get the targets for each shape type\n "]
 
 let getShapeTargets shapes =
