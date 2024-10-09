@@ -5,10 +5,8 @@ do
 	if [ -d "${dir}" ] && [ ! -f "${dir}/dune" ]
 	then
 		service_short_name=$(basename $dir)
-		service_long_name=$(grep "cloudFormationName" ../awssdkjsv3/codegen/sdk-codegen/aws-models/${service_short_name}.json | sed -E -e 's/.*"cloudFormationName": "(.*)".*/\1/')
-		if [ -z "${service_long_name}" ]; then
-			service_long_name=$(grep "sdkId" ../awssdkjsv3/codegen/sdk-codegen/aws-models/${service_short_name}.json | sed -E -e 's/.*"sdkId": "(.*)".*/\1/' -e 's/ //g')
-		fi
+		# service_long_name=$(grep "cloudFormationName" ../awssdkjsv3/codegen/sdk-codegen/aws-models/${service_short_name}.json | sed -E -e 's/.*"cloudFormationName": "(.*)".*/\1/')
+		service_long_name=$(grep "sdkId" ../awssdkjsv3/codegen/sdk-codegen/aws-models/${service_short_name}.json | sed -E -e 's/.*"sdkId": "(.*)".*/\1/' -e 's/ //g')
 		if [ -z "${service_long_name}" ]; then
 			echo "Unable to generate for $service_short_name!"
 			exit 1
