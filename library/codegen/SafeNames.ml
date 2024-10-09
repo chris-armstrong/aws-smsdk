@@ -42,6 +42,8 @@ let reservedWords =
       "Ok";
       "Error";
       "constraint";
+      "method";
+      "end";
     ]
 
 let uppercaseStartRe = Str.regexp "^\\([A-Z]*\\)\\(.*\\)$"
@@ -72,9 +74,18 @@ let snakeCase name =
   let start_pos = ref 0 in
   let name_len = String.length name in
   let components : string list ref = ref [] in
+
   while !start_pos < name_len do
     try
       let next_pos = Str.search_forward uppercaseRe name !start_pos in
+      if not (Int.equal next_pos !start_pos) then begin
+        (*first section not uppercase - add first section as_is*)
+        let len = next_pos - !start_pos in
+        let group = String.unsafe_sub ~pos:!start_pos ~len name in
+        components := group :: !components;
+        start_pos := next_pos
+      end;
+
       let upperpart = Str.matched_group 1 name in
       let lowerpart = Str.matched_group 2 name in
       if String.length upperpart > 1 then (

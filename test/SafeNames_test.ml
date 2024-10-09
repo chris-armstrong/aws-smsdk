@@ -12,11 +12,16 @@ let test_snake_case () =
   Alcotest.(check string) "snakeCase Single" (SafeNames.snakeCase "Single") "single";
 
   Alcotest.(check string) "snakeCase MD5Sum" (SafeNames.snakeCase "MD5Sum") "md5_sum";
+  Alcotest.(check string) "snakeCase myMD5Gen" "my_md5_gen" (SafeNames.snakeCase "myMD5Gen");
 
   Alcotest.(check string)
     "snakeCase AConfusingN523Value"
     (SafeNames.snakeCase "AConfusingN523Value")
-    "a_confusing_n523_value"
+    "a_confusing_n523_value";
+
+  Alcotest.(check string)
+    "snakeCase autoScalingGroup" "auto_scaling_group"
+    (SafeNames.snakeCase "autoScalingGroup")
 
 let test_suite =
   [
