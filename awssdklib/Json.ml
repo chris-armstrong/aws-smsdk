@@ -1,3 +1,5 @@
+type t = Yojson.Basic.t
+
 module SerializeHelpers = struct
   type t = Yojson.Basic.t
 

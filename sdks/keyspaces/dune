@@ -1,7 +1,7 @@
 (rule
  (deps
   (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb.json))
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/keyspaces.json))
  (targets
   builders.ml
   builders.mli
@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_DynamoDB.ml
-  Aws_SmSdk_Client_DynamoDB.mli)
+  Aws_SmSdk_Client_Keyspaces.ml
+  Aws_SmSdk_Client_Keyspaces.mli)
  (action
   (run
    %{gen}
@@ -29,10 +29,10 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_DynamoDB)
- (public_name aws-smsdk-clients.dynamodb)
+ (name Aws_SmSdk_Client_Keyspaces)
+ (public_name aws-smsdk-clients.keyspaces)
  (modules
-  Aws_SmSdk_Client_DynamoDB
+  Aws_SmSdk_Client_Keyspaces
   types
   serializers
   deserializers

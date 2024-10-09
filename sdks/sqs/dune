@@ -30,7 +30,7 @@
 
 (library
  (name Aws_SmSdk_Client_SQS)
- (public_name aws-smsdk-client-sqs)
+ (public_name aws-smsdk-clients.sqs)
  (modules
   Aws_SmSdk_Client_SQS
   types
