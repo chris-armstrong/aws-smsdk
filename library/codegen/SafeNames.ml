@@ -44,6 +44,8 @@ let reservedWords =
       "constraint";
       "method";
       "end";
+      "to";
+      "from";
     ]
 
 let uppercaseStartRe = Str.regexp "^\\([A-Z]*\\)\\(.*\\)$"
@@ -108,21 +110,6 @@ let snakeCase name =
 
 let safeMemberName = snakeCase
 
-(* let matched = Str.string_match uppercaseStartRe name 0 in *)
-(* if matched *)
-(* then *)
-(*   let upperpart = Str.matched_group 1 name in *)
-(*   let remaining = Str.matched_group 2 name in *)
-(*   let upperLength = String.length upperpart in *)
-(*   let first = *)
-(*     ((if upperLength > 0 *)
-(*       then String.lowercase (String.sub upperpart ~pos:0 ~len:upperLength) *)
-(*       else "") *)
-(*     [@ns.ternary ]) in *)
-(*   (((first ^ remaining) |> stripLeadingNumbers) |> translateReserved) |> *)
-(*     translateBadChars *)
-(* else *)
-(*   ((name |> stripLeadingNumbers) |> translateReserved) |> translateBadChars *)
 let safeTypeName target =
   (let name = symbolName target in
    let namespace = symbolNamespace target in
