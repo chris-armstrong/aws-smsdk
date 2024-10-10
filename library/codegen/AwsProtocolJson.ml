@@ -96,7 +96,7 @@ module Serialiser = struct
     | DoubleShape x -> Fmt.pf fmt "double_to_yojson"
     | ServiceShape x -> ()
     | UnitShape -> Fmt.pf fmt "unit_to_yojson"
-    | DocumentShape -> Fmt.pf fmt "fun a -> a"
+    | DocumentShape -> Fmt.pf fmt "json_to_yojson"
     | _ -> raise (UnexpectedType name)
 
   let generate ~(structure_shapes : shapeWithTarget list) fmt =
@@ -208,7 +208,7 @@ module Deserialiser = struct
     | DoubleShape x -> Fmt.pf fmt "double_of_yojson"
     | UnitShape -> Fmt.pf fmt "unit_of_yojson"
     | ServiceShape x -> ()
-    | DocumentShape -> Fmt.pf fmt "fun a -> a"
+    | DocumentShape -> Fmt.pf fmt "json_of_yojson"
     | _ -> raise (UnexpectedType name)
 
   let generate ~name ~structure_shapes fmt =
@@ -272,7 +272,7 @@ module Operations = struct
            Fmt.pf fmt "let input = %s in@\n"
              (os.input
              |> Option.map ~f:(fun input ->
-                    Fmt.str "Serializers.%s_to_yojson request" (Types.resolve alias_context input))
+                    Fmt.str "Serializers.%s request" (Serialiser.func_name input))
              |> Option.value ~default:"`Assoc([])");
            let serviceShape =
              Fmt.str "%s.%s" (Util.symbolName name) (Util.symbolName operation_name)

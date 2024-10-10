@@ -14,9 +14,7 @@ let generate_builder fmt ctx name ({ members; _ } : Shape.structureShapeDetails)
     optional;
   List.iter
     (fun (mem : member) ->
-      Fmt.pf fmt "~(%s : %s)@ "
-        (SafeNames.safeMemberName mem.name)
-        (Types.resolve ctx mem.target))
+      Fmt.pf fmt "~(%s : %s)@ " (SafeNames.safeMemberName mem.name) (Types.resolve ctx mem.target))
     required;
 
   Fmt.pf fmt "()@]@;: %s@ =@ " (SafeNames.safeTypeName name);
@@ -37,15 +35,11 @@ let generate_builder_interface fmt ctx name ({ members; _ } : Shape.structureSha
   List.iter
     (fun (mem : member) ->
       (* unlike the implementation, optional arguments don't need an option type if we use (?) *)
-      Fmt.pf fmt "?%s:%s ->@ "
-        (SafeNames.safeMemberName mem.name)
-        (Types.resolve ctx mem.target))
+      Fmt.pf fmt "?%s:%s ->@ " (SafeNames.safeMemberName mem.name) (Types.resolve ctx mem.target))
     optional;
   List.iter
     (fun (mem : member) ->
-      Fmt.pf fmt "%s:%s ->@ "
-        (SafeNames.safeMemberName mem.name)
-        (Types.resolve ctx mem.target))
+      Fmt.pf fmt "%s:%s ->@ " (SafeNames.safeMemberName mem.name) (Types.resolve ctx mem.target))
     required;
 
   Fmt.pf fmt "unit@]@;-> %s@\n" (Types.resolve ctx name)
@@ -62,6 +56,7 @@ let structure_shapes_without_exceptions shapeWithTarget =
          | _ -> None)
 
 let generate ~name ~structure_shapes ~alias_context fmt =
+  Fmt.pf fmt "[@@@@@@warning \"-39\"]@\n";
   Fmt.pf fmt "open Types@\n";
   structure_shapes
   |> List.iter (fun shapeWithTarget ->
@@ -73,13 +68,13 @@ let generate ~name ~structure_shapes ~alias_context fmt =
              generate_builder fmt alias_context name descriptor;
              Fmt.pf fmt "@\n@\n"
          | (name, descriptor) :: remainder ->
-             Fmt.pf fmt "let rec ";
+             Fmt.pf fmt "let rec@;<1 2>@[";
              generate_builder fmt alias_context name descriptor;
              remainder
              |> List.iter (fun (name, descriptor) ->
-                    Fmt.pf fmt "@;and ";
+                    Fmt.pf fmt "@]@\nand@;<1 2>@[";
                     generate_builder fmt alias_context name descriptor);
-             Fmt.pf fmt "@\n@\n")
+             Fmt.pf fmt "@]@\n@\n")
 
 let generate_interfaces ~name ~structure_shapes ~alias_context fmt =
   structure_shapes
@@ -90,12 +85,13 @@ let generate_interfaces ~name ~structure_shapes ~alias_context fmt =
          | (name, descriptor) :: [] ->
              Fmt.pf fmt "val ";
              generate_builder_interface fmt alias_context name descriptor;
-             Fmt.pf fmt "@\n@\n"
+             Fmt.pf fmt "@\n"
          | (name, descriptor) :: remainder ->
-             Fmt.pf fmt "val rec ";
+             Fmt.pf fmt "val ";
              generate_builder_interface fmt alias_context name descriptor;
+             Fmt.pf fmt "@\n";
              remainder
              |> List.iter (fun (name, descriptor) ->
-                    Fmt.pf fmt "@;and ";
-                    generate_builder_interface fmt alias_context name descriptor);
-             Fmt.pf fmt "@\n@\n")
+                    Fmt.pf fmt "val ";
+                    generate_builder_interface fmt alias_context name descriptor;
+                    Fmt.pf fmt "@\n"))

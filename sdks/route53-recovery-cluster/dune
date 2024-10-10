@@ -1,7 +1,7 @@
 (rule
  (deps
   (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/sfn.json))
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/route53-recovery-cluster.json))
  (targets
   builders.ml
   builders.mli
@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_SFN.ml
-  Aws_SmSdk_Client_SFN.mli)
+  Aws_SmSdk_Client_Route53RecoveryCluster.ml
+  Aws_SmSdk_Client_Route53RecoveryCluster.mli)
  (action
   (run
    %{gen}
@@ -29,10 +29,10 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_SFN)
- (public_name aws-smsdk-clients.sfn)
+ (name Aws_SmSdk_Client_Route53RecoveryCluster)
+ (public_name aws-smsdk-clients.route53-recovery-cluster)
  (modules
-  Aws_SmSdk_Client_SFN
+  Aws_SmSdk_Client_Route53RecoveryCluster
   types
   serializers
   deserializers
