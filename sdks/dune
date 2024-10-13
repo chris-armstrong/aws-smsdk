@@ -1,0 +1,9 @@
+(library
+ (name AWSSmSDKClients)
+ (public_name aws-smsdk-clients)
+ (modules AWSSmSDKClients)
+ (libraries aws-smsdk-lib 
+  Aws_SmSdk_Client_SQS
+  Aws_SmSdk_Client_DynamoDB
+  Aws_SmSdk_Client_kendra
+  ))

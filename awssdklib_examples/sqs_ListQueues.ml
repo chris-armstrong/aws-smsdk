@@ -17,7 +17,7 @@ let _ =
 
           match
             begin
-              let open Aws_SmSdk_Client_SQS in
+              let open AWSSmSDKClients.SQS in
               let+ result =
                 ListQueues.request context
                   (make_list_queues_request ~max_results:10

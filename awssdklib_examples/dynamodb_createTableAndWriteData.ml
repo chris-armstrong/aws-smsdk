@@ -18,7 +18,7 @@ let _ =
           let ( let+ ) res map = Result.bind res map in
 
           match
-            let open Aws_SmSdk_Client_DynamoDB in
+            let open AWSSmSDKClients.DynamoDB in
             let table = "create-table-test" in
             let+ { table_names; _ } = ListTables.request context (make_list_tables_input ()) in
             Logs.info (fun m ->

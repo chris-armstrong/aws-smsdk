@@ -11,7 +11,7 @@
 (executable
  (name sqs_ListQueues)
  (modules sqs_ListQueues)
- (libraries aws-smsdk-lib eio_main logs fmt aws-smsdk-clients.sqs))
+ (libraries aws-smsdk-lib eio_main logs fmt aws-smsdk-clients))
 
 (executable
  (name signed)
@@ -22,4 +22,4 @@
 (executable
  (name dynamodb_createTableAndWriteData)
  (modules dynamodb_createTableAndWriteData)
- (libraries aws-smsdk-lib eio_main logs fmt aws-smsdk-clients.dynamodb))
+ (libraries aws-smsdk-lib eio_main logs fmt aws-smsdk-clients))
