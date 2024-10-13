@@ -86,6 +86,7 @@ let _ =
       let serviceDetails = SmithyHelpers.extractServiceTrait service.traits in
       List.iter
         ~f:(fun command ->
+          let sdkId = serviceDetails.sdkId |> Str.global_replace (Str.regexp "[ ]") "" in
           let write_output filename generate =
             let output = Stdlib.Filename.concat output_dir filename in
             let output_channel = Out_channel.open_text output in
@@ -128,13 +129,11 @@ let _ =
                   Gen_deserialisers.generate ~name ~service ~operation_shapes ~structure_shapes
                     output_fmt)
           | ModuleCommand ->
-              write_output (Fmt.str "Aws_SmSdk_Client_%s.ml" serviceDetails.sdkId)
-                (fun output_fmt ->
+              write_output (Fmt.str "Aws_SmSdk_Client_%s.ml" sdkId) (fun output_fmt ->
                   Fmt.pf output_fmt "include Types@\n";
                   Fmt.pf output_fmt "include Builders@\n";
                   Fmt.pf output_fmt "include Operations@\n");
-              write_output (Fmt.str "Aws_SmSdk_Client_%s.mli" serviceDetails.sdkId)
-                (fun output_fmt ->
+              write_output (Fmt.str "Aws_SmSdk_Client_%s.mli" sdkId) (fun output_fmt ->
                   Fmt.pf output_fmt "open Aws_SmSdk_Lib@\n";
                   Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~alias_context ~no_open:true output_fmt;

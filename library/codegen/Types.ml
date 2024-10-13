@@ -16,7 +16,7 @@ let resolve ctx target =
   resolution
 
 let type_name ~is_exception_type name =
-  Fmt.str "%s%s" (safeTypeName name) (if is_exception_type then "_exception_details" else "")
+  Fmt.str "%s%s" (safeTypeName name) (if is_exception_type then "" else "")
 
 let generateType name definition ~is_exception_type =
   Fmt.str "type %s = %s" (type_name ~is_exception_type name) definition

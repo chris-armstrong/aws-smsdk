@@ -18,7 +18,10 @@ let _ =
           let body = {|{}|} in
           Fmt.pr "before context@.";
           let context = Context.make ~sw ~config env in
-          let service = Service.{ namespace = "sqs"; endpointPrefix = "sqs"; version = "" } in
+          let service =
+            Service.
+              { namespace = "sqs"; endpointPrefix = "sqs"; version = ""; protocol = AwsJson_1_0 }
+          in
           let uri = Service.makeUri ~config ~service in
           let headers =
             [

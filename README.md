@@ -9,10 +9,7 @@ This is a work in progress. Only some services are defined as SDKs,
 and the protocol generators may only be able to work on some services
 (and their implementations may incomplete or buggy).
 
-At the moment, we can generate bindings for the AwsJson_1.0 protocol,
-which covers a significant number of SDKs but has not been thoroughly
-tested for completeness or compliance. (If you know of good compliance
-suites for AWS service implementations, please reach out!)
+
 
 ## Installation
 
@@ -50,6 +47,52 @@ for supported services.
 ## Developing
 
 See the [Developers Guide](DEVELOPERS.md)
+
+## Supported Services
+
+At the moment, we can generate bindings for the AwsJson_1.0/1.1 protocol,
+which covers a significant number of SDKs but has not been thoroughly
+tested for completeness or compliance. (If you know of good compliance
+suites for AWS service implementations, please reach out!)
+
+* acm
+* apprunner
+* backup-gateway
+* cloudtrail
+* codeconnections
+* cognito-identity
+* config-service
+* dax
+* directory-service
+* dynamodb
+* dynamodb-streams
+* eventbridge
+* fms
+* kendra
+* keyspaces
+* kinesis
+* kinesis-analytics
+* kinesis-analytics-v2
+* kms
+* lightsail
+* marketplace-agreement
+* migration-hub
+* opensearchserverless
+* pi
+* proton
+* resource-groups-tagging-api
+* route53-recovery-cluster
+* servicediscovery
+* sfn
+* shield
+* snowball
+* sqs
+* ssm
+* swf
+* transcribe
+* waf
+* wafv2
+* workmail
 
 ## Licence
 

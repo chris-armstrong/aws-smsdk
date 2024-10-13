@@ -2,7 +2,7 @@ open Base
 
 type serviceDetails = {
   sdkId : string;
-  arnNamespace : string;
+  arnNamespace : string option;
   cloudFormationName : string option;
   cloudTrailEventSource : string option;
   endpointPrefix : string option;
@@ -26,6 +26,14 @@ type clientEndpointDiscoveryDetails = { operation : string; error : string }
 
 type externalDocumentationType = DocumentationLink of string | SpecificationLink of string
 [@@deriving show, equal]
+
+type staticContextParamValue =
+  | StaticContextStringValue of string
+  | StaticContextBooleanValue of bool
+  | StaticContextStringListValue of string list
+[@@deriving show, equal]
+
+type staticContextParams = (string * staticContextParamValue) list [@@deriving show, equal]
 
 type t =
   | ApiTitleTrait of string
@@ -88,7 +96,7 @@ type t =
   | OutputTrait
   | PaginatedTrait
   | PatternTrait of string
-  | RangeTrait of int option * int option
+  | RangeTrait of float option * float option
   | ReadonlyTrait
   | ReferencesTrait of reference list
   | RequiredTrait
@@ -96,6 +104,8 @@ type t =
   | RetryableTrait
   | RulesEndpointRuleSetTrait
   | RulesEndpointTests
+  | RulesContextParam of string
+  | RulesStaticContextParams of staticContextParams
   | SensitiveTrait
   | ServiceTrait of serviceDetails
   | SparseTrait

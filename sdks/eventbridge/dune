@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_Events.ml
-  Aws_SmSdk_Client_Events.mli)
+  Aws_SmSdk_Client_EventBridge.ml
+  Aws_SmSdk_Client_EventBridge.mli)
  (action
   (run
    %{gen}
@@ -29,10 +29,10 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_Events)
+ (name Aws_SmSdk_Client_EventBridge)
  (public_name aws-smsdk-clients.eventbridge)
  (modules
-  Aws_SmSdk_Client_Events
+  Aws_SmSdk_Client_EventBridge
   types
   serializers
   deserializers

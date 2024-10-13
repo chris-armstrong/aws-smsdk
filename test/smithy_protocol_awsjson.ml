@@ -1,7 +1,15 @@
 open Aws_SmSdk_Lib
 open Http_mock
 
-let service = Service.{ namespace = "DummyService"; version = "20000101"; endpointPrefix = "dummy" }
+let service =
+  Service.
+    {
+      namespace = "DummyService";
+      version = "20000101";
+      endpointPrefix = "dummy";
+      protocol = AwsJson_1_0;
+    }
+
 let config = Config.make ~resolveRegion:(fun () -> "us-east-1") ~resolveAuth:Auth.fromDummy
 
 (** Example type for serialising / deserialising with protocol *)
@@ -57,6 +65,9 @@ let test_simple () =
     "Uses correctly serialized request body"
     (Some (`String "{}"))
     request.body;
+  Alcotest.(check @@ option string)
+    "Sends correct Content-Type header" (Some "application/x-amz-json-1.0")
+    (List.assoc_opt "Content-Type" request.headers);
   Alcotest.(check @@ option string)
     "Sends correct shape name in headers" (Some "Test_Shape")
     (List.assoc_opt "X-Amz-Target" request.headers)

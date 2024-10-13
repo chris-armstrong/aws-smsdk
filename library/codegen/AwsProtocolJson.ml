@@ -33,7 +33,7 @@ let print_shape_func ~printer ~func_name ~fmt { name; descriptor; recursWith; _ 
 
 module Serialiser = struct
   let func_name ?(is_exception_type = false) name =
-    let exception_extension = if is_exception_type then "_exception_details" else "" in
+    let exception_extension = if is_exception_type then "" else "" in
     Fmt.str "%s%s_to_yojson" (SafeNames.safeFunctionName name) exception_extension
 
   let rec structure_func_body fmt name (descriptor : structureShapeDetails) =
@@ -117,9 +117,7 @@ end
 
 module Deserialiser = struct
   let func_name ?(is_exception_type = false) name =
-    SafeNames.safeFunctionName name
-    ^ (if is_exception_type then "_exception_details" else "")
-    ^ "_of_yojson"
+    SafeNames.safeFunctionName name ^ (if is_exception_type then "" else "") ^ "_of_yojson"
 
   let rec structure_func_body fmt name (x : structureShapeDetails) =
     let is_exception_type = hasTrait x.traits isErrorTrait in

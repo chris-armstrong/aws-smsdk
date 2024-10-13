@@ -20,7 +20,8 @@ let extractServiceTrait = extractTrait (function Trait.ServiceTrait x -> Some x 
 
 let printServiceTrait traits =
   let Trait.{ sdkId; arnNamespace; endpointPrefix; _ } = extractServiceTrait traits in
-  Fmt.str "{ Sdk %s Namespace %s endpointPrefix %s }" sdkId arnNamespace
+  Fmt.str "{ Sdk %s Namespace %s endpointPrefix %s }" sdkId
+    (Option.value ~default:"<>" arnNamespace)
     (Option.value endpointPrefix ~default:"<>")
 
 let printOperations operations =

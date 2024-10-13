@@ -21,7 +21,7 @@ let extractTargetSpec target = target |> parseObject |> field "target" |> parseS
 let parseServiceTrait traitResult =
   let value = parseObject traitResult in
   let sdkId_ = value |> field "sdkId" |> parseString in
-  let arnNamespace_ = value |> field "arnNamespace" |> parseString in
+  let arnNamespace_ = optional (value |> field "arnNamespace") |> mapOptional parseString in
   let cloudFormationName_ =
     optional (value |> field "cloudFormationName") |> mapOptional parseString
   in
@@ -39,8 +39,8 @@ let parseEnumNameValue enum : (Trait.enumPair, jsonParseError) Result.t =
   let name_ = optional (obj_ |> field "name") |> mapOptional parseString in
   let value_ = obj_ |> field "value" |> parseString in
   map2 name_ value_ (fun name value ->
-      ((let open Trait in
-        { name; value }) [@ns.braces]))
+      let open Trait in
+      { name; value })
 
 let parseArnReferenceTrait value : (Trait.t, jsonParseError) Result.t =
   let record = parseObject value in
@@ -55,6 +55,25 @@ let parseReference value : (Trait.reference, jsonParseError) Result.t =
   let resource = object_ |> field "resource" |> parseString in
   let service = object_ |> field "service" |> optional |> mapOptional parseString in
   map2 resource service (fun resource service : Trait.reference -> { resource; service })
+
+let parseStaticContextParamValue value =
+  Result.bind value ~f:(fun { tree; path } ->
+      match tree with
+      | `String v -> Ok (Trait.StaticContextStringValue v)
+      | `Bool v -> Ok (Trait.StaticContextBooleanValue v)
+      | `List v ->
+          value |> parseArray parseString
+          |> Result.map ~f:(fun x -> Trait.StaticContextStringListValue x)
+      | _ -> Error (WrongType ("string", path)))
+
+let parseStaticContextParams value =
+  let x =
+    value
+    |> parseRecord (fun name scf ->
+           scf |> parseObject |> field "value" |> parseStaticContextParamValue
+           |> Result.map ~f:(fun val_ -> (name, val_)))
+  in
+  Result.map x ~f:(fun x -> Trait.RulesStaticContextParams x)
 
 let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
   let open Result in
@@ -93,18 +112,16 @@ let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
     | "smithy.api#timestampFormat" ->
         value |> parseString >>| fun timestampFormat -> Trait.TimestampFormatTrait timestampFormat
     | "smithy.api#range" ->
-        (let obj = value |> parseObject in
-         let min = optional (obj |> field "min") |> mapOptional parseInteger in
-         let max = optional (obj |> field "max") |> mapOptional parseInteger in
-         map2 min max (fun min max -> (Trait.RangeTrait (min, max) [@implicit_arity])))
-        [@ns.braces]
+        let obj = value |> parseObject in
+        let min = optional (obj |> field "min") |> mapOptional parseNumber in
+        let max = optional (obj |> field "max") |> mapOptional parseNumber in
+        map2 min max (fun min max -> Trait.RangeTrait (min, max))
     | "smithy.api#length" ->
-        (let record = value |> parseObject in
-         map2
-           (optional (record |> field "min") |> mapOptional parseInteger)
-           (optional (record |> field "max") |> mapOptional parseInteger)
-           (fun min max -> (Trait.LengthTrait (min, max) [@implicit_arity])))
-        [@ns.braces]
+        let record = value |> parseObject in
+        map2
+          (optional (record |> field "min") |> mapOptional parseInteger)
+          (optional (record |> field "max") |> mapOptional parseInteger)
+          (fun min max -> Trait.LengthTrait (min, max))
     | "aws.protocols#awsJson1_0" -> Ok Trait.AwsProtocolAwsJson1_0Trait
     | "aws.protocols#awsJson1_1" -> Ok Trait.AwsProtocolAwsJson1_1Trait
     | "smithy.api#box" -> Ok Trait.BoxTrait
@@ -121,12 +138,11 @@ let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
         parseString value >>| fun mediaType -> Trait.MediaTypeTrait mediaType
     | "aws.protocols#restXml" -> Ok Trait.AwsProtocolRestXmlTrait
     | "aws.api#clientEndpointDiscovery" ->
-        (let obj = parseObject value in
-         let operation = obj |> field "operation" |> parseString in
-         let error = obj |> field "error" |> parseString in
-         map2 operation error (fun operation error ->
-             Trait.AwsApiClientEndpointDiscoveryTrait { operation; error }))
-        [@ns.braces]
+        let obj = parseObject value in
+        let operation = obj |> field "operation" |> parseString in
+        let error = obj |> field "error" |> parseString in
+        map2 operation error (fun operation error ->
+            Trait.AwsApiClientEndpointDiscoveryTrait { operation; error })
     | "aws.protocols#ec2QueryName" ->
         value |> parseString >>| fun queryName -> Trait.AwsProtocolEc2QueryNameTrait queryName
     | "aws.protocols#ec2Query" -> Ok Trait.AwsProtocolEc2QueryTrait
@@ -180,6 +196,10 @@ let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
     | "aws.protocols#awsQueryCompatible" -> Ok Trait.AwsProtocolAwsQueryCompatibleTrait
     | "smithy.rules#endpointRuleSet" -> Ok Trait.RulesEndpointRuleSetTrait
     | "smithy.rules#endpointTests" -> Ok Trait.RulesEndpointTests
+    | "smithy.rules#contextParam" ->
+        value |> parseObject |> field "name" |> parseString
+        |> map ~f:(fun contextParam -> Trait.RulesContextParam contextParam)
+    | "smithy.rules#staticContextParams" -> value |> parseStaticContextParams
     | "smithy.api#default" -> Ok Trait.DefaultTrait
     | "smithy.api#enumValue" ->
         value |> parseString |> map ~f:(fun enumValue -> Trait.EnumValueTrait enumValue)
@@ -189,63 +209,58 @@ let parseTrait name (value : (jsonTreeRef, jsonParseError) Result.t) =
   traitValue
 
 let parseListShape shape =
-  (let target_ = shape |> field "member" |> extractTargetSpec in
-   let traitParser = parseRecord parseTrait in
-   let traits_ = optional (shape |> field "traits" |> traitParser) in
-   map2 target_ traits_ (fun target traits -> Shape.ListShape { target; traits }))
-  [@ns.braces]
+  let target_ = shape |> field "member" |> extractTargetSpec in
+  let traitParser = parseRecord parseTrait in
+  let traits_ = optional (shape |> field "traits" |> traitParser) in
+  map2 target_ traits_ (fun target traits -> Shape.ListShape { target; traits })
 
 let parseMember name value =
-  (let member = parseObject value in
-   let target_ = member |> field "target" |> parseString in
-   let traits_ = optional (parseRecord parseTrait (member |> field "traits")) in
-   map2 target_ traits_ (fun target traits ->
-       ((let open Shape in
-         { name; target; traits }) [@ns.braces])))
-  [@ns.braces]
+  let member = parseObject value in
+  let target_ = member |> field "target" |> parseString in
+  let traits_ = optional (parseRecord parseTrait (member |> field "traits")) in
+  map2 target_ traits_ (fun target traits ->
+      let open Shape in
+      { name; target; traits })
 
-let parseMembers value = (parseRecord parseMember value [@ns.braces])
+let parseMembers value = parseRecord parseMember value
 
 let parseStructureShape value =
-  (let members = value |> field "members" |> parseMembers in
-   let traits = optional (value |> field "traits" |> parseRecord parseTrait) in
-   map2 members traits (fun members traits -> Shape.StructureShape { members; traits }))
-  [@ns.braces]
+  let members = value |> field "members" |> parseMembers in
+  let traits = optional (value |> field "traits" |> parseRecord parseTrait) in
+  map2 members traits (fun members traits -> Shape.StructureShape { members; traits })
 
 let parseOperationShape shape =
-  (let inputTarget = optional (shape |> field "input" |> extractTargetSpec) in
-   let outputTarget = optional (shape |> field "output" |> extractTargetSpec) in
-   let errors = optional (shape |> field "errors" |> parseArray extractTargetSpec) in
-   let traits = optional (shape |> field "traits" |> parseRecord parseTrait) in
-   let documentation =
-     optional
-       (shape |> field "traits" |> parseObject |> field "smithy.api#documentation" |> parseString)
-   in
-   map5 inputTarget outputTarget errors documentation traits
-     (fun inputValue outputValue errorsValue documentationValue traits ->
-       Shape.OperationShape
-         {
-           input = inputValue;
-           output = outputValue;
-           errors = errorsValue;
-           documentation = documentationValue;
-           traits;
-         }))
-  [@ns.braces]
+  let inputTarget = optional (shape |> field "input" |> extractTargetSpec) in
+  let outputTarget = optional (shape |> field "output" |> extractTargetSpec) in
+  let errors = optional (shape |> field "errors" |> parseArray extractTargetSpec) in
+  let traits = optional (shape |> field "traits" |> parseRecord parseTrait) in
+  let documentation =
+    optional
+      (shape |> field "traits" |> parseObject |> field "smithy.api#documentation" |> parseString)
+  in
+  map5 inputTarget outputTarget errors documentation traits
+    (fun inputValue outputValue errorsValue documentationValue traits ->
+      Shape.OperationShape
+        {
+          input = inputValue;
+          output = outputValue;
+          errors = errorsValue;
+          documentation = documentationValue;
+          traits;
+        })
 
 let parseServiceShape shapeDict =
-  (let version_ = shapeDict |> field "version" |> parseString in
-   let operations_ =
-     optional (shapeDict |> field "operations")
-     |> mapOptional (fun operations -> parseArray extractTargetSpec operations)
-   in
-   let traits_ =
-     optional (shapeDict |> field "traits")
-     |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
-   in
-   map3 version_ operations_ traits_ (fun version operations traits ->
-       Shape.ServiceShape { version; operations; traits }))
-  [@ns.braces]
+  let version_ = shapeDict |> field "version" |> parseString in
+  let operations_ =
+    optional (shapeDict |> field "operations")
+    |> mapOptional (fun operations -> parseArray extractTargetSpec operations)
+  in
+  let traits_ =
+    optional (shapeDict |> field "traits")
+    |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
+  in
+  map3 version_ operations_ traits_ (fun version operations traits ->
+      Shape.ServiceShape { version; operations; traits })
 
 let parseStringShape shapeDict =
   let traits_ =
@@ -271,41 +286,37 @@ let parseStringShape shapeDict =
       | None -> Shape.StringShape { traits = Some traits })
 
 let parseMapKey value =
-  (let mapValue = value |> parseObject in
-   let target_ = mapValue |> field "target" |> parseString in
-   let traits_ =
-     optional (mapValue |> field "traits")
-     |> mapOptional (fun traits -> parseRecord parseTrait traits)
-   in
-   map2 target_ traits_ (fun target traits ->
-       ((let open Shape in
-         { target; traits }) [@ns.braces])))
-  [@ns.braces]
+  let mapValue = value |> parseObject in
+  let target_ = mapValue |> field "target" |> parseString in
+  let traits_ =
+    optional (mapValue |> field "traits")
+    |> mapOptional (fun traits -> parseRecord parseTrait traits)
+  in
+  map2 target_ traits_ (fun target traits ->
+      let open Shape in
+      { target; traits })
 
 let parseMapShape shapeDict =
-  (let key_ = parseMapKey (shapeDict |> field "key") in
-   let value_ = parseMapKey (shapeDict |> field "value") in
-   let traits_ =
-     optional (shapeDict |> field "traits")
-     |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
-   in
-   map3 key_ value_ traits_ (fun key value traits ->
-       Shape.MapShape { mapKey = key; mapValue = value; traits }))
-  [@ns.braces]
+  let key_ = parseMapKey (shapeDict |> field "key") in
+  let value_ = parseMapKey (shapeDict |> field "value") in
+  let traits_ =
+    optional (shapeDict |> field "traits")
+    |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
+  in
+  map3 key_ value_ traits_ (fun key value traits ->
+      Shape.MapShape { mapKey = key; mapValue = value; traits })
 
 let parseUnionShape value =
-  (let members = value |> field "members" |> parseMembers in
-   let traits = optional (value |> field "traits" |> parseRecord parseTrait) in
-   map2 members traits (fun members traits -> Shape.UnionShape { members; traits }))
-  [@ns.braces]
+  let members = value |> field "members" |> parseMembers in
+  let traits = optional (value |> field "traits" |> parseRecord parseTrait) in
+  map2 members traits (fun members traits -> Shape.UnionShape { members; traits })
 
 let parsePrimitive shapeDict =
-  (let traits_ =
-     optional (shapeDict |> field "traits")
-     |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
-   in
-   Result.map traits_ ~f:(fun traits : Shape.primitiveShapeDetails -> { traits }))
-  [@ns.braces]
+  let traits_ =
+    optional (shapeDict |> field "traits")
+    |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
+  in
+  Result.map traits_ ~f:(fun traits : Shape.primitiveShapeDetails -> { traits })
 
 let parseEnumShape value =
   let members = value |> field "members" |> parseMembers in
@@ -315,52 +326,58 @@ let parseEnumShape value =
 let parseResourceShape _ = Ok Shape.ResourceShape
 
 let parseSetShape shapeDict =
-  (let target = shapeDict |> field "member" |> parseObject |> field "target" |> parseString in
-   let traits =
-     optional (shapeDict |> field "traits")
-     |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
-   in
-   map2 target traits (fun target traits -> Shape.SetShape { target; traits }))
-  [@ns.braces]
+  let target = shapeDict |> field "member" |> parseObject |> field "target" |> parseString in
+  let traits =
+    optional (shapeDict |> field "traits")
+    |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
+  in
+  map2 target traits (fun target traits -> Shape.SetShape { target; traits })
 
 let parseTimestampShape shapeDict =
-  (let traits_ =
-     optional (shapeDict |> field "traits")
-     |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
-   in
-   Result.map traits_ ~f:(fun traits -> Shape.TimestampShape { traits }))
-  [@ns.braces]
+  let traits_ =
+    optional (shapeDict |> field "traits")
+    |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
+  in
+  Result.map traits_ ~f:(fun traits -> Shape.TimestampShape { traits })
+
+let parseDocumentShape shapeDict =
+  let traits_ =
+    optional (shapeDict |> field "traits")
+    |> mapOptional (fun traits -> traits |> parseRecord parseTrait)
+  in
+  Result.map traits_ ~f:(fun traits -> Shape.DocumentShape)
 
 let parseShape name shape =
-  ((let open Result in
-    let shapeDict = parseObject shape in
-    let typeDiscriminator = shapeDict |> field "type" |> parseString in
-    Result.bind typeDiscriminator ~f:(fun typeValue ->
-        let descriptor_ =
-          match typeValue with
-          | "list" -> parseListShape shapeDict
-          | "operation" -> parseOperationShape shapeDict
-          | "structure" -> parseStructureShape shapeDict
-          | "service" -> parseServiceShape shapeDict
-          | "blob" -> parsePrimitive shapeDict >>| fun primitive -> Shape.BlobShape primitive
-          | "boolean" -> parsePrimitive shapeDict >>| fun primitive -> Shape.BooleanShape primitive
-          | "integer" -> parsePrimitive shapeDict >>| fun primitive -> Shape.IntegerShape primitive
-          | "string" -> parseStringShape shapeDict
-          | "map" -> parseMapShape shapeDict
-          | "union" -> parseUnionShape shapeDict
-          | "resource" -> parseResourceShape shapeDict
-          | "timestamp" -> parseTimestampShape shapeDict
-          | "long" -> parsePrimitive shapeDict >>| fun primitive -> Shape.LongShape primitive
-          | "double" -> parsePrimitive shapeDict >>| fun primitive -> Shape.DoubleShape primitive
-          | "float" -> parsePrimitive shapeDict >>| fun primitive -> Shape.FloatShape primitive
-          | "set" -> parseSetShape shapeDict
-          | "enum" -> parseEnumShape shapeDict
-          | _ -> Error (CustomError ({js|unknown shape type |js} ^ typeValue))
-        in
+  let open Result in
+  let shapeDict = parseObject shape in
+  let typeDiscriminator = shapeDict |> field "type" |> parseString in
+  Result.bind typeDiscriminator ~f:(fun typeValue ->
+      let descriptor_ =
+        match typeValue with
+        | "list" -> parseListShape shapeDict
+        | "operation" -> parseOperationShape shapeDict
+        | "structure" -> parseStructureShape shapeDict
+        | "service" -> parseServiceShape shapeDict
+        | "blob" -> parsePrimitive shapeDict >>| fun primitive -> Shape.BlobShape primitive
+        | "boolean" -> parsePrimitive shapeDict >>| fun primitive -> Shape.BooleanShape primitive
+        | "integer" -> parsePrimitive shapeDict >>| fun primitive -> Shape.IntegerShape primitive
+        | "string" -> parseStringShape shapeDict
+        | "map" -> parseMapShape shapeDict
+        | "union" -> parseUnionShape shapeDict
+        | "resource" -> parseResourceShape shapeDict
+        | "timestamp" -> parseTimestampShape shapeDict
+        | "long" -> parsePrimitive shapeDict >>| fun primitive -> Shape.LongShape primitive
+        | "double" -> parsePrimitive shapeDict >>| fun primitive -> Shape.DoubleShape primitive
+        | "float" -> parsePrimitive shapeDict >>| fun primitive -> Shape.FloatShape primitive
+        | "set" -> parseSetShape shapeDict
+        | "enum" -> parseEnumShape shapeDict
+        | "document" -> parseDocumentShape shapeDict
+        | _ -> Error (CustomError ({js|unknown shape type |js} ^ typeValue))
+      in
 
-        Result.map descriptor_ ~f:(fun descriptor ->
-            ((let open Shape in
-              { name; descriptor }) [@ns.braces])))) [@ns.braces])
+      Result.map descriptor_ ~f:(fun descriptor ->
+          let open Shape in
+          { name; descriptor }))
 
 let parseShapes shapesModel = parseRecord parseShape shapesModel
 let parseModel baseModel = baseModel |> parseObject |> field "shapes" |> parseShapes
