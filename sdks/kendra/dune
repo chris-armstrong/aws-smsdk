@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_kendra.ml
-  Aws_SmSdk_Client_kendra.mli)
+  Aws_SmSdk_Client_Kendra.ml
+  Aws_SmSdk_Client_Kendra.mli)
  (action
   (run
    %{gen}
@@ -29,10 +29,10 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_kendra)
+ (name Aws_SmSdk_Client_Kendra)
  (public_name aws-smsdk-clients.kendra)
  (modules
-  Aws_SmSdk_Client_kendra
+  Aws_SmSdk_Client_Kendra
   types
   serializers
   deserializers
