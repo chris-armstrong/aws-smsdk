@@ -2,8 +2,44 @@
  (name Aws_SmSdk_Clients)
  (public_name aws-smsdk-clients)
  (modules Aws_SmSdk_Clients)
+ (ocamlopt_flags -function-sections -ccopt -ffunction-sections)
  (libraries aws-smsdk-lib 
-  Aws_SmSdk_Client_SQS
-  Aws_SmSdk_Client_DynamoDB
-  Aws_SmSdk_Client_kendra
+Aws_SmSdk_Client_ACM
+Aws_SmSdk_Client_AppRunner
+Aws_SmSdk_Client_BackupGateway
+Aws_SmSdk_Client_CloudTrail
+Aws_SmSdk_Client_CodeConnections
+Aws_SmSdk_Client_CognitoIdentity
+Aws_SmSdk_Client_ConfigService
+Aws_SmSdk_Client_DAX
+Aws_SmSdk_Client_DirectoryService
+Aws_SmSdk_Client_DynamoDB
+Aws_SmSdk_Client_DynamoDBStreams
+Aws_SmSdk_Client_EventBridge
+Aws_SmSdk_Client_FMS
+Aws_SmSdk_Client_Kendra
+Aws_SmSdk_Client_Keyspaces
+Aws_SmSdk_Client_KinesisAnalytics
+Aws_SmSdk_Client_KinesisAnalyticsV2
+Aws_SmSdk_Client_Kinesis
+Aws_SmSdk_Client_KMS
+Aws_SmSdk_Client_Lightsail
+Aws_SmSdk_Client_MarketplaceAgreement
+Aws_SmSdk_Client_MigrationHub
+Aws_SmSdk_Client_OpenSearchServerless
+Aws_SmSdk_Client_PI
+Aws_SmSdk_Client_Proton
+Aws_SmSdk_Client_ResourceGroupsTaggingAPI
+Aws_SmSdk_Client_Route53RecoveryCluster
+Aws_SmSdk_Client_ServiceDiscovery
+Aws_SmSdk_Client_SFN
+Aws_SmSdk_Client_Shield
+Aws_SmSdk_Client_Snowball
+Aws_SmSdk_Client_SQS
+Aws_SmSdk_Client_SSM
+Aws_SmSdk_Client_SWF
+Aws_SmSdk_Client_Transcribe
+Aws_SmSdk_Client_WAF
+Aws_SmSdk_Client_WAFV2
+Aws_SmSdk_Client_WorkMail  
   ))
