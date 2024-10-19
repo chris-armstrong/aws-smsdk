@@ -33,6 +33,7 @@
   ocamlgraph
   uri
   logs
+  (ppx_compare :with-test)
   (alcotest :with-test)
   (eio_main :with-dev)
   (odoc :with-doc)))
@@ -68,6 +69,7 @@
   httpun
   httpun-eio
   eio_main
+  stdio
   (eio_main :with-dev)
   (odoc :with-doc)))
 
