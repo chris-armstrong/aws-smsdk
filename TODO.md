@@ -1,3 +1,7 @@
+# TODO
+
+## Code Generator
+
 ## HTTP
 
 * [x] Make Http module a functor that returns a new HTTP module with its own connection pool on the same switch
@@ -34,3 +38,11 @@
 ### Configuration
 
 * [x] Read ~/.aws/config file
+
+### Protocols
+
+* [x] AwsJson1.0
+* [x] AwsJson1.1
+* [ ] AwsQuery 
+* [ ] REST
+* [ ] S3
