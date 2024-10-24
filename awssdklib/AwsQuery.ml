@@ -100,6 +100,7 @@ module Make (Http : Http.Client_intf) : S = struct
         ("Action", [ action ]) :: ("Version", [ service.version ]) :: filteredFields
       in
       let body = Uri.encoded_of_query body_values in
+
       Stdio.printf "Action %s on %s\n" action (Uri.to_string uri);
       Stdio.printf "Sending body %s\n" body;
       let auth = config.resolveAuth () in
