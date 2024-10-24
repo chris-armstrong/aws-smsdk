@@ -1,6 +1,6 @@
-{0 aws-smsdk}
+{0 aws-smsdk-clients}
 
-[aws-smsdk] generates Amazon Web Services (AWS) service SDKs for OCaml from {{: https://smithy.io/2.0/index.html }Smithy} definitions.
+[aws-smsdk-clients] generates Amazon Web Services (AWS) service SDKs for OCaml from {{: https://smithy.io/2.0/index.html }Smithy} definitions.
 
 The underlying SDKs use {{:https://github.com/ocaml-multicore/eio} EIO} for its concurrency model, taking advantage of the OCaml 5.0 Effects support, that enables a cleaner and simpler concurrency syntax without monadic support (like {{: https://github.com/ocsigen/lwt} lwt}).
 
@@ -8,10 +8,68 @@ The underlying SDKs use {{:https://github.com/ocaml-multicore/eio} EIO} for its 
 
 This project is very much a work in progress. The current focus is on generating correct and useful SDKs for core AWS services like STS, SQS, S3, DynamoDB, etc. rather than support for every AWS service.
 
-{1 Package Structure}
+{1 Installation}
 
-[aws-smsdk] is split up into several packages:
+Use {{:https://opam.ocaml.org/doc/Usage.html} opam} to install {i aws-smsdk-clients}:
 
-- [aws-smsdk-lib] a support library for service SDKs
-- [aws-smsdk-gen] service SDK code generator
-- [aws-smsdk-<service>] for each service SDK e.g. [aws-smsdk-sqs]
+{@sh[
+  opam install aws-smsdk-clients
+]}
+
+{1 Usage}
+
+[aws-smssdk-clients] exposes all of the service SDKs. It works with [aws-smsdk-lib] for authentication and protocol implementations.
+
+{2 Limitations}
+
+This SDK is currently under development, so a number of features of AWS SDKs in other languages are not supported that make this unsuitable for production usage at this time.
+
+- {b Authentication}: only environment variables or the [~/.aws/credentials] file (non-SSO). Instance/Container metadata secret retrieval and SSO is not currently supported.
+- {b Middleware}: no middleware support (e.g. tracers, loggers)
+- {b Helpers}: additional SDK helpers, such as DynamoDB DocumentClient, are not available
+
+{2 Configuration}
+
+A {i configuration} object is used by the context todetermine authorization and other environment settings (such as the region to use).
+
+{@ocaml[
+open Aws_SmSdk_Lib
+
+(* Initialise with defaults from environment *)
+let config = Config.defaultConfig ()
+
+(* Customise the config object *)
+let config = Config.make
+  ~resolveRegion: (fun () -> "us-west-1")
+  ~resolveAuth: (Auth.fromProfile env)
+  ()
+]}
+
+{2 Context Initialisation}
+
+Calling a service operation first requires you to create a context object. The context ties a {{!configuration}configuration} and an {{:https://github.com/ocaml-multicore/eio?tab=readme-ov-file#switches} eio switch} for calling service operations. It creates a shared connection pool for each service endpoint.
+
+You can share the context object between services or create separate ones (as required).
+
+{@ocaml[
+open Aws_SmSdk_Lib
+
+let _ =
+  Eio_main.run (fun env ->
+    Eio.Switch.run (fun sw ->
+      let config = Config.defaultConfig () in
+      let ctx = Context.make ~config ~sw in
+]}
+
+{2 Service Modules}
+
+Each service SDK is organised under its own module with the naming convention [Aws_SmSdk_Clients.*] e.g. [Aws_SmSdk_Clients.DynamoDB]. We recommend using local opens, especially when you are using multiple services.
+
+{@ocaml[
+let read_table_entries =
+  let open Aws_SmSdk_Clients.DynamoDB in
+  ...
+]}
+
+
+{!modules: Aws_SmSdk_Clients.SQS Aws_SmSdk_Clients.DynamoDB Aws_SmSdk_Clients.Kendra}
