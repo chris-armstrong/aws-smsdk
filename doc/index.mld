@@ -22,8 +22,9 @@ Use {{:https://opam.ocaml.org/doc/Usage.html} opam} to install {i aws-smsdk-clie
 
 {2 Limitations}
 
-This SDK is currently under development, so a number of features of AWS SDKs in other languages are not supported that make this unsuitable for production usage at this time.
+This SDK is currently under development, so a number of features of AWS SDKs in other languages are not supported yet that make this unsuitable for production usage at this time.
 
+- {b Service Documentation}: there is inline documentation for types and service operations available but this is not included in the generated code
 - {b Authentication}: only environment variables or the [~/.aws/credentials] file (non-SSO). Instance/Container metadata secret retrieval and SSO is not currently supported.
 - {b Middleware}: no middleware support (e.g. tracers, loggers)
 - {b Helpers}: additional SDK helpers, such as DynamoDB DocumentClient, are not available
@@ -54,21 +55,34 @@ You can share the context object between services or create separate ones (as re
 {@ocaml[
 open Aws_SmSdk_Lib
 
-let _ =
+let _ 
   Eio_main.run (fun env ->
     Eio.Switch.run (fun sw ->
       let config = Config.defaultConfig () in
       let ctx = Context.make ~config ~sw in
 ]}
 
+The SDK maintains HTTP connections in an internal pool to reuse them between requests. 
+
 {2 Service Modules}
 
-Each service SDK is organised under its own module with the naming convention [Aws_SmSdk_Clients.*] e.g. [Aws_SmSdk_Clients.DynamoDB]. We recommend using local opens, especially when you are using multiple services.
+Each service SDK is organised under its own module with the naming convention [Aws_SmSdk_Clients.*] e.g. [Aws_SmSdk_Clients.DynamoDB]. We recommend using local opens because each service module contains numerous types, associated builder functions and operations, which may clutter your namespace.
 
 {@ocaml[
 let read_table_entries =
   let open Aws_SmSdk_Clients.DynamoDB in
   ...
+]}
+
+All service operations exist in a submodule e.g. {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html}SQS} {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ListQueues.html}ListQueues} is in the {!module:Aws_SmSdk_Clients.SQS.ListQueues} module. (You can find all the operations available for a particular service on the Actions page of the corresponding API Reference section of the {{:https://docs.aws.amazon.com/}AWS documentation} for that service).
+
+An operation request is constructed with the corresponding [make_<operation>_<name>] convenience function, or you can also use the generated [<operation_name>_input] type directly).
+
+{@ocaml[
+let read_table_entries =
+  let open Aws_SmSdk_Clients.DynamoDB in
+  let request = make_list_tables_request ~table_name:"orders" ()
+
 ]}
 
 
