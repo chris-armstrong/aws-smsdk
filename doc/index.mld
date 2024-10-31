@@ -16,9 +16,27 @@ Use {{:https://opam.ocaml.org/doc/Usage.html} opam} to install {i aws-smsdk-clie
   opam install aws-smsdk-clients
 ]}
 
+{1 Library Organisation}
+
+[aws-smsdk-clients] exposes all of the service SDKs. It works with [aws-smsdk-lib] for authentication and protocol implementations.
+
+{b Service SDKs} are organised under its own module with the naming convention [Aws_SmSdk_Clients.*] e.g. [Aws_SmSdk_Clients.DynamoDB]. 
+
+{b Types} for all operations and their components are found directly under the service module.
+
+{b Builder functions}, in the form of `make_<type_name>`, aso exist directly in the service module. They're particularly helpful with larger types that have a lot of optional fields.
+
+{b Service Operations} exist in a submodule of a Service SDK e.g. {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html}SQS} {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ListQueues.html}ListQueues} is in the {!module:Aws_SmSdk_Clients.SQS.ListQueues} module. (You can find all the operations available for a particular service on the Actions page of the corresponding API Reference section of the {{:https://docs.aws.amazon.com/}AWS documentation} for that service).
+
+
 {1 Usage}
 
-[aws-smssdk-clients] exposes all of the service SDKs. It works with [aws-smsdk-lib] for authentication and protocol implementations.
+Calling a service operation consists of:
+
+* Creating a configuration object with your authorisation and region details
+* Initialising a context from your eio switch
+* Constructing a request object
+* Invoking the service operation function
 
 {2 Limitations}
 
@@ -29,7 +47,7 @@ This SDK is currently under development, so a number of features of AWS SDKs in 
 - {b Middleware}: no middleware support (e.g. tracers, loggers)
 - {b Helpers}: additional SDK helpers, such as DynamoDB DocumentClient, are not available
 
-{2 Configuration}
+{2 Configuration Objects}
 
 A {i configuration} object is used by the context todetermine authorization and other environment settings (such as the region to use).
 
@@ -48,7 +66,11 @@ let config = Config.make
 
 {2 Context Initialisation}
 
-Calling a service operation first requires you to create a context object. The context ties a {{!configuration}configuration} and an {{:https://github.com/ocaml-multicore/eio?tab=readme-ov-file#switches} eio switch} for calling service operations. It creates a shared connection pool for each service endpoint.
+Calling a service operation first requires you to create a context object. The context ties together a {{!configuration}configuration} and an {{:https://github.com/ocaml-multicore/eio?tab=readme-ov-file#switches} eio switch} for calling service operations. 
+
+{i NOTE: it isn't possible to use this library with other effect-based concurrency frameworks like miou or riot, or older concurrency frameorks like lwt or async, without an eio compatibility shim (these are untested).}
+
+The HTTP client bound to the context creates a shared connection pool for each service endpoint. That connection pool is bound to the lifetime of the switch.
 
 You can share the context object between services or create separate ones (as required).
 
@@ -60,13 +82,14 @@ let _
     Eio.Switch.run (fun sw ->
       let config = Config.defaultConfig () in
       let ctx = Context.make ~config ~sw in
+      ...
 ]}
 
-The SDK maintains HTTP connections in an internal pool to reuse them between requests. 
+{i The above example is typical of a command line utility, where you initialise the switch as part of your main programme. Long running servers or frameworks may already provide you with an eio switch.}
 
-{2 Service Modules}
+{2 Opening and using service modules}
 
-Each service SDK is organised under its own module with the naming convention [Aws_SmSdk_Clients.*] e.g. [Aws_SmSdk_Clients.DynamoDB]. We recommend using local opens because each service module contains numerous types, associated builder functions and operations, which may clutter your namespace.
+Service modules each have their own module under {!module Aws_SmSdk_Clients}. We recommend using local opens because each service module contains numerous types, associated builder functions and operations, which may clutter your namespace.
 
 {@ocaml[
 let read_table_entries =
@@ -74,16 +97,25 @@ let read_table_entries =
   ...
 ]}
 
-All service operations exist in a submodule e.g. {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html}SQS} {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ListQueues.html}ListQueues} is in the {!module:Aws_SmSdk_Clients.SQS.ListQueues} module. (You can find all the operations available for a particular service on the Actions page of the corresponding API Reference section of the {{:https://docs.aws.amazon.com/}AWS documentation} for that service).
-
 An operation request is constructed with the corresponding [make_<operation>_<name>] convenience function, or you can also use the generated [<operation_name>_input] type directly).
 
 {@ocaml[
-let read_table_entries =
+let read_table_entries context =
   let open Aws_SmSdk_Clients.DynamoDB in
-  let request = make_list_tables_request ~table_name:"orders" ()
-
+  let request = make_list_tables_request ~table_name:"orders" () in
+  ...
 ]}
+
+You can then invoke an operation using its submodule's [request] function:
+
+{@ocaml[
+  let result = ListTables.request context request
+]}
+
+These return a result type. We recommend binding the [let+] operator to [Result.bind] so you can cascade these (see the [awssdklib_examples/] directory for more details).
+
+{2 Error Handling}
+
 
 
 {!modules: Aws_SmSdk_Clients.SQS Aws_SmSdk_Clients.DynamoDB Aws_SmSdk_Clients.Kendra}
