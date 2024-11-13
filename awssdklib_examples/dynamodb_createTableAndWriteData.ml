@@ -61,6 +61,7 @@ let _ =
             Ok ()
           with
           | Ok _ -> ()
+          | Error (`AWSServiceError e) when e._type.name = "SomeError" -> ()
           | Error (`HttpError e) ->
               Logs.err (fun m -> m "HTTP Error %a" Aws_SmSdk_Lib.Http.pp_http_failure e)
           | Error (`JsonParseError e) ->

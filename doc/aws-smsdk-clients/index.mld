@@ -1,0 +1,239 @@
+{0 aws-smsdk-clients}
+
+[aws-smsdk-clients] is composed of generated Amazon Web Services (AWS) service SDKs for OCaml from {{: https://smithy.io/2.0/index.html }Smithy} definitions.
+
+The underlying SDKs use {{:https://github.com/ocaml-multicore/eio} EIO} for its concurrency model, taking advantage of the OCaml 5.0 Effects support, that enables a cleaner and simpler concurrency syntax without monadic support (like {{: https://github.com/ocsigen/lwt} lwt}).
+
+{1 Status}
+
+This project is very much a work in progress. The current focus is on generating correct and useful SDKs for core AWS services like STS, SQS, S3, DynamoDB, etc. rather than support for every AWS service.
+
+It should be treated as a preview, as it lacks a number of important features that are needed for production use. 
+
+{1 Installation}
+
+Use {{:https://opam.ocaml.org/doc/Usage.html} opam} to install {i aws-smsdk-clients}:
+
+{@sh[
+  opam install aws-smsdk-clients
+]}
+
+{1 Library Organisation}
+
+[aws-smsdk-clients] exposes all of the service SDKs. It works with [aws-smsdk-lib] for authentication and protocol implementations.
+
+{b Service SDKs} are organised under its own module with the naming convention [Aws_SmSdk_Clients.*] e.g. [Aws_SmSdk_Clients.DynamoDB]. 
+
+{b Types} for all operations and their components are found directly under the service module.
+
+{b Builder functions}, in the form of `make_<type_name>`, also exist directly in the service module. They're particularly helpful with larger types that have a lot of optional fields.
+
+{b Service Operations} exist in a submodule of a Service SDK e.g. {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html}SQS} {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ListQueues.html}ListQueues} is in the {!module:Aws_SmSdk_Clients.SQS.ListQueues} module. (You can find all the operations available for a particular service on the Actions page of the corresponding API Reference section of the {{:https://docs.aws.amazon.com/}AWS documentation} for that service).
+
+
+{1 Usage}
+
+Calling a service operation consists of:
+
++ Creating a configuration object with your authorisation and region details
++ Initialising a context from your eio switch
++ Constructing a request object
++ Invoking the service operation function
+
+{2 Limitations}
+
+- {b Service Documentation}: there is inline documentation for types and service operations available but this is not included in the generated code
+- {b Authentication}: only environment variables or the [~/.aws/credentials] file (non-SSO). It does not support authentication methods suitable for use on EC2/ECS/Lambda such as EC2/ECS Metadata Secret retrieval. SSO authentication retrieval is not currently supported.
+- {b Middleware}: no middleware support (e.g. to link in tracers, loggers)
+- {b Helpers}: additional SDK helpers, such as DynamoDB DocumentClient, are not available
+- {b Retry and Timeout Handling}: there is no retry mechanism or timeouts implemented
+
+{2:configuration Configuration Objects}
+
+A {i configuration} object is used by the context todetermine authorization and other environment settings (such as the region to use).
+
+{@ocaml[
+open Aws_SmSdk_Lib
+
+(* Initialise with defaults from environment *)
+let config = Config.defaultConfig ()
+
+(* Customise the config object *)
+let config = Config.make
+  ~resolveRegion: (fun () -> "us-west-1")
+  ~resolveAuth: (Auth.fromProfile env)
+  ()
+]}
+
+{2 Context Initialisation}
+
+Calling a service operation first requires you to create a context object. The context ties together a {{!section-configuration}configuration} and an {{:https://github.com/ocaml-multicore/eio?tab=readme-ov-file#switches} eio switch} for calling service operations. 
+
+{i NOTE: it isn't possible to use this library with other effect-based concurrency frameworks like miou or riot, or older concurrency frameorks like lwt or async, without an eio compatibility shim (these are untested).}
+
+The HTTP client bound to the context creates a shared connection pool for each service endpoint. That connection pool is bound to the lifetime of the switch.
+
+You can share the context object between services or create separate ones (as required).
+
+{@ocaml[
+open Aws_SmSdk_Lib
+
+let _ 
+  Eio_main.run (fun env ->
+    Eio.Switch.run (fun sw ->
+      let config = Config.defaultConfig () in
+      let ctx = Context.make ~config ~sw in
+      ...
+]}
+
+{i The above example is typical of a command line utility, where you initialise the switch as part of your main programme. Long running servers or frameworks may already provide you with an eio switch.}
+
+{2 Opening and using service modules}
+
+Service modules each have their own module under {!module:Aws_SmSdk_Clients}. We recommend using local opens because each service module contains numerous types, associated builder functions and operations, which may clutter your namespace.
+
+{@ocaml[
+let read_table_entries =
+  let open Aws_SmSdk_Clients.DynamoDB in
+  ...
+]}
+
+An operation request is constructed with the corresponding [make_<operation>_<name>] convenience function, or you can also use the generated [<operation_name>_input] type directly).
+
+{@ocaml[
+let read_table_entries context =
+  let open Aws_SmSdk_Clients.DynamoDB in
+  let request = make_list_tables_request ~table_name:"orders" () in
+  ...
+]}
+
+You can then invoke an operation using its submodule's [request] function:
+
+{@ocaml[
+  let result = ListTables.request context request
+]}
+
+These return a result type. We recommend binding the [let+] operator to [Result.bind] so you can cascade multiple results as needed.
+
+{@ocaml[
+let (let+) r b = Result.bind r b
+]}
+
+{2 Error Handling}
+
+Errors are defined as polymorphic variant types to make error handling more ergonomic, and to allow different layers (HTTP, protocol, operation) to define what errors they can throw. Each class of error is documented below.
+
+{3 Operation Errors}
+
+Errors specifically returned from operations are individually in the operation definition. For example:
+
+{@ocaml[
+module PutItem = sig
+  val request :
+    Context.t ->
+    put_item_input ->
+    ( put_item_output,
+      [> `AWSServiceError of AwsErrors.aws_service_error
+      | `ConditionalCheckFailedException of
+        conditional_check_failed_exception
+      | `HttpError of Http.http_failure
+      | `InternalServerError of internal_server_error
+      | `InvalidEndpointException of invalid_endpoint_exception
+      | `ItemCollectionSizeLimitExceededException of
+        item_collection_size_limit_exceeded_exception
+      | `JsonParseError of
+        Json.DeserializeHelpers.jsonParseError
+      | `ProvisionedThroughputExceededException of
+        provisioned_throughput_exceeded_exception
+      | `RequestLimitExceeded of request_limit_exceeded
+      | `ResourceNotFoundException of
+        resource_not_found_exception
+      | `TransactionConflictException of
+        transaction_conflict_exception ] )
+    result
+end
+]}
+
+They can be patterned matched, e.g.
+
+{@ocaml[
+  (* Write an item to the table if it does not exist. Returns the item if it is written, otherwise None *)
+  let insert_item = 
+    ...
+    let request = make_put_item_request ~item ~condition_expression in
+    let put_item_response = PutItem.request ctx request in
+
+    match put_item_response with
+
+    | Ok result -> Some (map_attributes_to_item result.attributes)
+
+    (* Catch condition check failure, which indicates our condition failed so
+       we did not want to write this item
+    *)
+    | Error (`ConditionalCheckFailedException _) -> None
+
+    (* Raise any other errors as exceptions *)
+    | Error e -> raise (InsertItemError e)
+]}
+
+As can be seen in the above example, some operations list out quite a number of error conditions (most of which are not relevant). In other cases, some errors will be missing from the operation specification: Smithy definitions are often incomplete or contain errors or inconsistencies between services. 
+
+If an operation returns an error not specified in its definition, it will be wrapped up as an {{!type:Aws_SmSdk_Lib.Protocols.aws_service_error}`AWSServiceError} type. You can match these by their name (and/or namespace) as a string:
+
+{@ocaml[
+
+  match item_response with
+  | Error (`AWSServiceError e) when e._type.name = "SomeError" ->  (* special handling *)
+
+]}
+
+{3 HTTP Errors}
+
+All HTTP errors are packaged as {{!type:Aws_SmSdk_Lib.Protocols.http_error}`HttpError}, which can be processed if you need to implement retries (there is no builtin retry support).
+
+{1 SDK Reference}
+
+All service SDKs that are built are listed below.
+
+{i Please note inline documentation from the Smithy definitions is not available at this time.}
+
+{!modules: 
+Aws_SmSdk_Clients.ACM
+Aws_SmSdk_Clients.AppRunner
+Aws_SmSdk_Clients.BackupGateway
+Aws_SmSdk_Clients.CloudTrail
+Aws_SmSdk_Clients.CodeConnections
+Aws_SmSdk_Clients.CognitoIdentity
+Aws_SmSdk_Clients.ConfigService
+Aws_SmSdk_Clients.DAX
+Aws_SmSdk_Clients.DirectoryService
+Aws_SmSdk_Clients.DynamoDB
+Aws_SmSdk_Clients.DynamoDBStreams
+Aws_SmSdk_Clients.EventBridge
+Aws_SmSdk_Clients.FMS
+Aws_SmSdk_Clients.Kendra
+Aws_SmSdk_Clients.Keyspaces
+Aws_SmSdk_Clients.Kinesis
+Aws_SmSdk_Clients.KinesisAnalytics
+Aws_SmSdk_Clients.KinesisAnalyticsV2
+Aws_SmSdk_Clients.KMS
+Aws_SmSdk_Clients.Lightsail
+Aws_SmSdk_Clients.MarketplaceAgreement
+Aws_SmSdk_Clients.MigrationHub
+Aws_SmSdk_Clients.OpenSearchServerless
+Aws_SmSdk_Clients.PI
+Aws_SmSdk_Clients.Proton
+Aws_SmSdk_Clients.ResourceGroupsTaggingAPI
+Aws_SmSdk_Clients.Route53RecoveryCluster
+Aws_SmSdk_Clients.ServiceDiscovery
+Aws_SmSdk_Clients.SFN
+Aws_SmSdk_Clients.Shield
+Aws_SmSdk_Clients.Snowball
+Aws_SmSdk_Clients.SQS
+Aws_SmSdk_Clients.SSM
+Aws_SmSdk_Clients.SWF
+Aws_SmSdk_Clients.Transcribe
+Aws_SmSdk_Clients.WAF
+Aws_SmSdk_Clients.WAFV2
+Aws_SmSdk_Clients.WorkMail
+}

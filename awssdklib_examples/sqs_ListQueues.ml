@@ -35,7 +35,7 @@ let _ =
                     (Aws_SmSdk_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
           | Error (`InvalidAddress s) ->
               Logs.err (fun m -> m "Invalid address: %s" (s.message |> Option.value ~default:"<>"))
-          | Error (`AWSServiceError { _type = namespace, name; message }) ->
+          | Error (`AWSServiceError { _type = { namespace; name }; message }) ->
               Logs.err (fun m ->
                   m "Unknown AWS error %s:%s - %s" namespace name (Option.value ~default:"" message))
           | Error _ -> Logs.err (fun m -> m "Another error")))
