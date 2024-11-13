@@ -1,5 +1,5 @@
 {
-  description = "aws-smsdk";
+  description = "smaws";
 
   inputs.nix-filter.url = "github:numtide/nix-filter";
   inputs.flake-utils.url = "github:numtide/flake-utils";
@@ -15,7 +15,7 @@
       in
       rec {
         packages = pkgs.callPackage ./nix { nix-filter = nix-filter.lib; };
-        defaultPackage = packages.aws-smsdk-gen;
+        defaultPackage = packages.smaws-gen;
         devShells = {
           default = pkgs.callPackage ./nix/shell.nix { inherit packages; };
           release = pkgs.callPackage ./nix/shell.nix {

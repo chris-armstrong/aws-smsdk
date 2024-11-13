@@ -5,8 +5,8 @@ description: "Support library for AWS SDKs generated from Smithy definitions"
 maintainer: ["Chris Armstrong <oss@chrisarmstrong.dev>"]
 authors: ["Chris Armstrong"]
 license: "MIT"
-homepage: "https://github.com/chris-armstrong/aws-smsdk"
-bug-reports: "https://github.com/chris-armstrong/aws-smsdk/issues"
+homepage: "https://github.com/chris-armstrong/smaws"
+bug-reports: "https://github.com/chris-armstrong/smaws/issues"
 depends: [
   "dune" {>= "3.15" & >= "3.14"}
   "ocaml" {>= "5.0"}
@@ -39,4 +39,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/chris-armstrong/aws-smsdk.git"
+dev-repo: "git+https://github.com/chris-armstrong/smaws.git"

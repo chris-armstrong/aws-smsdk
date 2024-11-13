@@ -1,44 +1,44 @@
 (library
- (name Aws_SmSdk_Clients)
- (public_name aws-smsdk-clients)
- (modules Aws_SmSdk_Clients)
- (libraries aws-smsdk-lib 
-    Aws_SmSdk_Client_ACM
-    Aws_SmSdk_Client_AppRunner
-    Aws_SmSdk_Client_BackupGateway
-    Aws_SmSdk_Client_CloudTrail
-    Aws_SmSdk_Client_CodeConnections
-    Aws_SmSdk_Client_CognitoIdentity
-    Aws_SmSdk_Client_ConfigService
-    Aws_SmSdk_Client_DAX
-    Aws_SmSdk_Client_DirectoryService
-    Aws_SmSdk_Client_DynamoDB
-    Aws_SmSdk_Client_DynamoDBStreams
-    Aws_SmSdk_Client_EventBridge
-    Aws_SmSdk_Client_FMS
-    Aws_SmSdk_Client_Kendra
-    Aws_SmSdk_Client_Keyspaces
-    Aws_SmSdk_Client_KinesisAnalytics
-    Aws_SmSdk_Client_KinesisAnalyticsV2
-    Aws_SmSdk_Client_Kinesis
-    Aws_SmSdk_Client_KMS
-    Aws_SmSdk_Client_Lightsail
-    Aws_SmSdk_Client_MarketplaceAgreement
-    Aws_SmSdk_Client_MigrationHub
-    Aws_SmSdk_Client_OpenSearchServerless
-    Aws_SmSdk_Client_PI
-    Aws_SmSdk_Client_Proton
-    Aws_SmSdk_Client_ResourceGroupsTaggingAPI
-    Aws_SmSdk_Client_Route53RecoveryCluster
-    Aws_SmSdk_Client_ServiceDiscovery
-    Aws_SmSdk_Client_SFN
-    Aws_SmSdk_Client_Shield
-    Aws_SmSdk_Client_Snowball
-    Aws_SmSdk_Client_SQS
-    Aws_SmSdk_Client_SSM
-    Aws_SmSdk_Client_SWF
-    Aws_SmSdk_Client_Transcribe
-    Aws_SmSdk_Client_WAF
-    Aws_SmSdk_Client_WAFV2
-    Aws_SmSdk_Client_WorkMail  
+ (name Smaws_Clients)
+ (public_name smaws-clients)
+ (modules Smaws_Clients)
+ (libraries smaws-lib 
+    Smaws_Client_ACM
+    Smaws_Client_AppRunner
+    Smaws_Client_BackupGateway
+    Smaws_Client_CloudTrail
+    Smaws_Client_CodeConnections
+    Smaws_Client_CognitoIdentity
+    Smaws_Client_ConfigService
+    Smaws_Client_DAX
+    Smaws_Client_DirectoryService
+    Smaws_Client_DynamoDB
+    Smaws_Client_DynamoDBStreams
+    Smaws_Client_EventBridge
+    Smaws_Client_FMS
+    Smaws_Client_Kendra
+    Smaws_Client_Keyspaces
+    Smaws_Client_KinesisAnalytics
+    Smaws_Client_KinesisAnalyticsV2
+    Smaws_Client_Kinesis
+    Smaws_Client_KMS
+    Smaws_Client_Lightsail
+    Smaws_Client_MarketplaceAgreement
+    Smaws_Client_MigrationHub
+    Smaws_Client_OpenSearchServerless
+    Smaws_Client_PI
+    Smaws_Client_Proton
+    Smaws_Client_ResourceGroupsTaggingAPI
+    Smaws_Client_Route53RecoveryCluster
+    Smaws_Client_ServiceDiscovery
+    Smaws_Client_SFN
+    Smaws_Client_Shield
+    Smaws_Client_Snowball
+    Smaws_Client_SQS
+    Smaws_Client_SSM
+    Smaws_Client_SWF
+    Smaws_Client_Transcribe
+    Smaws_Client_WAF
+    Smaws_Client_WAFV2
+    Smaws_Client_WorkMail  
   ))

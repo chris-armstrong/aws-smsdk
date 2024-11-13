@@ -1,7 +1,7 @@
 module SHA256 = Digestif.SHA256
 
 module Log =
-  (val Logs.src_log (Logs.Src.create "Aws_SmSdk_Lib.Sign" ~doc:"AWS Signing Algorithm") : Logs.LOG)
+  (val Logs.src_log (Logs.Src.create "Smaws_Lib.Sign" ~doc:"AWS Signing Algorithm") : Logs.LOG)
 
 let sign_request_v4 ~(config : Config.t) ~(service : Service.descriptor) ~(uri : Uri.t)
     ~(method_ : Http.method_) ~(headers : (string * string) list) ~(body : string) =

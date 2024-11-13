@@ -2,4 +2,4 @@
  (names parselib_tests aws_smsdk_lib_tests)
  (preprocess
   (pps ppx_deriving.show ppx_deriving.eq))
- (libraries alcotest aws-smsdk-lib Parselib))
+ (libraries alcotest smaws-lib Parselib))

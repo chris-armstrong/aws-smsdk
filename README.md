@@ -14,13 +14,13 @@ The code in this repository is not currently available through opam.
 
 However, you can use it by pinning the opam repository:
 
-`opam pin https://github.com/chris-armstrong/aws-smsdk.git`
+`opam pin https://github.com/chris-armstrong/smaws.git`
 
 You will also need to pin some of its dependencies too:
 
 * [eio-ssl](https://github.com/anmonteiro/eio-ssl.git)
 
-(you should be asked to pin `eio-ssl` when you pin `aws-smsdk`)
+(you should be asked to pin `eio-ssl` when you pin `smaws`)
 
 ## Usage
 
@@ -29,17 +29,17 @@ You will also need to pin some of its dependencies too:
 * The SDKs provided by this package use eio for async communication.
 If you're using lwt or async or riot or miou, you may need a bridge
 library to plug into.
-* SDK Clients are stored in the `aws-smsdk-clients` package
-* You import the client you want from `Aws_SmSdk_Clients.<ClientName>` e.g. `Aws_SmSdk_Clients.DynamoDB`
+* SDK Clients are stored in the `smaws-clients` package
+* You import the client you want from `Smaws_Clients.<ClientName>` e.g. `Smaws_Clients.DynamoDB`
 => `aws-smssdk-dynamodb`.
 * SDKs are not generated for every service - check the `/sdks` directory
 for supported services.
 
 ### Installing the clients
 
-`opam pin https://github.com/chris-armstrong/aws-smsdk`
+`opam pin https://github.com/chris-armstrong/smaws`
 
-`opam install aws-smsdk-clients`
+`opam install smaws-clients`
 
 ## Developing
 

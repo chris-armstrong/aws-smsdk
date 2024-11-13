@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_MigrationHub.ml
-  Aws_SmSdk_Client_MigrationHub.mli)
+  Smaws_Client_MigrationHub.ml
+  Smaws_Client_MigrationHub.mli)
  (action
   (run
    %{gen}
@@ -29,13 +29,13 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_MigrationHub)
- (public_name aws-smsdk-clients.migration-hub)
+ (name Smaws_Client_MigrationHub)
+ (public_name smaws-clients.migration-hub)
  (modules
-  Aws_SmSdk_Client_MigrationHub
+  Smaws_Client_MigrationHub
   types
   serializers
   deserializers
   operations
   builders)
- (libraries aws-smsdk-lib))
+ (libraries smaws-lib))

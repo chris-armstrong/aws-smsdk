@@ -1,4 +1,4 @@
-open Aws_SmSdk_Lib
+open Smaws_Lib
 open Http_mock
 
 let service =

@@ -1,4 +1,4 @@
-let sdkLib = "Aws_SmSdk_Lib"
+let sdkLib = "Smaws_Lib"
 let service = sdkLib ^ ".Service"
 let context = sdkLib ^ ".Context"
 let errors = sdkLib ^ ".Errors"

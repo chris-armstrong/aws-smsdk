@@ -1,4 +1,4 @@
-open Aws_SmSdk_Lib
+open Smaws_Lib
 
 module type HttpMock_intf = sig
   open Http
@@ -19,7 +19,7 @@ end
 let create_http_mock () =
   let module HttpMock = struct
     type t = unit
-    type input_body = Aws_SmSdk_Lib.Http.input_body
+    type input_body = Smaws_Lib.Http.input_body
 
     let make () = ()
 

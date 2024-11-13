@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_FMS.ml
-  Aws_SmSdk_Client_FMS.mli)
+  Smaws_Client_FMS.ml
+  Smaws_Client_FMS.mli)
  (action
   (run
    %{gen}
@@ -29,13 +29,13 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_FMS)
- (public_name aws-smsdk-clients.fms)
+ (name Smaws_Client_FMS)
+ (public_name smaws-clients.fms)
  (modules
-  Aws_SmSdk_Client_FMS
+  Smaws_Client_FMS
   types
   serializers
   deserializers
   operations
   builders)
- (libraries aws-smsdk-lib))
+ (libraries smaws-lib))
