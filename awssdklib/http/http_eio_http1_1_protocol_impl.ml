@@ -38,7 +38,9 @@ let make_http_1_1_client ~sw ~scheme ssl_socket =
         | `String body -> Some body
         | `Form assoc_list -> Some (Uri.encoded_of_query assoc_list)
       in
+      let path = match path with "" -> "/" | _ -> path in
       let body_length = body_string |> Option.value ~default:"" |> String.length |> Int.to_string in
+      Logs.debug (fun m -> m "URI: %s %s" (Httpun.Method.to_string method_) path);
       Logs.debug (fun m ->
           m "Writing body [%s]: %s@." body_length (Option.value ~default:"" body_string));
       let headers =

@@ -1,5 +1,7 @@
 type t = { access_key_id : string; secret_access_key : string; session_token : string option }
 
+module Log = (val Logs.src_log (Logs.Src.create "Aws_SmSdk_Lib.Auth" ~doc:"AWS Auth") : Logs.LOG)
+
 exception AuthError of string
 
 type resolver = unit -> t
@@ -78,6 +80,7 @@ let fromProfile env ?profile_name () =
           | Some profile_name -> profile_name
           | None -> "default")
     in
+    Logs.debug (fun s -> s "fromProfile: using profile %s" profile_name);
     let credentials_file = load_credentials_profiles env in
     let config_file = load_config_profiles env in
 
@@ -88,6 +91,10 @@ let fromProfile env ?profile_name () =
       | _, Ok credentials_file -> credentials_file
       | Error e, _ -> raise e
     in
+
+    Logs.debug (fun s ->
+        let profile_names = List.map (fun (x, _) -> x) profiles in
+        s "fromProfile: Loaded profiles %a" (Fmt.list ~sep:Fmt.comma Fmt.string) profile_names);
 
     let { aws_access_key_id; aws_secret_access_key; aws_session_token; _ } =
       read_profile profile_name profiles
