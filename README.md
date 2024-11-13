@@ -1,4 +1,4 @@
-# AWS SMSDK
+# smaws
 
 This is an experimental project to generate OCaml bindings for the AWS SDK using
 Smithy definitions.
