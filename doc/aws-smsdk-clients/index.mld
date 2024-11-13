@@ -1,6 +1,6 @@
 {0 aws-smsdk-clients}
 
-[aws-smsdk-clients] generates Amazon Web Services (AWS) service SDKs for OCaml from {{: https://smithy.io/2.0/index.html }Smithy} definitions.
+[aws-smsdk-clients] is composed of generated Amazon Web Services (AWS) service SDKs for OCaml from {{: https://smithy.io/2.0/index.html }Smithy} definitions.
 
 The underlying SDKs use {{:https://github.com/ocaml-multicore/eio} EIO} for its concurrency model, taking advantage of the OCaml 5.0 Effects support, that enables a cleaner and simpler concurrency syntax without monadic support (like {{: https://github.com/ocsigen/lwt} lwt}).
 
@@ -26,7 +26,7 @@ Use {{:https://opam.ocaml.org/doc/Usage.html} opam} to install {i aws-smsdk-clie
 
 {b Types} for all operations and their components are found directly under the service module.
 
-{b Builder functions}, in the form of `make_<type_name>`, aso exist directly in the service module. They're particularly helpful with larger types that have a lot of optional fields.
+{b Builder functions}, in the form of `make_<type_name>`, also exist directly in the service module. They're particularly helpful with larger types that have a lot of optional fields.
 
 {b Service Operations} exist in a submodule of a Service SDK e.g. {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html}SQS} {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ListQueues.html}ListQueues} is in the {!module:Aws_SmSdk_Clients.SQS.ListQueues} module. (You can find all the operations available for a particular service on the Actions page of the corresponding API Reference section of the {{:https://docs.aws.amazon.com/}AWS documentation} for that service).
 
@@ -35,10 +35,10 @@ Use {{:https://opam.ocaml.org/doc/Usage.html} opam} to install {i aws-smsdk-clie
 
 Calling a service operation consists of:
 
-* Creating a configuration object with your authorisation and region details
-* Initialising a context from your eio switch
-* Constructing a request object
-* Invoking the service operation function
++ Creating a configuration object with your authorisation and region details
++ Initialising a context from your eio switch
++ Constructing a request object
++ Invoking the service operation function
 
 {2 Limitations}
 
