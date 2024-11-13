@@ -55,8 +55,8 @@ module Make (Http_module : Http.Client_intf) = struct
       { message; _type }
 
     let default_handler (tree : Json.DeserializeHelpers.t) (path : string list)
-        (_type : string * string) : [> t ] =
-      `AWSServiceError (default_deserializer tree path _type)
+        ((namespace, name) : string * string) : [> t ] =
+      `AWSServiceError (default_deserializer tree path { namespace; name })
   end
 
   type error =
