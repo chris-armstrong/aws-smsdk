@@ -130,12 +130,12 @@ let _ =
                     output_fmt)
           | ModuleCommand ->
               let module_name = sdkId |> String.capitalize in
-              write_output (Fmt.str "Aws_SmSdk_Client_%s.ml" module_name) (fun output_fmt ->
+              write_output (Fmt.str "Smaws_Client_%s.ml" module_name) (fun output_fmt ->
                   Fmt.pf output_fmt "include Types@\n";
                   Fmt.pf output_fmt "include Builders@\n";
                   Fmt.pf output_fmt "include Operations@\n");
-              write_output (Fmt.str "Aws_SmSdk_Client_%s.mli" module_name) (fun output_fmt ->
-                  Fmt.pf output_fmt "open Aws_SmSdk_Lib@\n";
+              write_output (Fmt.str "Smaws_Client_%s.mli" module_name) (fun output_fmt ->
+                  Fmt.pf output_fmt "open Smaws_Lib@\n";
                   Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~alias_context ~no_open:true output_fmt;
                   Gen_builders.generate_mli ~name ~service ~operation_shapes ~structure_shapes

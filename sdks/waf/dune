@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_WAF.ml
-  Aws_SmSdk_Client_WAF.mli)
+  Smaws_Client_WAF.ml
+  Smaws_Client_WAF.mli)
  (action
   (run
    %{gen}
@@ -29,13 +29,13 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_WAF)
- (public_name aws-smsdk-clients.waf)
+ (name Smaws_Client_WAF)
+ (public_name smaws-clients.waf)
  (modules
-  Aws_SmSdk_Client_WAF
+  Smaws_Client_WAF
   types
   serializers
   deserializers
   operations
   builders)
- (libraries aws-smsdk-lib))
+ (libraries smaws-lib))

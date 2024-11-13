@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_ConfigService.ml
-  Aws_SmSdk_Client_ConfigService.mli)
+  Smaws_Client_ConfigService.ml
+  Smaws_Client_ConfigService.mli)
  (action
   (run
    %{gen}
@@ -29,13 +29,13 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_ConfigService)
- (public_name aws-smsdk-clients.config-service)
+ (name Smaws_Client_ConfigService)
+ (public_name smaws-clients.config-service)
  (modules
-  Aws_SmSdk_Client_ConfigService
+  Smaws_Client_ConfigService
   types
   serializers
   deserializers
   operations
   builders)
- (libraries aws-smsdk-lib))
+ (libraries smaws-lib))

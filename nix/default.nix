@@ -1,8 +1,8 @@
 { nix-filter, lib, stdenv, ocamlPackages, doCheck ? true }:
 
 rec {
-  aws-smsdk-gen = ocamlPackages.buildDunePackage {
-    pname = "aws-smsdk-gen";
+  smaws-gen = ocamlPackages.buildDunePackage {
+    pname = "smaws-gen";
     version = "0.1.0";
     src = with nix-filter; filter {
       root = ./..;
@@ -32,8 +32,8 @@ rec {
     ];
   };
 
-  aws-smsdk-lib = ocamlPackages.buildDunePackage {
-    pname = "aws-smsdk-lib";
+  smaws-lib = ocamlPackages.buildDunePackage {
+    pname = "smaws-lib";
     version = "0.1.0";
     src = with nix-filter; filter {
       root = ./..;
@@ -62,8 +62,8 @@ rec {
     inherit doCheck;
   };
 
-  aws-smsdk-client-sqs = ocamlPackages.buildDunePackage {
-    pname = "aws-smsdk-client-sqs";
+  smaws-client-sqs = ocamlPackages.buildDunePackage {
+    pname = "smaws-client-sqs";
     version = "0.1.0";
     src = with nix-filter; filter {
       root = ./..;
@@ -75,13 +75,13 @@ rec {
     };
     propagatedBuildInputs = with ocamlPackages; [
       dune_3
-      aws-smsdk-lib
+      smaws-lib
     ];
     inherit doCheck;
   };
 
-  aws-smsdk-client-dynamodb = ocamlPackages.buildDunePackage {
-    pname = "aws-smsdk-client-dynamodb";
+  smaws-client-dynamodb = ocamlPackages.buildDunePackage {
+    pname = "smaws-client-dynamodb";
     version = "0.1.0";
     src = with nix-filter; filter {
       root = ./..;
@@ -93,7 +93,7 @@ rec {
     };
     propagatedBuildInputs = with ocamlPackages; [
       dune_3
-      aws-smsdk-lib
+      smaws-lib
     ];
     inherit doCheck;
   };

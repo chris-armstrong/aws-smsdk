@@ -1,2 +1,2 @@
 (documentation
- (package aws-smsdk-clients))
+ (package smaws-clients))

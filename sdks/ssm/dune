@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_SSM.ml
-  Aws_SmSdk_Client_SSM.mli)
+  Smaws_Client_SSM.ml
+  Smaws_Client_SSM.mli)
  (action
   (run
    %{gen}
@@ -29,13 +29,13 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_SSM)
- (public_name aws-smsdk-clients.ssm)
+ (name Smaws_Client_SSM)
+ (public_name smaws-clients.ssm)
  (modules
-  Aws_SmSdk_Client_SSM
+  Smaws_Client_SSM
   types
   serializers
   deserializers
   operations
   builders)
- (libraries aws-smsdk-lib))
+ (libraries smaws-lib))

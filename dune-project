@@ -1,20 +1,20 @@
 (lang dune 3.15)
 
-(name aws-smsdk)
+(name smaws)
 
 (generate_opam_files true)
 
 (package
- (name aws-smsdk-gen)
+ (name smaws-gen)
  (allow_empty)
  (synopsis "Generate AWS API bindings")
  (description "Generate API bindings for AWS")
  (authors "Chris Armstrong")
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
- (homepage https://github.com/chris-armstrong/aws-smsdk)
- (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
+ (homepage https://github.com/chris-armstrong/smaws)
+ (bug_reports https://github.com/chris-armstrong/smaws/issues)
  (source
-  (github chris-armstrong/aws-smsdk))
+  (github chris-armstrong/smaws))
  (license MIT)
  (depends
   (dune
@@ -39,17 +39,17 @@
   (odoc :with-doc)))
 
 (package
- (name aws-smsdk-lib)
+ (name smaws-lib)
  (allow_empty)
  (synopsis "Support library for AWS SDKs generated from Smithy definitions")
  (description
   "Support library for AWS SDKs generated from Smithy definitions")
  (authors "Chris Armstrong")
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
- (homepage https://github.com/chris-armstrong/aws-smsdk)
- (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
+ (homepage https://github.com/chris-armstrong/smaws)
+ (bug_reports https://github.com/chris-armstrong/smaws/issues)
  (source
-  (github chris-armstrong/aws-smsdk))
+  (github chris-armstrong/smaws))
  (license MIT)
  (depends
   (dune
@@ -74,23 +74,23 @@
   (odoc :with-doc)))
 
 (package
- (name aws-smsdk-clients)
+ (name smaws-clients)
  (allow_empty)
  (synopsis "Amazon Web Services SDK clients using EIO")
  (description "This is a generated set of AWS SDK clients. It uses EIO for asynchronous requests.")
  (authors "Chris Armstrong")
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
- (homepage https://github.com/chris-armstrong/aws-smsdk)
- (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
+ (homepage https://github.com/chris-armstrong/smaws)
+ (bug_reports https://github.com/chris-armstrong/smaws/issues)
  (source
-  (github chris-armstrong/aws-smsdk))
+  (github chris-armstrong/smaws))
  (license MIT)
  (depends
   (dune
    (>= "3.14"))
   (ocaml
    (>= "5.0"))
-  aws-smsdk-lib
+  smaws-lib
   (odoc :with-doc)))
 
 

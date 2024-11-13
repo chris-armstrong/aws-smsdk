@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_DynamoDBStreams.ml
-  Aws_SmSdk_Client_DynamoDBStreams.mli)
+  Smaws_Client_DynamoDBStreams.ml
+  Smaws_Client_DynamoDBStreams.mli)
  (action
   (run
    %{gen}
@@ -29,13 +29,13 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_DynamoDBStreams)
- (public_name aws-smsdk-clients.dynamodb-streams)
+ (name Smaws_Client_DynamoDBStreams)
+ (public_name smaws-clients.dynamodb-streams)
  (modules
-  Aws_SmSdk_Client_DynamoDBStreams
+  Smaws_Client_DynamoDBStreams
   types
   serializers
   deserializers
   operations
   builders)
- (libraries aws-smsdk-lib))
+ (libraries smaws-lib))

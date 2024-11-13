@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_DirectoryService.ml
-  Aws_SmSdk_Client_DirectoryService.mli)
+  Smaws_Client_DirectoryService.ml
+  Smaws_Client_DirectoryService.mli)
  (action
   (run
    %{gen}
@@ -29,13 +29,13 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_DirectoryService)
- (public_name aws-smsdk-clients.directory-service)
+ (name Smaws_Client_DirectoryService)
+ (public_name smaws-clients.directory-service)
  (modules
-  Aws_SmSdk_Client_DirectoryService
+  Smaws_Client_DirectoryService
   types
   serializers
   deserializers
   operations
   builders)
- (libraries aws-smsdk-lib))
+ (libraries smaws-lib))

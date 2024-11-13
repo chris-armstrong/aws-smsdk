@@ -1,8 +1,8 @@
-{0 aws-smsdk-lib}
+{0 smaws-lib}
 
-[aws-smsdk-lib] is a support library for [aws-smsdk-clients], which provides AWS SDKs for OCaml.
+[smaws-lib] is a support library for [smaws-clients], which provides AWS SDKs for OCaml.
 
-This library is not meant to be used independently - please see [aws-smsdk-clients] for SDK installation and usage documentation.
+This library is not meant to be used independently - please see [smaws-clients] for SDK installation and usage documentation.
 
 {1 Library details}
 
@@ -13,31 +13,31 @@ This provides the support functions needed by the generated service SDKs, includ
 - AwsSigV4 Signing
 - Configuration and Context support
 
-You may need to use some parts directly, like the {!module-Aws_SmSdk_Lib.Config} or {!module-Aws_SmSdk_Lib.Context} objects used to establish a connection.
+You may need to use some parts directly, like the {!module-Smaws_Lib.Config} or {!module-Smaws_Lib.Context} objects used to establish a connection.
 
 {1 Reference}
 
 {2 Configuration and Context}
 
 {!modules:
-Aws_SmSdk_Lib.Config
-Aws_SmSdk_Lib.Context
+Smaws_Lib.Config
+Smaws_Lib.Context
 }
 
 {2 Internal SDK Services}
 
 {!modules:
-Aws_SmSdk_Lib.Auth
-Aws_SmSdk_Lib.Http
-Aws_SmSdk_Lib.Protocols
-Aws_SmSdk_Lib.Sign
+Smaws_Lib.Auth
+Smaws_Lib.Http
+Smaws_Lib.Protocols
+Smaws_Lib.Sign
 }
 
 {2 Utilities and Parsers}
 
 {!modules:
-Aws_SmSdk_Lib.Ini
-Aws_SmSdk_Lib.Json
+Smaws_Lib.Ini
+Smaws_Lib.Json
 }
 
 

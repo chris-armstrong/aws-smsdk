@@ -1,6 +1,6 @@
-{0 aws-smsdk-clients}
+{0 smaws-clients}
 
-[aws-smsdk-clients] is composed of generated Amazon Web Services (AWS) service SDKs for OCaml from {{: https://smithy.io/2.0/index.html }Smithy} definitions.
+[smaws-clients] is composed of generated Amazon Web Services (AWS) service SDKs for OCaml from {{: https://smithy.io/2.0/index.html }Smithy} definitions.
 
 The underlying SDKs use {{:https://github.com/ocaml-multicore/eio} EIO} for its concurrency model, taking advantage of the OCaml 5.0 Effects support, that enables a cleaner and simpler concurrency syntax without monadic support (like {{: https://github.com/ocsigen/lwt} lwt}).
 
@@ -12,23 +12,23 @@ It should be treated as a preview, as it lacks a number of important features th
 
 {1 Installation}
 
-Use {{:https://opam.ocaml.org/doc/Usage.html} opam} to install {i aws-smsdk-clients}:
+Use {{:https://opam.ocaml.org/doc/Usage.html} opam} to install {i smaws-clients}:
 
 {@sh[
-  opam install aws-smsdk-clients
+  opam install smaws-clients
 ]}
 
 {1 Library Organisation}
 
-[aws-smsdk-clients] exposes all of the service SDKs. It works with [aws-smsdk-lib] for authentication and protocol implementations.
+[smaws-clients] exposes all of the service SDKs. It works with [smaws-lib] for authentication and protocol implementations.
 
-{b Service SDKs} are organised under its own module with the naming convention [Aws_SmSdk_Clients.*] e.g. [Aws_SmSdk_Clients.DynamoDB]. 
+{b Service SDKs} are organised under its own module with the naming convention [Smaws_Clients.*] e.g. [Smaws_Clients.DynamoDB]. 
 
 {b Types} for all operations and their components are found directly under the service module.
 
 {b Builder functions}, in the form of `make_<type_name>`, also exist directly in the service module. They're particularly helpful with larger types that have a lot of optional fields.
 
-{b Service Operations} exist in a submodule of a Service SDK e.g. {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html}SQS} {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ListQueues.html}ListQueues} is in the {!module:Aws_SmSdk_Clients.SQS.ListQueues} module. (You can find all the operations available for a particular service on the Actions page of the corresponding API Reference section of the {{:https://docs.aws.amazon.com/}AWS documentation} for that service).
+{b Service Operations} exist in a submodule of a Service SDK e.g. {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html}SQS} {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ListQueues.html}ListQueues} is in the {!module:Smaws_Clients.SQS.ListQueues} module. (You can find all the operations available for a particular service on the Actions page of the corresponding API Reference section of the {{:https://docs.aws.amazon.com/}AWS documentation} for that service).
 
 
 {1 Usage}
@@ -53,7 +53,7 @@ Calling a service operation consists of:
 A {i configuration} object is used by the context todetermine authorization and other environment settings (such as the region to use).
 
 {@ocaml[
-open Aws_SmSdk_Lib
+open Smaws_Lib
 
 (* Initialise with defaults from environment *)
 let config = Config.defaultConfig ()
@@ -76,7 +76,7 @@ The HTTP client bound to the context creates a shared connection pool for each s
 You can share the context object between services or create separate ones (as required).
 
 {@ocaml[
-open Aws_SmSdk_Lib
+open Smaws_Lib
 
 let _ 
   Eio_main.run (fun env ->
@@ -90,11 +90,11 @@ let _
 
 {2 Opening and using service modules}
 
-Service modules each have their own module under {!module:Aws_SmSdk_Clients}. We recommend using local opens because each service module contains numerous types, associated builder functions and operations, which may clutter your namespace.
+Service modules each have their own module under {!module:Smaws_Clients}. We recommend using local opens because each service module contains numerous types, associated builder functions and operations, which may clutter your namespace.
 
 {@ocaml[
 let read_table_entries =
-  let open Aws_SmSdk_Clients.DynamoDB in
+  let open Smaws_Clients.DynamoDB in
   ...
 ]}
 
@@ -102,7 +102,7 @@ An operation request is constructed with the corresponding [make_<operation>_<na
 
 {@ocaml[
 let read_table_entries context =
-  let open Aws_SmSdk_Clients.DynamoDB in
+  let open Smaws_Clients.DynamoDB in
   let request = make_list_tables_request ~table_name:"orders" () in
   ...
 ]}
@@ -178,7 +178,7 @@ They can be patterned matched, e.g.
 
 As can be seen in the above example, some operations list out quite a number of error conditions (most of which are not relevant). In other cases, some errors will be missing from the operation specification: Smithy definitions are often incomplete or contain errors or inconsistencies between services. 
 
-If an operation returns an error not specified in its definition, it will be wrapped up as an {{!type:Aws_SmSdk_Lib.Protocols.aws_service_error}`AWSServiceError} type. You can match these by their name (and/or namespace) as a string:
+If an operation returns an error not specified in its definition, it will be wrapped up as an {{!type:Smaws_Lib.Protocols.aws_service_error}`AWSServiceError} type. You can match these by their name (and/or namespace) as a string:
 
 {@ocaml[
 
@@ -189,7 +189,7 @@ If an operation returns an error not specified in its definition, it will be wra
 
 {3 HTTP Errors}
 
-All HTTP errors are packaged as {{!type:Aws_SmSdk_Lib.Protocols.http_error}`HttpError}, which can be processed if you need to implement retries (there is no builtin retry support).
+All HTTP errors are packaged as {{!type:Smaws_Lib.Protocols.http_error}`HttpError}, which can be processed if you need to implement retries (there is no builtin retry support).
 
 {1 SDK Reference}
 
@@ -198,42 +198,42 @@ All service SDKs that are built are listed below.
 {i Please note inline documentation from the Smithy definitions is not available at this time.}
 
 {!modules: 
-Aws_SmSdk_Clients.ACM
-Aws_SmSdk_Clients.AppRunner
-Aws_SmSdk_Clients.BackupGateway
-Aws_SmSdk_Clients.CloudTrail
-Aws_SmSdk_Clients.CodeConnections
-Aws_SmSdk_Clients.CognitoIdentity
-Aws_SmSdk_Clients.ConfigService
-Aws_SmSdk_Clients.DAX
-Aws_SmSdk_Clients.DirectoryService
-Aws_SmSdk_Clients.DynamoDB
-Aws_SmSdk_Clients.DynamoDBStreams
-Aws_SmSdk_Clients.EventBridge
-Aws_SmSdk_Clients.FMS
-Aws_SmSdk_Clients.Kendra
-Aws_SmSdk_Clients.Keyspaces
-Aws_SmSdk_Clients.Kinesis
-Aws_SmSdk_Clients.KinesisAnalytics
-Aws_SmSdk_Clients.KinesisAnalyticsV2
-Aws_SmSdk_Clients.KMS
-Aws_SmSdk_Clients.Lightsail
-Aws_SmSdk_Clients.MarketplaceAgreement
-Aws_SmSdk_Clients.MigrationHub
-Aws_SmSdk_Clients.OpenSearchServerless
-Aws_SmSdk_Clients.PI
-Aws_SmSdk_Clients.Proton
-Aws_SmSdk_Clients.ResourceGroupsTaggingAPI
-Aws_SmSdk_Clients.Route53RecoveryCluster
-Aws_SmSdk_Clients.ServiceDiscovery
-Aws_SmSdk_Clients.SFN
-Aws_SmSdk_Clients.Shield
-Aws_SmSdk_Clients.Snowball
-Aws_SmSdk_Clients.SQS
-Aws_SmSdk_Clients.SSM
-Aws_SmSdk_Clients.SWF
-Aws_SmSdk_Clients.Transcribe
-Aws_SmSdk_Clients.WAF
-Aws_SmSdk_Clients.WAFV2
-Aws_SmSdk_Clients.WorkMail
+Smaws_Clients.ACM
+Smaws_Clients.AppRunner
+Smaws_Clients.BackupGateway
+Smaws_Clients.CloudTrail
+Smaws_Clients.CodeConnections
+Smaws_Clients.CognitoIdentity
+Smaws_Clients.ConfigService
+Smaws_Clients.DAX
+Smaws_Clients.DirectoryService
+Smaws_Clients.DynamoDB
+Smaws_Clients.DynamoDBStreams
+Smaws_Clients.EventBridge
+Smaws_Clients.FMS
+Smaws_Clients.Kendra
+Smaws_Clients.Keyspaces
+Smaws_Clients.Kinesis
+Smaws_Clients.KinesisAnalytics
+Smaws_Clients.KinesisAnalyticsV2
+Smaws_Clients.KMS
+Smaws_Clients.Lightsail
+Smaws_Clients.MarketplaceAgreement
+Smaws_Clients.MigrationHub
+Smaws_Clients.OpenSearchServerless
+Smaws_Clients.PI
+Smaws_Clients.Proton
+Smaws_Clients.ResourceGroupsTaggingAPI
+Smaws_Clients.Route53RecoveryCluster
+Smaws_Clients.ServiceDiscovery
+Smaws_Clients.SFN
+Smaws_Clients.Shield
+Smaws_Clients.Snowball
+Smaws_Clients.SQS
+Smaws_Clients.SSM
+Smaws_Clients.SWF
+Smaws_Clients.Transcribe
+Smaws_Clients.WAF
+Smaws_Clients.WAFV2
+Smaws_Clients.WorkMail
 }

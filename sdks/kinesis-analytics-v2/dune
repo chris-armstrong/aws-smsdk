@@ -11,8 +11,8 @@
   types.mli
   operations.ml
   operations.mli
-  Aws_SmSdk_Client_KinesisAnalyticsV2.ml
-  Aws_SmSdk_Client_KinesisAnalyticsV2.mli)
+  Smaws_Client_KinesisAnalyticsV2.ml
+  Smaws_Client_KinesisAnalyticsV2.mli)
  (action
   (run
    %{gen}
@@ -29,13 +29,13 @@
    module)))
 
 (library
- (name Aws_SmSdk_Client_KinesisAnalyticsV2)
- (public_name aws-smsdk-clients.kinesis-analytics-v2)
+ (name Smaws_Client_KinesisAnalyticsV2)
+ (public_name smaws-clients.kinesis-analytics-v2)
  (modules
-  Aws_SmSdk_Client_KinesisAnalyticsV2
+  Smaws_Client_KinesisAnalyticsV2
   types
   serializers
   deserializers
   operations
   builders)
- (libraries aws-smsdk-lib))
+ (libraries smaws-lib))

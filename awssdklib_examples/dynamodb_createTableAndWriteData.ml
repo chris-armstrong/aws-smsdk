@@ -6,7 +6,7 @@ let optional_empty_list = Option.value ~default:[]
 let _ =
   Eio_main.run (fun env ->
       Eio.Switch.run (fun sw ->
-          let open Aws_SmSdk_Lib in
+          let open Smaws_Lib in
           let config =
             Config.
               {
@@ -18,7 +18,7 @@ let _ =
           let ( let+ ) res map = Result.bind res map in
 
           match
-            let open Aws_SmSdk_Clients.DynamoDB in
+            let open Smaws_Clients.DynamoDB in
             let table = "create-table-test" in
             let+ { table_names; _ } = ListTables.request context (make_list_tables_input ()) in
             Logs.info (fun m ->
@@ -63,9 +63,9 @@ let _ =
           | Ok _ -> ()
           | Error (`AWSServiceError e) when e._type.name = "SomeError" -> ()
           | Error (`HttpError e) ->
-              Logs.err (fun m -> m "HTTP Error %a" Aws_SmSdk_Lib.Http.pp_http_failure e)
+              Logs.err (fun m -> m "HTTP Error %a" Smaws_Lib.Http.pp_http_failure e)
           | Error (`JsonParseError e) ->
               Logs.err (fun m ->
                   m "Parse Error! %s"
-                    (Aws_SmSdk_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
+                    (Smaws_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
           | Error _ -> Logs.err (fun m -> m "Another error")))
