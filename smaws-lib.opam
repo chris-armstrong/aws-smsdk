@@ -23,6 +23,7 @@ depends: [
   "eio_main"
   "stdio"
   "ppx_deriving"
+  "alcotest" {with-test}
   "eio_main" {with-dev}
   "odoc" {with-doc}
 ]

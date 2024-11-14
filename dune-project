@@ -71,6 +71,7 @@
   eio_main
   stdio
   ppx_deriving
+  (alcotest :with-test)
   (eio_main :with-dev)
   (odoc :with-doc)))
 
@@ -92,6 +93,7 @@
   (ocaml
    (>= "5.0"))
   smaws-lib
+  (alcotest :with-test)
   (odoc :with-doc)))
 
 

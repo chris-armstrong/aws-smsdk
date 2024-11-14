@@ -12,6 +12,7 @@ depends: [
   "dune" {>= "3.15" & >= "3.14"}
   "ocaml" {>= "5.0"}
   "smaws-lib"
+  "alcotest" {with-test}
   "odoc" {with-doc}
 ]
 build: [
