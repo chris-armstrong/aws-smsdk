@@ -70,6 +70,7 @@
   httpun-eio
   eio_main
   stdio
+  ppx_deriving
   (eio_main :with-dev)
   (odoc :with-doc)))
 
