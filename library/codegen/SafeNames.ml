@@ -46,6 +46,7 @@ let reservedWords =
       "end";
       "to";
       "from";
+      "effect";
     ]
 
 let uppercaseStartRe = Str.regexp "^\\([A-Z]*\\)\\(.*\\)$"
