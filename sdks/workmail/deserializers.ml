@@ -286,7 +286,7 @@ let update_mobile_device_access_rule_request_of_yojson =
     device_models = option_of_yojson (value_for_key (device_model_list_of_yojson) "DeviceModels") _list path;
     not_device_types = option_of_yojson (value_for_key (device_type_list_of_yojson) "NotDeviceTypes") _list path;
     device_types = option_of_yojson (value_for_key (device_type_list_of_yojson) "DeviceTypes") _list path;
-    effect = value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect" _list path;
+    effect_ = value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect" _list path;
     description = option_of_yojson (value_for_key (mobile_device_access_rule_description_of_yojson) "Description") _list path;
     name = value_for_key (mobile_device_access_rule_name_of_yojson) "Name" _list path;
     mobile_device_access_rule_id = value_for_key (mobile_device_access_rule_id_of_yojson) "MobileDeviceAccessRuleId" _list path;
@@ -373,7 +373,7 @@ let impersonation_rule_of_yojson =
   let _res : impersonation_rule = {
     not_target_users = option_of_yojson (value_for_key (target_users_of_yojson) "NotTargetUsers") _list path;
     target_users = option_of_yojson (value_for_key (target_users_of_yojson) "TargetUsers") _list path;
-    effect = value_for_key (access_effect_of_yojson) "Effect" _list path;
+    effect_ = value_for_key (access_effect_of_yojson) "Effect" _list path;
     description = option_of_yojson (value_for_key (impersonation_rule_description_of_yojson) "Description") _list path;
     name = option_of_yojson (value_for_key (impersonation_rule_name_of_yojson) "Name") _list path;
     impersonation_rule_id = value_for_key (impersonation_rule_id_of_yojson) "ImpersonationRuleId" _list path;
@@ -755,7 +755,7 @@ let put_mobile_device_access_override_request_of_yojson =
   let _list = assoc_of_yojson tree path in
   let _res : put_mobile_device_access_override_request = {
     description = option_of_yojson (value_for_key (mobile_device_access_rule_description_of_yojson) "Description") _list path;
-    effect = value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect" _list path;
+    effect_ = value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect" _list path;
     device_id = value_for_key (device_id_of_yojson) "DeviceId" _list path;
     user_id = value_for_key (entity_identifier_of_yojson) "UserId" _list path;
     organization_id = value_for_key (organization_id_of_yojson) "OrganizationId" _list path;
@@ -874,7 +874,7 @@ let put_access_control_rule_request_of_yojson =
     not_ip_ranges = option_of_yojson (value_for_key (ip_range_list_of_yojson) "NotIpRanges") _list path;
     ip_ranges = option_of_yojson (value_for_key (ip_range_list_of_yojson) "IpRanges") _list path;
     description = value_for_key (access_control_rule_description_of_yojson) "Description" _list path;
-    effect = value_for_key (access_control_rule_effect_of_yojson) "Effect" _list path;
+    effect_ = value_for_key (access_control_rule_effect_of_yojson) "Effect" _list path;
     name = value_for_key (access_control_rule_name_of_yojson) "Name" _list path;
     
   }
@@ -1115,7 +1115,7 @@ let mobile_device_access_rule_of_yojson =
     device_models = option_of_yojson (value_for_key (device_model_list_of_yojson) "DeviceModels") _list path;
     not_device_types = option_of_yojson (value_for_key (device_type_list_of_yojson) "NotDeviceTypes") _list path;
     device_types = option_of_yojson (value_for_key (device_type_list_of_yojson) "DeviceTypes") _list path;
-    effect = option_of_yojson (value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect") _list path;
+    effect_ = option_of_yojson (value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect") _list path;
     description = option_of_yojson (value_for_key (mobile_device_access_rule_description_of_yojson) "Description") _list path;
     name = option_of_yojson (value_for_key (mobile_device_access_rule_name_of_yojson) "Name") _list path;
     mobile_device_access_rule_id = option_of_yojson (value_for_key (mobile_device_access_rule_id_of_yojson) "MobileDeviceAccessRuleId") _list path;
@@ -1151,7 +1151,7 @@ let mobile_device_access_override_of_yojson =
     date_modified = option_of_yojson (value_for_key (timestamp__of_yojson) "DateModified") _list path;
     date_created = option_of_yojson (value_for_key (timestamp__of_yojson) "DateCreated") _list path;
     description = option_of_yojson (value_for_key (mobile_device_access_rule_description_of_yojson) "Description") _list path;
-    effect = option_of_yojson (value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect") _list path;
+    effect_ = option_of_yojson (value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect") _list path;
     device_id = option_of_yojson (value_for_key (device_id_of_yojson) "DeviceId") _list path;
     user_id = option_of_yojson (value_for_key (work_mail_identifier_of_yojson) "UserId") _list path;
     
@@ -1574,7 +1574,7 @@ let access_control_rule_of_yojson =
     not_ip_ranges = option_of_yojson (value_for_key (ip_range_list_of_yojson) "NotIpRanges") _list path;
     ip_ranges = option_of_yojson (value_for_key (ip_range_list_of_yojson) "IpRanges") _list path;
     description = option_of_yojson (value_for_key (access_control_rule_description_of_yojson) "Description") _list path;
-    effect = option_of_yojson (value_for_key (access_control_rule_effect_of_yojson) "Effect") _list path;
+    effect_ = option_of_yojson (value_for_key (access_control_rule_effect_of_yojson) "Effect") _list path;
     name = option_of_yojson (value_for_key (access_control_rule_name_of_yojson) "Name") _list path;
     
   }
@@ -1608,7 +1608,7 @@ let get_mobile_device_access_override_response_of_yojson =
     date_modified = option_of_yojson (value_for_key (timestamp__of_yojson) "DateModified") _list path;
     date_created = option_of_yojson (value_for_key (timestamp__of_yojson) "DateCreated") _list path;
     description = option_of_yojson (value_for_key (mobile_device_access_rule_description_of_yojson) "Description") _list path;
-    effect = option_of_yojson (value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect") _list path;
+    effect_ = option_of_yojson (value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect") _list path;
     device_id = option_of_yojson (value_for_key (device_id_of_yojson) "DeviceId") _list path;
     user_id = option_of_yojson (value_for_key (work_mail_identifier_of_yojson) "UserId") _list path;
     
@@ -1644,7 +1644,7 @@ let get_mobile_device_access_effect_response_of_yojson =
   let _list = assoc_of_yojson tree path in
   let _res : get_mobile_device_access_effect_response = {
     matched_rules = option_of_yojson (value_for_key (mobile_device_access_matched_rule_list_of_yojson) "MatchedRules") _list path;
-    effect = option_of_yojson (value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect") _list path;
+    effect_ = option_of_yojson (value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect") _list path;
     
   }
   in _res
@@ -1747,7 +1747,7 @@ let get_impersonation_role_effect_response_of_yojson =
   let _list = assoc_of_yojson tree path in
   let _res : get_impersonation_role_effect_response = {
     matched_rules = option_of_yojson (value_for_key (impersonation_matched_rule_list_of_yojson) "MatchedRules") _list path;
-    effect = option_of_yojson (value_for_key (access_effect_of_yojson) "Effect") _list path;
+    effect_ = option_of_yojson (value_for_key (access_effect_of_yojson) "Effect") _list path;
     type_ = option_of_yojson (value_for_key (impersonation_role_type_of_yojson) "Type") _list path;
     
   }
@@ -1818,7 +1818,7 @@ let get_access_control_effect_response_of_yojson =
   let _list = assoc_of_yojson tree path in
   let _res : get_access_control_effect_response = {
     matched_rules = option_of_yojson (value_for_key (access_control_rule_name_list_of_yojson) "MatchedRules") _list path;
-    effect = option_of_yojson (value_for_key (access_control_rule_effect_of_yojson) "Effect") _list path;
+    effect_ = option_of_yojson (value_for_key (access_control_rule_effect_of_yojson) "Effect") _list path;
     
   }
   in _res
@@ -2477,7 +2477,7 @@ let create_mobile_device_access_rule_request_of_yojson =
     device_models = option_of_yojson (value_for_key (device_model_list_of_yojson) "DeviceModels") _list path;
     not_device_types = option_of_yojson (value_for_key (device_type_list_of_yojson) "NotDeviceTypes") _list path;
     device_types = option_of_yojson (value_for_key (device_type_list_of_yojson) "DeviceTypes") _list path;
-    effect = value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect" _list path;
+    effect_ = value_for_key (mobile_device_access_rule_effect_of_yojson) "Effect" _list path;
     description = option_of_yojson (value_for_key (mobile_device_access_rule_description_of_yojson) "Description") _list path;
     name = value_for_key (mobile_device_access_rule_name_of_yojson) "Name" _list path;
     client_token = option_of_yojson (value_for_key (idempotency_client_token_of_yojson) "ClientToken") _list path;

@@ -96,7 +96,7 @@ let make_update_mobile_device_access_rule_request
   ?(not_device_types : string list option)
   ?(device_types : string list option)
   ?(description : string option)
-  ~(effect : mobile_device_access_rule_effect)
+  ~(effect_ : mobile_device_access_rule_effect)
   ~(name : string)
   ~(mobile_device_access_rule_id : string)
   ~(organization_id : string)
@@ -109,7 +109,7 @@ let make_update_mobile_device_access_rule_request
   device_models;
   not_device_types;
   device_types;
-  effect;
+  effect_;
   description;
   name;
   mobile_device_access_rule_id;
@@ -132,12 +132,12 @@ let make_impersonation_rule
   ?(target_users : string list option)
   ?(description : string option)
   ?(name : string option)
-  ~(effect : access_effect)
+  ~(effect_ : access_effect)
   ~(impersonation_rule_id : string)
   () : impersonation_rule = {
   not_target_users;
   target_users;
-  effect;
+  effect_;
   description;
   name;
   impersonation_rule_id;
@@ -307,12 +307,12 @@ let make_put_mobile_device_access_override_response  ()
 
 let make_put_mobile_device_access_override_request 
   ?(description : string option)
-  ~(effect : mobile_device_access_rule_effect)
+  ~(effect_ : mobile_device_access_rule_effect)
   ~(device_id : string)
   ~(user_id : string)
   ~(organization_id : string)
   () : put_mobile_device_access_override_request = {
-  description; effect; device_id; user_id; organization_id; 
+  description; effect_; device_id; user_id; organization_id; 
 }
 
 let make_put_mailbox_permissions_response  ()
@@ -364,7 +364,7 @@ let make_put_access_control_rule_request
   ?(ip_ranges : string list option)
   ~(organization_id : string)
   ~(description : string)
-  ~(effect : access_control_rule_effect)
+  ~(effect_ : access_control_rule_effect)
   ~(name : string)
   () : put_access_control_rule_request = {
   not_impersonation_role_ids;
@@ -377,7 +377,7 @@ let make_put_access_control_rule_request
   not_ip_ranges;
   ip_ranges;
   description;
-  effect;
+  effect_;
   name;
    }
 
@@ -512,7 +512,7 @@ let make_mobile_device_access_rule
   ?(device_models : string list option)
   ?(not_device_types : string list option)
   ?(device_types : string list option)
-  ?(effect : mobile_device_access_rule_effect option)
+  ?(effect_ : mobile_device_access_rule_effect option)
   ?(description : string option)
   ?(name : string option)
   ?(mobile_device_access_rule_id : string option)
@@ -527,7 +527,7 @@ let make_mobile_device_access_rule
   device_models;
   not_device_types;
   device_types;
-  effect;
+  effect_;
   description;
   name;
   mobile_device_access_rule_id;
@@ -546,11 +546,11 @@ let make_mobile_device_access_override
   ?(date_modified : float option)
   ?(date_created : float option)
   ?(description : string option)
-  ?(effect : mobile_device_access_rule_effect option)
+  ?(effect_ : mobile_device_access_rule_effect option)
   ?(device_id : string option)
   ?(user_id : string option)
   () : mobile_device_access_override = {
-  date_modified; date_created; description; effect; device_id; user_id; 
+  date_modified; date_created; description; effect_; device_id; user_id; 
 }
 
 let make_list_mobile_device_access_overrides_response 
@@ -804,7 +804,7 @@ let make_access_control_rule
   ?(not_ip_ranges : string list option)
   ?(ip_ranges : string list option)
   ?(description : string option)
-  ?(effect : access_control_rule_effect option)
+  ?(effect_ : access_control_rule_effect option)
   ?(name : string option)
   () : access_control_rule = {
   not_impersonation_role_ids;
@@ -818,7 +818,7 @@ let make_access_control_rule
   not_ip_ranges;
   ip_ranges;
   description;
-  effect;
+  effect_;
   name;
    }
 
@@ -835,11 +835,11 @@ let make_get_mobile_device_access_override_response
   ?(date_modified : float option)
   ?(date_created : float option)
   ?(description : string option)
-  ?(effect : mobile_device_access_rule_effect option)
+  ?(effect_ : mobile_device_access_rule_effect option)
   ?(device_id : string option)
   ?(user_id : string option)
   () : get_mobile_device_access_override_response = {
-  date_modified; date_created; description; effect; device_id; user_id; 
+  date_modified; date_created; description; effect_; device_id; user_id; 
 }
 
 let make_get_mobile_device_access_override_request 
@@ -855,8 +855,8 @@ let make_mobile_device_access_matched_rule
 
 let make_get_mobile_device_access_effect_response 
   ?(matched_rules : mobile_device_access_matched_rule list option)
-  ?(effect : mobile_device_access_rule_effect option)
-  () : get_mobile_device_access_effect_response = { matched_rules; effect; 
+  ?(effect_ : mobile_device_access_rule_effect option)
+  () : get_mobile_device_access_effect_response = { matched_rules; effect_; 
 }
 
 let make_get_mobile_device_access_effect_request 
@@ -916,10 +916,10 @@ let make_impersonation_matched_rule
 
 let make_get_impersonation_role_effect_response 
   ?(matched_rules : impersonation_matched_rule list option)
-  ?(effect : access_effect option)
+  ?(effect_ : access_effect option)
   ?(type_ : impersonation_role_type option)
   () : get_impersonation_role_effect_response = {
-  matched_rules; effect; type_; 
+  matched_rules; effect_; type_; 
 }
 
 let make_get_impersonation_role_effect_request 
@@ -968,8 +968,8 @@ let make_get_default_retention_policy_request  ~(organization_id : string) ()
 
 let make_get_access_control_effect_response 
   ?(matched_rules : string list option)
-  ?(effect : access_control_rule_effect option)
-  () : get_access_control_effect_response = { matched_rules; effect; 
+  ?(effect_ : access_control_rule_effect option)
+  () : get_access_control_effect_response = { matched_rules; effect_; 
 }
 
 let make_get_access_control_effect_request 
@@ -1418,7 +1418,7 @@ let make_create_mobile_device_access_rule_request
   ?(device_types : string list option)
   ?(description : string option)
   ?(client_token : string option)
-  ~(effect : mobile_device_access_rule_effect)
+  ~(effect_ : mobile_device_access_rule_effect)
   ~(name : string)
   ~(organization_id : string)
   () : create_mobile_device_access_rule_request = {
@@ -1430,7 +1430,7 @@ let make_create_mobile_device_access_rule_request
   device_models;
   not_device_types;
   device_types;
-  effect;
+  effect_;
   description;
   name;
   client_token;

@@ -123,7 +123,7 @@ type update_mobile_device_access_rule_request = {
   device_models: string list option;
   not_device_types: string list option;
   device_types: string list option;
-  effect: mobile_device_access_rule_effect;
+  effect_: mobile_device_access_rule_effect;
   description: string option;
   name: string;
   mobile_device_access_rule_id: string;
@@ -157,7 +157,7 @@ type access_effect = | DENY
 type impersonation_rule = {
   not_target_users: string list option;
   target_users: string list option;
-  effect: access_effect;
+  effect_: access_effect;
   description: string option;
   name: string option;
   impersonation_rule_id: string
@@ -322,7 +322,7 @@ type put_mobile_device_access_override_response = unit
 
 type put_mobile_device_access_override_request = {
   description: string option;
-  effect: mobile_device_access_rule_effect;
+  effect_: mobile_device_access_rule_effect;
   device_id: string;
   user_id: string;
   organization_id: string
@@ -372,7 +372,7 @@ type put_access_control_rule_request = {
   not_ip_ranges: string list option;
   ip_ranges: string list option;
   description: string;
-  effect: access_control_rule_effect;
+  effect_: access_control_rule_effect;
   name: string
 }
 
@@ -496,7 +496,7 @@ type mobile_device_access_rule = {
   device_models: string list option;
   not_device_types: string list option;
   device_types: string list option;
-  effect: mobile_device_access_rule_effect option;
+  effect_: mobile_device_access_rule_effect option;
   description: string option;
   name: string option;
   mobile_device_access_rule_id: string option
@@ -514,7 +514,7 @@ type mobile_device_access_override = {
   date_modified: float option;
   date_created: float option;
   description: string option;
-  effect: mobile_device_access_rule_effect option;
+  effect_: mobile_device_access_rule_effect option;
   device_id: string option;
   user_id: string option
 }
@@ -735,7 +735,7 @@ type access_control_rule = {
   not_ip_ranges: string list option;
   ip_ranges: string list option;
   description: string option;
-  effect: access_control_rule_effect option;
+  effect_: access_control_rule_effect option;
   name: string option
 }
 
@@ -751,7 +751,7 @@ type get_mobile_device_access_override_response = {
   date_modified: float option;
   date_created: float option;
   description: string option;
-  effect: mobile_device_access_rule_effect option;
+  effect_: mobile_device_access_rule_effect option;
   device_id: string option;
   user_id: string option
 }
@@ -769,7 +769,7 @@ type mobile_device_access_matched_rule = {
 
 type get_mobile_device_access_effect_response = {
   matched_rules: mobile_device_access_matched_rule list option;
-  effect: mobile_device_access_rule_effect option
+  effect_: mobile_device_access_rule_effect option
 }
 
 type get_mobile_device_access_effect_request = {
@@ -820,7 +820,7 @@ type impersonation_matched_rule = {
 
 type get_impersonation_role_effect_response = {
   matched_rules: impersonation_matched_rule list option;
-  effect: access_effect option;
+  effect_: access_effect option;
   type_: impersonation_role_type option
 }
 
@@ -858,7 +858,7 @@ type get_default_retention_policy_request = {
 
 type get_access_control_effect_response = {
   matched_rules: string list option;
-  effect: access_control_rule_effect option
+  effect_: access_control_rule_effect option
 }
 
 type get_access_control_effect_request = {
@@ -1201,7 +1201,7 @@ type create_mobile_device_access_rule_request = {
   device_models: string list option;
   not_device_types: string list option;
   device_types: string list option;
-  effect: mobile_device_access_rule_effect;
+  effect_: mobile_device_access_rule_effect;
   description: string option;
   name: string;
   client_token: string option;

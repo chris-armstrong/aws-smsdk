@@ -331,7 +331,7 @@ let update_mobile_device_access_rule_request_to_yojson =
          (option_to_yojson device_type_list_to_yojson x.device_types));
        (
          "Effect",
-         (Some (mobile_device_access_rule_effect_to_yojson x.effect)));
+         (Some (mobile_device_access_rule_effect_to_yojson x.effect_)));
        (
          "Description",
          (option_to_yojson mobile_device_access_rule_description_to_yojson x.description));
@@ -426,7 +426,7 @@ let impersonation_rule_to_yojson =
          (option_to_yojson target_users_to_yojson x.target_users));
        (
          "Effect",
-         (Some (access_effect_to_yojson x.effect)));
+         (Some (access_effect_to_yojson x.effect_)));
        (
          "Description",
          (option_to_yojson impersonation_rule_description_to_yojson x.description));
@@ -860,7 +860,7 @@ let put_mobile_device_access_override_request_to_yojson =
          (option_to_yojson mobile_device_access_rule_description_to_yojson x.description));
        (
          "Effect",
-         (Some (mobile_device_access_rule_effect_to_yojson x.effect)));
+         (Some (mobile_device_access_rule_effect_to_yojson x.effect_)));
        (
          "DeviceId",
          (Some (device_id_to_yojson x.device_id)));
@@ -1008,7 +1008,7 @@ let put_access_control_rule_request_to_yojson =
          (Some (access_control_rule_description_to_yojson x.description)));
        (
          "Effect",
-         (Some (access_control_rule_effect_to_yojson x.effect)));
+         (Some (access_control_rule_effect_to_yojson x.effect_)));
        (
          "Name",
          (Some (access_control_rule_name_to_yojson x.name)));
@@ -1328,7 +1328,7 @@ let mobile_device_access_rule_to_yojson =
          (option_to_yojson device_type_list_to_yojson x.device_types));
        (
          "Effect",
-         (option_to_yojson mobile_device_access_rule_effect_to_yojson x.effect));
+         (option_to_yojson mobile_device_access_rule_effect_to_yojson x.effect_));
        (
          "Description",
          (option_to_yojson mobile_device_access_rule_description_to_yojson x.description));
@@ -1373,7 +1373,7 @@ let mobile_device_access_override_to_yojson =
          (option_to_yojson mobile_device_access_rule_description_to_yojson x.description));
        (
          "Effect",
-         (option_to_yojson mobile_device_access_rule_effect_to_yojson x.effect));
+         (option_to_yojson mobile_device_access_rule_effect_to_yojson x.effect_));
        (
          "DeviceId",
          (option_to_yojson device_id_to_yojson x.device_id));
@@ -1931,7 +1931,7 @@ let access_control_rule_to_yojson =
          (option_to_yojson access_control_rule_description_to_yojson x.description));
        (
          "Effect",
-         (option_to_yojson access_control_rule_effect_to_yojson x.effect));
+         (option_to_yojson access_control_rule_effect_to_yojson x.effect_));
        (
          "Name",
          (option_to_yojson access_control_rule_name_to_yojson x.name));
@@ -1970,7 +1970,7 @@ let get_mobile_device_access_override_response_to_yojson =
          (option_to_yojson mobile_device_access_rule_description_to_yojson x.description));
        (
          "Effect",
-         (option_to_yojson mobile_device_access_rule_effect_to_yojson x.effect));
+         (option_to_yojson mobile_device_access_rule_effect_to_yojson x.effect_));
        (
          "DeviceId",
          (option_to_yojson device_id_to_yojson x.device_id));
@@ -2015,7 +2015,7 @@ let get_mobile_device_access_effect_response_to_yojson =
          (option_to_yojson mobile_device_access_matched_rule_list_to_yojson x.matched_rules));
        (
          "Effect",
-         (option_to_yojson mobile_device_access_rule_effect_to_yojson x.effect));
+         (option_to_yojson mobile_device_access_rule_effect_to_yojson x.effect_));
        
   ])
 
@@ -2140,7 +2140,7 @@ let get_impersonation_role_effect_response_to_yojson =
          (option_to_yojson impersonation_matched_rule_list_to_yojson x.matched_rules));
        (
          "Effect",
-         (option_to_yojson access_effect_to_yojson x.effect));
+         (option_to_yojson access_effect_to_yojson x.effect_));
        (
          "Type",
          (option_to_yojson impersonation_role_type_to_yojson x.type_));
@@ -2233,7 +2233,7 @@ let get_access_control_effect_response_to_yojson =
          (option_to_yojson access_control_rule_name_list_to_yojson x.matched_rules));
        (
          "Effect",
-         (option_to_yojson access_control_rule_effect_to_yojson x.effect));
+         (option_to_yojson access_control_rule_effect_to_yojson x.effect_));
        
   ])
 
@@ -3066,7 +3066,7 @@ let create_mobile_device_access_rule_request_to_yojson =
          (option_to_yojson device_type_list_to_yojson x.device_types));
        (
          "Effect",
-         (Some (mobile_device_access_rule_effect_to_yojson x.effect)));
+         (Some (mobile_device_access_rule_effect_to_yojson x.effect_)));
        (
          "Description",
          (option_to_yojson mobile_device_access_rule_description_to_yojson x.description));

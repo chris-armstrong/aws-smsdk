@@ -62,7 +62,7 @@ val make_update_mobile_device_access_rule_request :
   ?not_device_types:string list ->
   ?device_types:string list ->
   ?description:string ->
-  effect:mobile_device_access_rule_effect ->
+  effect_:mobile_device_access_rule_effect ->
   name:string ->
   mobile_device_access_rule_id:string ->
   organization_id:string ->
@@ -84,7 +84,7 @@ val make_impersonation_rule :
   ?target_users:string list ->
   ?description:string ->
   ?name:string ->
-  effect:access_effect ->
+  effect_:access_effect ->
   impersonation_rule_id:string ->
   unit -> impersonation_rule
 
@@ -217,7 +217,7 @@ val make_put_mobile_device_access_override_response : unit
 
 val make_put_mobile_device_access_override_request :
   ?description:string ->
-  effect:mobile_device_access_rule_effect ->
+  effect_:mobile_device_access_rule_effect ->
   device_id:string ->
   user_id:string ->
   organization_id:string ->
@@ -263,7 +263,7 @@ val make_put_access_control_rule_request :
   ?ip_ranges:string list ->
   organization_id:string ->
   description:string ->
-  effect:access_control_rule_effect ->
+  effect_:access_control_rule_effect ->
   name:string ->
   unit -> put_access_control_rule_request
 
@@ -371,7 +371,7 @@ val make_mobile_device_access_rule :
   ?device_models:string list ->
   ?not_device_types:string list ->
   ?device_types:string list ->
-  ?effect:mobile_device_access_rule_effect ->
+  ?effect_:mobile_device_access_rule_effect ->
   ?description:string ->
   ?name:string ->
   ?mobile_device_access_rule_id:string ->
@@ -390,7 +390,7 @@ val make_mobile_device_access_override :
   ?date_modified:float ->
   ?date_created:float ->
   ?description:string ->
-  ?effect:mobile_device_access_rule_effect ->
+  ?effect_:mobile_device_access_rule_effect ->
   ?device_id:string ->
   ?user_id:string ->
   unit
@@ -586,7 +586,7 @@ val make_access_control_rule :
   ?not_ip_ranges:string list ->
   ?ip_ranges:string list ->
   ?description:string ->
-  ?effect:access_control_rule_effect ->
+  ?effect_:access_control_rule_effect ->
   ?name:string ->
   unit -> access_control_rule
 
@@ -601,7 +601,7 @@ val make_get_mobile_device_access_override_response :
   ?date_modified:float ->
   ?date_created:float ->
   ?description:string ->
-  ?effect:mobile_device_access_rule_effect ->
+  ?effect_:mobile_device_access_rule_effect ->
   ?device_id:string ->
   ?user_id:string ->
   unit
@@ -617,7 +617,7 @@ val make_mobile_device_access_matched_rule :
 
 val make_get_mobile_device_access_effect_response :
   ?matched_rules:mobile_device_access_matched_rule list ->
-  ?effect:mobile_device_access_rule_effect ->
+  ?effect_:mobile_device_access_rule_effect ->
   unit
 -> get_mobile_device_access_effect_response
 
@@ -659,7 +659,7 @@ val make_impersonation_matched_rule :
 
 val make_get_impersonation_role_effect_response :
   ?matched_rules:impersonation_matched_rule list ->
-  ?effect:access_effect ->
+  ?effect_:access_effect ->
   ?type_:impersonation_role_type ->
   unit
 -> get_impersonation_role_effect_response
@@ -699,7 +699,7 @@ val make_get_default_retention_policy_request :
 -> get_default_retention_policy_request
 
 val make_get_access_control_effect_response :
-  ?matched_rules:string list -> ?effect:access_control_rule_effect -> unit
+  ?matched_rules:string list -> ?effect_:access_control_rule_effect -> unit
 -> get_access_control_effect_response
 
 val make_get_access_control_effect_request :
@@ -1013,7 +1013,7 @@ val make_create_mobile_device_access_rule_request :
   ?device_types:string list ->
   ?description:string ->
   ?client_token:string ->
-  effect:mobile_device_access_rule_effect ->
+  effect_:mobile_device_access_rule_effect ->
   name:string ->
   organization_id:string ->
   unit
