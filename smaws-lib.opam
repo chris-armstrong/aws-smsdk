@@ -12,17 +12,16 @@ depends: [
   "ocaml" {>= "5.0"}
   "yojson" {>= "2.0.0"}
   "fmt" {>= "0.9.0"}
-  "xmlm"
-  "base64"
-  "digestif"
-  "eio-ssl"
-  "uri"
-  "logs"
-  "httpun"
-  "httpun-eio"
-  "eio_main"
-  "stdio"
-  "ppx_deriving"
+  "xmlm" {>= "1.4.0"}
+  "base64" {>= "3.4.0"}
+  "digestif" {>= "1.1.4"}
+  "eio-ssl" {>= "0.3.0"}
+  "uri" {>= "4.2.0"}
+  "logs" {>= "0.7.0"}
+  "httpun" {>= "0.2.0"}
+  "httpun-eio" {>= "0.2.0"}
+  "stdio" {>= "v0.17.0"}
+  "ppx_deriving" {>= "5.0"}
   "alcotest" {with-test}
   "eio_main" {with-dev}
   "odoc" {with-doc}
