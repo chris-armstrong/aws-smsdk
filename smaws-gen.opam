@@ -22,7 +22,7 @@ depends: [
   "logs" {>= "0.7.0"}
   "ppx_compare" {with-test}
   "alcotest" {with-test}
-  "eio_main" {with-dev}
+  "eio_main" {with-dev-setup}
   "odoc" {with-doc}
 ]
 build: [
