@@ -1,7 +1,7 @@
 (rule
  (deps
   (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/resource-groups-tagging-api.json))
+  (:input ../../definitions/resource-groups-tagging-api.json))
  (targets
   builders.ml
   builders.mli

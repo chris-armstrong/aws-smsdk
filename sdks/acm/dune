@@ -1,7 +1,7 @@
 (rule
  (deps
   (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/acm.json))
+  (:input ../../definitions/acm.json))
  (targets
   builders.ml
   builders.mli
