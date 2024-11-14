@@ -1,7 +1,7 @@
 (rule
  (deps
   (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/transcribe.json))
+  (:input ../../definitions/transcribe.json))
  (targets
   builders.ml
   builders.mli

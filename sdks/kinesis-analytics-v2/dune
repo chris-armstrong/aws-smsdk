@@ -1,7 +1,7 @@
 (rule
  (deps
   (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/kinesis-analytics-v2.json))
+  (:input ../../definitions/kinesis-analytics-v2.json))
  (targets
   builders.ml
   builders.mli

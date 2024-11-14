@@ -1,7 +1,7 @@
 (rule
  (deps
   (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/dynamodb-streams.json))
+  (:input ../../definitions/dynamodb-streams.json))
  (targets
   builders.ml
   builders.mli

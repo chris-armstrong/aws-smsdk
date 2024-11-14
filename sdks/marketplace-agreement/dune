@@ -1,7 +1,7 @@
 (rule
  (deps
   (:gen ../../bin/AwsGenerator.exe)
-  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/marketplace-agreement.json))
+  (:input ../../definitions/marketplace-agreement.json))
  (targets
   builders.ml
   builders.mli
