@@ -35,7 +35,7 @@
   (logs (>= "0.7.0"))
   (ppx_compare :with-test)
   (alcotest :with-test)
-  (eio_main :with-dev)
+  (eio_main :with-dev-setup)
   (odoc :with-doc)))
 
 (package
@@ -71,7 +71,7 @@
   (stdio (>= "v0.17.0"))
   (ppx_deriving (>= "5.0"))
   (alcotest :with-test)
-  (eio_main :with-dev)
+  (eio_main :with-dev-setup)
   (odoc :with-doc)))
 
 (package
