@@ -1,4 +1,5 @@
 (rule
+  (mode promote)
  (deps
   (:gen ../../bin/AwsGenerator.exe)
   (:input ../../definitions/servicediscovery.json))
