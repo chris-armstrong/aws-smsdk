@@ -1,3 +1,6 @@
+module Log =
+  (val Logs.src_log (Logs.Src.create "Smaws_Lib.AwsQuery" ~doc:"AWS Query Protocol") : Logs.LOG)
+
 type field = string * string list
 type 'a mapper = string list -> 'a -> field
 
@@ -101,10 +104,8 @@ module Make (Http : Http.Client_intf) : S = struct
       in
       let body = Uri.encoded_of_query body_values in
 
-      Stdio.printf "Action %s on %s\n" action (Uri.to_string uri);
-      Stdio.printf "Sending body %s\n" body;
-      let auth = config.resolveAuth () in
-      let region = config.resolveRegion () in
+      Logs.debug (fun m -> m "Action %s on %s\n" action (Uri.to_string uri));
+      Logs.debug (fun m -> m "Sending body %s\n" body);
       let headers =
         Sign.sign_request_v4 ~config ~service ~headers:basicHeaders ~uri ~method_:`POST ~body
       in

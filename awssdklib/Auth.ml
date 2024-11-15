@@ -1,6 +1,6 @@
 type t = { access_key_id : string; secret_access_key : string; session_token : string option }
 
-module Log = (val Logs.src_log (Logs.Src.create "Aws_SmSdk_Lib.Auth" ~doc:"AWS Auth") : Logs.LOG)
+module Log = (val Logs.src_log (Logs.Src.create "Smaws_Lib.Auth" ~doc:"AWS Auth") : Logs.LOG)
 
 exception AuthError of string
 

@@ -20,7 +20,6 @@ depends: [
   "logs" {>= "0.7.0"}
   "httpun" {>= "0.2.0"}
   "httpun-eio" {>= "0.2.0"}
-  "stdio" {>= "v0.17.0"}
   "ppx_deriving" {>= "5.0"}
   "alcotest" {with-test}
   "eio_main" {with-dev-setup}
