@@ -35,7 +35,7 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
-      - run: opam install ./smaws-lib.opam ./smaws-gen.opam ./smaws-clients.opam --deps-only --with-test --with-dev-setup --with-doc
+      - run: opam install ./smaws-lib.opam ./smaws-gen.opam ./smaws-clients.opam --deps-only --with-test --with-dev-setup --with-doc --assume-depexts
 
       - run: opam exec -- dune build
       - run: opam exec -- dune runtest
