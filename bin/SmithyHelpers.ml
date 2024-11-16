@@ -33,13 +33,13 @@ let printOperations operations =
                 (Option.value input ~default:"()")
                 (Option.value output ~default:"void"))
        | _ -> None)
-  |> List.iter ~f:(fun str -> Stdio.print_endline str)
+  |> List.iter ~f:(fun str -> Fmt.pr "%s\n" str)
 
 let printServiceDetails shapes =
   List.iter shapes ~f:(fun Shape.{ descriptor; _ } ->
       match descriptor with
       | Shape.ServiceShape details ->
-          Stdio.printf "Service: version=%s\n, protocol=%s, %s" details.version
+          Fmt.pr "Service: version=%s\n, protocol=%s, %s" details.version
             (printProtocol details.traits)
             (printServiceTrait details.traits)
       | _ -> ())

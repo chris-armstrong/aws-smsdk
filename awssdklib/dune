@@ -3,7 +3,6 @@
  (public_name smaws-lib)
  (libraries
   logs
-  stdio
   str
   fmt
   uri

@@ -47,7 +47,7 @@ let test_simple () =
   HttpMock.mock_response ~body:"{}" ();
 
   (* Functorize protocol (AwsJson) implementation *)
-  let module Protocol = Protocols.Unbound.AwsJson.Make (HttpMock) in
+  let module Protocol = Protocols_gen.AwsJson.Make (HttpMock) in
   let serialize_result =
     Protocol.request ~shape_name:"Test_Shape" ~http ~input:(`Assoc []) ~config ~service
       ~output_deserializer:HelloType.deserialize_type_of_yojson
