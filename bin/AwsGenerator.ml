@@ -31,13 +31,13 @@ let readCommandLine () =
     Stdlib.Arg.parse argumentTypes (fun _ -> ()) usage;
     match (!filename, !output_dir, !targets) with
     | None, _, _ ->
-        Stdio.eprintf "no definition filename specified!@.";
+        Fmt.pf Fmt.stderr "no definition filename specified!@.";
         Stdlib.exit 1
     | _, None, _ ->
-        Stdio.eprintf "no output directory specified!@.";
+        Fmt.pf Fmt.stderr "no output directory specified!@.";
         Stdlib.exit 1
     | _, _, None ->
-        Stdio.eprintf "no targets specified!@.";
+        Fmt.pf Fmt.stderr "no targets specified!@.";
         Stdlib.exit 1
     | Some input, Some output, Some targets ->
         let targets =
@@ -51,13 +51,13 @@ let readCommandLine () =
               | "builders" -> BuildersCommand
               | "module" -> ModuleCommand
               | _ ->
-                  Stdio.eprintf "You must specify a -run <command>\n";
+                  Fmt.pf Fmt.stderr "You must specify a -run <command>\n";
                   Stdlib.exit 1)
             targets
         in
         (input, output, targets)
   with Invalid_argument x ->
-    Stdio.eprintf "You must supply a model file as the first parameter: %s\n" x;
+    Fmt.pf Fmt.stderr "You must supply a model file as the first parameter: %s\n" x;
     Stdlib.exit 1
 
 let shapeWithTarget Ast.Shape.{ name; descriptor } =
@@ -145,5 +145,5 @@ let _ =
         targets
     end
   | Error error ->
-      Stdio.eprintf "Error parsing model: %s\n" (Parse.Json.Decode.jsonParseErrorToString error);
+      Fmt.pf Fmt.stderr "Error parsing model: %s\n" (Parse.Json.Decode.jsonParseErrorToString error);
       Stdlib.exit 1
