@@ -17,8 +17,6 @@
   (github chris-armstrong/smaws))
  (license MIT)
  (depends
-  (dune
-   (>= "3.14"))
   (ocaml
    (>= "5.0"))
   (yojson
@@ -52,8 +50,6 @@
   (github chris-armstrong/smaws))
  (license MIT)
  (depends
-  (dune
-   (>= "3.14"))
   (ocaml
    (>= "5.0"))
   (yojson
@@ -86,8 +82,6 @@
   (github chris-armstrong/smaws))
  (license MIT)
  (depends
-  (dune
-   (>= "3.14"))
   (ocaml
    (>= "5.0"))
   smaws-lib
