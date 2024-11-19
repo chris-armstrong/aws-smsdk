@@ -7,6 +7,7 @@ maintainer: ["Chris Armstrong <oss@chrisarmstrong.dev>"]
 authors: ["Chris Armstrong"]
 license: "MIT"
 homepage: "https://github.com/chris-armstrong/smaws"
+doc: "https://chris-armstrong.github.io/smaws/smaws-clients"
 bug-reports: "https://github.com/chris-armstrong/smaws/issues"
 depends: [
   "dune" {>= "3.15"}

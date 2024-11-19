@@ -46,6 +46,7 @@
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
  (homepage https://github.com/chris-armstrong/smaws)
  (bug_reports https://github.com/chris-armstrong/smaws/issues)
+ (documentation https://chris-armstrong.github.io/smaws/smaws-lib)
  (source
   (github chris-armstrong/smaws))
  (license MIT)
@@ -78,6 +79,7 @@
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
  (homepage https://github.com/chris-armstrong/smaws)
  (bug_reports https://github.com/chris-armstrong/smaws/issues)
+ (documentation https://chris-armstrong.github.io/smaws/smaws-clients)
  (source
   (github chris-armstrong/smaws))
  (license MIT)
