@@ -50,7 +50,7 @@ Calling a service operation consists of:
 
 {2:configuration Configuration Objects}
 
-A {i configuration} object is used by the context todetermine authorization and other environment settings (such as the region to use).
+A {i configuration} object is used by the context to determine authorization and other environment settings (such as the region to use).
 
 {@ocaml[
 open Smaws_Lib
@@ -64,6 +64,37 @@ let config = Config.make
   ~resolveAuth: (Auth.fromProfile env)
   ()
 ]}
+
+In the above example:
+
+- [~resolveRegion:] the region is hardcoded ([us-west-1])
+- [~resolveAuth:] the authorization details are retrieved from the current AWS profile set in the environment (more details on authorization below).
+
+{3 Authorization}
+
+In the configuration object, an {i authorization resolver} (from the [~resolveAuth] parameter) determines how your AWS credentials are retrieved and used.
+
+{4 From the environment}
+
+[Auth.fromEnvironment ()] looks for your credentials in the environment variables [AWS_ACCESS_KEY_ID] [AWS_SECRET_ACCESS_KEY] and (if specified) [AWS_SESSION_TOKEN].
+
+This can be useful for ephemeral cases where you have retrieved a set of credentials (e.g. from a role assumption), but defining and exporting AWS credentials in your environment over long periods (such as in shell scripts) is bad practice and more likely to lead to credential leakage.
+
+{4 From your profile}
+
+[Auth.fromProfile ()] takes the name of your current profile (specified by the [AWS_PROFILE] environment variable) and loads your credentials from [$HOME/.aws/config] and/or [$HOME/.aws/credentials]. If a profile name is not specified in [AWS_PROFILE], the profile with name [default] is used.
+
+{i NOTE: this method only supports profiles stored with [aws_access_key_id]/[aws_secret_access_key] at the moment.}
+
+{i This is suitable for local validation, but storing long-lived IAM access keys with broad permissions this way is considered to be poor security practice. We recommend provisioning IAM access keys with narrow permissions and a short expiry time for testing and validation. In the future, we'll support AWS SSO cached credentials for secure access retrieval.}
+
+{4 From EC2 or ECS metadata}
+
+Not currently supported.
+
+{4 From SSO}
+
+Not currently supported.
 
 {2 Context Initialisation}
 

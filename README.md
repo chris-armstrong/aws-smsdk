@@ -7,39 +7,31 @@ This is a work in progress. Only some services are defined as SDKs,
 and the protocol generators may only be able to work on some services
 (and their implementations may incomplete or untested).
 
-
-## Installation
-
-The code in this repository is not currently available through opam.
-
-However, you can use it by pinning the opam repository:
-
-`opam pin https://github.com/chris-armstrong/smaws.git`
-
-You will also need to pin some of its dependencies too:
-
-* [eio-ssl](https://github.com/anmonteiro/eio-ssl.git)
-
-(you should be asked to pin `eio-ssl` when you pin `smaws`)
-
 ## Usage
+### Installation
+
+
+You can install directly from opam using:
+
+`opam install smaws-clients`
+
+You can also pin this repository with: `opam pin https://github.com/chris-armstrong/smaws.git` to use the most recent unreleased version.
 
 ### Before you start 
 
-* The SDKs provided by this package use eio for async communication.
-If you're using lwt or async or riot or miou, you may need a bridge
-library to plug into.
+* The SDKs provided by this package use eio for async communication. If you're using lwt or async or riot or miou, you may need a bridge library to plug into.
 * SDK Clients are stored in the `smaws-clients` package
 * You import the client you want from `Smaws_Clients.<ClientName>` e.g. `Smaws_Clients.DynamoDB`
 => `aws-smssdk-dynamodb`.
-* SDKs are not generated for every service - check the `/sdks` directory
-for supported services.
+* SDKs are not generated for every service - check the `/sdks` directory for supported services.
+* Only environment and profile authentication with stored credentials is supported (see the [documentation](https://chris-armstrong.github.io/smaws/smaws-clients#authorization))
+### Documentation
+Please see the [documentation](https://chris-armstrong.github.io/smaws/smaws-clients) for detailed installation and usage instructions.
 
-### Installing the clients
+### Examples
 
-`opam pin https://github.com/chris-armstrong/smaws`
+You can find examples in the [examples directory](https://github.com/chris-armstrong/smaws/tree/main/awssdklib_examples).
 
-`opam install smaws-clients`
 
 ## Developing
 
