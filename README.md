@@ -35,20 +35,20 @@ You can find examples in the [examples directory](https://github.com/chris-armst
 
 ## Developing
 
-See the [Developers Guide](DEVELOPERS.md)
+See the [Developers Guide](DEVELOPERS.md) for contributing to this project.
 
 ## Status
 ### Protocols
 
 Internally, AWS uses a number of serialisation protocols, which differ between services
 
-| Protocol        | Basic SDK Generation  | All Annotations | Services |
-| ---             | ---                   | ---             | ---      |
-| AwsJson_1.0     | :tick:                | :cross:         | SQS, DynamoDB |
-| AwsJson_1.1     | :tick:                | :cross:         | |
-| AwsQuery        | :cross:               | :cross:         | |
-| restJson        | :cross:               | :cross:         | about 2/3 of services |
-| EC2 Query       | :cross:               | :cross:         | EC2? |
+| Protocol        | Basic SDK Generation  | All Annotations | Services      |
+| ---             | ---                   | ---             | ---           |
+| AwsJson_1.0     | :white_check_mark:    | :x:             | SQS, DynamoDB |
+| AwsJson_1.1     | :white_check_mark:    | :x:             |   |
+| AwsQuery        | :x:                   | :x:             |   |
+| restJson        | :x:                   | :x:             | about 2/3 of services |
+| EC2 Query       | :x:                   | :x:             | EC2?          |
 
 ### Services
 At the moment, we can generate bindings for the AwsJson_1.0/1.1 protocol,
