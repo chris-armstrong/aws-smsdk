@@ -31,7 +31,7 @@
   ocamlgraph
   (uri (>= "4.2.0"))
   (logs (>= "0.7.0"))
-  (ppx_compare :with-test)
+  ppx_compare
   (alcotest :with-test)
   (eio_main :with-dev-setup)
   (odoc :with-doc)))
