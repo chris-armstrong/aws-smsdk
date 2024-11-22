@@ -1,3 +1,5 @@
+type t = Yojson.Basic.t
+
 module SerializeHelpers = struct
   type t = Yojson.Basic.t
 
@@ -10,6 +12,7 @@ module SerializeHelpers = struct
   let list_to_yojson (converter : 'a -> t) (x : 'a list) : t = `List (List.map converter x)
   let big_int_to_yojson (x : int64) : t = `Int (Int64.to_int x)
   let bool_to_yojson (x : bool) : t = `Bool x
+  let json_to_yojson (x : t) = x
 
   let assoc_to_yojson (x : (string * t option) list) : t =
     `Assoc
@@ -106,6 +109,8 @@ module DeserializeHelpers = struct
     match tree with
     | `Assoc l -> List.map (fun (k, v) -> (k, converter v path)) l
     | _ -> raise (deserialize_wrong_type_error path "map")
+
+  let json_of_yojson (tree : t) path = tree
 
   let blob_of_yojson (tree : t) path =
     match tree with

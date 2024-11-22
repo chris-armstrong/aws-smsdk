@@ -1,0 +1,5 @@
+.gitattributes export-ignore
+awssdkjsv3 export-ignore
+.gitignore export-ignore
+.gitkeep export-ignore
+definitions export-ignore

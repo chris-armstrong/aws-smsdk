@@ -1,25 +1,25 @@
 (executable
  (name http_get)
  (modules http_get)
- (libraries aws-smsdk-lib eio_main logs fmt))
+ (libraries smaws-lib eio_main logs fmt))
 
 (executable
  (name ini_examples)
  (modules ini_examples)
- (libraries aws-smsdk-lib eio_main logs fmt))
+ (libraries smaws-lib eio_main logs fmt))
 
 (executable
  (name sqs_ListQueues)
  (modules sqs_ListQueues)
- (libraries aws-smsdk-lib eio_main logs fmt aws-smsdk-client-sqs))
+ (libraries smaws-lib eio_main logs fmt smaws-clients))
 
 (executable
  (name signed)
  (modules signed)
  (modes byte exe)
- (libraries aws-smsdk-lib eio_main logs fmt))
+ (libraries smaws-lib eio_main logs fmt))
 
 (executable
  (name dynamodb_createTableAndWriteData)
  (modules dynamodb_createTableAndWriteData)
- (libraries aws-smsdk-lib eio_main logs fmt aws-smsdk-client-dynamodb))
+ (libraries smaws-lib eio_main logs fmt smaws-clients))

@@ -2,7 +2,7 @@
 
 ## Code Generator
 
-* [ ] Rename from `aws-smsdk` to `aws-smsdk-gen` to disambiguate code generator
+* [x] Rename from `aws-smsdk` to `aws-smsdk-gen` to disambiguate code generator
 
 ## HTTP
 
@@ -40,3 +40,11 @@
 ### Configuration
 
 * [x] Read ~/.aws/config file
+
+### Protocols
+
+* [x] AwsJson1.0
+* [x] AwsJson1.1
+* [ ] AwsQuery 
+* [ ] REST
+* [ ] S3

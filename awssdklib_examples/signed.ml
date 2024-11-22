@@ -4,7 +4,7 @@ Logs.set_level (Some Logs.Debug)
 let _ =
   Eio_main.run (fun env ->
       Eio.Switch.run (fun sw ->
-          let open Aws_SmSdk_Lib in
+          let open Smaws_Lib in
           let credentials = Auth.fromProfile env () in
           Fmt.pr "has_access_key_id has_secret_access_key has_session_token=%b\n"
             (credentials.session_token |> Option.is_some);
@@ -18,7 +18,10 @@ let _ =
           let body = {|{}|} in
           Fmt.pr "before context@.";
           let context = Context.make ~sw ~config env in
-          let service = Service.{ namespace = "sqs"; endpointPrefix = "sqs"; version = "" } in
+          let service =
+            Service.
+              { namespace = "sqs"; endpointPrefix = "sqs"; version = ""; protocol = AwsJson_1_0 }
+          in
           let uri = Service.makeUri ~config ~service in
           let headers =
             [
@@ -44,4 +47,4 @@ let _ =
               body
           with
           | Ok body -> ()
-          | Error error -> Fmt.pr "Error! %a\n" Aws_SmSdk_Lib.Http.pp_http_failure error))
+          | Error error -> Fmt.pr "Error! %a\n" Smaws_Lib.Http.pp_http_failure error))

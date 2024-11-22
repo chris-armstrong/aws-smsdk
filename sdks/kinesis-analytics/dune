@@ -1,0 +1,42 @@
+(rule
+  (mode promote)
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../definitions/kinesis-analytics.json))
+ (targets
+  builders.ml
+  builders.mli
+  serializers.ml
+  deserializers.ml
+  types.ml
+  types.mli
+  operations.ml
+  operations.mli
+  Smaws_Client_KinesisAnalytics.ml
+  Smaws_Client_KinesisAnalytics.mli)
+ (action
+  (run
+   %{gen}
+   -input
+   %{input}
+   -output
+   .
+   -targets
+   builders
+   types
+   serializers
+   deserializers
+   operations
+   module)))
+
+(library
+ (name Smaws_Client_KinesisAnalytics)
+ (public_name smaws-clients.kinesis-analytics)
+ (modules
+  Smaws_Client_KinesisAnalytics
+  types
+  serializers
+  deserializers
+  operations
+  builders)
+ (libraries smaws-lib))

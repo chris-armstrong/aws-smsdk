@@ -1,0 +1,296 @@
+open Smaws_Lib
+val service : Service.descriptor
+
+type trimmed_data_access_exception = {
+  message: string option
+}
+
+type stream_view_type = | KEYS_ONLY
+  | NEW_AND_OLD_IMAGES
+  | OLD_IMAGE
+  | NEW_IMAGE
+
+type stream_status = | DISABLED
+  | DISABLING
+  | ENABLED
+  | ENABLING
+
+type attribute_value = BOOL of bool | NULL of bool | L of attribute_value list | M of (string * attribute_value) list | BS of bytes list | NS of string list | SS of string list | B of bytes | N of string | S of string
+
+type stream_record = {
+  stream_view_type: stream_view_type option;
+  size_bytes: int option;
+  sequence_number: string option;
+  old_image: (string * attribute_value) list option;
+  new_image: (string * attribute_value) list option;
+  keys: (string * attribute_value) list option;
+  approximate_creation_date_time: float option
+}
+
+type stream = {
+  stream_label: string option;
+  table_name: string option;
+  stream_arn: string option
+}
+
+type key_type = | RANGE
+  | HASH
+
+type key_schema_element = {
+  key_type: key_type;
+  attribute_name: string
+}
+
+type sequence_number_range = {
+  ending_sequence_number: string option;
+  starting_sequence_number: string option
+}
+
+type shard = {
+  parent_shard_id: string option;
+  sequence_number_range: sequence_number_range option;
+  shard_id: string option
+}
+
+type stream_description = {
+  last_evaluated_shard_id: string option;
+  shards: shard list option;
+  key_schema: key_schema_element list option;
+  table_name: string option;
+  creation_request_date_time: float option;
+  stream_view_type: stream_view_type option;
+  stream_status: stream_status option;
+  stream_label: string option;
+  stream_arn: string option
+}
+
+type shard_iterator_type = | AFTER_SEQUENCE_NUMBER
+  | AT_SEQUENCE_NUMBER
+  | LATEST
+  | TRIM_HORIZON
+
+type resource_not_found_exception = {
+  message: string option
+}
+
+type operation_type = | REMOVE
+  | MODIFY
+  | INSERT
+
+type identity = {
+  type_: string option;
+  principal_id: string option
+}
+
+type record = {
+  user_identity: identity option;
+  dynamodb: stream_record option;
+  aws_region: string option;
+  event_source: string option;
+  event_version: string option;
+  event_name: operation_type option;
+  event_i_d: string option
+}
+
+type list_streams_output = {
+  last_evaluated_stream_arn: string option;
+  streams: stream list option
+}
+
+type list_streams_input = {
+  exclusive_start_stream_arn: string option;
+  limit: int option;
+  table_name: string option
+}
+
+type internal_server_error = {
+  message: string option
+}
+
+type limit_exceeded_exception = {
+  message: string option
+}
+
+type get_shard_iterator_output = {
+  shard_iterator: string option
+}
+
+type get_shard_iterator_input = {
+  sequence_number: string option;
+  shard_iterator_type: shard_iterator_type;
+  shard_id: string;
+  stream_arn: string
+}
+
+type get_records_output = {
+  next_shard_iterator: string option;
+  records: record list option
+}
+
+type get_records_input = {
+  limit: int option;
+  shard_iterator: string
+}
+
+type expired_iterator_exception = {
+  message: string option
+}
+
+type describe_stream_output = {
+  stream_description: stream_description option
+}
+
+type describe_stream_input = {
+  exclusive_start_shard_id: string option;
+  limit: int option;
+  stream_arn: string
+}
+
+
+
+type base_document = Json.t
+
+val make_stream_record :
+  ?stream_view_type:stream_view_type ->
+  ?size_bytes:int ->
+  ?sequence_number:string ->
+  ?old_image:(string * attribute_value) list ->
+  ?new_image:(string * attribute_value) list ->
+  ?keys:(string * attribute_value) list ->
+  ?approximate_creation_date_time:float ->
+  unit -> stream_record
+
+val make_stream :
+  ?stream_label:string -> ?table_name:string -> ?stream_arn:string -> unit
+-> stream
+
+val make_key_schema_element :
+  key_type:key_type -> attribute_name:string -> unit
+-> key_schema_element
+
+val make_sequence_number_range :
+  ?ending_sequence_number:string -> ?starting_sequence_number:string -> unit
+-> sequence_number_range
+
+val make_shard :
+  ?parent_shard_id:string ->
+  ?sequence_number_range:sequence_number_range ->
+  ?shard_id:string ->
+  unit -> shard
+
+val make_stream_description :
+  ?last_evaluated_shard_id:string ->
+  ?shards:shard list ->
+  ?key_schema:key_schema_element list ->
+  ?table_name:string ->
+  ?creation_request_date_time:float ->
+  ?stream_view_type:stream_view_type ->
+  ?stream_status:stream_status ->
+  ?stream_label:string ->
+  ?stream_arn:string ->
+  unit -> stream_description
+
+val make_identity : ?type_:string -> ?principal_id:string -> unit
+-> identity
+
+val make_record :
+  ?user_identity:identity ->
+  ?dynamodb:stream_record ->
+  ?aws_region:string ->
+  ?event_source:string ->
+  ?event_version:string ->
+  ?event_name:operation_type ->
+  ?event_i_d:string ->
+  unit -> record
+
+val make_list_streams_output :
+  ?last_evaluated_stream_arn:string -> ?streams:stream list -> unit
+-> list_streams_output
+
+val make_list_streams_input :
+  ?exclusive_start_stream_arn:string ->
+  ?limit:int ->
+  ?table_name:string ->
+  unit -> list_streams_input
+
+val make_get_shard_iterator_output : ?shard_iterator:string -> unit
+-> get_shard_iterator_output
+
+val make_get_shard_iterator_input :
+  ?sequence_number:string ->
+  shard_iterator_type:shard_iterator_type ->
+  shard_id:string ->
+  stream_arn:string ->
+  unit -> get_shard_iterator_input
+
+val make_get_records_output :
+  ?next_shard_iterator:string -> ?records:record list -> unit
+-> get_records_output
+
+val make_get_records_input : ?limit:int -> shard_iterator:string -> unit
+-> get_records_input
+
+val make_describe_stream_output :
+  ?stream_description:stream_description -> unit
+-> describe_stream_output
+
+val make_describe_stream_input :
+  ?exclusive_start_shard_id:string -> ?limit:int -> stream_arn:string -> unit
+-> describe_stream_input
+
+module ListStreams : sig
+  val request :
+    Smaws_Lib.Context.t ->
+      list_streams_input ->
+        (list_streams_output,
+        [>
+            | Smaws_Lib.Protocols.AwsJson.error | `InternalServerError of internal_server_error
+            | `ResourceNotFoundException of resource_not_found_exception
+            
+        ]
+      ) result
+end
+
+module GetShardIterator : sig
+  val request :
+    Smaws_Lib.Context.t ->
+      get_shard_iterator_input ->
+        (get_shard_iterator_output,
+        [>
+            | Smaws_Lib.Protocols.AwsJson.error | `InternalServerError of internal_server_error
+            | `ResourceNotFoundException of resource_not_found_exception
+            | `TrimmedDataAccessException of trimmed_data_access_exception
+            
+        ]
+      ) result
+end
+
+module GetRecords : sig
+  val request :
+    Smaws_Lib.Context.t ->
+      get_records_input ->
+        (get_records_output,
+        [>
+            | Smaws_Lib.Protocols.AwsJson.error | `ExpiredIteratorException of expired_iterator_exception
+            | `InternalServerError of internal_server_error
+            | `LimitExceededException of limit_exceeded_exception
+            | `ResourceNotFoundException of resource_not_found_exception
+            | `TrimmedDataAccessException of trimmed_data_access_exception
+            
+        ]
+      ) result
+end
+
+module DescribeStream : sig
+  val request :
+    Smaws_Lib.Context.t ->
+      describe_stream_input ->
+        (describe_stream_output,
+        [>
+            | Smaws_Lib.Protocols.AwsJson.error | `InternalServerError of internal_server_error
+            | `ResourceNotFoundException of resource_not_found_exception
+            
+        ]
+      ) result
+end
+

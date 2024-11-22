@@ -4,7 +4,7 @@ Logs.set_level (Some Logs.Debug)
 let _ =
   Eio_main.run (fun env ->
       Eio.Switch.run (fun sw ->
-          let open Aws_SmSdk_Lib in
+          let open Smaws_Lib in
           let config =
             Config.
               {
@@ -17,7 +17,7 @@ let _ =
 
           match
             begin
-              let open Aws_SmSdk_Client_SQS in
+              let open Smaws_Client_SQS in
               let+ result =
                 ListQueues.request context
                   (make_list_queues_request ~max_results:10
@@ -28,14 +28,14 @@ let _ =
           with
           | Ok _ -> ()
           | Error (`HttpError e) ->
-              Logs.err (fun m -> m "HTTP Error %a" Aws_SmSdk_Lib.Http.pp_http_failure e)
+              Logs.err (fun m -> m "HTTP Error %a" Smaws_Lib.Http.pp_http_failure e)
           | Error (`JsonParseError e) ->
               Logs.err (fun m ->
                   m "Parse Error! %s"
-                    (Aws_SmSdk_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
+                    (Smaws_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
           | Error (`InvalidAddress s) ->
               Logs.err (fun m -> m "Invalid address: %s" (s.message |> Option.value ~default:"<>"))
-          | Error (`AWSServiceError { _type = namespace, name; message }) ->
+          | Error (`AWSServiceError { _type = { namespace; name }; message }) ->
               Logs.err (fun m ->
                   m "Unknown AWS error %s:%s - %s" namespace name (Option.value ~default:"" message))
           | Error _ -> Logs.err (fun m -> m "Another error")))

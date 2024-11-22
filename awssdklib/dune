@@ -1,9 +1,8 @@
 (library
- (name Aws_SmSdk_Lib)
- (public_name aws-smsdk-lib)
+ (name Smaws_Lib)
+ (public_name smaws-lib)
  (libraries
   logs
-  stdio
   str
   fmt
   uri

@@ -10,7 +10,7 @@ let has_func_body = function
   | StructureShape x -> true
   | StringShape _ | IntegerShape _ | BooleanShape _ | BigIntegerShape _ | BigDecimalShape _
   | TimestampShape _ | BlobShape _ | MapShape _ | UnionShape _ | SetShape _ | LongShape _
-  | ListShape _ | FloatShape _ | DoubleShape _ | EnumShape _ | UnitShape ->
+  | DocumentShape | ListShape _ | FloatShape _ | DoubleShape _ | EnumShape _ | UnitShape ->
       true
   | ResourceShape | OperationShape _ | ServiceShape _ -> false
 
@@ -33,7 +33,7 @@ let print_shape_func ~printer ~func_name ~fmt { name; descriptor; recursWith; _ 
 
 module Serialiser = struct
   let func_name ?(is_exception_type = false) name =
-    let exception_extension = if is_exception_type then "_exception_details" else "" in
+    let exception_extension = if is_exception_type then "" else "" in
     Fmt.str "%s%s_to_yojson" (SafeNames.safeFunctionName name) exception_extension
 
   let rec structure_func_body fmt name (descriptor : structureShapeDetails) =
@@ -96,6 +96,7 @@ module Serialiser = struct
     | DoubleShape x -> Fmt.pf fmt "double_to_yojson"
     | ServiceShape x -> ()
     | UnitShape -> Fmt.pf fmt "unit_to_yojson"
+    | DocumentShape -> Fmt.pf fmt "json_to_yojson"
     | _ -> raise (UnexpectedType name)
 
   let generate ~(structure_shapes : shapeWithTarget list) fmt =
@@ -116,9 +117,7 @@ end
 
 module Deserialiser = struct
   let func_name ?(is_exception_type = false) name =
-    SafeNames.safeFunctionName name
-    ^ (if is_exception_type then "_exception_details" else "")
-    ^ "_of_yojson"
+    SafeNames.safeFunctionName name ^ (if is_exception_type then "" else "") ^ "_of_yojson"
 
   let rec structure_func_body fmt name (x : structureShapeDetails) =
     let is_exception_type = hasTrait x.traits isErrorTrait in
@@ -207,6 +206,7 @@ module Deserialiser = struct
     | DoubleShape x -> Fmt.pf fmt "double_of_yojson"
     | UnitShape -> Fmt.pf fmt "unit_of_yojson"
     | ServiceShape x -> ()
+    | DocumentShape -> Fmt.pf fmt "json_of_yojson"
     | _ -> raise (UnexpectedType name)
 
   let generate ~name ~structure_shapes fmt =
@@ -270,7 +270,7 @@ module Operations = struct
            Fmt.pf fmt "let input = %s in@\n"
              (os.input
              |> Option.map ~f:(fun input ->
-                    Fmt.str "Serializers.%s_to_yojson request" (Types.resolve alias_context input))
+                    Fmt.str "Serializers.%s request" (Serialiser.func_name input))
              |> Option.value ~default:"`Assoc([])");
            let serviceShape =
              Fmt.str "%s.%s" (Util.symbolName name) (Util.symbolName operation_name)

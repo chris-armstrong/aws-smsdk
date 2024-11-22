@@ -1,0 +1,42 @@
+(rule
+  (mode promote)
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../definitions/swf.json))
+ (targets
+  builders.ml
+  builders.mli
+  serializers.ml
+  deserializers.ml
+  types.ml
+  types.mli
+  operations.ml
+  operations.mli
+  Smaws_Client_SWF.ml
+  Smaws_Client_SWF.mli)
+ (action
+  (run
+   %{gen}
+   -input
+   %{input}
+   -output
+   .
+   -targets
+   builders
+   types
+   serializers
+   deserializers
+   operations
+   module)))
+
+(library
+ (name Smaws_Client_SWF)
+ (public_name smaws-clients.swf)
+ (modules
+  Smaws_Client_SWF
+  types
+  serializers
+  deserializers
+  operations
+  builders)
+ (libraries smaws-lib))

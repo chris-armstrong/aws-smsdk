@@ -1,0 +1,54 @@
+name: Build and deploy documentation to Github Pages
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build-deploy-doc:
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        ocaml-compiler:
+          - 5
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+      - name: Checkout tree
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+      - name: Install opam dependencies
+        run: opam install ./smaws-lib.opam ./smaws-gen.opam ./smaws-clients.opam --deps-only --with-doc --assume-depexts
+
+      - name: Build documentation
+        run: opam exec -- dune build @doc
+
+      - name: Setup pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload documentation
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _build/default/_doc/_html
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

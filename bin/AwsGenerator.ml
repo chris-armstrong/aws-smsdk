@@ -31,13 +31,13 @@ let readCommandLine () =
     Stdlib.Arg.parse argumentTypes (fun _ -> ()) usage;
     match (!filename, !output_dir, !targets) with
     | None, _, _ ->
-        Stdio.eprintf "no definition filename specified!@.";
+        Fmt.pf Fmt.stderr "no definition filename specified!@.";
         Stdlib.exit 1
     | _, None, _ ->
-        Stdio.eprintf "no output directory specified!@.";
+        Fmt.pf Fmt.stderr "no output directory specified!@.";
         Stdlib.exit 1
     | _, _, None ->
-        Stdio.eprintf "no targets specified!@.";
+        Fmt.pf Fmt.stderr "no targets specified!@.";
         Stdlib.exit 1
     | Some input, Some output, Some targets ->
         let targets =
@@ -51,13 +51,13 @@ let readCommandLine () =
               | "builders" -> BuildersCommand
               | "module" -> ModuleCommand
               | _ ->
-                  Stdio.eprintf "You must specify a -run <command>\n";
+                  Fmt.pf Fmt.stderr "You must specify a -run <command>\n";
                   Stdlib.exit 1)
             targets
         in
         (input, output, targets)
   with Invalid_argument x ->
-    Stdio.eprintf "You must supply a model file as the first parameter: %s\n" x;
+    Fmt.pf Fmt.stderr "You must supply a model file as the first parameter: %s\n" x;
     Stdlib.exit 1
 
 let shapeWithTarget Ast.Shape.{ name; descriptor } =
@@ -86,6 +86,7 @@ let _ =
       in
       List.iter
         ~f:(fun command ->
+          let sdkId = serviceDetails.sdkId |> Str.global_replace (Str.regexp "[ ]") "" in
           let write_output filename generate =
             let output = Stdlib.Filename.concat output_dir filename in
             let output_channel = Out_channel.open_text output in
@@ -128,15 +129,14 @@ let _ =
                   Gen_deserialisers.generate ~name ~service ~operation_shapes ~structure_shapes
                     output_fmt)
           | ModuleCommand ->
-              write_output (Fmt.str "Aws_SmSdk_Client_%s.ml" serviceDetails.sdkId)
-                (fun output_fmt ->
+              let module_name = sdkId |> String.capitalize in
+              write_output (Fmt.str "Smaws_Client_%s.ml" module_name) (fun output_fmt ->
                   Fmt.pf output_fmt "include Types@\n";
                   Fmt.pf output_fmt "include Builders@\n";
                   Fmt.pf output_fmt "include Operations@\n");
-              write_output (Fmt.str "Aws_SmSdk_Client_%s.mli" serviceDetails.sdkId)
-                (fun output_fmt ->
+              write_output (Fmt.str "Smaws_Client_%s.mli" serviceDetails.sdkId) (fun output_fmt ->
                   Gen_doc.module_doc ~name ~service ~operation_shapes ~structure_shapes output_fmt;
-                  Fmt.pf output_fmt "open Aws_SmSdk_Lib@\n@\n";
+                  Fmt.pf output_fmt "open Smaws_Lib@\n@\n";
                   Fmt.pf output_fmt "(** {1:types Types} *)@\n@\n";
                   Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~alias_context ~no_open:true output_fmt;
@@ -149,5 +149,5 @@ let _ =
         targets
     end
   | Error error ->
-      Stdio.eprintf "Error parsing model: %s\n" (Parse.Json.Decode.jsonParseErrorToString error);
+      Fmt.pf Fmt.stderr "Error parsing model: %s\n" (Parse.Json.Decode.jsonParseErrorToString error);
       Stdlib.exit 1

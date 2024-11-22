@@ -1,0 +1,44 @@
+{0 smaws-lib}
+
+[smaws-lib] is a support library for [smaws-clients], which provides AWS SDKs for OCaml.
+
+This library is not meant to be used independently - please see [smaws-clients] for SDK installation and usage documentation.
+
+{1 Library details}
+
+This provides the support functions needed by the generated service SDKs, including:
+
+- Smithy Protocol Support
+- HTTP Client handling
+- AwsSigV4 Signing
+- Configuration and Context support
+
+You may need to use some parts directly, like the {!module-Smaws_Lib.Config} or {!module-Smaws_Lib.Context} objects used to establish a connection.
+
+{1 Reference}
+
+{2 Configuration and Context}
+
+{!modules:
+Smaws_Lib.Config
+Smaws_Lib.Context
+}
+
+{2 Internal SDK Services}
+
+{!modules:
+Smaws_Lib.Auth
+Smaws_Lib.Http
+Smaws_Lib.Protocols
+Smaws_Lib.Sign
+}
+
+{2 Utilities and Parsers}
+
+{!modules:
+Smaws_Lib.Ini
+Smaws_Lib.Json
+}
+
+
+

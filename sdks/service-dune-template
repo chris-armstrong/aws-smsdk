@@ -1,0 +1,41 @@
+(rule
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../awssdkjsv3/codegen/sdk-codegen/aws-models/%%service-short-name%%.json))
+ (targets
+  builders.ml
+  builders.mli
+  serializers.ml
+  deserializers.ml
+  types.ml
+  types.mli
+  operations.ml
+  operations.mli
+  Smaws_Client_%%service-full-name%%.ml
+  Smaws_Client_%%service-full-name%%.mli)
+ (action
+  (run
+   %{gen}
+   -input
+   %{input}
+   -output
+   .
+   -targets
+   builders
+   types
+   serializers
+   deserializers
+   operations
+   module)))
+
+(library
+ (name Smaws_Client_%%service-full-name%%)
+ (public_name smaws-clients.%%service-short-name%%)
+ (modules
+  Smaws_Client_%%service-full-name%%
+  types
+  serializers
+  deserializers
+  operations
+  builders)
+ (libraries smaws-lib))

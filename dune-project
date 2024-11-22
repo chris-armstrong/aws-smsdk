@@ -1,24 +1,22 @@
 (lang dune 3.15)
 
-(name aws-smsdk)
+(name smaws)
 
 (generate_opam_files true)
 
 (package
- (name aws-smsdk-gen)
+ (name smaws-gen)
  (allow_empty)
  (synopsis "Generate AWS API bindings")
  (description "Generate API bindings for AWS")
  (authors "Chris Armstrong")
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
- (homepage https://github.com/chris-armstrong/aws-smsdk)
- (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
+ (homepage https://github.com/chris-armstrong/smaws)
+ (bug_reports https://github.com/chris-armstrong/smaws/issues)
  (source
-  (github chris-armstrong/aws-smsdk))
+  (github chris-armstrong/smaws))
  (license MIT)
  (depends
-  (dune
-   (>= "3.14"))
   (ocaml
    (>= "5.0"))
   (yojson
@@ -27,92 +25,71 @@
   (fmt
    (>= "0.9.0"))
   base
-  base64
-  digestif
-  ppx_deriving
+  (base64 (>= "3.4.0"))
+  (digestif (>= "1.1.4"))
+  (ppx_deriving (>= "5.0"))
   ocamlgraph
-  uri
-  logs
-  markup
-  stdio
+  (markup (>= "1.0.3"))
+  (uri (>= "4.2.0"))
+  (logs (>= "0.7.0"))
+  ppx_compare
   (alcotest :with-test)
-  (eio_main :with-dev)
+  (eio_main :with-dev-setup)
   (odoc :with-doc)))
 
 (package
- (name aws-smsdk-lib)
+ (name smaws-lib)
  (allow_empty)
  (synopsis "Support library for AWS SDKs generated from Smithy definitions")
  (description
   "Support library for AWS SDKs generated from Smithy definitions")
  (authors "Chris Armstrong")
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
- (homepage https://github.com/chris-armstrong/aws-smsdk)
- (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
+ (homepage https://github.com/chris-armstrong/smaws)
+ (bug_reports https://github.com/chris-armstrong/smaws/issues)
+ (documentation https://chris-armstrong.github.io/smaws/smaws-lib)
  (source
-  (github chris-armstrong/aws-smsdk))
+  (github chris-armstrong/smaws))
  (license MIT)
  (depends
-  (dune
-   (>= "3.14"))
   (ocaml
    (>= "5.0"))
   (yojson
    (>= "2.0.0"))
   (fmt
    (>= "0.9.0"))
-  xmlm
-  base64
-  digestif
-  eio-ssl
-  uri
-  logs
-  httpun
-  httpun-eio
-  eio_main
-  ppx_compare
-  stdio
-  (eio_main :with-dev)
+  (xmlm (>= "1.4.0"))
+  (base64 (>= "3.4.0"))
+  (digestif (>= "1.1.4"))
+  (eio-ssl (>= "0.3.0"))
+  (uri (>= "4.2.0"))
+  (logs (>= "0.7.0"))
+  (httpun (>= "0.2.0"))
+  (httpun-eio (>= "0.2.0"))
+  (ppx_deriving (>= "5.0"))
+  (alcotest :with-test)
+  (eio_main :with-dev-setup)
   (odoc :with-doc)))
 
 (package
- (name aws-smsdk-client-sqs)
+ (name smaws-clients)
  (allow_empty)
- (synopsis "Amazon SQS client using EIO")
- (description "This is a generated AWS SDK client for Amazon SQS. It uses EIO for asynchronous requests.")
+ (synopsis "Amazon Web Services SDK clients using EIO")
+ (description "This is a generated set of AWS SDK clients. It uses EIO for asynchronous requests.")
  (authors "Chris Armstrong")
  (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
- (homepage https://github.com/chris-armstrong/aws-smsdk)
- (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
+ (homepage https://github.com/chris-armstrong/smaws)
+ (bug_reports https://github.com/chris-armstrong/smaws/issues)
+ (documentation https://chris-armstrong.github.io/smaws/smaws-clients)
  (source
-  (github chris-armstrong/aws-smsdk))
+  (github chris-armstrong/smaws))
  (license MIT)
  (depends
-  (dune
-   (>= "3.14"))
   (ocaml
    (>= "5.0"))
-  aws-smsdk-lib
+  smaws-lib
+  (alcotest :with-test)
   (odoc :with-doc)))
 
-(package
- (name aws-smsdk-client-dynamodb)
- (allow_empty)
- (synopsis "Amazon DynamoDB client using EIO")
- (description "This is a generated AWS SDK client for Amazon DynamoDB. It uses EIO for asynchronous requests.")
- (authors "Chris Armstrong")
- (maintainers "Chris Armstrong <oss@chrisarmstrong.dev>")
- (homepage https://github.com/chris-armstrong/aws-smsdk)
- (bug_reports https://github.com/chris-armstrong/aws-smsdk/issues)
- (source
-  (github chris-armstrong/aws-smsdk))
- (license MIT)
- (depends
-  (dune
-   (>= "3.14"))
-  (ocaml
-   (>= "5.0"))
-  aws-smsdk-lib
-  (odoc :with-doc)))
 
 

@@ -1,0 +1,42 @@
+(rule
+  (mode promote)
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../definitions/backup-gateway.json))
+ (targets
+  builders.ml
+  builders.mli
+  serializers.ml
+  deserializers.ml
+  types.ml
+  types.mli
+  operations.ml
+  operations.mli
+  Smaws_Client_BackupGateway.ml
+  Smaws_Client_BackupGateway.mli)
+ (action
+  (run
+   %{gen}
+   -input
+   %{input}
+   -output
+   .
+   -targets
+   builders
+   types
+   serializers
+   deserializers
+   operations
+   module)))
+
+(library
+ (name Smaws_Client_BackupGateway)
+ (public_name smaws-clients.backup-gateway)
+ (modules
+  Smaws_Client_BackupGateway
+  types
+  serializers
+  deserializers
+  operations
+  builders)
+ (libraries smaws-lib))

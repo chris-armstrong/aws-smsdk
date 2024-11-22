@@ -20,7 +20,7 @@ awssdksjsv3/         # git checkout of AWS SDK JS v3, containing Smithy definiti
 awssdklib/           # shared SDK library
 awssdklib/http       # shared SDK library HTTP implementation
 bin/                 # SDK generator binaries
-examples/            # usage examples
+awssdklib_examples/  # usage examples
 library/             # SDK generator libraries
 sdks/                # service SDKs builders
 ```

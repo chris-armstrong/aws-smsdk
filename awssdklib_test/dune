@@ -1,0 +1,6 @@
+(tests
+ (package smaws-lib)
+ (names aws_smsdk_lib_tests)
+ (preprocess
+  (pps ppx_deriving.show ppx_deriving.eq))
+ (libraries alcotest smaws-lib))

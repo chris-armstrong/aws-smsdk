@@ -1,0 +1,42 @@
+(rule
+  (mode promote)
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../definitions/wafv2.json))
+ (targets
+  builders.ml
+  builders.mli
+  serializers.ml
+  deserializers.ml
+  types.ml
+  types.mli
+  operations.ml
+  operations.mli
+  Smaws_Client_WAFV2.ml
+  Smaws_Client_WAFV2.mli)
+ (action
+  (run
+   %{gen}
+   -input
+   %{input}
+   -output
+   .
+   -targets
+   builders
+   types
+   serializers
+   deserializers
+   operations
+   module)))
+
+(library
+ (name Smaws_Client_WAFV2)
+ (public_name smaws-clients.wafv2)
+ (modules
+  Smaws_Client_WAFV2
+  types
+  serializers
+  deserializers
+  operations
+  builders)
+ (libraries smaws-lib))

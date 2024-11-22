@@ -1,7 +1,7 @@
 module SHA256 = Digestif.SHA256
 
 module Log =
-  (val Logs.src_log (Logs.Src.create "Aws_SmSdk_Lib.Sign" ~doc:"AWS Signing Algorithm") : Logs.LOG)
+  (val Logs.src_log (Logs.Src.create "Smaws_Lib.Sign" ~doc:"AWS Signing Algorithm") : Logs.LOG)
 
 let sign_request_v4 ~(config : Config.t) ~(service : Service.descriptor) ~(uri : Uri.t)
     ~(method_ : Http.method_) ~(headers : (string * string) list) ~(body : string) =
@@ -47,7 +47,7 @@ let sign_request_v4 ~(config : Config.t) ~(service : Service.descriptor) ~(uri :
     httpRequestMethod ^ "\n" ^ canonicalUri ^ "\n" ^ canonicalQuery ^ "\n" ^ canonicalHeaders ^ "\n"
     ^ signedHeaders ^ "\n" ^ hash
   in
-  Logs.debug (fun m -> m "signed_request: %s" canonicalRequest);
+  Logs.debug (fun m -> m "signed_request: canonical headers {{{%s}}}" canonicalRequest);
   let canonicalRequestHash =
     canonicalRequest |> Digestif.SHA256.digest_string |> Digestif.SHA256.to_hex
     |> String.lowercase_ascii
@@ -58,6 +58,10 @@ let sign_request_v4 ~(config : Config.t) ~(service : Service.descriptor) ~(uri :
   let stringToSign =
     algorithm ^ "\n" ^ xAmzDate ^ "\n" ^ credentialScope ^ "\n" ^ canonicalRequestHash
   in
+  Logs.debug (fun s ->
+      s "signed_request: access_key_id='%s' secret_access_key='%s' session_token='%s'"
+        auth.access_key_id auth.secret_access_key
+        (Option.value ~default:"<none>" auth.session_token));
   let kSecret = auth.secret_access_key in
   let kDate = SHA256.hmac_string ~key:("AWS4" ^ kSecret) date in
   let kRegion = SHA256.hmac_string ~key:(SHA256.to_raw_string kDate) region in

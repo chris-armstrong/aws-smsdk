@@ -1,0 +1,44 @@
+(library
+ (name Smaws_Clients)
+ (public_name smaws-clients)
+ (modules Smaws_Clients)
+ (libraries smaws-lib 
+    Smaws_Client_ACM
+    Smaws_Client_AppRunner
+    Smaws_Client_BackupGateway
+    Smaws_Client_CloudTrail
+    Smaws_Client_CodeConnections
+    Smaws_Client_CognitoIdentity
+    Smaws_Client_ConfigService
+    Smaws_Client_DAX
+    Smaws_Client_DirectoryService
+    Smaws_Client_DynamoDB
+    Smaws_Client_DynamoDBStreams
+    Smaws_Client_EventBridge
+    Smaws_Client_FMS
+    Smaws_Client_Kendra
+    Smaws_Client_Keyspaces
+    Smaws_Client_KinesisAnalytics
+    Smaws_Client_KinesisAnalyticsV2
+    Smaws_Client_Kinesis
+    Smaws_Client_KMS
+    Smaws_Client_Lightsail
+    Smaws_Client_MarketplaceAgreement
+    Smaws_Client_MigrationHub
+    Smaws_Client_OpenSearchServerless
+    Smaws_Client_PI
+    Smaws_Client_Proton
+    Smaws_Client_ResourceGroupsTaggingAPI
+    Smaws_Client_Route53RecoveryCluster
+    Smaws_Client_ServiceDiscovery
+    Smaws_Client_SFN
+    Smaws_Client_Shield
+    Smaws_Client_Snowball
+    Smaws_Client_SQS
+    Smaws_Client_SSM
+    Smaws_Client_SWF
+    Smaws_Client_Transcribe
+    Smaws_Client_WAF
+    Smaws_Client_WAFV2
+    Smaws_Client_WorkMail  
+  ))

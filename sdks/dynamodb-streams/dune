@@ -1,0 +1,42 @@
+(rule
+  (mode promote)
+ (deps
+  (:gen ../../bin/AwsGenerator.exe)
+  (:input ../../definitions/dynamodb-streams.json))
+ (targets
+  builders.ml
+  builders.mli
+  serializers.ml
+  deserializers.ml
+  types.ml
+  types.mli
+  operations.ml
+  operations.mli
+  Smaws_Client_DynamoDBStreams.ml
+  Smaws_Client_DynamoDBStreams.mli)
+ (action
+  (run
+   %{gen}
+   -input
+   %{input}
+   -output
+   .
+   -targets
+   builders
+   types
+   serializers
+   deserializers
+   operations
+   module)))
+
+(library
+ (name Smaws_Client_DynamoDBStreams)
+ (public_name smaws-clients.dynamodb-streams)
+ (modules
+  Smaws_Client_DynamoDBStreams
+  types
+  serializers
+  deserializers
+  operations
+  builders)
+ (libraries smaws-lib))

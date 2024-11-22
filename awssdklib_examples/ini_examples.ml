@@ -1,4 +1,4 @@
-open Aws_SmSdk_Lib
+open Smaws_Lib
 
 module List = struct
   include List
@@ -21,4 +21,4 @@ let () =
           contents
       with Eio.Exn.Io _ as ex ->
         Fmt.pr "Unknown exception raised: %s@." (Printexc.to_string ex);
-        Printexc.print_backtrace Stdio.stdout)
+        Printexc.print_backtrace Out_channel.stderr)
