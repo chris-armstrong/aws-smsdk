@@ -42,7 +42,7 @@ sdks/                # service SDKs builders
 
 ### Generation Pipeline
 
-![Generation pipeline for SDKs](pipeline.png)
+![Generation pipeline for SDKs](doc/pipeline.png)
 
 ### Smithy Definitions
 
