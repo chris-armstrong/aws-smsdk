@@ -134,7 +134,7 @@ let _ =
                   Fmt.pf output_fmt "include Types@\n";
                   Fmt.pf output_fmt "include Builders@\n";
                   Fmt.pf output_fmt "include Operations@\n");
-              write_output (Fmt.str "Smaws_Client_%s.mli" serviceDetails.sdkId) (fun output_fmt ->
+              write_output (Fmt.str "Smaws_Client_%s.mli" module_name) (fun output_fmt ->
                   Gen_doc.module_doc ~name ~service ~operation_shapes ~structure_shapes output_fmt;
                   Fmt.pf output_fmt "open Smaws_Lib@\n@\n";
                   Fmt.pf output_fmt "(** {1:types Types} *)@\n@\n";
