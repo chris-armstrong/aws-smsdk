@@ -13,9 +13,9 @@ let test_text () =
   in
   Alcotest.(check string)
     "processes text correctly"
-    ("All text nodes with unnecessary * line breaks * and tabs are cleaned up\n\n"
-   ^ "and [code is formatted as code]\n\n" ^ "{v\nbut pre blocks\n\tare left alone\nv}")
-    (html_to_odoc input)
+    ("\nAll text nodes with unnecessary * line breaks * and tabs are cleaned up\n"
+   ^ "and [code is formatted as code]\n" ^ "{v\nbut pre blocks\n\tare left alone\nv}\n")
+    (html_to_odoc ~indent:0 ~start_indent:0 input)
 
 let test_paragraphs () =
   let input = "<body><p>paragraph 1</p><p>paragraph 2</p></body>" in
@@ -25,17 +25,20 @@ let test_paragraphs () =
       simple_element "body"
         [ simple_element "p" [ text "paragraph 1" ]; simple_element "p" [ text "paragraph 2" ] ])
     (html_to_tree input);
-  Alcotest.(check string) "formats paragraphs" "paragraph 1\n\nparagraph 2\n\n" (html_to_odoc input)
+  Alcotest.(check string)
+    "formats paragraphs" "\n    paragraph 1\n    paragraph 2" (html_to_odoc input)
 
 let test_formatting () =
   let input = "<body><p>This is <b>some bold text</b> and <i>italics</i></p></body>" in
   Alcotest.(check string)
-    "formats bold italic" "This is {b some bold text} and {i italics}\n\n" (html_to_odoc input)
+    "formats bold italic" "\nThis is {b some bold text} and {i italics}"
+    (html_to_odoc ~start_indent:0 ~indent:0 input)
 
 let test_unordered_list () =
   let input = "<body><ul> <li>Item A</li><li><b>Item B</b></li></ul></body>" in
   Alcotest.(check string)
-    "formats unordered lists" "- Item A\n- {b Item B}\n\n" (html_to_odoc input)
+    "formats unordered lists" "- Item A\n- {b Item B}\n\n"
+    (html_to_odoc ~start_indent:0 ~indent:0 input)
 
 let test_link () =
   let input =
@@ -46,7 +49,7 @@ let test_link () =
   Alcotest.(check string)
     "correctly renders links"
     "It correctly transforms {{: https://www.example.com }a link containing} something.\n\n"
-    (html_to_odoc input)
+    (html_to_odoc ~start_indent:0 ~indent:0 input)
 
 let test_suite =
   Alcotest.
