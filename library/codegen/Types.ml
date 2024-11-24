@@ -21,14 +21,7 @@ let type_name ~is_exception_type name =
 let generateType name definition ~is_exception_type =
   Fmt.str "type %s = %s" (type_name ~is_exception_type name) definition
 
-let generateField ?doc fieldName typeName =
-  (safeMemberName fieldName ^ ": ")
-  ^ typeName
-  ^ Option.value_map doc ~default:"" ~f:(fun x -> " " ^ x)
-
-let generateRecordTypeDefinition members =
-  if List.is_empty members then "unit" else ("{\n  " ^ String.concat members ~sep:";\n  ") ^ "\n}"
-
+let generateField fieldName typeName = (safeMemberName fieldName ^ ": ") ^ typeName
 let reBSlashBSlash = Str.regexp "\\\\"
 let reBSlashDQuote = Str.regexp "\\\""
 
@@ -36,15 +29,26 @@ let escapeString str =
   (str |> fun __x -> Str.global_replace reBSlashBSlash "\\\\" __x) |> fun __x ->
   Str.global_replace reBSlashDQuote "\\\"" __x
 
-let generateDoc traits =
-  let docStrs =
-    traits |> Option.value ~default:[]
-    |> List.filter_map ~f:(fun trait ->
-           match trait with Trait.DocumentationTrait str -> Some str | _ -> None)
-  in
-  let docStrs = List.concat [ [ "<body>" ]; docStrs; [ "</body>" ] ] in
-  let docs = String.concat docStrs ~sep:"" |> Parse.Html.html_to_odoc in
-  if not (docs |> String.is_empty) then ("(**" ^ docs) ^ "*)\n" else ""
+let generateRecordTypeDefinition ~genDoc members =
+  if List.is_empty members then "unit"
+  else begin
+    let b = Buffer.create (if genDoc then 2048 else 500) in
+    Buffer.add_string b "{\n";
+    List.iter members ~f:(fun ((member, field_string) : Shape.member * string) ->
+        Buffer.add_string b "  ";
+        Buffer.add_string b field_string;
+        Buffer.add_string b ";";
+        if genDoc then (
+          Buffer.add_string b "\n  ";
+          let doc_string = Docs.generate member.traits in
+          Option.iter doc_string ~f:(fun doc_string ->
+              Buffer.add_string b " ";
+              Buffer.add_string b doc_string));
+        Buffer.add_string b "\n");
+
+    Buffer.add_string b "}";
+    Buffer.contents b
+  end
 
 let generateIntegerShape () = "int"
 let generateLongShape () = "int"
@@ -69,15 +73,14 @@ let generateStringShape (details : Shape.primitiveShapeDetails) =
    | _ -> "string")
   [@ns.braces]
 
-let generateMember ctx (m : Shape.member) ?(genDoc = false) () =
+let generateMember ctx (m : Shape.member) () =
   let safeName = safeMemberName m.name in
   let required = Trait.hasTrait m.traits Trait.isRequiredTrait in
   let resolved_target = m.target |> resolve ctx in
   let valueType =
     (if required then resolved_target else resolved_target ^ " option") [@ns.ternary]
   in
-  let doc = match genDoc with true -> Some (generateDoc m.traits) | false -> None in
-  generateField safeName valueType ?doc
+  generateField safeName valueType
 
 let indentString indent =
   (let is = [||] in
@@ -88,8 +91,8 @@ let indentString indent =
 let generateStructureShape ctx (details : Shape.structureShapeDetails) ?(genDoc = false) () =
   let is_error = Trait.hasTrait details.traits Trait.isErrorTrait in
   let record_type_definition =
-    generateRecordTypeDefinition
-      (List.map details.members ~f:(fun member -> generateMember ctx member ~genDoc ()))
+    generateRecordTypeDefinition ~genDoc
+      (List.map details.members ~f:(fun member -> (member, generateMember ctx member ())))
   in
   record_type_definition
 
@@ -175,7 +178,7 @@ let should_generate_type_block descriptor =
 let generate_type ctx ({ name; descriptor } : Shape.t) ?(genDoc = false) () =
   if should_generate_type_block descriptor then begin
     let docs =
-      match genDoc with true -> generateDoc (Shape.getShapeTraits descriptor) | false -> ""
+      match genDoc with true -> Docs.generate (Shape.getShapeTraits descriptor) | false -> None
     in
     let result = generateTypeTarget ctx descriptor ~genDoc () in
     let is_exception_type =
@@ -184,7 +187,7 @@ let generate_type ctx ({ name; descriptor } : Shape.t) ?(genDoc = false) () =
       | _ -> false
     in
     let t = if String.equal result "" then "" else generateType name result ~is_exception_type in
-    Some (docs ^ t)
+    match docs with Some docs -> Some (docs ^ t) | None -> Some t
   end
   else None
 

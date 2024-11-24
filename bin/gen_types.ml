@@ -46,6 +46,7 @@ let generate ~name ~(service : Ast.Shape.serviceShapeDetails) ~operation_shapes 
     ~alias_context fmt =
   Fmt.pf fmt "open Smaws_Lib@\n";
   generateServiceMetadata service fmt;
+  Fmt.pf fmt "@\n";
   generateStructureShapes alias_context structure_shapes fmt
 
 let generate_mli ~name ~service ~operation_shapes ~structure_shapes ~alias_context

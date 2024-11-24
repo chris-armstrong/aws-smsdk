@@ -1,6 +1,6 @@
 (tests
  (package smaws-gen)
- (names parselib_tests docs)
+ (names parselib_tests)
  (preprocess
   (pps ppx_deriving.show ppx_deriving.eq))
  (libraries alcotest Parselib))
