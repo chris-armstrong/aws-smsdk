@@ -13,21 +13,20 @@ let test_text () =
   in
   Alcotest.(check string)
     "processes text correctly"
-    ("All text nodes with unnecessary * line breaks * and tabs are cleaned up\n"
-   ^ "and [code is formatted as code]\n" ^ "{vbut pre blocks\n\tare left alonev}\n")
+    ("\nAll text nodes with unnecessary * line breaks * and tabs are cleaned up\n\n"
+   ^ "and [code is formatted as code]\n" ^ "\n{vbut pre blocks\n\tare left alonev}\n")
     (html_to_odoc ~indent:0 ~start_indent:0 input)
 
 let test_formatting () =
   let input = "<body><p>This is <b>some bold text</b> and <i>italics</i></p></body>" in
   Alcotest.(check string)
-    "formats bold italic" "This is {b some bold text} and {i italics}"
+    "formats bold italic" "\nThis is {b some bold text} and {i italics}\n"
     (html_to_odoc ~start_indent:0 ~indent:0 input)
 
 let test_unordered_list () =
   let input = "<body><ul><li>Item A</li><li><b>Item B</b></li></ul></body>" in
-  (* FIXME: This should only be indented 2 spaces, but is 4 (5 at the end) *)
   Alcotest.(check string)
-    "formats unordered lists" "{ul\n     {- Item A}\n     {- {b Item B}}\n     }\n"
+    "formats unordered lists" "{ul\n     {- Item A}\n     {- {b Item B}}\n     }\n  "
     (html_to_odoc ~start_indent:0 ~indent:2 input)
 
 let test_link () =
@@ -38,14 +37,14 @@ let test_link () =
 
   Alcotest.(check string)
     "correctly renders links"
-    "It correctly transforms {{: https://www.example.com }a link containing} something."
+    "\nIt correctly transforms {{:https://www.example.com}a link containing} something.\n"
     (html_to_odoc ~start_indent:0 ~indent:0 input)
 
 let test_multi_paragraphs () =
   let input = "<body><p>This is <b>line 1</b></p><p>and this is line 2</p></body>" in
 
   Alcotest.(check string)
-    "correct renders multiple paragraphs" "This is {b line 1}\nand this is line 2"
+    "correct renders multiple paragraphs" "\nThis is {b line 1}\n\nand this is line 2\n"
     (html_to_odoc ~start_indent:0 ~indent:0 input)
 
 let test_suite =
