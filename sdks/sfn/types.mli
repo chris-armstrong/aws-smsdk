@@ -32,7 +32,11 @@ type validate_state_machine_definition_diagnostic = {
   (** 
     Location of the issue in the state machine, if available.
     
-     For errors specific to a field, the location could be in the format: [/States//], for example: [/States/FailState/ErrorPath].
+     For errors specific to a field, the location could be in the format: 
+     {[
+     /States//
+     ]}
+     , for example: [/States/FailState/ErrorPath].
       *)
 
   message: string;
@@ -963,7 +967,7 @@ type state_machine_list_item = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]
@@ -1043,7 +1047,7 @@ type state_exited_event_details = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]
@@ -1259,7 +1263,7 @@ type start_execution_input = {
             {- white space
                
                }
-             {- brackets [< > { } [ ]]
+             {- brackets [< > { } \[ \]]
                 
                 }
              {- wildcard characters [? *]
@@ -1285,21 +1289,33 @@ type start_execution_input = {
       {ul
            {- {b An unqualified state machine ARN} – Refers to a state machine ARN that isn't qualified with a version or alias ARN. The following is an example of an unqualified state machine ARN.
               
-               [arn::states:::stateMachine:]
+               
+               {[
+               arn::states:::stateMachine:
+               ]}
+               
                
                 Step Functions doesn't associate state machine executions that you start with an unqualified ARN with a version. This is true even if that version uses the same revision that the execution used.
                 
                 }
             {- {b A state machine version ARN} – Refers to a version ARN, which is a combination of state machine ARN and the version number separated by a colon (:). The following is an example of the ARN for version 10.
                
-                [arn::states:::stateMachine::10]
+                
+                {[
+                arn::states:::stateMachine::10
+                ]}
+                
                 
                  Step Functions doesn't associate executions that you start with a version ARN with any aliases that point to that version.
                  
                  }
             {- {b A state machine alias ARN} – Refers to an alias ARN, which is a combination of state machine ARN and the alias name separated by a colon (:). The following is an example of the ARN for an alias named [PROD].
                
-                [arn::states:::stateMachine:]
+                
+                {[
+                arn::states:::stateMachine:
+                ]}
+                
                 
                  Step Functions associates executions that you start with an alias ARN with that alias and the state machine version used for that execution.
                  
@@ -1887,7 +1903,7 @@ type execution_list_item = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]
@@ -1998,7 +2014,7 @@ type activity_list_item = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]
@@ -2744,7 +2760,7 @@ type describe_state_machine_output = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]
@@ -3102,7 +3118,7 @@ type describe_execution_output = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]
@@ -3155,7 +3171,7 @@ type describe_activity_output = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]
@@ -3303,7 +3319,7 @@ type create_state_machine_input = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]
@@ -3388,7 +3404,7 @@ type create_activity_input = {
            {- white space
               
               }
-            {- brackets [< > { } [ ]]
+            {- brackets [< > { } \[ \]]
                
                }
             {- wildcard characters [? *]

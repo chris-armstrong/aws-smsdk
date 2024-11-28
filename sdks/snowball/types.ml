@@ -963,7 +963,8 @@ type job_type = | LOCAL_USE
 type job_list_entry = {
   description: string option;
   (** 
-    The optional description of this specific job, for example [Important Photos 2016-08-11].
+    The optional description of this specific job, for example [Important Photos
+        2016-08-11].
      *)
 
   creation_date: float option;
@@ -1078,7 +1079,8 @@ type cluster_state = | CANCELLED
 type cluster_list_entry = {
   description: string option;
   (** 
-    Defines an optional description of the cluster, for example [Environmental Data Cluster-01].
+    Defines an optional description of the cluster, for example [Environmental Data
+        Cluster-01].
      *)
 
   creation_date: float option;
@@ -1805,7 +1807,8 @@ type create_job_request = {
 
   description: string option;
   (** 
-    Defines an optional description of this specific job, for example [Important Photos 2016-08-11].
+    Defines an optional description of this specific job, for example [Important
+        Photos 2016-08-11].
      *)
 
   on_device_service_configuration: on_device_service_configuration option;
@@ -1947,7 +1950,8 @@ type create_cluster_request = {
 
   description: string option;
   (** 
-    An optional description of this specific cluster, for example [Environmental Data Cluster-01].
+    An optional description of this specific cluster, for example [Environmental Data
+        Cluster-01].
      *)
 
   on_device_service_configuration: on_device_service_configuration option;

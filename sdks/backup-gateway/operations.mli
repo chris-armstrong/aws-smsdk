@@ -9,6 +9,11 @@ module AssociateGatewayToServer : sig
             
         ]
       ) result
+  (** 
+    Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
+     *)
+
+  
 end
 
 module CreateGateway : sig
@@ -20,6 +25,11 @@ module CreateGateway : sig
             | Smaws_Lib.Protocols.AwsJson.error 
         ]
       ) result
+  (** 
+    Creates a backup gateway. After you create a gateway, you can associate it with a server using the [AssociateGatewayToServer] operation.
+     *)
+
+  
 end
 
 module DeleteGateway : sig
@@ -32,6 +42,11 @@ module DeleteGateway : sig
             
         ]
       ) result
+  (** 
+    Deletes a backup gateway.
+     *)
+
+  
 end
 
 module DeleteHypervisor : sig
@@ -46,6 +61,11 @@ module DeleteHypervisor : sig
             
         ]
       ) result
+  (** 
+    Deletes a hypervisor.
+     *)
+
+  
 end
 
 module DisassociateGatewayFromServer : sig
@@ -59,6 +79,11 @@ module DisassociateGatewayFromServer : sig
             
         ]
       ) result
+  (** 
+    Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
+     *)
+
+  
 end
 
 module GetBandwidthRateLimitSchedule : sig
@@ -71,6 +96,11 @@ module GetBandwidthRateLimitSchedule : sig
             
         ]
       ) result
+  (** 
+    Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
+     *)
+
+  
 end
 
 module GetGateway : sig
@@ -83,6 +113,11 @@ module GetGateway : sig
             
         ]
       ) result
+  (** 
+    By providing the ARN (Amazon Resource Name), this API returns the gateway.
+     *)
+
+  
 end
 
 module GetHypervisor : sig
@@ -95,6 +130,11 @@ module GetHypervisor : sig
             
         ]
       ) result
+  (** 
+    This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
+     *)
+
+  
 end
 
 module GetHypervisorPropertyMappings : sig
@@ -107,6 +147,11 @@ module GetHypervisorPropertyMappings : sig
             
         ]
       ) result
+  (** 
+    This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
+     *)
+
+  
 end
 
 module GetVirtualMachine : sig
@@ -119,6 +164,11 @@ module GetVirtualMachine : sig
             
         ]
       ) result
+  (** 
+    By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
+     *)
+
+  
 end
 
 module ImportHypervisorConfiguration : sig
@@ -132,6 +182,11 @@ module ImportHypervisorConfiguration : sig
             
         ]
       ) result
+  (** 
+    Connect to a hypervisor by importing its configuration.
+     *)
+
+  
 end
 
 module ListGateways : sig
@@ -143,6 +198,11 @@ module ListGateways : sig
             | Smaws_Lib.Protocols.AwsJson.error 
         ]
       ) result
+  (** 
+    Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
+     *)
+
+  
 end
 
 module ListHypervisors : sig
@@ -154,6 +214,11 @@ module ListHypervisors : sig
             | Smaws_Lib.Protocols.AwsJson.error 
         ]
       ) result
+  (** 
+    Lists your hypervisors.
+     *)
+
+  
 end
 
 module ListTagsForResource : sig
@@ -166,6 +231,11 @@ module ListTagsForResource : sig
             
         ]
       ) result
+  (** 
+    Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
+     *)
+
+  
 end
 
 module ListVirtualMachines : sig
@@ -177,6 +247,11 @@ module ListVirtualMachines : sig
             | Smaws_Lib.Protocols.AwsJson.error 
         ]
       ) result
+  (** 
+    Lists your virtual machines.
+     *)
+
+  
 end
 
 module PutBandwidthRateLimitSchedule : sig
@@ -189,6 +264,11 @@ module PutBandwidthRateLimitSchedule : sig
             
         ]
       ) result
+  (** 
+    This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
+     *)
+
+  
 end
 
 module PutHypervisorPropertyMappings : sig
@@ -203,6 +283,11 @@ module PutHypervisorPropertyMappings : sig
             
         ]
       ) result
+  (** 
+    This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
+     *)
+
+  
 end
 
 module PutMaintenanceStartTime : sig
@@ -216,6 +301,11 @@ module PutMaintenanceStartTime : sig
             
         ]
       ) result
+  (** 
+    Set the maintenance start time for a gateway.
+     *)
+
+  
 end
 
 module StartVirtualMachinesMetadataSync : sig
@@ -229,6 +319,11 @@ module StartVirtualMachinesMetadataSync : sig
             
         ]
       ) result
+  (** 
+    This action sends a request to sync metadata across the specified virtual machines.
+     *)
+
+  
 end
 
 module TagResource : sig
@@ -241,6 +336,11 @@ module TagResource : sig
             
         ]
       ) result
+  (** 
+    Tag the resource.
+     *)
+
+  
 end
 
 module TestHypervisorConfiguration : sig
@@ -254,6 +354,11 @@ module TestHypervisorConfiguration : sig
             
         ]
       ) result
+  (** 
+    Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
+     *)
+
+  
 end
 
 module UntagResource : sig
@@ -266,6 +371,11 @@ module UntagResource : sig
             
         ]
       ) result
+  (** 
+    Removes tags from the resource.
+     *)
+
+  
 end
 
 module UpdateGatewayInformation : sig
@@ -279,6 +389,11 @@ module UpdateGatewayInformation : sig
             
         ]
       ) result
+  (** 
+    Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
+     *)
+
+  
 end
 
 module UpdateGatewaySoftwareNow : sig
@@ -291,6 +406,14 @@ module UpdateGatewaySoftwareNow : sig
             
         ]
       ) result
+  (** 
+    Updates the gateway virtual machine (VM) software. The request immediately triggers the software update.
+    
+     When you make this request, you get a [200 OK] success response immediately. However, it might take some time for the update to complete.
+     
+      *)
+
+  
 end
 
 module UpdateHypervisor : sig
@@ -305,5 +428,10 @@ module UpdateHypervisor : sig
             
         ]
       ) result
+  (** 
+    Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
+     *)
+
+  
 end
 

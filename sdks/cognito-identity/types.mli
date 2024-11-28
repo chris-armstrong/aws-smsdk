@@ -842,7 +842,11 @@ type get_id_input = {
           {- Facebook: [graph.facebook.com]
              
              }
-           {- Amazon Cognito user pool: [cognito-idp..amazonaws.com/], for example, [cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789].
+           {- Amazon Cognito user pool: 
+              {[
+              cognito-idp..amazonaws.com/
+              ]}
+              , for example, [cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789].
               
               }
            {- Google: [accounts.google.com]

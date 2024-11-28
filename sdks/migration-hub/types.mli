@@ -85,15 +85,15 @@ type resource_attribute_type = | MOTHERBOARD_SERIAL_NUMBER
      
       IPV4 [x.x.x.x]
            
-            {i where x is an integer in the range [0,255]}
+            {i where x is an integer in the range \[0,255\]}
             
              IPV6 [y : y : y : y : y : y : y : y]
                   
-                   {i where y is a hexadecimal between 0 and FFFF. [0, FFFF]}
+                   {i where y is a hexadecimal between 0 and FFFF. \[0, FFFF\]}
                    
-                    MAC_ADDRESS [^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$]
+                    MAC_ADDRESS [^(\[0-9A-Fa-f\]{2}\[:-\]){5}(\[0-9A-Fa-f\]{2})$]
                                 
-                                 FQDN [^[^<>{}\\\\/?,=\\p{Cntrl}]{1,256}$]
+                                 FQDN [^\[^<>{}\\\\/?,=\\p{Cntrl}\]{1,256}$]
                                       
                                        *)
 type resource_attribute = {
@@ -121,7 +121,9 @@ type put_resource_attributes_request = {
   [@ocaml.doc {| 
     Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository.
     
-     Takes the object array of [ResourceAttribute] where the [Type] field is reserved for the following values: [IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER] where the identifying value can be a string up to 256 characters.
+     Takes the object array of [ResourceAttribute] where the [Type] field is reserved for the following values: [IPV4_ADDRESS | IPV6_ADDRESS |
+               MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH
+               | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER] where the identifying value can be a string up to 256 characters.
      
       {ul
            {- If any "VM" related value is set for a [ResourceAttribute] object, it is required that [VM_MANAGER_ID], as a minimum, is always set. If [VM_MANAGER_ID] is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service repository. See the {{:https://docs.aws.amazon.com/migrationhub/latest/ug/API_PutResourceAttributes.html#API_PutResourceAttributes_Examples}Example} section below for a use case of specifying "VM" related values.

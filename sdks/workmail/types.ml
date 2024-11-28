@@ -166,7 +166,7 @@ type update_user_request = {
            {- User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: user@domain.tld
+            {- Email address: user\@domain.tld
                
                }
             {- User name: user
@@ -285,7 +285,7 @@ type update_resource_request = {
            {- Resource ID: r-0123456789a0123456789b0123456789
               
               }
-            {- Email address: resource@domain.tld
+            {- Email address: resource\@domain.tld
                
                }
             {- Resource name: resource
@@ -320,7 +320,7 @@ type update_primary_email_address_request = {
            {- Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity name: entity
@@ -428,7 +428,7 @@ type update_mailbox_quota_request = {
            {- User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: user@domain.tld
+            {- Email address: user\@domain.tld
                
                }
             {- User name: user
@@ -556,7 +556,7 @@ type update_group_request = {
            {- Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: group@domain.tld
+            {- Email address: group\@domain.tld
                
                }
             {- Group name: group
@@ -773,7 +773,7 @@ type start_mailbox_export_job_request = {
            {- Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 , or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity name: entity
@@ -1017,7 +1017,7 @@ type put_mailbox_permissions_request = {
            {- Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: grantee@domain.tld
+            {- Email address: grantee\@domain.tld
                
                }
             {- Grantee name: grantee
@@ -1037,7 +1037,7 @@ type put_mailbox_permissions_request = {
            {- Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity name: entity
@@ -1441,7 +1441,7 @@ type list_resource_delegates_request = {
            {- Resource ID: r-0123456789a0123456789b0123456789
               
               }
-            {- Email address: resource@domain.tld
+            {- Email address: resource\@domain.tld
                
                }
             {- Resource name: resource
@@ -1799,7 +1799,7 @@ type list_mailbox_permissions_request = {
            {- Entity ID: 12345678-1234-1234-1234-123456789012, or r-0123456789a0123456789b0123456789
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity name: entity
@@ -2031,7 +2031,7 @@ type list_groups_for_entity_request = {
            {- Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity name: entity
@@ -2211,7 +2211,7 @@ type list_group_members_request = {
            {- Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: group@domain.tld
+            {- Email address: group\@domain.tld
                
                }
             {- Group name: group
@@ -2648,7 +2648,7 @@ type get_mailbox_details_request = {
            {- User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: user@domain.tld
+            {- Email address: user\@domain.tld
                
                }
             {- User name: user
@@ -2689,7 +2689,7 @@ type get_impersonation_role_effect_response = {
 
   effect_: access_effect option;
   (** 
-    []Effect of the impersonation role on the target user based on its rules. Available effects are [ALLOW] or [DENY].
+    Effect of the impersonation role on the target user based on its rules. Available effects are [ALLOW] or [DENY].
      *)
 
   type_: impersonation_role_type option;
@@ -2866,7 +2866,7 @@ type disassociate_member_from_group_request = {
            {- Member ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: member@domain.tld
+            {- Email address: member\@domain.tld
                
                }
             {- Member name: member
@@ -2886,7 +2886,7 @@ type disassociate_member_from_group_request = {
            {- Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: group@domain.tld
+            {- Email address: group\@domain.tld
                
                }
             {- Group name: group
@@ -2916,7 +2916,7 @@ type disassociate_delegate_from_resource_request = {
            {- Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity: entity
@@ -2936,7 +2936,7 @@ type disassociate_delegate_from_resource_request = {
            {- Resource ID: r-0123456789a0123456789b0123456789
               
               }
-            {- Email address: resource@domain.tld
+            {- Email address: resource\@domain.tld
                
                }
             {- Resource name: resource
@@ -3082,7 +3082,7 @@ type describe_user_request = {
            {- User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: user@domain.tld
+            {- Email address: user\@domain.tld
                
                }
             {- User name: user
@@ -3164,7 +3164,7 @@ type describe_resource_request = {
            {- Resource ID: r-0123456789a0123456789b0123456789
               
               }
-            {- Email address: resource@domain.tld
+            {- Email address: resource\@domain.tld
                
                }
             {- Resource name: resource
@@ -3388,7 +3388,7 @@ type describe_group_request = {
            {- Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: group@domain.tld
+            {- Email address: group\@domain.tld
                
                }
             {- Group name: group
@@ -3497,7 +3497,7 @@ type deregister_from_work_mail_request = {
            {- Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity name: entity
@@ -3680,7 +3680,7 @@ type delete_mailbox_permissions_request = {
            {- Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: grantee@domain.tld
+            {- Email address: grantee\@domain.tld
                
                }
             {- Grantee name: grantee
@@ -3700,7 +3700,7 @@ type delete_mailbox_permissions_request = {
            {- Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity name: entity
@@ -4235,7 +4235,7 @@ type associate_member_to_group_request = {
            {- Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: member@domain.tld
+            {- Email address: member\@domain.tld
                
                }
             {- Member name: member
@@ -4255,7 +4255,7 @@ type associate_member_to_group_request = {
            {- Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: group@domain.tld
+            {- Email address: group\@domain.tld
                
                }
             {- Group name: group
@@ -4285,7 +4285,7 @@ type associate_delegate_to_resource_request = {
            {- Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
               
               }
-            {- Email address: entity@domain.tld
+            {- Email address: entity\@domain.tld
                
                }
             {- Entity: entity
@@ -4305,7 +4305,7 @@ type associate_delegate_to_resource_request = {
            {- Resource ID: r-0123456789a0123456789b0123456789
               
               }
-            {- Email address: resource@domain.tld
+            {- Email address: resource\@domain.tld
                
                }
             {- Resource name: resource

@@ -291,7 +291,8 @@ type update_service_template_version_input = {
 
   major_version: string;
   (** 
-    To update a major version of a service template, include [major Version].
+    To update a major version of a service template, include [major
+      Version].
      *)
 
   template_name: string;
@@ -3680,7 +3681,8 @@ type get_service_template_version_input = {
 
   major_version: string;
   (** 
-    To get service template major version detail data, include [major Version].
+    To get service template major version detail data, include [major
+      Version].
      *)
 
   template_name: string;
@@ -4503,7 +4505,8 @@ type create_service_template_version_input = {
 
   major_version: string option;
   (** 
-    To create a new minor version of the service template, include a [major Version].
+    To create a new minor version of the service template, include a [major
+        Version].
     
      To create a new major and minor version of the service template, {i exclude} [major Version].
       *)
@@ -4635,7 +4638,8 @@ type create_service_instance_input = {
 
   template_minor_version: string option;
   (** 
-    To create a new minor version of the service template, include a [major Version].
+    To create a new minor version of the service template, include a [major
+        Version].
      *)
 
   template_major_version: string option;

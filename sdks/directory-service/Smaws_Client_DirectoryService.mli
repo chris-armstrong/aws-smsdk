@@ -601,12 +601,12 @@ type topic_status = | DELETED
 type tag = {
   value: string;
   [@ocaml.doc {| 
-    The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+    The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^(\[\\p\{L\}\\p\{Z\}\\p\{N\}_.:/=+\\-\]*)$").
      |}]
 
   key: string;
   [@ocaml.doc {| 
-    Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+    Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^(\[\\p\{L\}\\p\{Z\}\\p\{N\}_.:/=+\\-\]*)$").
      |}]
 
 }
@@ -2555,7 +2555,15 @@ type directory_description = {
 
   access_url: string option;
   (** 
-    The access URL for the directory, such as [http://.awsapps.com]. If no alias has been created for the directory, [] is the directory identifier, such as [d-XXXXXXXXXX].
+    The access URL for the directory, such as 
+    {[
+    http://.awsapps.com
+    ]}
+    . If no alias has been created for the directory, 
+    {[
+    
+    ]}
+     is the directory identifier, such as [d-XXXXXXXXXX].
      *)
 
   alias: string option;
@@ -3168,7 +3176,7 @@ type create_directory_request = {
       The regex pattern for this string is made up of the following conditions:
       
        {ul
-            {- Length (?=^.{8,64}$) – Must be between 8 and 64 characters
+            {- Length (?=^.\{8,64\}$) – Must be between 8 and 64 characters
                
                }
             
@@ -3176,16 +3184,16 @@ type create_directory_request = {
        AND any 3 of the following password complexity rules required by Active Directory:
        
         {ul
-             {- Numbers and upper case and lowercase (?=.*\d)(?=.*[A-Z])(?=.*[a-z])
+             {- Numbers and upper case and lowercase (?=.*\d)(?=.*\[A-Z\])(?=.*\[a-z\])
                 
                 }
-              {- Numbers and special characters and lower case (?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])
+              {- Numbers and special characters and lower case (?=.*\d)(?=.*\[^A-Za-z0-9\s\])(?=.*\[a-z\])
                  
                  }
-              {- Special characters and upper case and lower case (?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])
+              {- Special characters and upper case and lower case (?=.*\[^A-Za-z0-9\s\])(?=.*\[A-Z\])(?=.*\[a-z\])
                  
                  }
-              {- Numbers and upper case and special characters (?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s])
+              {- Numbers and upper case and special characters (?=.*\d)(?=.*\[A-Z\])(?=.*\[^A-Za-z0-9\s\])
                  
                  }
              
@@ -4249,6 +4257,11 @@ module AcceptSharedDirectory : sig
             
         ]
       ) result
+  (** 
+    Accepts a directory sharing request that was sent from the directory owner account.
+     *)
+
+  
 end
 
 module AddIpRoutes : sig
@@ -4267,6 +4280,13 @@ module AddIpRoutes : sig
             
         ]
       ) result
+  (** 
+    If the DNS server for your self-managed domain uses a publicly addressable IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. {i AddIpRoutes} adds this address block. You can also use {i AddIpRoutes} to facilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web Services to a peer VPC.
+    
+     Before you call {i AddIpRoutes}, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the {i AddIpRoutes} operation, see {{:http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html}Directory Service API Permissions: Actions, Resources, and Conditions Reference}.
+      *)
+
+  
 end
 
 module AddRegion : sig
@@ -4288,6 +4308,11 @@ module AddRegion : sig
             
         ]
       ) result
+  (** 
+    Adds two domain controllers in the specified Region for the specified directory.
+     *)
+
+  
 end
 
 module AddTagsToResource : sig
@@ -4304,6 +4329,11 @@ module AddTagsToResource : sig
             
         ]
       ) result
+  (** 
+    Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
+     *)
+
+  
 end
 
 module CancelSchemaExtension : sig
@@ -4318,6 +4348,11 @@ module CancelSchemaExtension : sig
             
         ]
       ) result
+  (** 
+    Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; [Initializing], [CreatingSnapshot], and [UpdatingSchema].
+     *)
+
+  
 end
 
 module ConnectDirectory : sig
@@ -4333,6 +4368,13 @@ module ConnectDirectory : sig
             
         ]
       ) result
+  (** 
+    Creates an AD Connector to connect to a self-managed directory.
+    
+     Before you call [ConnectDirectory], ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the [ConnectDirectory] operation, see {{:http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html}Directory Service API Permissions: Actions, Resources, and Conditions Reference}.
+      *)
+
+  
 end
 
 module CreateAlias : sig
@@ -4349,6 +4391,18 @@ module CreateAlias : sig
             
         ]
       ) result
+  (** 
+    Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as 
+    {[
+    http://.awsapps.com
+    ]}
+    .
+    
+     After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
+     
+      *)
+
+  
 end
 
 module CreateComputer : sig
@@ -4368,6 +4422,11 @@ module CreateComputer : sig
             
         ]
       ) result
+  (** 
+    Creates an Active Directory computer object in the specified directory.
+     *)
+
+  
 end
 
 module CreateConditionalForwarder : sig
@@ -4386,6 +4445,11 @@ module CreateConditionalForwarder : sig
             
         ]
       ) result
+  (** 
+    Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional forwarders are required in order to set up a trust relationship with another domain. The conditional forwarder points to the trusted domain.
+     *)
+
+  
 end
 
 module CreateDirectory : sig
@@ -4401,6 +4465,13 @@ module CreateDirectory : sig
             
         ]
       ) result
+  (** 
+    Creates a Simple AD directory. For more information, see {{:https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html}Simple Active Directory} in the {i Directory Service Admin Guide}.
+    
+     Before you call [CreateDirectory], ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the [CreateDirectory] operation, see {{:http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html}Directory Service API Permissions: Actions, Resources, and Conditions Reference}.
+      *)
+
+  
 end
 
 module CreateLogSubscription : sig
@@ -4418,6 +4489,11 @@ module CreateLogSubscription : sig
             
         ]
       ) result
+  (** 
+    Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
+     *)
+
+  
 end
 
 module CreateMicrosoftAD : sig
@@ -4434,6 +4510,13 @@ module CreateMicrosoftAD : sig
             
         ]
       ) result
+  (** 
+    Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see {{:https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html}Managed Microsoft AD} in the {i Directory Service Admin Guide}.
+    
+     Before you call {i CreateMicrosoftAD}, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the {i CreateMicrosoftAD} operation, see {{:http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html}Directory Service API Permissions: Actions, Resources, and Conditions Reference}.
+      *)
+
+  
 end
 
 module CreateSnapshot : sig
@@ -4450,6 +4533,14 @@ module CreateSnapshot : sig
             
         ]
       ) result
+  (** 
+    Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud.
+    
+     You cannot take snapshots of AD Connector directories.
+     
+      *)
+
+  
 end
 
 module CreateTrust : sig
@@ -4467,6 +4558,13 @@ module CreateTrust : sig
             
         ]
       ) result
+  (** 
+    Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials.
+    
+     This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain. You can create either a forest trust or an external trust.
+      *)
+
+  
 end
 
 module DeleteConditionalForwarder : sig
@@ -4484,6 +4582,11 @@ module DeleteConditionalForwarder : sig
             
         ]
       ) result
+  (** 
+    Deletes a conditional forwarder that has been set up for your Amazon Web Services directory.
+     *)
+
+  
 end
 
 module DeleteDirectory : sig
@@ -4498,6 +4601,13 @@ module DeleteDirectory : sig
             
         ]
       ) result
+  (** 
+    Deletes an Directory Service directory.
+    
+     Before you call [DeleteDirectory], ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the [DeleteDirectory] operation, see {{:http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html}Directory Service API Permissions: Actions, Resources, and Conditions Reference}.
+      *)
+
+  
 end
 
 module DeleteLogSubscription : sig
@@ -4513,6 +4623,11 @@ module DeleteLogSubscription : sig
             
         ]
       ) result
+  (** 
+    Deletes the specified log subscription.
+     *)
+
+  
 end
 
 module DeleteSnapshot : sig
@@ -4528,6 +4643,11 @@ module DeleteSnapshot : sig
             
         ]
       ) result
+  (** 
+    Deletes a directory snapshot.
+     *)
+
+  
 end
 
 module DeleteTrust : sig
@@ -4544,6 +4664,11 @@ module DeleteTrust : sig
             
         ]
       ) result
+  (** 
+    Deletes an existing trust relationship between your Managed Microsoft AD directory and an external domain.
+     *)
+
+  
 end
 
 module DeregisterCertificate : sig
@@ -4563,6 +4688,11 @@ module DeregisterCertificate : sig
             
         ]
       ) result
+  (** 
+    Deletes from the system the certificate that was registered for secure LDAP or client certificate authentication.
+     *)
+
+  
 end
 
 module DeregisterEventTopic : sig
@@ -4578,6 +4708,11 @@ module DeregisterEventTopic : sig
             
         ]
       ) result
+  (** 
+    Removes the specified directory as a publisher to the specified Amazon SNS topic.
+     *)
+
+  
 end
 
 module DescribeCertificate : sig
@@ -4595,6 +4730,11 @@ module DescribeCertificate : sig
             
         ]
       ) result
+  (** 
+    Displays information about the certificate registered for secure LDAP or client certificate authentication.
+     *)
+
+  
 end
 
 module DescribeClientAuthenticationSettings : sig
@@ -4612,6 +4752,11 @@ module DescribeClientAuthenticationSettings : sig
             
         ]
       ) result
+  (** 
+    Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only [SmartCard] is supported.
+     *)
+
+  
 end
 
 module DescribeConditionalForwarders : sig
@@ -4629,6 +4774,13 @@ module DescribeConditionalForwarders : sig
             
         ]
       ) result
+  (** 
+    Obtains information about the conditional forwarders for this account.
+    
+     If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
+      *)
+
+  
 end
 
 module DescribeDirectories : sig
@@ -4645,6 +4797,17 @@ module DescribeDirectories : sig
             
         ]
       ) result
+  (** 
+    Obtains information about the directories that belong to this account.
+    
+     You can retrieve information about specific directories by passing the directory identifiers in the [DirectoryIds] parameter. Otherwise, all directories that belong to the current account are returned.
+     
+      This operation supports pagination with the use of the [NextToken] request and response parameters. If more results are available, the [DescribeDirectoriesResult.NextToken] member contains a token that you pass in the next call to [DescribeDirectories] to retrieve the next set of items.
+      
+       You can also specify a maximum number of return results with the [Limit] parameter.
+        *)
+
+  
 end
 
 module DescribeDomainControllers : sig
@@ -4662,6 +4825,11 @@ module DescribeDomainControllers : sig
             
         ]
       ) result
+  (** 
+    Provides information about any domain controllers in your directory.
+     *)
+
+  
 end
 
 module DescribeEventTopics : sig
@@ -4677,6 +4845,13 @@ module DescribeEventTopics : sig
             
         ]
       ) result
+  (** 
+    Obtains information about which Amazon SNS topics receive status messages from the specified directory.
+    
+     If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account.
+      *)
+
+  
 end
 
 module DescribeLDAPSSettings : sig
@@ -4694,6 +4869,11 @@ module DescribeLDAPSSettings : sig
             
         ]
       ) result
+  (** 
+    Describes the status of LDAP security for the specified directory.
+     *)
+
+  
 end
 
 module DescribeRegions : sig
@@ -4712,6 +4892,11 @@ module DescribeRegions : sig
             
         ]
       ) result
+  (** 
+    Provides information about the Regions that are configured for multi-Region replication.
+     *)
+
+  
 end
 
 module DescribeSettings : sig
@@ -4729,6 +4914,11 @@ module DescribeSettings : sig
             
         ]
       ) result
+  (** 
+    Retrieves information about the configurable settings for the specified directory.
+     *)
+
+  
 end
 
 module DescribeSharedDirectories : sig
@@ -4746,6 +4936,11 @@ module DescribeSharedDirectories : sig
             
         ]
       ) result
+  (** 
+    Returns the shared directories in your account.
+     *)
+
+  
 end
 
 module DescribeSnapshots : sig
@@ -4762,6 +4957,15 @@ module DescribeSnapshots : sig
             
         ]
       ) result
+  (** 
+    Obtains information about the directory snapshots that belong to this account.
+    
+     This operation supports pagination with the use of the {i NextToken} request and response parameters. If more results are available, the {i DescribeSnapshots.NextToken} member contains a token that you pass in the next call to [DescribeSnapshots] to retrieve the next set of items.
+     
+      You can also specify a maximum number of return results with the {i Limit} parameter.
+       *)
+
+  
 end
 
 module DescribeTrusts : sig
@@ -4779,6 +4983,13 @@ module DescribeTrusts : sig
             
         ]
       ) result
+  (** 
+    Obtains information about the trust relationships for this account.
+    
+     If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account.
+      *)
+
+  
 end
 
 module DescribeUpdateDirectory : sig
@@ -4796,6 +5007,11 @@ module DescribeUpdateDirectory : sig
             
         ]
       ) result
+  (** 
+    Describes the updates of a directory for a particular update type.
+     *)
+
+  
 end
 
 module DisableClientAuthentication : sig
@@ -4813,6 +5029,11 @@ module DisableClientAuthentication : sig
             
         ]
       ) result
+  (** 
+    Disables alternative client authentication methods for the specified directory.
+     *)
+
+  
 end
 
 module DisableLDAPS : sig
@@ -4831,6 +5052,11 @@ module DisableLDAPS : sig
             
         ]
       ) result
+  (** 
+    Deactivates LDAP secure calls for the specified directory.
+     *)
+
+  
 end
 
 module DisableRadius : sig
@@ -4845,6 +5071,11 @@ module DisableRadius : sig
             
         ]
       ) result
+  (** 
+    Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
+     *)
+
+  
 end
 
 module DisableSso : sig
@@ -4861,6 +5092,11 @@ module DisableSso : sig
             
         ]
       ) result
+  (** 
+    Disables single-sign on for a directory.
+     *)
+
+  
 end
 
 module EnableClientAuthentication : sig
@@ -4879,6 +5115,11 @@ module EnableClientAuthentication : sig
             
         ]
       ) result
+  (** 
+    Enables alternative client authentication methods for the specified directory.
+     *)
+
+  
 end
 
 module EnableLDAPS : sig
@@ -4898,6 +5139,11 @@ module EnableLDAPS : sig
             
         ]
       ) result
+  (** 
+    Activates the switch for the specific directory to always use LDAP secure calls.
+     *)
+
+  
 end
 
 module EnableRadius : sig
@@ -4914,6 +5160,11 @@ module EnableRadius : sig
             
         ]
       ) result
+  (** 
+    Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
+     *)
+
+  
 end
 
 module EnableSso : sig
@@ -4930,6 +5181,11 @@ module EnableSso : sig
             
         ]
       ) result
+  (** 
+    Enables single sign-on for a directory. Single sign-on allows users in your directory to access certain Amazon Web Services services from a computer joined to the directory without having to enter their credentials separately.
+     *)
+
+  
 end
 
 module GetDirectoryLimits : sig
@@ -4944,6 +5200,11 @@ module GetDirectoryLimits : sig
             
         ]
       ) result
+  (** 
+    Obtains directory limit information for the current Region.
+     *)
+
+  
 end
 
 module GetSnapshotLimits : sig
@@ -4958,6 +5219,11 @@ module GetSnapshotLimits : sig
             
         ]
       ) result
+  (** 
+    Obtains the manual snapshot limits for a directory.
+     *)
+
+  
 end
 
 module ListCertificates : sig
@@ -4975,6 +5241,11 @@ module ListCertificates : sig
             
         ]
       ) result
+  (** 
+    For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
+     *)
+
+  
 end
 
 module ListIpRoutes : sig
@@ -4991,6 +5262,11 @@ module ListIpRoutes : sig
             
         ]
       ) result
+  (** 
+    Lists the address blocks that you have added to a directory.
+     *)
+
+  
 end
 
 module ListLogSubscriptions : sig
@@ -5006,6 +5282,11 @@ module ListLogSubscriptions : sig
             
         ]
       ) result
+  (** 
+    Lists the active log subscriptions for the Amazon Web Services account.
+     *)
+
+  
 end
 
 module ListSchemaExtensions : sig
@@ -5021,6 +5302,11 @@ module ListSchemaExtensions : sig
             
         ]
       ) result
+  (** 
+    Lists all schema extensions applied to a Microsoft AD Directory.
+     *)
+
+  
 end
 
 module ListTagsForResource : sig
@@ -5037,6 +5323,11 @@ module ListTagsForResource : sig
             
         ]
       ) result
+  (** 
+    Lists all tags on a directory.
+     *)
+
+  
 end
 
 module RegisterCertificate : sig
@@ -5057,6 +5348,11 @@ module RegisterCertificate : sig
             
         ]
       ) result
+  (** 
+    Registers a certificate for a secure LDAP or client certificate authentication.
+     *)
+
+  
 end
 
 module RegisterEventTopic : sig
@@ -5072,6 +5368,11 @@ module RegisterEventTopic : sig
             
         ]
       ) result
+  (** 
+    Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
+     *)
+
+  
 end
 
 module RejectSharedDirectory : sig
@@ -5088,6 +5389,11 @@ module RejectSharedDirectory : sig
             
         ]
       ) result
+  (** 
+    Rejects a directory sharing request that was sent from the directory owner account.
+     *)
+
+  
 end
 
 module RemoveIpRoutes : sig
@@ -5104,6 +5410,11 @@ module RemoveIpRoutes : sig
             
         ]
       ) result
+  (** 
+    Removes IP address blocks from a directory.
+     *)
+
+  
 end
 
 module RemoveRegion : sig
@@ -5121,6 +5432,11 @@ module RemoveRegion : sig
             
         ]
       ) result
+  (** 
+    Stops all replication and removes the domain controllers from the specified Region. You cannot remove the primary Region with this operation. Instead, use the [DeleteDirectory] API.
+     *)
+
+  
 end
 
 module RemoveTagsFromResource : sig
@@ -5136,6 +5452,11 @@ module RemoveTagsFromResource : sig
             
         ]
       ) result
+  (** 
+    Removes tags from a directory.
+     *)
+
+  
 end
 
 module ResetUserPassword : sig
@@ -5154,6 +5475,23 @@ module ResetUserPassword : sig
             
         ]
       ) result
+  (** 
+    Resets the password for any user in your Managed Microsoft AD or Simple AD directory.
+    
+     You can reset the password for any user in your directory with the following exceptions:
+     
+      {ul
+           {- For Simple AD, you cannot reset the password for any user that is a member of either the {b Domain Admins} or {b Enterprise Admins} group except for the administrator user.
+              
+              }
+            {- For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the {b Amazon Web Services Reserved} OU. For more information about the OU structure for an Managed Microsoft AD directory, see {{:https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_getting_started_what_gets_created.html}What Gets Created} in the {i Directory Service Administration Guide}.
+               
+               }
+           
+      }
+       *)
+
+  
 end
 
 module RestoreFromSnapshot : sig
@@ -5169,6 +5507,15 @@ module RestoreFromSnapshot : sig
             
         ]
       ) result
+  (** 
+    Restores a directory using an existing directory snapshot.
+    
+     When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten.
+     
+      This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the [DescribeDirectories] operation with the directory identifier. When the {b DirectoryDescription.Stage} value changes to [Active], the restore operation is complete.
+       *)
+
+  
 end
 
 module ShareDirectory : sig
@@ -5190,6 +5537,17 @@ module ShareDirectory : sig
             
         ]
       ) result
+  (** 
+    Shares a specified directory ([DirectoryId]) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (directory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region.
+    
+     When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide access to the directory within the directory owner account. The shared directory is visible in all VPCs in the directory consumer account.
+     
+      The [ShareMethod] parameter determines whether the specified directory can be shared between Amazon Web Services accounts inside the same Amazon Web Services organization ([ORGANIZATIONS]). It also determines whether you can share the directory with any other Amazon Web Services account either inside or outside of the organization ([HANDSHAKE]).
+      
+       The [ShareNotes] parameter is only used when [HANDSHAKE] is called, which sends a directory sharing request to the directory consumer.
+        *)
+
+  
 end
 
 module StartSchemaExtension : sig
@@ -5207,6 +5565,11 @@ module StartSchemaExtension : sig
             
         ]
       ) result
+  (** 
+    Applies a schema extension to a Microsoft AD directory.
+     *)
+
+  
 end
 
 module UnshareDirectory : sig
@@ -5223,6 +5586,11 @@ module UnshareDirectory : sig
             
         ]
       ) result
+  (** 
+    Stops the directory sharing between the directory owner and consumer accounts.
+     *)
+
+  
 end
 
 module UpdateConditionalForwarder : sig
@@ -5240,6 +5608,11 @@ module UpdateConditionalForwarder : sig
             
         ]
       ) result
+  (** 
+    Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
+     *)
+
+  
 end
 
 module UpdateDirectorySetup : sig
@@ -5260,6 +5633,11 @@ module UpdateDirectorySetup : sig
             
         ]
       ) result
+  (** 
+    Updates the directory for a particular update type.
+     *)
+
+  
 end
 
 module UpdateNumberOfDomainControllers : sig
@@ -5278,6 +5656,11 @@ module UpdateNumberOfDomainControllers : sig
             
         ]
       ) result
+  (** 
+    Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.
+     *)
+
+  
 end
 
 module UpdateRadius : sig
@@ -5293,6 +5676,11 @@ module UpdateRadius : sig
             
         ]
       ) result
+  (** 
+    Updates the Remote Authentication Dial In User Service (RADIUS) server information for an AD Connector or Microsoft AD directory.
+     *)
+
+  
 end
 
 module UpdateSettings : sig
@@ -5312,6 +5700,11 @@ module UpdateSettings : sig
             
         ]
       ) result
+  (** 
+    Updates the configurable settings for the specified directory.
+     *)
+
+  
 end
 
 module UpdateTrust : sig
@@ -5327,6 +5720,11 @@ module UpdateTrust : sig
             
         ]
       ) result
+  (** 
+    Updates the trust that has been set up between your Managed Microsoft AD directory and an self-managed Active Directory.
+     *)
+
+  
 end
 
 module VerifyTrust : sig
@@ -5343,5 +5741,12 @@ module VerifyTrust : sig
             
         ]
       ) result
+  (** 
+    Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships.
+    
+     This action verifies a trust relationship between your Managed Microsoft AD directory and an external domain.
+      *)
+
+  
 end
 

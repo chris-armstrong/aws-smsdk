@@ -381,7 +381,8 @@ type update_relational_database_request = {
   (** 
     When [true], disables automated backup retention for your database.
     
-     Disabling backup retention deletes all automated database backups. Before disabling this, you may want to create a snapshot of your database using the [create relational database snapshot] operation.
+     Disabling backup retention deletes all automated database backups. Before disabling this, you may want to create a snapshot of your database using the [create relational database
+        snapshot] operation.
      
       Updates are applied during the next maintenance window because this can result in an outage.
        *)
@@ -455,7 +456,7 @@ type update_relational_database_request = {
 
   master_user_password: string option;
   [@ocaml.doc {| 
-    The password for the master user. The password can include any printable ASCII character except "/", """, or "@".
+    The password for the master user. The password can include any printable ASCII character except "/", """, or "\@".
     
      My{b SQL}
      
@@ -1110,7 +1111,8 @@ type cache_behavior_per_path = {
 
   path: string option;
   (** 
-    The path to a directory or file to cached, or not cache. Use an asterisk symbol to specify wildcard directories ([path/to/assets/*]), and file types ([*.html, *jpg, *js]). Directories and file paths are case-sensitive.
+    The path to a directory or file to cached, or not cache. Use an asterisk symbol to specify wildcard directories ([path/to/assets/*]), and file types ([*.html, *jpg,
+        *js]). Directories and file paths are case-sensitive.
     
      Examples:
      
@@ -1245,14 +1247,14 @@ type tag = {
   (** 
     The value of the tag.
     
-     Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
+     Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / \@
       *)
 
   key: string option;
   (** 
     The key of the tag.
     
-     Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
+     Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / \@
       *)
 
 }
@@ -3388,10 +3390,18 @@ type register_container_image_request = {
     
      Use a descriptive label that you can use to track the different versions of your registered container images.
      
-      Use the [GetContainerImages] action to return the container images registered to a Lightsail container service. The label is the [] portion of the following image name example:
+      Use the [GetContainerImages] action to return the container images registered to a Lightsail container service. The label is the 
+      {[
+      
+      ]}
+       portion of the following image name example:
       
        {ul
-            {- [:container-service-1..1]
+            {- 
+               {[
+               :container-service-1..1
+               ]}
+               
                
                }
             
@@ -3450,7 +3460,8 @@ type region = {
 
   description: string option;
   (** 
-    The description of the Amazon Web Services Region ([This region is recommended to serve users in the eastern United States and eastern Canada]).
+    The description of the Amazon Web Services Region ([This region is recommended to
+        serve users in the eastern United States and eastern Canada]).
      *)
 
   continent_code: string option;
@@ -7447,7 +7458,7 @@ type get_distribution_metric_data_request = {
                  [Unit]: The published unit is [None].
                  
                  }
-            {- {b [BytesUploaded]} - The number of bytes uploaded to your origin by your Lightsail distribution, using POST and PUT requests.
+            {- {b [BytesUploaded ]} - The number of bytes uploaded to your origin by your Lightsail distribution, using POST and PUT requests.
                
                 [Statistics]: The most useful statistic is [Sum].
                 
@@ -8013,7 +8024,8 @@ type get_container_log_request = {
             {- To return log events that contain the [ERROR] term, specify a filter pattern of ["ERROR"].
                
                }
-            {- To return log events that contain both the [ERROR] and [Exception] terms, specify a filter pattern of ["ERROR Exception"].
+            {- To return log events that contain both the [ERROR] and [Exception] terms, specify a filter pattern of ["ERROR
+          Exception"].
                
                }
             {- To return log events that contain the [ERROR] {i or} the [Exception] term, specify a filter pattern of ["?ERROR ?Exception"].
@@ -8215,7 +8227,8 @@ type cloud_formation_stack_record_source_info = {
 }
 
 (** 
-    Describes a CloudFormation stack record created as a result of the [create cloud formation stack] action.
+    Describes a CloudFormation stack record created as a result of the [create cloud
+        formation stack] action.
     
      A CloudFormation stack record provides information about the AWS CloudFormation stack used to create a new Amazon Elastic Compute Cloud instance from an exported Lightsail instance snapshot.
       *)
@@ -10186,7 +10199,8 @@ type create_relational_database_from_snapshot_request = {
   (** 
     The bundle ID for your new database. A bundle describes the performance specifications for your database.
     
-     You can get a list of database bundle IDs by using the [get relational database bundles] operation.
+     You can get a list of database bundle IDs by using the [get relational database
+        bundles] operation.
      
       When creating a new database from a snapshot, you cannot choose a bundle that is smaller than the bundle of the source database.
        *)
@@ -10305,7 +10319,7 @@ type create_relational_database_request = {
 
   master_user_password: string option;
   [@ocaml.doc {| 
-    The password for the master user. The password can include any printable ASCII character except "/", """, or "@". It cannot contain spaces.
+    The password for the master user. The password can include any printable ASCII character except "/", """, or "\@". It cannot contain spaces.
     
      {b MySQL}
      
@@ -10414,14 +10428,16 @@ type create_relational_database_request = {
   (** 
     The bundle ID for your new database. A bundle describes the performance specifications for your database.
     
-     You can get a list of database bundle IDs by using the [get relational database bundles] operation.
+     You can get a list of database bundle IDs by using the [get relational database
+        bundles] operation.
       *)
 
   relational_database_blueprint_id: string;
   (** 
     The blueprint ID for your new database. A blueprint describes the major engine version of a database.
     
-     You can get a list of database blueprints IDs by using the [get relational database blueprints] operation.
+     You can get a list of database blueprints IDs by using the [get relational database
+        blueprints] operation.
       *)
 
   availability_zone: string option;
@@ -10660,7 +10676,8 @@ type create_instances_from_snapshot_request = {
      Constraints:
      
       {ul
-           {- This parameter cannot be defined together with the [restore date] parameter. The [use latest restorable auto snapshot] and [restore date] parameters are mutually exclusive.
+           {- This parameter cannot be defined together with the [restore date] parameter. The [use latest restorable auto snapshot] and [restore
+            date] parameters are mutually exclusive.
               
               }
             {- Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the {{:https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots}Amazon Lightsail Developer Guide}.
@@ -10672,7 +10689,8 @@ type create_instances_from_snapshot_request = {
 
   restore_date: string option;
   (** 
-    The date of the automatic snapshot to use for the new instance. Use the [get auto snapshots] operation to identify the dates of the available automatic snapshots.
+    The date of the automatic snapshot to use for the new instance. Use the [get auto
+        snapshots] operation to identify the dates of the available automatic snapshots.
     
      Constraints:
      
@@ -10680,7 +10698,9 @@ type create_instances_from_snapshot_request = {
            {- Must be specified in [YYYY-MM-DD] format.
               
               }
-            {- This parameter cannot be defined together with the [use latest restorable auto snapshot] parameter. The [restore date] and [use latest restorable auto snapshot] parameters are mutually exclusive.
+            {- This parameter cannot be defined together with the [use latest restorable auto
+            snapshot] parameter. The [restore date] and [use latest restorable
+            auto snapshot] parameters are mutually exclusive.
                
                }
             {- Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the {{:https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots}Amazon Lightsail Developer Guide}.
@@ -10848,7 +10868,7 @@ type create_instances_request = {
 
   instance_names: string list;
   [@ocaml.doc {| 
-    The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: [["MyFirstInstance","MySecondInstance"]]
+    The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: [\["MyFirstInstance","MySecondInstance"\]]
      |}]
 
 }
@@ -11068,7 +11088,8 @@ type create_disk_from_snapshot_request = {
      Constraints:
      
       {ul
-           {- This parameter cannot be defined together with the [restore date] parameter. The [use latest restorable auto snapshot] and [restore date] parameters are mutually exclusive.
+           {- This parameter cannot be defined together with the [restore date] parameter. The [use latest restorable auto snapshot] and [restore
+            date] parameters are mutually exclusive.
               
               }
             {- Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the {{:https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots}Amazon Lightsail Developer Guide}.
@@ -11080,7 +11101,8 @@ type create_disk_from_snapshot_request = {
 
   restore_date: string option;
   (** 
-    The date of the automatic snapshot to use for the new disk. Use the [get auto snapshots] operation to identify the dates of the available automatic snapshots.
+    The date of the automatic snapshot to use for the new disk. Use the [get auto
+        snapshots] operation to identify the dates of the available automatic snapshots.
     
      Constraints:
      
@@ -11088,7 +11110,9 @@ type create_disk_from_snapshot_request = {
            {- Must be specified in [YYYY-MM-DD] format.
               
               }
-            {- This parameter cannot be defined together with the [use latest restorable auto snapshot] parameter. The [restore date] and [use latest restorable auto snapshot] parameters are mutually exclusive.
+            {- This parameter cannot be defined together with the [use latest restorable auto
+            snapshot] parameter. The [restore date] and [use latest restorable
+            auto snapshot] parameters are mutually exclusive.
                
                }
             {- Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the {{:https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots}Amazon Lightsail Developer Guide}.
@@ -11368,7 +11392,11 @@ type create_container_service_request = {
   (** 
     The name for the container service.
     
-     The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically [https://...cs.amazonlightsail.com]. If the name of your container service is [container-service-1], and it's located in the US East (Ohio) Amazon Web Services Region ([us-east-2]), then the domain for your container service will be like the following example: [https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com]
+     The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically 
+     {[
+     https://...cs.amazonlightsail.com
+     ]}
+     . If the name of your container service is [container-service-1], and it's located in the US East (Ohio) Amazon Web Services Region ([us-east-2]), then the domain for your container service will be like the following example: [https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com]
      
       The following are the requirements for container service names:
       
@@ -11650,7 +11678,8 @@ type copy_snapshot_request = {
      Constraints:
      
       {ul
-           {- This parameter cannot be defined together with the [restore date] parameter. The [use latest restorable auto snapshot] and [restore date] parameters are mutually exclusive.
+           {- This parameter cannot be defined together with the [restore date] parameter. The [use latest restorable auto snapshot] and [restore
+            date] parameters are mutually exclusive.
               
               }
             {- Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the {{:https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots}Amazon Lightsail Developer Guide}.
@@ -11670,7 +11699,9 @@ type copy_snapshot_request = {
            {- Must be specified in [YYYY-MM-DD] format.
               
               }
-            {- This parameter cannot be defined together with the [use latest restorable auto snapshot] parameter. The [restore date] and [use latest restorable auto snapshot] parameters are mutually exclusive.
+            {- This parameter cannot be defined together with the [use latest restorable auto
+            snapshot] parameter. The [restore date] and [use latest restorable
+            auto snapshot] parameters are mutually exclusive.
                
                }
             {- Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the {{:https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots}Amazon Lightsail Developer Guide}.

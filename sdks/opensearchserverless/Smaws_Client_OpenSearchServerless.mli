@@ -1281,7 +1281,8 @@ type collection_error_detail = {
 
   error_message: string option;
   (** 
-    A description of the error. For example, [The specified Collection is not found.]
+    A description of the error. For example, [The specified Collection is not
+                found.]
      *)
 
   name: string option;
@@ -2730,6 +2731,11 @@ module CreateAccessPolicy : sig
             
         ]
       ) result
+  (** 
+    Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html}Data access control for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module CreateCollection : sig
@@ -2746,6 +2752,11 @@ module CreateCollection : sig
             
         ]
       ) result
+  (** 
+    Creates a new OpenSearch Serverless collection. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html}Creating and managing Amazon OpenSearch Serverless collections}.
+     *)
+
+  
 end
 
 module CreateSecurityConfig : sig
@@ -2761,6 +2772,11 @@ module CreateSecurityConfig : sig
             
         ]
       ) result
+  (** 
+    Specifies a security configuration for OpenSearch Serverless. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html}SAML authentication for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module CreateVpcEndpoint : sig
@@ -2776,6 +2792,11 @@ module CreateVpcEndpoint : sig
             
         ]
       ) result
+  (** 
+    Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html}Access Amazon OpenSearch Serverless using an interface endpoint}.
+     *)
+
+  
 end
 
 module DeleteAccessPolicy : sig
@@ -2791,6 +2812,11 @@ module DeleteAccessPolicy : sig
             
         ]
       ) result
+  (** 
+    Deletes an OpenSearch Serverless access policy. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html}Data access control for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module DeleteCollection : sig
@@ -2806,6 +2832,11 @@ module DeleteCollection : sig
             
         ]
       ) result
+  (** 
+    Deletes an OpenSearch Serverless collection. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html}Creating and managing Amazon OpenSearch Serverless collections}.
+     *)
+
+  
 end
 
 module DeleteLifecyclePolicy : sig
@@ -2821,6 +2852,11 @@ module DeleteLifecyclePolicy : sig
             
         ]
       ) result
+  (** 
+    Deletes an OpenSearch Serverless lifecycle policy. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-delete}Deleting data lifecycle policies}.
+     *)
+
+  
 end
 
 module DeleteSecurityConfig : sig
@@ -2836,6 +2872,11 @@ module DeleteSecurityConfig : sig
             
         ]
       ) result
+  (** 
+    Deletes a security configuration for OpenSearch Serverless. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html}SAML authentication for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module DeleteSecurityPolicy : sig
@@ -2851,6 +2892,11 @@ module DeleteSecurityPolicy : sig
             
         ]
       ) result
+  (** 
+    Deletes an OpenSearch Serverless security policy.
+     *)
+
+  
 end
 
 module DeleteVpcEndpoint : sig
@@ -2866,6 +2912,11 @@ module DeleteVpcEndpoint : sig
             
         ]
       ) result
+  (** 
+    Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html}Access Amazon OpenSearch Serverless using an interface endpoint}.
+     *)
+
+  
 end
 
 module GetAccessPolicy : sig
@@ -2880,6 +2931,11 @@ module GetAccessPolicy : sig
             
         ]
       ) result
+  (** 
+    Returns an OpenSearch Serverless access policy. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html}Data access control for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module GetSecurityConfig : sig
@@ -2894,6 +2950,11 @@ module GetSecurityConfig : sig
             
         ]
       ) result
+  (** 
+    Returns information about an OpenSearch Serverless security configuration. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html}SAML authentication for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module GetSecurityPolicy : sig
@@ -2908,6 +2969,11 @@ module GetSecurityPolicy : sig
             
         ]
       ) result
+  (** 
+    Returns information about a configured OpenSearch Serverless security policy. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html}Network access for Amazon OpenSearch Serverless} and {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html}Encryption at rest for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module ListAccessPolicies : sig
@@ -2921,6 +2987,11 @@ module ListAccessPolicies : sig
             
         ]
       ) result
+  (** 
+    Returns information about a list of OpenSearch Serverless access policies.
+     *)
+
+  
 end
 
 module ListCollections : sig
@@ -2934,6 +3005,14 @@ module ListCollections : sig
             
         ]
       ) result
+  (** 
+    Lists all OpenSearch Serverless collections. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html}Creating and managing Amazon OpenSearch Serverless collections}.
+    
+     Make sure to include an empty request body \{\} if you don't include any collection filters in the request.
+     
+      *)
+
+  
 end
 
 module ListLifecyclePolicies : sig
@@ -2947,6 +3026,11 @@ module ListLifecyclePolicies : sig
             
         ]
       ) result
+  (** 
+    Returns a list of OpenSearch Serverless lifecycle policies. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list}Viewing data lifecycle policies}.
+     *)
+
+  
 end
 
 module ListSecurityConfigs : sig
@@ -2960,6 +3044,11 @@ module ListSecurityConfigs : sig
             
         ]
       ) result
+  (** 
+    Returns information about configured OpenSearch Serverless security configurations. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html}SAML authentication for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module ListSecurityPolicies : sig
@@ -2973,6 +3062,11 @@ module ListSecurityPolicies : sig
             
         ]
       ) result
+  (** 
+    Returns information about configured OpenSearch Serverless security policies.
+     *)
+
+  
 end
 
 module ListVpcEndpoints : sig
@@ -2986,6 +3080,11 @@ module ListVpcEndpoints : sig
             
         ]
       ) result
+  (** 
+    Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html}Access Amazon OpenSearch Serverless using an interface endpoint}.
+     *)
+
+  
 end
 
 module BatchGetCollection : sig
@@ -2999,6 +3098,11 @@ module BatchGetCollection : sig
             
         ]
       ) result
+  (** 
+    Returns attributes for one or more collections, including the collection endpoint and the OpenSearch Dashboards endpoint. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html}Creating and managing Amazon OpenSearch Serverless collections}.
+     *)
+
+  
 end
 
 module BatchGetEffectiveLifecyclePolicy : sig
@@ -3012,6 +3116,11 @@ module BatchGetEffectiveLifecyclePolicy : sig
             
         ]
       ) result
+  (** 
+    Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list}Viewing data lifecycle policies}.
+     *)
+
+  
 end
 
 module BatchGetLifecyclePolicy : sig
@@ -3025,6 +3134,11 @@ module BatchGetLifecyclePolicy : sig
             
         ]
       ) result
+  (** 
+    Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list}Viewing data lifecycle policies}.
+     *)
+
+  
 end
 
 module BatchGetVpcEndpoint : sig
@@ -3038,6 +3152,11 @@ module BatchGetVpcEndpoint : sig
             
         ]
       ) result
+  (** 
+    Returns attributes for one or more VPC endpoints associated with the current account. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html}Access Amazon OpenSearch Serverless using an interface endpoint}.
+     *)
+
+  
 end
 
 module CreateLifecyclePolicy : sig
@@ -3053,6 +3172,11 @@ module CreateLifecyclePolicy : sig
             
         ]
       ) result
+  (** 
+    Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-create}Creating data lifecycle policies}.
+     *)
+
+  
 end
 
 module CreateSecurityPolicy : sig
@@ -3068,6 +3192,11 @@ module CreateSecurityPolicy : sig
             
         ]
       ) result
+  (** 
+    Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html}Network access for Amazon OpenSearch Serverless} and {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html}Encryption at rest for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module GetAccountSettings : sig
@@ -3081,6 +3210,11 @@ module GetAccountSettings : sig
             
         ]
       ) result
+  (** 
+    Returns account-level settings related to OpenSearch Serverless.
+     *)
+
+  
 end
 
 module GetPoliciesStats : sig
@@ -3093,6 +3227,11 @@ module GetPoliciesStats : sig
             
         ]
       ) result
+  (** 
+    Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
+     *)
+
+  
 end
 
 module ListTagsForResource : sig
@@ -3107,6 +3246,11 @@ module ListTagsForResource : sig
             
         ]
       ) result
+  (** 
+    Returns the tags for an OpenSearch Serverless resource. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html}Tagging Amazon OpenSearch Serverless collections}.
+     *)
+
+  
 end
 
 module TagResource : sig
@@ -3123,6 +3267,11 @@ module TagResource : sig
             
         ]
       ) result
+  (** 
+    Associates tags with an OpenSearch Serverless resource. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html}Tagging Amazon OpenSearch Serverless collections}.
+     *)
+
+  
 end
 
 module UntagResource : sig
@@ -3138,6 +3287,11 @@ module UntagResource : sig
             
         ]
       ) result
+  (** 
+    Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html}Tagging Amazon OpenSearch Serverless collections}.
+     *)
+
+  
 end
 
 module UpdateAccessPolicy : sig
@@ -3153,6 +3307,11 @@ module UpdateAccessPolicy : sig
             
         ]
       ) result
+  (** 
+    Updates an OpenSearch Serverless access policy. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html}Data access control for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module UpdateAccountSettings : sig
@@ -3166,6 +3325,11 @@ module UpdateAccountSettings : sig
             
         ]
       ) result
+  (** 
+    Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html}Managing capacity limits for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module UpdateCollection : sig
@@ -3180,6 +3344,11 @@ module UpdateCollection : sig
             
         ]
       ) result
+  (** 
+    Updates an OpenSearch Serverless collection.
+     *)
+
+  
 end
 
 module UpdateLifecyclePolicy : sig
@@ -3196,6 +3365,11 @@ module UpdateLifecyclePolicy : sig
             
         ]
       ) result
+  (** 
+    Updates an OpenSearch Serverless access policy. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-update}Updating data lifecycle policies}.
+     *)
+
+  
 end
 
 module UpdateSecurityConfig : sig
@@ -3211,6 +3385,11 @@ module UpdateSecurityConfig : sig
             
         ]
       ) result
+  (** 
+    Updates a security configuration for OpenSearch Serverless. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html}SAML authentication for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module UpdateSecurityPolicy : sig
@@ -3227,6 +3406,11 @@ module UpdateSecurityPolicy : sig
             
         ]
       ) result
+  (** 
+    Updates an OpenSearch Serverless security policy. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html}Network access for Amazon OpenSearch Serverless} and {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html}Encryption at rest for Amazon OpenSearch Serverless}.
+     *)
+
+  
 end
 
 module UpdateVpcEndpoint : sig
@@ -3241,5 +3425,10 @@ module UpdateVpcEndpoint : sig
             
         ]
       ) result
+  (** 
+    Updates an OpenSearch Serverless-managed interface endpoint. For more information, see {{:https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html}Access Amazon OpenSearch Serverless using an interface endpoint}.
+     *)
+
+  
 end
 

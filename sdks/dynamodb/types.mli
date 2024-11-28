@@ -989,7 +989,7 @@ type replica_description = {
                If the Amazon Web Services Region remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.
                
                }
-           {- [INACCESSIBLE_ENCRYPTION_CREDENTIALS] - The KMS key used to encrypt the table is inaccessible.
+           {- [INACCESSIBLE_ENCRYPTION_CREDENTIALS ] - The KMS key used to encrypt the table is inaccessible.
               
                If the KMS key remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.
                
@@ -1548,19 +1548,19 @@ type global_secondary_index_update = {
     The parameters required for creating a global secondary index on an existing table:
     
      {ul
-          {- [IndexName]
+          {- [IndexName ]
              
              }
-           {- [KeySchema]
+           {- [KeySchema ]
               
               }
-           {- [AttributeDefinitions]
+           {- [AttributeDefinitions ]
               
               }
-           {- [Projection]
+           {- [Projection ]
               
               }
-           {- [ProvisionedThroughput]
+           {- [ProvisionedThroughput ]
               
               }
           
@@ -2038,7 +2038,7 @@ type attribute_value_update = {
               }
             {- [DELETE] - If no value is specified, the attribute and its value are removed from the item. The data type of the specified value must match the existing value's data type.
                
-                If a {i set} of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [[a,b,c]] and the [DELETE] action specified [[a,c]], then the final attribute value would be [[b]]. Specifying an empty set is an error.
+                If a {i set} of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [\[a,b,c\]] and the [DELETE] action specified [\[a,c\]], then the final attribute value would be [\[b\]]. Specifying an empty set is an error.
                 
                 }
             {- [ADD] - If the attribute does not already exist, then the attribute and its values are added to the item. If the attribute does exist, then the behavior of [ADD] depends on the data type of the attribute:
@@ -2051,7 +2051,7 @@ type attribute_value_update = {
                           In addition, if you use [ADD] to update an existing item, and intend to increment or decrement an attribute value which does not yet exist, DynamoDB uses [0] as the initial value. For example, suppose that the item you want to update does not yet have an attribute named {i itemcount}, but you decide to [ADD] the number [3] to this attribute anyway, even though it currently does not exist. DynamoDB will create the {i itemcount} attribute, set its initial value to [0], and finally add [3] to it. The result will be a new {i itemcount} attribute in the item, with a value of [3].
                           
                           }
-                      {- If the existing data type is a set, and if the [Value] is also a set, then the [Value] is added to the existing set. (This is a {i set} operation, not mathematical addition.) For example, if the attribute value was the set [[1,2]], and the [ADD] action specified [[3]], then the final attribute value would be [[1,2,3]]. An error occurs if an Add action is specified for a set attribute and the attribute type specified does not match the existing set type.
+                      {- If the existing data type is a set, and if the [Value] is also a set, then the [Value] is added to the existing set. (This is a {i set} operation, not mathematical addition.) For example, if the attribute value was the set [\[1,2\]], and the [ADD] action specified [\[3\]], then the final attribute value would be [\[1,2,3\]]. An error occurs if an Add action is specified for a set attribute and the attribute type specified does not match the existing set type.
                          
                           Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the [Value] must also be a set of strings. The same holds true for number sets and binary sets.
                           
@@ -2138,49 +2138,53 @@ type expected_attribute_value = {
     
      The following comparison operators are available:
      
-      [EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN]
+      [EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS |
+                BEGINS_WITH | IN | BETWEEN]
       
        The following are descriptions of each comparison operator.
        
         {ul
              {- [EQ] : Equal. [EQ] is supported for all data types, including lists and maps.
                 
-                 [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not equal [{"NS":["6", "2", "1"]}].
+                 [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not equal [{"NS":\["6", "2",
+                    "1"\]}].
                  
                   
                   
                   }
               {- [NE] : Not equal. [NE] is supported for all data types, including lists and maps.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an [AttributeValue] of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not equal [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an [AttributeValue] of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not equal [{"NS":\["6", "2",
+                    "1"\]}].
                   
                    
                    
                    }
               {- [LE] : Less than or equal.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2", "1"\]}].
                   
                    
                    
                    }
               {- [LT] : Less than.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2",
+                        "1"\]}].
                   
                    
                    
                    }
               {- [GE] : Greater than or equal.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2", "1"\]}].
                   
                    
                    
                    }
               {- [GT] : Greater than.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2", "1"\]}].
                   
                    
                    
@@ -2206,7 +2210,8 @@ type expected_attribute_value = {
                  
                   [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("[SS]", "[NS]", or "[BS]"), then the operator evaluates to true if it {i does not} find an exact match with any member of the set.
                   
-                   NOT_CONTAINS is supported for lists: When evaluating "[a NOT CONTAINS b]", "[a]" can be a list; however, "[b]" cannot be a set, a map, or a list.
+                   NOT_CONTAINS is supported for lists: When evaluating "[a NOT CONTAINS
+                        b]", "[a]" can be a list; however, "[b]" cannot be a set, a map, or a list.
                    
                    }
               {- [BEGINS_WITH] : Checks for a prefix.
@@ -2223,7 +2228,8 @@ type expected_attribute_value = {
                   }
               {- [BETWEEN] : Greater than or equal to the first value, and less than or equal to the second value.
                  
-                  [AttributeValueList] must contain two [AttributeValue] elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not compare to [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}]
+                  [AttributeValueList] must contain two [AttributeValue] elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not compare to [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2",
+                        "1"\]}]
                   
                   }
              
@@ -2327,7 +2333,8 @@ type update_item_input = {
       
        You would first need to specify [ExpressionAttributeValues] as follows:
        
-        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }]
+        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+                ":disc":{"S":"Discontinued"} }]
         
          You could then use these values in an expression, such as this:
          
@@ -2388,12 +2395,15 @@ type update_item_input = {
      An expression can contain any of the following:
      
       {ul
-           {- Functions: [attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size]
+           {- Functions: [attribute_exists | attribute_not_exists | attribute_type |
+                        contains | begins_with | size]
               
                These function names are case-sensitive.
                
                }
-            {- Comparison operators: [= | <> | < | > | <= | >= | BETWEEN | IN]
+            {- Comparison operators: [= | <> |
+            < | > | <= | >= |
+            BETWEEN | IN ]
                
                }
             {- Logical operators: [AND | OR | NOT]
@@ -2440,7 +2450,7 @@ type update_item_input = {
                           Similarly, if you use [ADD] for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses [0] as the initial value. For example, suppose that the item you want to update doesn't have an attribute named [itemcount], but you decide to [ADD] the number [3] to this attribute anyway. DynamoDB will create the [itemcount] attribute, set its initial value to [0], and finally add [3] to it. The result will be a new [itemcount] attribute in the item, with a value of [3].
                           
                           }
-                      {- If the existing data type is a set and if [Value] is also a set, then [Value] is added to the existing set. For example, if the attribute value is the set [[1,2]], and the [ADD] action specified [[3]], then the final attribute value is [[1,2,3]]. An error occurs if an [ADD] action is specified for a set attribute and the attribute type specified does not match the existing set type.
+                      {- If the existing data type is a set and if [Value] is also a set, then [Value] is added to the existing set. For example, if the attribute value is the set [\[1,2\]], and the [ADD] action specified [\[3\]], then the final attribute value is [\[1,2,3\]]. An error occurs if an [ADD] action is specified for a set attribute and the attribute type specified does not match the existing set type.
                          
                           Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the [Value] must also be a set of strings.
                           
@@ -2452,14 +2462,15 @@ type update_item_input = {
               }
             {- [DELETE] - Deletes an element from a set.
                
-                If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [[a,b,c]] and the [DELETE] action specifies [[a,c]], then the final attribute value is [[b]]. Specifying an empty set is an error.
+                If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [\[a,b,c\]] and the [DELETE] action specifies [\[a,c\]], then the final attribute value is [\[b\]]. Specifying an empty set is an error.
                 
                  The [DELETE] action only supports set data types. In addition, [DELETE] can only be used on top-level attributes, not nested attributes.
                  
                  }
            
       }
-       You can have many actions in a single expression, such as the following: [SET a=:value1, b=:value2 DELETE :value3, :value4, :value5]
+       You can have many actions in a single expression, such as the following: [SET
+                a=:value1, b=:value2 DELETE :value3, :value4, :value5]
        
         For more information on update expressions, see {{:https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.Modifying.html}Modifying Items and Attributes} in the {i Amazon DynamoDB Developer Guide}.
          *)
@@ -4118,49 +4129,53 @@ type condition = {
     
      The following comparison operators are available:
      
-      [EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN]
+      [EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS |
+                BEGINS_WITH | IN | BETWEEN]
       
        The following are descriptions of each comparison operator.
        
         {ul
              {- [EQ] : Equal. [EQ] is supported for all data types, including lists and maps.
                 
-                 [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not equal [{"NS":["6", "2", "1"]}].
+                 [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not equal [{"NS":\["6", "2",
+                    "1"\]}].
                  
                   
                   
                   }
               {- [NE] : Not equal. [NE] is supported for all data types, including lists and maps.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an [AttributeValue] of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not equal [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an [AttributeValue] of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not equal [{"NS":\["6", "2",
+                    "1"\]}].
                   
                    
                    
                    }
               {- [LE] : Less than or equal.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2", "1"\]}].
                   
                    
                    
                    }
               {- [LT] : Less than.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2",
+                        "1"\]}].
                   
                    
                    
                    }
               {- [GE] : Greater than or equal.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2", "1"\]}].
                   
                    
                    
                    }
               {- [GT] : Greater than.
                  
-                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}].
+                  [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not equal [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2", "1"\]}].
                   
                    
                    
@@ -4186,7 +4201,8 @@ type condition = {
                  
                   [AttributeValueList] can contain only one [AttributeValue] element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("[SS]", "[NS]", or "[BS]"), then the operator evaluates to true if it {i does not} find an exact match with any member of the set.
                   
-                   NOT_CONTAINS is supported for lists: When evaluating "[a NOT CONTAINS b]", "[a]" can be a list; however, "[b]" cannot be a set, a map, or a list.
+                   NOT_CONTAINS is supported for lists: When evaluating "[a NOT CONTAINS
+                        b]", "[a]" can be a list; however, "[b]" cannot be a set, a map, or a list.
                    
                    }
               {- [BEGINS_WITH] : Checks for a prefix.
@@ -4203,7 +4219,8 @@ type condition = {
                   }
               {- [BETWEEN] : Greater than or equal to the first value, and less than or equal to the second value.
                  
-                  [AttributeValueList] must contain two [AttributeValue] elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not compare to [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":["6", "2", "1"]}]
+                  [AttributeValueList] must contain two [AttributeValue] elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an [AttributeValue] element of a different type than the one provided in the request, the value does not match. For example, [{"S":"6"}] does not compare to [{"N":"6"}]. Also, [{"N":"6"}] does not compare to [{"NS":\["6", "2",
+                        "1"\]}]
                   
                   }
              
@@ -4256,7 +4273,8 @@ type scan_input = {
       
        You would first need to specify [ExpressionAttributeValues] as follows:
        
-        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }]
+        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+                ":disc":{"S":"Discontinued"} }]
         
          You could then use these values in an expression, such as this:
          
@@ -4692,7 +4710,8 @@ type query_input = {
       
        You would first need to specify [ExpressionAttributeValues] as follows:
        
-        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }]
+        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+                ":disc":{"S":"Discontinued"} }]
         
          You could then use these values in an expression, such as this:
          
@@ -4777,7 +4796,7 @@ type query_input = {
                   {- [sortKeyName] [>] [:sortkeyval] - true if the sort key value is greater than [:sortkeyval].
                      
                      }
-                  {- [sortKeyName] [>=] [:sortkeyval] - true if the sort key value is greater than or equal to [:sortkeyval].
+                  {- [sortKeyName] [>= ] [:sortkeyval] - true if the sort key value is greater than or equal to [:sortkeyval].
                      
                      }
                   {- [sortKeyName] [BETWEEN] [:sortkeyval1] [AND] [:sortkeyval2] - true if the sort key value is greater than or equal to [:sortkeyval1], and less than or equal to [:sortkeyval2].
@@ -5036,7 +5055,8 @@ type put_item_input = {
       
        You would first need to specify [ExpressionAttributeValues] as follows:
        
-        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }]
+        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+                ":disc":{"S":"Discontinued"} }]
         
          You could then use these values in an expression, such as this:
          
@@ -5097,12 +5117,15 @@ type put_item_input = {
      An expression can contain any of the following:
      
       {ul
-           {- Functions: [attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size]
+           {- Functions: [attribute_exists | attribute_not_exists | attribute_type |
+                        contains | begins_with | size]
               
                These function names are case-sensitive.
                
                }
-            {- Comparison operators: [= | <> | < | > | <= | >= | BETWEEN | IN]
+            {- Comparison operators: [= | <> |
+            < | > | <= | >= |
+            BETWEEN | IN ]
                
                }
             {- Logical operators: [AND | OR | NOT]
@@ -5417,7 +5440,7 @@ type list_imports_input = {
 
   page_size: int option;
   (** 
-    The number of [ImportSummary]objects returned in a single page.
+    The number of [ImportSummary ]objects returned in a single page.
      *)
 
   table_arn: string option;
@@ -7053,7 +7076,8 @@ type delete_item_input = {
       
        You would first need to specify [ExpressionAttributeValues] as follows:
        
-        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }]
+        [{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+                ":disc":{"S":"Discontinued"} }]
         
          You could then use these values in an expression, such as this:
          
@@ -7114,12 +7138,15 @@ type delete_item_input = {
      An expression can contain any of the following:
      
       {ul
-           {- Functions: [attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size]
+           {- Functions: [attribute_exists | attribute_not_exists | attribute_type |
+                        contains | begins_with | size]
               
                These function names are case-sensitive.
                
                }
-            {- Comparison operators: [= | <> | < | > | <= | >= | BETWEEN | IN]
+            {- Comparison operators: [= | <> |
+            < | > | <= | >= |
+            BETWEEN | IN ]
                
                }
             {- Logical operators: [AND | OR | NOT]

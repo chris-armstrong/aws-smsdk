@@ -658,7 +658,8 @@ type egress_type = | VPC
 type egress_configuration = {
   vpc_connector_arn: string option;
   (** 
-    The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to associate with your App Runner service. Only valid when [EgressType = VPC].
+    The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to associate with your App Runner service. Only valid when [EgressType =
+        VPC].
      *)
 
   egress_type: egress_type option;
@@ -963,7 +964,15 @@ type update_default_auto_scaling_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to set as the default.
     
-     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is set as the default.
+     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is set as the default.
       *)
 
 }
@@ -1446,7 +1455,15 @@ type list_services_for_auto_scaling_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to list the services for.
     
-     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is used.
+     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is used.
       *)
 
 }
@@ -1699,7 +1716,11 @@ type custom_domain = {
 
   enable_www_subdomain: bool;
   (** 
-    When [true], the subdomain [www.{i DomainName}] is associated with the App Runner service in addition to the base domain.
+    When [true], the subdomain 
+    {[
+    www.{i DomainName}
+    ]}
+     is associated with the App Runner service in addition to the base domain.
      *)
 
   domain_name: string;
@@ -1808,7 +1829,15 @@ type describe_observability_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner observability configuration that you want a description for.
     
-     The ARN can be a full observability configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is described.
+     The ARN can be a full observability configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is described.
       *)
 
 }
@@ -1876,7 +1905,15 @@ type describe_auto_scaling_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want a description for.
     
-     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is described.
+     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is described.
       *)
 
 }
@@ -1949,7 +1986,15 @@ type delete_observability_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner observability configuration that you want to delete.
     
-     The ARN can be a full observability configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is deleted.
+     The ARN can be a full observability configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is deleted.
       *)
 
 }
@@ -2021,7 +2066,15 @@ type delete_auto_scaling_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to delete.
     
-     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is deleted.
+     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is deleted.
       *)
 
 }
@@ -2303,7 +2356,11 @@ type associate_custom_domain_response = {
 type associate_custom_domain_request = {
   enable_www_subdomain: bool option;
   (** 
-    Set to [true] to associate the subdomain [www.{i DomainName}] with the App Runner service in addition to the base domain.
+    Set to [true] to associate the subdomain 
+    {[
+    www.{i DomainName}
+    ]}
+     with the App Runner service in addition to the base domain.
     
      Default: [true]
       *)
@@ -2945,6 +3002,13 @@ module AssociateCustomDomain : sig
             
         ]
       ) result
+  (** 
+    Associate your own domain name with the App Runner subdomain URL of your App Runner service.
+    
+     After you call [AssociateCustomDomain] and receive a successful response, use the information in the [CustomDomain] record that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks domain validity in a certificate stored in {{:https://docs.aws.amazon.com/acm/latest/userguide}AWS Certificate Manager (ACM)}.
+      *)
+
+  
 end
 
 module CreateAutoScalingConfiguration : sig
@@ -2959,6 +3023,17 @@ module CreateAutoScalingConfiguration : sig
             
         ]
       ) result
+  (** 
+    Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services.
+    
+     Create multiple revisions of a configuration by calling this action multiple times using the same [AutoScalingConfigurationName]. The call returns incremental [AutoScalingConfigurationRevision] values. When you create a service and configure an auto scaling configuration resource, the service uses the latest active revision of the auto scaling configuration by default. You can optionally configure the service to use a specific revision.
+     
+      Configure a higher [MinSize] to increase the spread of your App Runner service over more Availability Zones in the Amazon Web Services Region. The tradeoff is a higher minimal cost.
+      
+       Configure a lower [MaxSize] to control your cost. The tradeoff is lower responsiveness during peak demand.
+        *)
+
+  
 end
 
 module CreateConnection : sig
@@ -2973,6 +3048,13 @@ module CreateConnection : sig
             
         ]
       ) result
+  (** 
+    Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services.
+    
+     A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection.
+      *)
+
+  
 end
 
 module CreateObservabilityConfiguration : sig
@@ -2987,6 +3069,15 @@ module CreateObservabilityConfiguration : sig
             
         ]
       ) result
+  (** 
+    Create an App Runner observability configuration resource. App Runner requires this resource when you create or update App Runner services and you want to enable non-default observability features. You can share an observability configuration across multiple services.
+    
+     Create multiple revisions of a configuration by calling this action multiple times using the same [ObservabilityConfigurationName]. The call returns incremental [ObservabilityConfigurationRevision] values. When you create a service and configure an observability configuration resource, the service uses the latest active revision of the observability configuration by default. You can optionally configure the service to use a specific revision.
+     
+      The observability configuration resource is designed to configure multiple features (currently one feature, tracing). This action takes optional parameters that describe the configuration of these features (currently one parameter, [TraceConfiguration]). If you don't specify a feature parameter, App Runner doesn't enable the feature.
+       *)
+
+  
 end
 
 module CreateService : sig
@@ -3001,6 +3092,13 @@ module CreateService : sig
             
         ]
       ) result
+  (** 
+    Create an App Runner service. After the service is created, the action also automatically starts a deployment.
+    
+     This is an asynchronous operation. On a successful call, you can use the returned [OperationId] and the {{:https://docs.aws.amazon.com/apprunner/latest/api/API_ListOperations.html}ListOperations} call to track the operation's progress.
+      *)
+
+  
 end
 
 module CreateVpcConnector : sig
@@ -3015,6 +3113,11 @@ module CreateVpcConnector : sig
             
         ]
       ) result
+  (** 
+    Create an App Runner VPC connector resource. App Runner requires this resource when you want to associate your App Runner service to a custom Amazon Virtual Private Cloud (Amazon VPC).
+     *)
+
+  
 end
 
 module CreateVpcIngressConnection : sig
@@ -3030,6 +3133,11 @@ module CreateVpcIngressConnection : sig
             
         ]
       ) result
+  (** 
+    Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
+     *)
+
+  
 end
 
 module DeleteAutoScalingConfiguration : sig
@@ -3044,6 +3152,11 @@ module DeleteAutoScalingConfiguration : sig
             
         ]
       ) result
+  (** 
+    Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or more App Runner services.
+     *)
+
+  
 end
 
 module DeleteConnection : sig
@@ -3058,6 +3171,11 @@ module DeleteConnection : sig
             
         ]
       ) result
+  (** 
+    Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the [DeleteConnection] action fails.
+     *)
+
+  
 end
 
 module DeleteObservabilityConfiguration : sig
@@ -3072,6 +3190,11 @@ module DeleteObservabilityConfiguration : sig
             
         ]
       ) result
+  (** 
+    Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a configuration that's used by one or more App Runner services.
+     *)
+
+  
 end
 
 module DeleteService : sig
@@ -3087,6 +3210,16 @@ module DeleteService : sig
             
         ]
       ) result
+  (** 
+    Delete an App Runner service.
+    
+     This is an asynchronous operation. On a successful call, you can use the returned [OperationId] and the [ListOperations] call to track the operation's progress.
+     
+      Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
+      
+       *)
+
+  
 end
 
 module DeleteVpcConnector : sig
@@ -3101,6 +3234,11 @@ module DeleteVpcConnector : sig
             
         ]
       ) result
+  (** 
+    Delete an App Runner VPC connector resource. You can't delete a connector that's used by one or more App Runner services.
+     *)
+
+  
 end
 
 module DeleteVpcIngressConnection : sig
@@ -3116,6 +3254,27 @@ module DeleteVpcIngressConnection : sig
             
         ]
       ) result
+  (** 
+    Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted:
+    
+     {ul
+          {- [AVAILABLE]
+             
+             }
+           {- [FAILED_CREATION]
+              
+              }
+           {- [FAILED_UPDATE]
+              
+              }
+           {- [FAILED_DELETION]
+              
+              }
+          
+      }
+       *)
+
+  
 end
 
 module DescribeAutoScalingConfiguration : sig
@@ -3130,6 +3289,11 @@ module DescribeAutoScalingConfiguration : sig
             
         ]
       ) result
+  (** 
+    Return a full description of an App Runner automatic scaling configuration resource.
+     *)
+
+  
 end
 
 module DescribeCustomDomains : sig
@@ -3144,6 +3308,11 @@ module DescribeCustomDomains : sig
             
         ]
       ) result
+  (** 
+    Return a description of custom domain names that are associated with an App Runner service.
+     *)
+
+  
 end
 
 module DescribeObservabilityConfiguration : sig
@@ -3158,6 +3327,11 @@ module DescribeObservabilityConfiguration : sig
             
         ]
       ) result
+  (** 
+    Return a full description of an App Runner observability configuration resource.
+     *)
+
+  
 end
 
 module DescribeService : sig
@@ -3172,6 +3346,11 @@ module DescribeService : sig
             
         ]
       ) result
+  (** 
+    Return a full description of an App Runner service.
+     *)
+
+  
 end
 
 module DescribeVpcConnector : sig
@@ -3186,6 +3365,11 @@ module DescribeVpcConnector : sig
             
         ]
       ) result
+  (** 
+    Return a description of an App Runner VPC connector resource.
+     *)
+
+  
 end
 
 module DescribeVpcIngressConnection : sig
@@ -3200,6 +3384,11 @@ module DescribeVpcIngressConnection : sig
             
         ]
       ) result
+  (** 
+    Return a full description of an App Runner VPC Ingress Connection resource.
+     *)
+
+  
 end
 
 module DisassociateCustomDomain : sig
@@ -3215,6 +3404,13 @@ module DisassociateCustomDomain : sig
             
         ]
       ) result
+  (** 
+    Disassociate a custom domain name from an App Runner service.
+    
+     Certificates tracking domain validity are associated with a custom domain and are stored in {{:https://docs.aws.amazon.com/acm/latest/userguide}AWS Certificate Manager (ACM)}. These certificates aren't deleted as part of this action. App Runner delays certificate deletion for 30 days after a domain is disassociated from your service.
+      *)
+
+  
 end
 
 module ListAutoScalingConfigurations : sig
@@ -3228,6 +3424,13 @@ module ListAutoScalingConfigurations : sig
             
         ]
       ) result
+  (** 
+    Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name.
+    
+     To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by [ListAutoScalingConfigurations].
+      *)
+
+  
 end
 
 module ListConnections : sig
@@ -3241,6 +3444,11 @@ module ListConnections : sig
             
         ]
       ) result
+  (** 
+    Returns a list of App Runner connections that are associated with your Amazon Web Services account.
+     *)
+
+  
 end
 
 module ListObservabilityConfigurations : sig
@@ -3254,6 +3462,13 @@ module ListObservabilityConfigurations : sig
             
         ]
       ) result
+  (** 
+    Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name.
+    
+     To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by [ListObservabilityConfigurations].
+      *)
+
+  
 end
 
 module ListOperations : sig
@@ -3268,6 +3483,13 @@ module ListOperations : sig
             
         ]
       ) result
+  (** 
+    Return a list of operations that occurred on an App Runner service.
+    
+     The resulting list of [OperationSummary] objects is sorted in reverse chronological order. The first object on the list represents the last started operation.
+      *)
+
+  
 end
 
 module ListServices : sig
@@ -3281,6 +3503,11 @@ module ListServices : sig
             
         ]
       ) result
+  (** 
+    Returns a list of running App Runner services in your Amazon Web Services account.
+     *)
+
+  
 end
 
 module ListServicesForAutoScalingConfiguration : sig
@@ -3295,6 +3522,11 @@ module ListServicesForAutoScalingConfiguration : sig
             
         ]
       ) result
+  (** 
+    Returns a list of the associated App Runner services using an auto scaling configuration.
+     *)
+
+  
 end
 
 module ListTagsForResource : sig
@@ -3310,6 +3542,11 @@ module ListTagsForResource : sig
             
         ]
       ) result
+  (** 
+    List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
+     *)
+
+  
 end
 
 module ListVpcConnectors : sig
@@ -3323,6 +3560,11 @@ module ListVpcConnectors : sig
             
         ]
       ) result
+  (** 
+    Returns a list of App Runner VPC connectors in your Amazon Web Services account.
+     *)
+
+  
 end
 
 module ListVpcIngressConnections : sig
@@ -3336,6 +3578,11 @@ module ListVpcIngressConnections : sig
             
         ]
       ) result
+  (** 
+    Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
+     *)
+
+  
 end
 
 module PauseService : sig
@@ -3351,6 +3598,13 @@ module PauseService : sig
             
         ]
       ) result
+  (** 
+    Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is removed).
+    
+     This is an asynchronous operation. On a successful call, you can use the returned [OperationId] and the [ListOperations] call to track the operation's progress.
+      *)
+
+  
 end
 
 module ResumeService : sig
@@ -3366,6 +3620,13 @@ module ResumeService : sig
             
         ]
       ) result
+  (** 
+    Resume an active App Runner service. App Runner provisions compute capacity for the service.
+    
+     This is an asynchronous operation. On a successful call, you can use the returned [OperationId] and the [ListOperations] call to track the operation's progress.
+      *)
+
+  
 end
 
 module StartDeployment : sig
@@ -3380,6 +3641,15 @@ module StartDeployment : sig
             
         ]
       ) result
+  (** 
+    Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner service.
+    
+     For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner retrieves the latest Docker image. In both cases, App Runner then deploys the new image to your service and starts a new container instance.
+     
+      This is an asynchronous operation. On a successful call, you can use the returned [OperationId] and the [ListOperations] call to track the operation's progress.
+       *)
+
+  
 end
 
 module TagResource : sig
@@ -3395,6 +3665,11 @@ module TagResource : sig
             
         ]
       ) result
+  (** 
+    Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
+     *)
+
+  
 end
 
 module UntagResource : sig
@@ -3410,6 +3685,11 @@ module UntagResource : sig
             
         ]
       ) result
+  (** 
+    Remove tags from an App Runner resource.
+     *)
+
+  
 end
 
 module UpdateDefaultAutoScalingConfiguration : sig
@@ -3424,6 +3704,11 @@ module UpdateDefaultAutoScalingConfiguration : sig
             
         ]
       ) result
+  (** 
+    Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default automatically.
+     *)
+
+  
 end
 
 module UpdateService : sig
@@ -3439,6 +3724,15 @@ module UpdateService : sig
             
         ]
       ) result
+  (** 
+    Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service. These can be set only when you create the service.
+    
+     To update the tags applied to your service, use the separate actions [TagResource] and [UntagResource].
+     
+      This is an asynchronous operation. On a successful call, you can use the returned [OperationId] and the [ListOperations] call to track the operation's progress.
+       *)
+
+  
 end
 
 module UpdateVpcIngressConnection : sig
@@ -3454,5 +3748,23 @@ module UpdateVpcIngressConnection : sig
             
         ]
       ) result
+  (** 
+    Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated:
+    
+     {ul
+          {- AVAILABLE
+             
+             }
+           {- FAILED_CREATION
+              
+              }
+           {- FAILED_UPDATE
+              
+              }
+          
+      }
+       *)
+
+  
 end
 

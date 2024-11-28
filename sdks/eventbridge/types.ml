@@ -66,13 +66,25 @@ type update_event_bus_request = {
        Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
        
         {ul
-             {- You call [{{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html}CreateArchive}] on an event bus set to use a customer managed key for encryption.
+             {- You call 
+                {[
+                {{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html}CreateArchive}
+                ]}
+                 on an event bus set to use a customer managed key for encryption.
                 
                 }
-              {- You call [{{:https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer}CreateDiscoverer}] on an event bus set to use a customer managed key for encryption.
+              {- You call 
+                 {[
+                 {{:https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer}CreateDiscoverer}
+                 ]}
+                  on an event bus set to use a customer managed key for encryption.
                  
                  }
-              {- You call [{{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html}UpdatedEventBus}] to set a customer managed key on an event bus with an archives or schema discovery enabled.
+              {- You call 
+                 {[
+                 {{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html}UpdatedEventBus}
+                 ]}
+                  to set a customer managed key on an event bus with an archives or schema discovery enabled.
                  
                  }
              
@@ -757,37 +769,52 @@ type input_transformer = {
       }
        The following example shows the syntax for using [InputPathsMap] and [InputTemplate].
        
-        ["InputTransformer":]
+        [ "InputTransformer":]
         
          [{]
          
-          ["InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},]
+          ["InputPathsMap": {"instance": "$.detail.instance","status":
+        "$.detail.status"},]
           
-           ["InputTemplate": "is in state "]
+           
+           {[
+           "InputTemplate": "is in state "
+           ]}
+           
            
             [}]
             
              To have the [InputTemplate] include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:
              
-              ["InputTransformer":]
+              [ "InputTransformer":]
               
                [{]
                
-                ["InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},]
+                ["InputPathsMap": {"instance": "$.detail.instance","status":
+        "$.detail.status"},]
                 
-                 ["InputTemplate": "is in state \"\""]
+                 
+                 {[
+                 "InputTemplate": "is in state \"\""
+                 ]}
+                 
                  
                   [}]
                   
                    The [InputTemplate] can also be valid JSON with varibles in quotes or out, as in the following example:
                    
-                    ["InputTransformer":]
+                    [ "InputTransformer":]
                     
                      [{]
                      
-                      ["InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},]
+                      ["InputPathsMap": {"instance": "$.detail.instance","status":
+        "$.detail.status"},]
                       
-                       ["InputTemplate": '{"myInstance": ,"myStatus": "is in state \"\""}']
+                       
+                       {[
+                       "InputTemplate": '\{"myInstance": ,"myStatus": "is in state \"\""\}'
+                       ]}
+                       
                        
                         [}]
                          |}]
@@ -1749,7 +1776,8 @@ type put_rule_request = {
 [@@ocaml.doc {| 
     A JSON string which you can use to limit the event bus permissions you are granting to only accounts that fulfill the condition. Currently, the only supported condition is membership in a certain Amazon Web Services organization. The string must contain [Type], [Key], and [Value] fields. The [Value] field specifies the ID of the Amazon Web Services organization. Following is an example value for [Condition]:
     
-     ['{"Type" : "StringEquals", "Key": "aws:PrincipalOrgID", "Value": "o-1234567890"}']
+     ['{"Type" : "StringEquals", "Key": "aws:PrincipalOrgID", "Value":
+        "o-1234567890"}']
       |}]
 type condition = {
   value: string;
@@ -1923,12 +1951,20 @@ type put_events_result_entry = {
      Retryable errors include:
      
       {ul
-           {- [{{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html}InternalFailure}]
+           {- 
+              {[
+              {{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html}InternalFailure}
+              ]}
+              
               
                The request processing has failed because of an unknown error, exception or failure.
                
                }
-            {- [{{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html}ThrottlingException}]
+            {- 
+               {[
+               {{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html}ThrottlingException}
+               ]}
+               
                
                 The request was denied due to request throttling.
                 
@@ -1938,7 +1974,11 @@ type put_events_result_entry = {
        Non-retryable errors include:
        
         {ul
-             {- [{{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html}AccessDeniedException}]
+             {- 
+                {[
+                {{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html}AccessDeniedException}
+                ]}
+                
                 
                  You do not have sufficient access to perform this action.
                  
@@ -3658,7 +3698,11 @@ type create_partner_event_source_request = {
 
   name: string;
   (** 
-    The name of the partner event source. This name must be unique and must be in the format [{i partner_name}/{i event_namespace}/{i event_name}]. The Amazon Web Services account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
+    The name of the partner event source. This name must be unique and must be in the format 
+    {[
+    {i partner_name}/{i event_namespace}/{i event_name}
+    ]}
+    . The Amazon Web Services account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
      *)
 
 }
@@ -3704,13 +3748,25 @@ type create_event_bus_request = {
        Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
        
         {ul
-             {- You call [{{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html}CreateArchive}] on an event bus set to use a customer managed key for encryption.
+             {- You call 
+                {[
+                {{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html}CreateArchive}
+                ]}
+                 on an event bus set to use a customer managed key for encryption.
                 
                 }
-              {- You call [{{:https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer}CreateDiscoverer}] on an event bus set to use a customer managed key for encryption.
+              {- You call 
+                 {[
+                 {{:https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer}CreateDiscoverer}
+                 ]}
+                  on an event bus set to use a customer managed key for encryption.
                  
                  }
-              {- You call [{{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html}UpdatedEventBus}] to set a customer managed key on an event bus with an archives or schema discovery enabled.
+              {- You call 
+                 {[
+                 {{:https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html}UpdatedEventBus}
+                 ]}
+                  to set a customer managed key on an event bus with an archives or schema discovery enabled.
                  
                  }
              

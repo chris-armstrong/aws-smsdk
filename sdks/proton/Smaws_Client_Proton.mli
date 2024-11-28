@@ -293,7 +293,8 @@ type update_service_template_version_input = {
 
   major_version: string;
   (** 
-    To update a major version of a service template, include [major Version].
+    To update a major version of a service template, include [major
+      Version].
      *)
 
   template_name: string;
@@ -3682,7 +3683,8 @@ type get_service_template_version_input = {
 
   major_version: string;
   (** 
-    To get service template major version detail data, include [major Version].
+    To get service template major version detail data, include [major
+      Version].
      *)
 
   template_name: string;
@@ -4505,7 +4507,8 @@ type create_service_template_version_input = {
 
   major_version: string option;
   (** 
-    To create a new minor version of the service template, include a [major Version].
+    To create a new minor version of the service template, include a [major
+        Version].
     
      To create a new major and minor version of the service template, {i exclude} [major Version].
       *)
@@ -4637,7 +4640,8 @@ type create_service_instance_input = {
 
   template_minor_version: string option;
   (** 
-    To create a new minor version of the service template, include a [major Version].
+    To create a new minor version of the service template, include a [major
+        Version].
      *)
 
   template_major_version: string option;
@@ -6689,6 +6693,13 @@ module AcceptEnvironmentAccountConnection : sig
             
         ]
       ) result
+  (** 
+    In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
+    
+     For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html}Environment account connections} in the {i Proton User guide}.
+      *)
+
+  
 end
 
 module CancelComponentDeployment : sig
@@ -6706,6 +6717,13 @@ module CancelComponentDeployment : sig
             
         ]
       ) result
+  (** 
+    Attempts to cancel a component deployment (for a component that is in the [IN_PROGRESS] deployment status).
+    
+     For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module CancelEnvironmentDeployment : sig
@@ -6723,6 +6741,26 @@ module CancelEnvironmentDeployment : sig
             
         ]
       ) result
+  (** 
+    Attempts to cancel an environment deployment on an [UpdateEnvironment] action, if the deployment is [IN_PROGRESS]. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-env-update.html}Update an environment} in the {i Proton User guide}.
+    
+     The following list includes potential cancellation scenarios.
+     
+      {ul
+           {- If the cancellation attempt succeeds, the resulting deployment state is [CANCELLED].
+              
+              }
+            {- If the cancellation attempt fails, the resulting deployment state is [FAILED].
+               
+               }
+            {- If the current [UpdateEnvironment] action succeeds before the cancellation attempt starts, the resulting deployment state is [SUCCEEDED] and the cancellation attempt has no effect.
+               
+               }
+           
+      }
+       *)
+
+  
 end
 
 module CancelServiceInstanceDeployment : sig
@@ -6740,6 +6778,26 @@ module CancelServiceInstanceDeployment : sig
             
         ]
       ) result
+  (** 
+    Attempts to cancel a service instance deployment on an [UpdateServiceInstance] action, if the deployment is [IN_PROGRESS]. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-instance-update.html}Update a service instance} in the {i Proton User guide}.
+    
+     The following list includes potential cancellation scenarios.
+     
+      {ul
+           {- If the cancellation attempt succeeds, the resulting deployment state is [CANCELLED].
+              
+              }
+            {- If the cancellation attempt fails, the resulting deployment state is [FAILED].
+               
+               }
+            {- If the current [UpdateServiceInstance] action succeeds before the cancellation attempt starts, the resulting deployment state is [SUCCEEDED] and the cancellation attempt has no effect.
+               
+               }
+           
+      }
+       *)
+
+  
 end
 
 module CancelServicePipelineDeployment : sig
@@ -6757,6 +6815,26 @@ module CancelServicePipelineDeployment : sig
             
         ]
       ) result
+  (** 
+    Attempts to cancel a service pipeline deployment on an [UpdateServicePipeline] action, if the deployment is [IN_PROGRESS]. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-pipeline-update.html}Update a service pipeline} in the {i Proton User guide}.
+    
+     The following list includes potential cancellation scenarios.
+     
+      {ul
+           {- If the cancellation attempt succeeds, the resulting deployment state is [CANCELLED].
+              
+              }
+            {- If the cancellation attempt fails, the resulting deployment state is [FAILED].
+               
+               }
+            {- If the current [UpdateServicePipeline] action succeeds before the cancellation attempt starts, the resulting deployment state is [SUCCEEDED] and the cancellation attempt has no effect.
+               
+               }
+           
+      }
+       *)
+
+  
 end
 
 module CreateComponent : sig
@@ -6775,6 +6853,13 @@ module CreateComponent : sig
             
         ]
       ) result
+  (** 
+    Create an Proton component. A component is an infrastructure extension for a service instance.
+    
+     For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module CreateEnvironment : sig
@@ -6793,6 +6878,24 @@ module CreateEnvironment : sig
             
         ]
       ) result
+  (** 
+    Deploy a new environment. An Proton environment is created from an environment template that defines infrastructure and resources that can be shared across services.
+    
+     {b You can provision environments using the following methods:}
+     
+      {ul
+           {- Amazon Web Services-managed provisioning: Proton makes direct calls to provision your resources.
+              
+              }
+            {- Self-managed provisioning: Proton makes pull requests on your repository to provide compiled infrastructure as code (IaC) files that your IaC engine uses to provision resources.
+               
+               }
+           
+      }
+       For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html}Environments} and {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html}Provisioning methods} in the {i Proton User Guide}.
+        *)
+
+  
 end
 
 module CreateEnvironmentAccountConnection : sig
@@ -6810,6 +6913,13 @@ module CreateEnvironmentAccountConnection : sig
             
         ]
       ) result
+  (** 
+    Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account.
+    
+     An environment account connection is a secure bi-directional connection between a {i management account} and an {i environment account} that maintains authorization and permissions. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html}Environment account connections} in the {i Proton User guide}.
+      *)
+
+  
 end
 
 module CreateEnvironmentTemplate : sig
@@ -6827,6 +6937,23 @@ module CreateEnvironmentTemplate : sig
             
         ]
       ) result
+  (** 
+    Create an environment template for Proton. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html}Environment Templates} in the {i Proton User Guide}.
+    
+     You can create an environment template in one of the two following ways:
+     
+      {ul
+           {- Register and publish a {i standard} environment template that instructs Proton to deploy and manage environment infrastructure.
+              
+              }
+            {- Register and publish a {i customer managed} environment template that connects Proton to your existing provisioned infrastructure that you manage. Proton {i doesn't} manage your existing provisioned infrastructure. To create an environment template for customer provisioned and managed infrastructure, include the [provisioning] parameter and set the value to [CUSTOMER_MANAGED]. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/template-create.html}Register and publish an environment template} in the {i Proton User Guide}.
+               
+               }
+           
+      }
+       *)
+
+  
 end
 
 module CreateEnvironmentTemplateVersion : sig
@@ -6845,6 +6972,11 @@ module CreateEnvironmentTemplateVersion : sig
             
         ]
       ) result
+  (** 
+    Create a new major or minor version of an environment template. A major version of an environment template is a version that {i isn't} backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major version.
+     *)
+
+  
 end
 
 module CreateRepository : sig
@@ -6862,6 +6994,13 @@ module CreateRepository : sig
             
         ]
       ) result
+  (** 
+    Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed provisioning, or synced templates). When you create a repository link, Proton creates a {{:https://docs.aws.amazon.com/proton/latest/userguide/using-service-linked-roles.html}service-linked role} for you.
+    
+     For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self}Self-managed provisioning}, {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-template-authoring.html#ag-template-bundles}Template bundles}, and {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html}Template sync configurations} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module CreateService : sig
@@ -6880,6 +7019,11 @@ module CreateService : sig
             
         ]
       ) result
+  (** 
+    Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-services.html}Services} in the {i Proton User Guide}.
+     *)
+
+  
 end
 
 module CreateServiceInstance : sig
@@ -6897,6 +7041,11 @@ module CreateServiceInstance : sig
             
         ]
       ) result
+  (** 
+    Create a service instance.
+     *)
+
+  
 end
 
 module CreateServiceSyncConfig : sig
@@ -6914,6 +7063,11 @@ module CreateServiceSyncConfig : sig
             
         ]
       ) result
+  (** 
+    Create the Proton Ops configuration file.
+     *)
+
+  
 end
 
 module CreateServiceTemplate : sig
@@ -6931,6 +7085,11 @@ module CreateServiceTemplate : sig
             
         ]
       ) result
+  (** 
+    Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html}Proton templates} in the {i Proton User Guide}.
+     *)
+
+  
 end
 
 module CreateServiceTemplateVersion : sig
@@ -6949,6 +7108,11 @@ module CreateServiceTemplateVersion : sig
             
         ]
       ) result
+  (** 
+    Create a new major or minor version of a service template. A major version of a service template is a version that {i isn't} backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
+     *)
+
+  
 end
 
 module CreateTemplateSyncConfig : sig
@@ -6966,6 +7130,13 @@ module CreateTemplateSyncConfig : sig
             
         ]
       ) result
+  (** 
+    Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
+    
+     When a commit is pushed to your linked repository, Proton checks for changes to your repository template bundles. If it detects a template bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html}Template sync configurations} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module DeleteComponent : sig
@@ -6983,6 +7154,13 @@ module DeleteComponent : sig
             
         ]
       ) result
+  (** 
+    Delete an Proton component resource.
+    
+     For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module DeleteDeployment : sig
@@ -6999,6 +7177,11 @@ module DeleteDeployment : sig
             
         ]
       ) result
+  (** 
+    Delete the deployment.
+     *)
+
+  
 end
 
 module DeleteEnvironment : sig
@@ -7016,6 +7199,11 @@ module DeleteEnvironment : sig
             
         ]
       ) result
+  (** 
+    Delete an environment.
+     *)
+
+  
 end
 
 module DeleteEnvironmentAccountConnection : sig
@@ -7033,6 +7221,15 @@ module DeleteEnvironmentAccountConnection : sig
             
         ]
       ) result
+  (** 
+    In an environment account, delete an environment account connection.
+    
+     After you delete an environment account connection that’s in use by an Proton environment, Proton {i can’t} manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection.
+     
+      For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html}Environment account connections} in the {i Proton User guide}.
+       *)
+
+  
 end
 
 module DeleteEnvironmentTemplate : sig
@@ -7050,6 +7247,11 @@ module DeleteEnvironmentTemplate : sig
             
         ]
       ) result
+  (** 
+    If no other major or minor versions of an environment template exist, delete the environment template.
+     *)
+
+  
 end
 
 module DeleteEnvironmentTemplateVersion : sig
@@ -7067,6 +7269,13 @@ module DeleteEnvironmentTemplateVersion : sig
             
         ]
       ) result
+  (** 
+    If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the [Recommended] version. Delete the [Recommended] version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backward compatible.
+    
+     Delete a minor version of an environment template if it {i isn't} the [Recommended] version. Delete a [Recommended] minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backward compatible.
+      *)
+
+  
 end
 
 module DeleteRepository : sig
@@ -7084,6 +7293,11 @@ module DeleteRepository : sig
             
         ]
       ) result
+  (** 
+    De-register and unlink your repository.
+     *)
+
+  
 end
 
 module DeleteService : sig
@@ -7101,6 +7315,16 @@ module DeleteService : sig
             
         ]
       ) result
+  (** 
+    Delete a service, with its instances and pipeline.
+    
+     You can't delete a service if it has any service instances that have components attached to them.
+     
+      For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+      
+       *)
+
+  
 end
 
 module DeleteServiceSyncConfig : sig
@@ -7118,6 +7342,11 @@ module DeleteServiceSyncConfig : sig
             
         ]
       ) result
+  (** 
+    Delete the Proton Ops file.
+     *)
+
+  
 end
 
 module DeleteServiceTemplate : sig
@@ -7135,6 +7364,11 @@ module DeleteServiceTemplate : sig
             
         ]
       ) result
+  (** 
+    If no other major or minor versions of the service template exist, delete the service template.
+     *)
+
+  
 end
 
 module DeleteServiceTemplateVersion : sig
@@ -7152,6 +7386,13 @@ module DeleteServiceTemplateVersion : sig
             
         ]
       ) result
+  (** 
+    If no other minor versions of a service template exist, delete a major version of the service template if it's not the [Recommended] version. Delete the [Recommended] version of the service template if no other major versions or minor versions of the service template exist. A major version of a service template is a version that {i isn't} backwards compatible.
+    
+     Delete a minor version of a service template if it's not the [Recommended] version. Delete a [Recommended] minor version of the service template if no other minor versions of the service template exist. A minor version of a service template is a version that's backwards compatible.
+      *)
+
+  
 end
 
 module DeleteTemplateSyncConfig : sig
@@ -7169,6 +7410,11 @@ module DeleteTemplateSyncConfig : sig
             
         ]
       ) result
+  (** 
+    Delete a template sync configuration.
+     *)
+
+  
 end
 
 module GetAccountSettings : sig
@@ -7185,6 +7431,11 @@ module GetAccountSettings : sig
             
         ]
       ) result
+  (** 
+    Get detail data for Proton account-wide settings.
+     *)
+
+  
 end
 
 module GetComponent : sig
@@ -7201,6 +7452,13 @@ module GetComponent : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for a component.
+    
+     For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module GetDeployment : sig
@@ -7217,6 +7475,11 @@ module GetDeployment : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for a deployment.
+     *)
+
+  
 end
 
 module GetEnvironment : sig
@@ -7233,6 +7496,11 @@ module GetEnvironment : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for an environment.
+     *)
+
+  
 end
 
 module GetEnvironmentAccountConnection : sig
@@ -7249,6 +7517,13 @@ module GetEnvironmentAccountConnection : sig
             
         ]
       ) result
+  (** 
+    In an environment account, get the detailed data for an environment account connection.
+    
+     For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html}Environment account connections} in the {i Proton User guide}.
+      *)
+
+  
 end
 
 module GetEnvironmentTemplate : sig
@@ -7265,6 +7540,11 @@ module GetEnvironmentTemplate : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for an environment template.
+     *)
+
+  
 end
 
 module GetEnvironmentTemplateVersion : sig
@@ -7281,6 +7561,11 @@ module GetEnvironmentTemplateVersion : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for a major or minor version of an environment template.
+     *)
+
+  
 end
 
 module GetRepository : sig
@@ -7297,6 +7582,11 @@ module GetRepository : sig
             
         ]
       ) result
+  (** 
+    Get detail data for a linked repository.
+     *)
+
+  
 end
 
 module GetRepositorySyncStatus : sig
@@ -7313,6 +7603,16 @@ module GetRepositorySyncStatus : sig
             
         ]
       ) result
+  (** 
+    Get the sync status of a repository used for Proton template sync. For more information about template sync, see .
+    
+     A repository sync status isn't tied to the Proton Repository resource (or any other Proton resource). Therefore, tags on an Proton Repository resource have no effect on this action. Specifically, you can't use these tags to control access to this action using Attribute-based access control (ABAC).
+     
+      For more information about ABAC, see {{:https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags}ABAC} in the {i Proton User Guide}.
+      
+       *)
+
+  
 end
 
 module GetResourcesSummary : sig
@@ -7328,6 +7628,19 @@ module GetResourcesSummary : sig
             
         ]
       ) result
+  (** 
+    Get counts of Proton resources.
+    
+     For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current.
+     
+      The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the [components], [environments], and [serviceTemplates] field descriptions.
+      
+       For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account.
+       
+        For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html}Proton dashboard} in the {i Proton User Guide}.
+         *)
+
+  
 end
 
 module GetService : sig
@@ -7344,6 +7657,11 @@ module GetService : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for a service.
+     *)
+
+  
 end
 
 module GetServiceInstance : sig
@@ -7360,6 +7678,11 @@ module GetServiceInstance : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
+     *)
+
+  
 end
 
 module GetServiceInstanceSyncStatus : sig
@@ -7376,6 +7699,11 @@ module GetServiceInstanceSyncStatus : sig
             
         ]
       ) result
+  (** 
+    Get the status of the synced service instance.
+     *)
+
+  
 end
 
 module GetServiceSyncBlockerSummary : sig
@@ -7392,6 +7720,11 @@ module GetServiceSyncBlockerSummary : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for the service sync blocker summary.
+     *)
+
+  
 end
 
 module GetServiceSyncConfig : sig
@@ -7408,6 +7741,11 @@ module GetServiceSyncConfig : sig
             
         ]
       ) result
+  (** 
+    Get detailed information for the service sync configuration.
+     *)
+
+  
 end
 
 module GetServiceTemplate : sig
@@ -7424,6 +7762,11 @@ module GetServiceTemplate : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for a service template.
+     *)
+
+  
 end
 
 module GetServiceTemplateVersion : sig
@@ -7440,6 +7783,11 @@ module GetServiceTemplateVersion : sig
             
         ]
       ) result
+  (** 
+    Get detailed data for a major or minor version of a service template.
+     *)
+
+  
 end
 
 module GetTemplateSyncConfig : sig
@@ -7456,6 +7804,11 @@ module GetTemplateSyncConfig : sig
             
         ]
       ) result
+  (** 
+    Get detail data for a template sync configuration.
+     *)
+
+  
 end
 
 module GetTemplateSyncStatus : sig
@@ -7472,6 +7825,11 @@ module GetTemplateSyncStatus : sig
             
         ]
       ) result
+  (** 
+    Get the status of a template sync.
+     *)
+
+  
 end
 
 module ListComponentOutputs : sig
@@ -7488,6 +7846,13 @@ module ListComponentOutputs : sig
             
         ]
       ) result
+  (** 
+    Get a list of component Infrastructure as Code (IaC) outputs.
+    
+     For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module ListComponentProvisionedResources : sig
@@ -7504,6 +7869,13 @@ module ListComponentProvisionedResources : sig
             
         ]
       ) result
+  (** 
+    List provisioned resources for a component with details.
+    
+     For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module ListComponents : sig
@@ -7519,6 +7891,13 @@ module ListComponents : sig
             
         ]
       ) result
+  (** 
+    List components with summary data. You can filter the result list by environment, service, or a single service instance.
+    
+     For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module ListDeployments : sig
@@ -7535,6 +7914,11 @@ module ListDeployments : sig
             
         ]
       ) result
+  (** 
+    List deployments. You can filter the result list by environment, service, or a single service instance.
+     *)
+
+  
 end
 
 module ListEnvironmentAccountConnections : sig
@@ -7550,6 +7934,13 @@ module ListEnvironmentAccountConnections : sig
             
         ]
       ) result
+  (** 
+    View a list of environment account connections.
+    
+     For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html}Environment account connections} in the {i Proton User guide}.
+      *)
+
+  
 end
 
 module ListEnvironmentOutputs : sig
@@ -7566,6 +7957,11 @@ module ListEnvironmentOutputs : sig
             
         ]
       ) result
+  (** 
+    List the infrastructure as code outputs for your environment.
+     *)
+
+  
 end
 
 module ListEnvironmentProvisionedResources : sig
@@ -7582,6 +7978,11 @@ module ListEnvironmentProvisionedResources : sig
             
         ]
       ) result
+  (** 
+    List the provisioned resources for your environment.
+     *)
+
+  
 end
 
 module ListEnvironmentTemplateVersions : sig
@@ -7598,6 +7999,11 @@ module ListEnvironmentTemplateVersions : sig
             
         ]
       ) result
+  (** 
+    List major or minor versions of an environment template with detail data.
+     *)
+
+  
 end
 
 module ListEnvironmentTemplates : sig
@@ -7613,6 +8019,11 @@ module ListEnvironmentTemplates : sig
             
         ]
       ) result
+  (** 
+    List environment templates.
+     *)
+
+  
 end
 
 module ListEnvironments : sig
@@ -7629,6 +8040,11 @@ module ListEnvironments : sig
             
         ]
       ) result
+  (** 
+    List environments with detail data summaries.
+     *)
+
+  
 end
 
 module ListRepositories : sig
@@ -7645,6 +8061,11 @@ module ListRepositories : sig
             
         ]
       ) result
+  (** 
+    List linked repositories with detail data.
+     *)
+
+  
 end
 
 module ListRepositorySyncDefinitions : sig
@@ -7660,6 +8081,11 @@ module ListRepositorySyncDefinitions : sig
             
         ]
       ) result
+  (** 
+    List repository sync definitions with detail data.
+     *)
+
+  
 end
 
 module ListServiceInstanceOutputs : sig
@@ -7676,6 +8102,11 @@ module ListServiceInstanceOutputs : sig
             
         ]
       ) result
+  (** 
+    Get a list service of instance Infrastructure as Code (IaC) outputs.
+     *)
+
+  
 end
 
 module ListServiceInstanceProvisionedResources : sig
@@ -7692,6 +8123,11 @@ module ListServiceInstanceProvisionedResources : sig
             
         ]
       ) result
+  (** 
+    List provisioned resources for a service instance with details.
+     *)
+
+  
 end
 
 module ListServiceInstances : sig
@@ -7708,6 +8144,11 @@ module ListServiceInstances : sig
             
         ]
       ) result
+  (** 
+    List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
+     *)
+
+  
 end
 
 module ListServicePipelineOutputs : sig
@@ -7724,6 +8165,11 @@ module ListServicePipelineOutputs : sig
             
         ]
       ) result
+  (** 
+    Get a list of service pipeline Infrastructure as Code (IaC) outputs.
+     *)
+
+  
 end
 
 module ListServicePipelineProvisionedResources : sig
@@ -7740,6 +8186,11 @@ module ListServicePipelineProvisionedResources : sig
             
         ]
       ) result
+  (** 
+    List provisioned resources for a service and pipeline with details.
+     *)
+
+  
 end
 
 module ListServiceTemplateVersions : sig
@@ -7756,6 +8207,11 @@ module ListServiceTemplateVersions : sig
             
         ]
       ) result
+  (** 
+    List major or minor versions of a service template with detail data.
+     *)
+
+  
 end
 
 module ListServiceTemplates : sig
@@ -7771,6 +8227,11 @@ module ListServiceTemplates : sig
             
         ]
       ) result
+  (** 
+    List service templates with detail data.
+     *)
+
+  
 end
 
 module ListServices : sig
@@ -7786,6 +8247,11 @@ module ListServices : sig
             
         ]
       ) result
+  (** 
+    List services with summaries of detail data.
+     *)
+
+  
 end
 
 module ListTagsForResource : sig
@@ -7802,6 +8268,11 @@ module ListTagsForResource : sig
             
         ]
       ) result
+  (** 
+    List tags for a resource. For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/resources.html}Proton resources and tagging} in the {i Proton User Guide}.
+     *)
+
+  
 end
 
 module NotifyResourceDeploymentStatusChange : sig
@@ -7820,6 +8291,13 @@ module NotifyResourceDeploymentStatusChange : sig
             
         ]
       ) result
+  (** 
+    Notify Proton of status changes to a provisioned resource when you use self-managed provisioning.
+    
+     For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self}Self-managed provisioning} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module RejectEnvironmentAccountConnection : sig
@@ -7837,6 +8315,17 @@ module RejectEnvironmentAccountConnection : sig
             
         ]
       ) result
+  (** 
+    In a management account, reject an environment account connection from another environment account.
+    
+     After you reject an environment account connection request, you {i can't} accept or use the rejected environment account connection.
+     
+      You {i can’t} reject an environment account connection that's connected to an environment.
+      
+       For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html}Environment account connections} in the {i Proton User guide}.
+        *)
+
+  
 end
 
 module TagResource : sig
@@ -7854,6 +8343,13 @@ module TagResource : sig
             
         ]
       ) result
+  (** 
+    Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource.
+    
+     For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/resources.html}Proton resources and tagging} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module UntagResource : sig
@@ -7871,6 +8367,13 @@ module UntagResource : sig
             
         ]
       ) result
+  (** 
+    Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource.
+    
+     For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/resources.html}Proton resources and tagging} in the {i Proton User Guide}.
+      *)
+
+  
 end
 
 module UpdateAccountSettings : sig
@@ -7887,6 +8390,11 @@ module UpdateAccountSettings : sig
             
         ]
       ) result
+  (** 
+    Update Proton settings that are used for multiple services in the Amazon Web Services account.
+     *)
+
+  
 end
 
 module UpdateComponent : sig
@@ -7905,6 +8413,17 @@ module UpdateComponent : sig
             
         ]
       ) result
+  (** 
+    Update a component.
+    
+     There are a few modes for updating a component. The [deploymentType] field defines the mode.
+     
+      You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is [IN_PROGRESS].
+      
+       For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+        *)
+
+  
 end
 
 module UpdateEnvironment : sig
@@ -7922,6 +8441,44 @@ module UpdateEnvironment : sig
             
         ]
       ) result
+  (** 
+    Update an environment.
+    
+     If the environment is associated with an environment account connection, {i don't} update or include the [protonServiceRoleArn] and [provisioningRepository] parameter to update or connect to an environment account connection.
+     
+      You can only update to a new environment account connection if that connection was created in the same environment account that the current environment account connection was created in. The account connection must also be associated with the current environment.
+      
+       If the environment {i isn't} associated with an environment account connection, {i don't} update or include the [environmentAccountConnectionId] parameter. You {i can't} update or connect the environment to an environment account connection if it {i isn't} already associated with an environment connection.
+       
+        You can update either the [environmentAccountConnectionId] or [protonServiceRoleArn] parameter and value. You can’t update both.
+        
+         If the environment was configured for Amazon Web Services-managed provisioning, omit the [provisioningRepository] parameter.
+         
+          If the environment was configured for self-managed provisioning, specify the [provisioningRepository] parameter and omit the [protonServiceRoleArn] and [environmentAccountConnectionId] parameters.
+          
+           For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html}Environments} and {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html}Provisioning methods} in the {i Proton User Guide}.
+           
+            There are four modes for updating an environment. The [deploymentType] field defines the mode.
+            
+             [NONE]
+             
+              In this mode, a deployment {i doesn't} occur. Only the requested metadata parameters are updated.
+              
+               [CURRENT_VERSION]
+               
+                In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. {i Don’t} include minor or major version parameters when you use this [deployment-type].
+                
+                 [MINOR_VERSION]
+                 
+                  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.
+                  
+                   [MAJOR_VERSION]
+                   
+                    In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
+                    
+                     *)
+
+  
 end
 
 module UpdateEnvironmentAccountConnection : sig
@@ -7939,6 +8496,13 @@ module UpdateEnvironmentAccountConnection : sig
             
         ]
       ) result
+  (** 
+    In an environment account, update an environment account connection to use a new IAM role.
+    
+     For more information, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html}Environment account connections} in the {i Proton User guide}.
+      *)
+
+  
 end
 
 module UpdateEnvironmentTemplate : sig
@@ -7956,6 +8520,11 @@ module UpdateEnvironmentTemplate : sig
             
         ]
       ) result
+  (** 
+    Update an environment template.
+     *)
+
+  
 end
 
 module UpdateEnvironmentTemplateVersion : sig
@@ -7973,6 +8542,11 @@ module UpdateEnvironmentTemplateVersion : sig
             
         ]
       ) result
+  (** 
+    Update a major or minor version of an environment template.
+     *)
+
+  
 end
 
 module UpdateService : sig
@@ -7991,6 +8565,22 @@ module UpdateService : sig
             
         ]
       ) result
+  (** 
+    Edit a service description or use a spec to add and delete service instances.
+    
+     Existing service instances and the service pipeline {i can't} be edited using this API. They can only be deleted.
+     
+      Use the [description] parameter to modify the description.
+      
+       Edit the [spec] parameter to add or delete instances.
+       
+        You can't delete a service instance (remove it from the spec) if it has an attached component.
+        
+         For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+         
+          *)
+
+  
 end
 
 module UpdateServiceInstance : sig
@@ -8008,6 +8598,18 @@ module UpdateServiceInstance : sig
             
         ]
       ) result
+  (** 
+    Update a service instance.
+    
+     There are a few modes for updating a service instance. The [deploymentType] field defines the mode.
+     
+      You can't update a service instance while its deployment status, or the deployment status of a component attached to it, is [IN_PROGRESS].
+      
+       For more information about components, see {{:https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html}Proton components} in the {i Proton User Guide}.
+       
+        *)
+
+  
 end
 
 module UpdateServicePipeline : sig
@@ -8025,6 +8627,30 @@ module UpdateServicePipeline : sig
             
         ]
       ) result
+  (** 
+    Update the service pipeline.
+    
+     There are four modes for updating a service pipeline. The [deploymentType] field defines the mode.
+     
+      [NONE]
+      
+       In this mode, a deployment {i doesn't} occur. Only the requested metadata parameters are updated.
+       
+        [CURRENT_VERSION]
+        
+         In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. {i Don’t} include major or minor version parameters when you use this [deployment-type].
+         
+          [MINOR_VERSION]
+          
+           In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use.
+           
+            [MAJOR_VERSION]
+            
+             In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
+             
+              *)
+
+  
 end
 
 module UpdateServiceSyncBlocker : sig
@@ -8042,6 +8668,11 @@ module UpdateServiceSyncBlocker : sig
             
         ]
       ) result
+  (** 
+    Update the service sync blocker by resolving it.
+     *)
+
+  
 end
 
 module UpdateServiceSyncConfig : sig
@@ -8059,6 +8690,11 @@ module UpdateServiceSyncConfig : sig
             
         ]
       ) result
+  (** 
+    Update the Proton Ops config file.
+     *)
+
+  
 end
 
 module UpdateServiceTemplate : sig
@@ -8076,6 +8712,11 @@ module UpdateServiceTemplate : sig
             
         ]
       ) result
+  (** 
+    Update a service template.
+     *)
+
+  
 end
 
 module UpdateServiceTemplateVersion : sig
@@ -8093,6 +8734,11 @@ module UpdateServiceTemplateVersion : sig
             
         ]
       ) result
+  (** 
+    Update a major or minor version of a service template.
+     *)
+
+  
 end
 
 module UpdateTemplateSyncConfig : sig
@@ -8110,5 +8756,10 @@ module UpdateTemplateSyncConfig : sig
             
         ]
       ) result
+  (** 
+    Update template sync configuration parameters, except for the [templateName] and [templateType]. Repository details (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
+     *)
+
+  
 end
 

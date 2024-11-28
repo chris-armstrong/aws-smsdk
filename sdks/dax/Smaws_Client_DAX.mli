@@ -1735,6 +1735,11 @@ module CreateCluster : sig
             
         ]
       ) result
+  (** 
+    Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
+     *)
+
+  
 end
 
 module CreateParameterGroup : sig
@@ -1752,6 +1757,11 @@ module CreateParameterGroup : sig
             
         ]
       ) result
+  (** 
+    Creates a new parameter group. A parameter group is a collection of parameters that you apply to all of the nodes in a DAX cluster.
+     *)
+
+  
 end
 
 module CreateSubnetGroup : sig
@@ -1768,6 +1778,11 @@ module CreateSubnetGroup : sig
             
         ]
       ) result
+  (** 
+    Creates a new subnet group.
+     *)
+
+  
 end
 
 module DecreaseReplicationFactor : sig
@@ -1785,6 +1800,14 @@ module DecreaseReplicationFactor : sig
             
         ]
       ) result
+  (** 
+    Removes one or more nodes from a DAX cluster.
+    
+     You cannot use [DecreaseReplicationFactor] to remove the last node in a DAX cluster. If you need to do this, use [DeleteCluster] instead.
+     
+      *)
+
+  
 end
 
 module DeleteCluster : sig
@@ -1801,6 +1824,11 @@ module DeleteCluster : sig
             
         ]
       ) result
+  (** 
+    Deletes a previously provisioned DAX cluster. {i DeleteCluster} deletes all associated nodes, node endpoints and the DAX cluster itself. When you receive a successful response from this action, DAX immediately begins deleting the cluster; you cannot cancel or revert this action.
+     *)
+
+  
 end
 
 module DeleteParameterGroup : sig
@@ -1817,6 +1845,11 @@ module DeleteParameterGroup : sig
             
         ]
       ) result
+  (** 
+    Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any DAX clusters.
+     *)
+
+  
 end
 
 module DeleteSubnetGroup : sig
@@ -1831,6 +1864,14 @@ module DeleteSubnetGroup : sig
             
         ]
       ) result
+  (** 
+    Deletes a subnet group.
+    
+     You cannot delete a subnet group if it is associated with any DAX clusters.
+     
+      *)
+
+  
 end
 
 module DescribeClusters : sig
@@ -1846,6 +1887,19 @@ module DescribeClusters : sig
             
         ]
       ) result
+  (** 
+    Returns information about all provisioned DAX clusters if no cluster identifier is specified, or about a specific DAX cluster if a cluster identifier is supplied.
+    
+     If the cluster is in the CREATING state, only cluster level information will be displayed until all of the nodes are successfully provisioned.
+     
+      If the cluster is in the DELETING state, only cluster level information will be displayed.
+      
+       If nodes are currently being added to the DAX cluster, node endpoint information and creation time for the additional nodes will not be displayed until they are completely provisioned. When the DAX cluster state is {i available}, the cluster is ready for use.
+       
+        If nodes are currently being removed from the DAX cluster, no endpoint information for the removed nodes is displayed.
+         *)
+
+  
 end
 
 module DescribeDefaultParameters : sig
@@ -1860,6 +1914,11 @@ module DescribeDefaultParameters : sig
             
         ]
       ) result
+  (** 
+    Returns the default system parameter information for the DAX caching software.
+     *)
+
+  
 end
 
 module DescribeEvents : sig
@@ -1874,6 +1933,13 @@ module DescribeEvents : sig
             
         ]
       ) result
+  (** 
+    Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter.
+    
+     By default, only the events occurring within the last 24 hours are returned; however, you can retrieve up to 14 days' worth of events if necessary.
+      *)
+
+  
 end
 
 module DescribeParameterGroups : sig
@@ -1889,6 +1955,11 @@ module DescribeParameterGroups : sig
             
         ]
       ) result
+  (** 
+    Returns a list of parameter group descriptions. If a parameter group name is specified, the list will contain only the descriptions for that group.
+     *)
+
+  
 end
 
 module DescribeParameters : sig
@@ -1904,6 +1975,11 @@ module DescribeParameters : sig
             
         ]
       ) result
+  (** 
+    Returns the detailed parameter list for a particular parameter group.
+     *)
+
+  
 end
 
 module DescribeSubnetGroups : sig
@@ -1917,6 +1993,11 @@ module DescribeSubnetGroups : sig
             
         ]
       ) result
+  (** 
+    Returns a list of subnet group descriptions. If a subnet group name is specified, the list will contain only the description of that group.
+     *)
+
+  
 end
 
 module IncreaseReplicationFactor : sig
@@ -1937,6 +2018,11 @@ module IncreaseReplicationFactor : sig
             
         ]
       ) result
+  (** 
+    Adds one or more nodes to a DAX cluster.
+     *)
+
+  
 end
 
 module ListTags : sig
@@ -1954,6 +2040,11 @@ module ListTags : sig
             
         ]
       ) result
+  (** 
+    List all of the tags for a DAX cluster. You can call [ListTags] up to 10 times per second, per account.
+     *)
+
+  
 end
 
 module RebootNode : sig
@@ -1971,6 +2062,14 @@ module RebootNode : sig
             
         ]
       ) result
+  (** 
+    Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING.
+    
+     [RebootNode] restarts the DAX engine process and does not remove the contents of the cache.
+     
+      *)
+
+  
 end
 
 module TagResource : sig
@@ -1989,6 +2088,11 @@ module TagResource : sig
             
         ]
       ) result
+  (** 
+    Associates a set of tags with a DAX resource. You can call [TagResource] up to 5 times per second, per account.
+     *)
+
+  
 end
 
 module UntagResource : sig
@@ -2007,6 +2111,11 @@ module UntagResource : sig
             
         ]
       ) result
+  (** 
+    Removes the association of tags from a DAX resource. You can call [UntagResource] up to 5 times per second, per account.
+     *)
+
+  
 end
 
 module UpdateCluster : sig
@@ -2025,6 +2134,11 @@ module UpdateCluster : sig
             
         ]
       ) result
+  (** 
+    Modifies the settings for a DAX cluster. You can use this action to change one or more cluster configuration parameters by specifying the parameters and the new values.
+     *)
+
+  
 end
 
 module UpdateParameterGroup : sig
@@ -2041,6 +2155,11 @@ module UpdateParameterGroup : sig
             
         ]
       ) result
+  (** 
+    Modifies the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
+     *)
+
+  
 end
 
 module UpdateSubnetGroup : sig
@@ -2057,5 +2176,10 @@ module UpdateSubnetGroup : sig
             
         ]
       ) result
+  (** 
+    Modifies an existing subnet group.
+     *)
+
+  
 end
 

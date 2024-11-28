@@ -11,6 +11,11 @@ module CreateConnection : sig
             
         ]
       ) result
+  (** 
+    Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
+     *)
+
+  
 end
 
 module CreateHost : sig
@@ -23,6 +28,14 @@ module CreateHost : sig
             
         ]
       ) result
+  (** 
+    Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider.
+    
+     A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console.
+     
+      *)
+
+  
 end
 
 module CreateRepositoryLink : sig
@@ -41,6 +54,11 @@ module CreateRepositoryLink : sig
             
         ]
       ) result
+  (** 
+    Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+     *)
+
+  
 end
 
 module CreateSyncConfiguration : sig
@@ -59,6 +77,11 @@ module CreateSyncConfiguration : sig
             
         ]
       ) result
+  (** 
+    Creates a sync configuration which allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource. Parameters for the sync configuration are determined by the sync type.
+     *)
+
+  
 end
 
 module DeleteConnection : sig
@@ -71,6 +94,11 @@ module DeleteConnection : sig
             
         ]
       ) result
+  (** 
+    The connection to be deleted.
+     *)
+
+  
 end
 
 module DeleteHost : sig
@@ -84,6 +112,14 @@ module DeleteHost : sig
             
         ]
       ) result
+  (** 
+    The host to be deleted. Before you delete a host, all connections associated to the host must be deleted.
+    
+     A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
+     
+      *)
+
+  
 end
 
 module DeleteRepositoryLink : sig
@@ -103,6 +139,11 @@ module DeleteRepositoryLink : sig
             
         ]
       ) result
+  (** 
+    Deletes the association between your connection and a specified external Git repository.
+     *)
+
+  
 end
 
 module DeleteSyncConfiguration : sig
@@ -120,6 +161,11 @@ module DeleteSyncConfiguration : sig
             
         ]
       ) result
+  (** 
+    Deletes the sync configuration for a specified repository and connection.
+     *)
+
+  
 end
 
 module GetConnection : sig
@@ -133,6 +179,11 @@ module GetConnection : sig
             
         ]
       ) result
+  (** 
+    Returns the connection ARN and details such as status, owner, and provider type.
+     *)
+
+  
 end
 
 module GetHost : sig
@@ -146,6 +197,11 @@ module GetHost : sig
             
         ]
       ) result
+  (** 
+    Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
+     *)
+
+  
 end
 
 module GetRepositoryLink : sig
@@ -163,6 +219,11 @@ module GetRepositoryLink : sig
             
         ]
       ) result
+  (** 
+    Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git repository.
+     *)
+
+  
 end
 
 module GetRepositorySyncStatus : sig
@@ -179,6 +240,11 @@ module GetRepositorySyncStatus : sig
             
         ]
       ) result
+  (** 
+    Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote repository.
+     *)
+
+  
 end
 
 module GetResourceSyncStatus : sig
@@ -195,6 +261,11 @@ module GetResourceSyncStatus : sig
             
         ]
       ) result
+  (** 
+    Returns the status of the sync with the Git repository for a specific Amazon Web Services resource.
+     *)
+
+  
 end
 
 module GetSyncBlockerSummary : sig
@@ -211,6 +282,11 @@ module GetSyncBlockerSummary : sig
             
         ]
       ) result
+  (** 
+    Returns a list of the most recent sync blockers.
+     *)
+
+  
 end
 
 module GetSyncConfiguration : sig
@@ -227,6 +303,11 @@ module GetSyncConfiguration : sig
             
         ]
       ) result
+  (** 
+    Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
+     *)
+
+  
 end
 
 module ListConnections : sig
@@ -239,6 +320,11 @@ module ListConnections : sig
             
         ]
       ) result
+  (** 
+    Lists the connections associated with your account.
+     *)
+
+  
 end
 
 module ListHosts : sig
@@ -250,6 +336,11 @@ module ListHosts : sig
             | Smaws_Lib.Protocols.AwsJson.error 
         ]
       ) result
+  (** 
+    Lists the hosts associated with your account.
+     *)
+
+  
 end
 
 module ListRepositoryLinks : sig
@@ -267,6 +358,11 @@ module ListRepositoryLinks : sig
             
         ]
       ) result
+  (** 
+    Lists the repository links created for connections in your account.
+     *)
+
+  
 end
 
 module ListRepositorySyncDefinitions : sig
@@ -283,6 +379,11 @@ module ListRepositorySyncDefinitions : sig
             
         ]
       ) result
+  (** 
+    Lists the repository sync definitions for repository links in your account.
+     *)
+
+  
 end
 
 module ListSyncConfigurations : sig
@@ -299,6 +400,11 @@ module ListSyncConfigurations : sig
             
         ]
       ) result
+  (** 
+    Returns a list of sync configurations for a specified repository.
+     *)
+
+  
 end
 
 module ListTagsForResource : sig
@@ -311,6 +417,11 @@ module ListTagsForResource : sig
             
         ]
       ) result
+  (** 
+    Gets the set of key-value pairs (metadata) that are used to manage the resource.
+     *)
+
+  
 end
 
 module TagResource : sig
@@ -324,6 +435,11 @@ module TagResource : sig
             
         ]
       ) result
+  (** 
+    Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
+     *)
+
+  
 end
 
 module UntagResource : sig
@@ -336,6 +452,11 @@ module UntagResource : sig
             
         ]
       ) result
+  (** 
+    Removes tags from an Amazon Web Services resource.
+     *)
+
+  
 end
 
 module UpdateHost : sig
@@ -351,6 +472,11 @@ module UpdateHost : sig
             
         ]
       ) result
+  (** 
+    Updates a specified host with the provided configurations.
+     *)
+
+  
 end
 
 module UpdateRepositoryLink : sig
@@ -369,6 +495,11 @@ module UpdateRepositoryLink : sig
             
         ]
       ) result
+  (** 
+    Updates the association between your connection and a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+     *)
+
+  
 end
 
 module UpdateSyncBlocker : sig
@@ -387,6 +518,11 @@ module UpdateSyncBlocker : sig
             
         ]
       ) result
+  (** 
+    Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
+     *)
+
+  
 end
 
 module UpdateSyncConfiguration : sig
@@ -405,5 +541,10 @@ module UpdateSyncConfiguration : sig
             
         ]
       ) result
+  (** 
+    Updates the sync configuration for your connection and a specified external Git repository.
+     *)
+
+  
 end
 

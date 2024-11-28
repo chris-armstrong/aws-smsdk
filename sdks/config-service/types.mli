@@ -588,7 +588,13 @@ type stored_query_metadata = {
 type stored_query = {
   expression: string option;
   (** 
-    The expression of the query. For example, [SELECT resourceId, resourceType, supplementaryConfiguration.BucketVersioningConfiguration.status WHERE resourceType = 'AWS::S3::Bucket' AND supplementaryConfiguration.BucketVersioningConfiguration.status = 'Off'.]
+    The expression of the query. For example, [SELECT
+			resourceId,
+			resourceType,
+			supplementaryConfiguration.BucketVersioningConfiguration.status
+			WHERE
+			resourceType = 'AWS::S3::Bucket'
+			AND supplementaryConfiguration.BucketVersioningConfiguration.status = 'Off'.]
      *)
 
   description: string option;
@@ -1235,7 +1241,7 @@ type no_running_configuration_recorder_exception = {
 }
 
 (** 
-    You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using {{:https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html}DeleteResourceConfig} [].
+    You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using {{:https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html}DeleteResourceConfig} .
      *)
 type max_active_resources_exceeded_exception = {
   message: string option;
@@ -1957,7 +1963,7 @@ type external_evaluation = {
 
   compliance_type: compliance_type;
   (** 
-    The compliance of the Amazon Web Services resource. The valid values are [COMPLIANT, NON_COMPLIANT,] and [NOT_APPLICABLE].
+    The compliance of the Amazon Web Services resource. The valid values are [COMPLIANT, NON_COMPLIANT, ] and [NOT_APPLICABLE].
      *)
 
   compliance_resource_id: string;
@@ -4782,7 +4788,7 @@ type get_compliance_details_by_resource_request = {
   (** 
     The unique ID of Amazon Web Services resource execution for which you want to retrieve evaluation results.
     
-     You need to only provide either a [ResourceEvaluationID] or a [ResourceID]and [ResourceType].
+     You need to only provide either a [ResourceEvaluationID] or a [ResourceID ]and [ResourceType].
      
       *)
 

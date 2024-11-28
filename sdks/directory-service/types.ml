@@ -599,12 +599,12 @@ type topic_status = | DELETED
 type tag = {
   value: string;
   [@ocaml.doc {| 
-    The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+    The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^(\[\\p\{L\}\\p\{Z\}\\p\{N\}_.:/=+\\-\]*)$").
      |}]
 
   key: string;
   [@ocaml.doc {| 
-    Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+    Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^(\[\\p\{L\}\\p\{Z\}\\p\{N\}_.:/=+\\-\]*)$").
      |}]
 
 }
@@ -2553,7 +2553,15 @@ type directory_description = {
 
   access_url: string option;
   (** 
-    The access URL for the directory, such as [http://.awsapps.com]. If no alias has been created for the directory, [] is the directory identifier, such as [d-XXXXXXXXXX].
+    The access URL for the directory, such as 
+    {[
+    http://.awsapps.com
+    ]}
+    . If no alias has been created for the directory, 
+    {[
+    
+    ]}
+     is the directory identifier, such as [d-XXXXXXXXXX].
      *)
 
   alias: string option;
@@ -3166,7 +3174,7 @@ type create_directory_request = {
       The regex pattern for this string is made up of the following conditions:
       
        {ul
-            {- Length (?=^.{8,64}$) – Must be between 8 and 64 characters
+            {- Length (?=^.\{8,64\}$) – Must be between 8 and 64 characters
                
                }
             
@@ -3174,16 +3182,16 @@ type create_directory_request = {
        AND any 3 of the following password complexity rules required by Active Directory:
        
         {ul
-             {- Numbers and upper case and lowercase (?=.*\d)(?=.*[A-Z])(?=.*[a-z])
+             {- Numbers and upper case and lowercase (?=.*\d)(?=.*\[A-Z\])(?=.*\[a-z\])
                 
                 }
-              {- Numbers and special characters and lower case (?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])
+              {- Numbers and special characters and lower case (?=.*\d)(?=.*\[^A-Za-z0-9\s\])(?=.*\[a-z\])
                  
                  }
-              {- Special characters and upper case and lower case (?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])
+              {- Special characters and upper case and lower case (?=.*\[^A-Za-z0-9\s\])(?=.*\[A-Z\])(?=.*\[a-z\])
                  
                  }
-              {- Numbers and upper case and special characters (?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s])
+              {- Numbers and upper case and special characters (?=.*\d)(?=.*\[A-Z\])(?=.*\[^A-Za-z0-9\s\])
                  
                  }
              

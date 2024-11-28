@@ -350,12 +350,12 @@ type record = {
     Items that are deleted by the Time to Live process after expiration have the following fields:
     
      {ul
-          {- Records[].userIdentity.type
+          {- Records\[\].userIdentity.type
              
               "Service"
               
               }
-           {- Records[].userIdentity.principalId
+           {- Records\[\].userIdentity.principalId
               
                "dynamodb.amazonaws.com"
                

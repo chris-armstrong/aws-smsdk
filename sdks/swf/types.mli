@@ -2293,40 +2293,88 @@ type schedule_lambda_function_decision_attributes = {
           You code a decision by first setting the decision type field to one of the above decision values, and then set the corresponding attributes field shown below:
           
            {ul
-                {- [[ScheduleActivityTaskDecisionAttributes]]
+                {- 
+                   {[
+                   [ScheduleActivityTaskDecisionAttributes]
+                   ]}
+                   
                    
                    }
-                 {- [[RequestCancelActivityTaskDecisionAttributes]]
+                 {- 
+                    {[
+                    [RequestCancelActivityTaskDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[CompleteWorkflowExecutionDecisionAttributes]]
+                 {- 
+                    {[
+                    [CompleteWorkflowExecutionDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[FailWorkflowExecutionDecisionAttributes]]
+                 {- 
+                    {[
+                    [FailWorkflowExecutionDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[CancelWorkflowExecutionDecisionAttributes]]
+                 {- 
+                    {[
+                    [CancelWorkflowExecutionDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[ContinueAsNewWorkflowExecutionDecisionAttributes]]
+                 {- 
+                    {[
+                    [ContinueAsNewWorkflowExecutionDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[RecordMarkerDecisionAttributes]]
+                 {- 
+                    {[
+                    [RecordMarkerDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[StartTimerDecisionAttributes]]
+                 {- 
+                    {[
+                    [StartTimerDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[CancelTimerDecisionAttributes]]
+                 {- 
+                    {[
+                    [CancelTimerDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[SignalExternalWorkflowExecutionDecisionAttributes]]
+                 {- 
+                    {[
+                    [SignalExternalWorkflowExecutionDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[RequestCancelExternalWorkflowExecutionDecisionAttributes]]
+                 {- 
+                    {[
+                    [RequestCancelExternalWorkflowExecutionDecisionAttributes]
+                    ]}
+                    
                     
                     }
-                 {- [[StartChildWorkflowExecutionDecisionAttributes]]
+                 {- 
+                    {[
+                    [StartChildWorkflowExecutionDecisionAttributes]
+                    ]}
+                    
                     
                     }
                 
@@ -4322,7 +4370,8 @@ type poll_for_decision_task_input = {
 
   next_page_token: string option;
   [@ocaml.doc {| 
-    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has exceeded its maximum lifetime]".
+    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has 
+      exceeded its maximum lifetime]".
     
      The configured [maximumPageSize] determines how many results can be returned in a single call.
      
@@ -4418,7 +4467,8 @@ type list_workflow_types_input = {
 
   next_page_token: string option;
   [@ocaml.doc {| 
-    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has exceeded its maximum lifetime]".
+    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has 
+      exceeded its maximum lifetime]".
     
      The configured [maximumPageSize] determines how many results can be returned in a single call.
       |}]
@@ -4493,7 +4543,8 @@ type list_open_workflow_executions_input = {
 
   next_page_token: string option;
   [@ocaml.doc {| 
-    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has exceeded its maximum lifetime]".
+    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has 
+      exceeded its maximum lifetime]".
     
      The configured [maximumPageSize] determines how many results can be returned in a single call.
       |}]
@@ -4598,7 +4649,8 @@ type list_domains_input = {
 
   next_page_token: string option;
   [@ocaml.doc {| 
-    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has exceeded its maximum lifetime]".
+    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has 
+      exceeded its maximum lifetime]".
     
      The configured [maximumPageSize] determines how many results can be returned in a single call.
       |}]
@@ -4629,7 +4681,8 @@ type list_closed_workflow_executions_input = {
 
   next_page_token: string option;
   [@ocaml.doc {| 
-    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has exceeded its maximum lifetime]".
+    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has 
+      exceeded its maximum lifetime]".
     
      The configured [maximumPageSize] determines how many results can be returned in a single call.
       |}]
@@ -4751,7 +4804,8 @@ type list_activity_types_input = {
 
   next_page_token: string option;
   [@ocaml.doc {| 
-    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has exceeded its maximum lifetime]".
+    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has 
+      exceeded its maximum lifetime]".
     
      The configured [maximumPageSize] determines how many results can be returned in a single call.
       |}]
@@ -4804,7 +4858,8 @@ type get_workflow_execution_history_input = {
 
   next_page_token: string option;
   [@ocaml.doc {| 
-    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has exceeded its maximum lifetime]".
+    If [NextPageToken] is returned there are more results available. The value of [NextPageToken] is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a [400] error: "[Specified token has 
+      exceeded its maximum lifetime]".
     
      The configured [maximumPageSize] determines how many results can be returned in a single call.
       |}]

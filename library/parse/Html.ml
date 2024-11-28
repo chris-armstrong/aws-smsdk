@@ -1,4 +1,6 @@
+open Base
 open Markup
+module Format = Stdlib.Format
 
 module BasicDom = struct
   let equal_name (_, name1) (_, name2) = String.equal name1 name2
@@ -15,21 +17,22 @@ let html_to_tree html =
   let open BasicDom in
   html |> string |> parse_html |> signals
   |> tree
-       ~text:(fun ss -> Text (String.concat "" ss))
+       ~text:(fun ss -> Text (String.concat ~sep:"" ss))
        ~element:(fun (_, name) attrs children ->
-         Element (name, attrs |> List.map (fun ((_, name), value) -> (name, value)), children))
+         Element (name, attrs |> List.map ~f:(fun ((_, name), value) -> (name, value)), children))
   |> Option.value ~default:(Text "")
 
 let beginning_whitespace = Re.Perl.(re {|^[\t \n\r]+|} |> compile)
 let trailing_whitespace = Re.Perl.(re {|[\t \n\r]+$|} |> compile)
 let multi_whitespace_regex = Re.Perl.(re ~opts:[ `Multiline ] {|[\t \n\r]+|} |> compile)
+let special_char_pattern = Re.Perl.(re ~opts:[ `Multiline ] {|\[|\]|\{|\}|} |> compile)
 
 exception UnexpectedElement of string
 
 type list_type = Unordered | Ordered | Undefined
 
 type context = {
-  fmt : Format.formatter;
+  fmt : Stdlib.Format.formatter;
   indent : int;
   list_type : list_type;
   first : bool;
@@ -42,7 +45,7 @@ let context ?(first = true) ?(last = true) ~fmt ~indent ~list_type () =
 let rec transform_children ~ctx children =
   let len = List.length children in
   List.iteri
-    (fun index child ->
+    ~f:(fun index child ->
       let first = index = 0 in
       let last = index = len - 1 in
       let _ = transform ~ctx:{ ctx with first; last } child in
@@ -70,11 +73,11 @@ and transform ~ctx dom =
           Fmt.pf fmt "}"
       | Element (("ul" as lt), _, children) | Element (("ol" as lt), _, children) ->
           Fmt.pf fmt "{";
-          Fmt.pf fmt "%s" (if lt = "ul" then "ul" else "ol");
+          Fmt.pf fmt "%s" (if String.equal lt "ul" then "ul" else "ol");
           Format.pp_open_vbox fmt indent;
           Format.pp_print_cut fmt ();
           transform_children
-            ~ctx:{ ctx with list_type = (if lt == "ol" then Ordered else Unordered) }
+            ~ctx:{ ctx with list_type = (if String.equal lt "ol" then Ordered else Unordered) }
             children;
           Format.pp_close_box fmt ();
           Format.pp_print_break fmt 0 indent;
@@ -90,10 +93,19 @@ and transform ~ctx dom =
           Fmt.pf fmt "{i ";
           transform_children ~ctx children;
           Fmt.pf fmt "}"
-      | Element ("code", _, children) ->
-          Fmt.pf fmt "[";
-          transform_children ~ctx children;
-          Fmt.pf fmt "]"
+      | Element ("code", _, children) -> begin
+          match children with
+          | [] -> ()
+          | [ Text str ] ->
+              Fmt.pf fmt "[%s]"
+                (str
+                |> String.substr_replace_all ~pattern:"[" ~with_:"\\["
+                |> String.substr_replace_all ~pattern:"]" ~with_:"\\]")
+          | _ ->
+              Fmt.pf fmt "@\n{[@\n";
+              transform_children ~ctx children;
+              Fmt.pf fmt "@\n]}@\n"
+        end
       | Element ("pre", _, children) ->
           Fmt.pf fmt "{v";
           Format.pp_print_break fmt 0 0;
@@ -110,7 +122,7 @@ and transform ~ctx dom =
           Fmt.pf fmt "v}";
           Format.pp_print_break fmt 0 0
       | Element ("a", attrs, children) -> (
-          let href = List.assoc_opt "href" attrs in
+          let href = List.Assoc.find attrs ~equal:String.equal "href" in
           match href with
           | Some href -> begin
               Fmt.pf fmt "{{:%s}" href;
@@ -130,6 +142,14 @@ and transform ~ctx dom =
             if last then Re.replace_string ~all:false trailing_whitespace ~by:"" str else str
           in
           let str = Re.replace_string ~all:true multi_whitespace_regex ~by:" " str in
+          let str =
+            str
+            |> String.substr_replace_all ~pattern:"{" ~with_:"\\{"
+            |> String.substr_replace_all ~pattern:"}" ~with_:"\\}"
+            |> String.substr_replace_all ~pattern:"[" ~with_:"\\["
+            |> String.substr_replace_all ~pattern:"]" ~with_:"\\]"
+            |> String.substr_replace_all ~pattern:"@" ~with_:"\\@"
+          in
           Format.pp_print_string fmt str
     end
 
@@ -142,4 +162,4 @@ and html_to_odoc ?(indent = 2) ?(start_indent = 4) html =
   html |> html_to_tree |> transform ~ctx:(context ~fmt ~indent ~list_type:Undefined ());
   Format.pp_close_box fmt ();
   Format.pp_print_flush fmt ();
-  buffer |> Buffer.to_bytes |> String.of_bytes
+  buffer |> Buffer.contents

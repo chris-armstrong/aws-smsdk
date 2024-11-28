@@ -1938,7 +1938,7 @@ type http_instance_summary = {
 
   namespace_name: string option;
   (** 
-    [] [] []
+      
     
      The [HttpName] name of the namespace. It's found in the [HttpProperties] member of the [Properties] member of the namespace.
       *)
@@ -1990,7 +1990,8 @@ type discover_instances_request = {
 
   query_parameters: (string * string) list option;
   (** 
-    Filters to scope the results based on custom attributes for the instance (for example, [{version=v1, az=1a}]). Only instances that match all the specified key-value pairs are returned.
+    Filters to scope the results based on custom attributes for the instance (for example, [{version=v1,
+    az=1a}]). Only instances that match all the specified key-value pairs are returned.
      *)
 
   max_results: int option;

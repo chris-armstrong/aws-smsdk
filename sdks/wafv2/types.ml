@@ -138,7 +138,8 @@ type json_match_pattern = {
   [@ocaml.doc {| 
     Match only the specified include paths. See also [MatchScope] in [JsonBody].
     
-     Provide the include paths using JSON Pointer syntax. For example, ["IncludedPaths": ["/dogs/0/name", "/dogs/1/name"]]. For information about this syntax, see the Internet Engineering Task Force (IETF) documentation {{:https://tools.ietf.org/html/rfc6901}JavaScript Object Notation (JSON) Pointer}.
+     Provide the include paths using JSON Pointer syntax. For example, ["IncludedPaths":
+            \["/dogs/0/name", "/dogs/1/name"\]]. For information about this syntax, see the Internet Engineering Task Force (IETF) documentation {{:https://tools.ietf.org/html/rfc6901}JavaScript Object Notation (JSON) Pointer}.
      
       You must specify either this setting or the [All] setting, but not both.
       
@@ -170,7 +171,8 @@ type body_parsing_fallback_behavior = | EVALUATE_AS_STRING
      
       Use the specifications in this object to indicate which parts of the JSON body to inspect using the rule's inspection criteria. WAF inspects only the parts of the JSON that result from the matches that you indicate.
       
-       Example JSON: ["JsonBody": { "MatchPattern": { "All": {} }, "MatchScope": "ALL" }]
+       Example JSON: ["JsonBody": { "MatchPattern": { "All": {} }, "MatchScope": "ALL"
+            }]
         |}]
 type json_body = {
   oversize_handling: oversize_handling option;
@@ -262,7 +264,7 @@ type json_body = {
     
      You must specify exactly one setting: either [All], [IncludedHeaders], or [ExcludedHeaders].
      
-      Example JSON: ["MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1", "KeyToExclude2" ] }]
+      Example JSON: ["MatchPattern": { "ExcludedHeaders": \[ "KeyToExclude1", "KeyToExclude2" \] }]
        |}]
 type header_match_pattern = {
   excluded_headers: string list option;
@@ -293,7 +295,8 @@ type map_match_scope = | VALUE
      
       If you want to inspect just the value of a single header, use the [SingleHeader] [FieldToMatch] setting instead.
       
-       Example JSON: ["Headers": { "MatchPattern": { "All": {} }, "MatchScope": "KEY", "OversizeHandling": "MATCH" }]
+       Example JSON: ["Headers": { "MatchPattern": { "All": {} }, "MatchScope": "KEY",
+            "OversizeHandling": "MATCH" }]
         |}]
 type headers = {
   oversize_handling: oversize_handling;
@@ -329,7 +332,7 @@ type headers = {
     
      You must specify exactly one setting: either [All], [IncludedHeaders], or [ExcludedHeaders].
      
-      Example JSON: ["MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1", "KeyToExclude2" ] }]
+      Example JSON: ["MatchPattern": { "ExcludedHeaders": \[ "KeyToExclude1", "KeyToExclude2" \] }]
        |}]
 
 }
@@ -339,7 +342,7 @@ type headers = {
     
      You must specify exactly one setting: either [All], [IncludedCookies], or [ExcludedCookies].
      
-      Example JSON: ["MatchPattern": { "IncludedCookies": [ "session-id-time", "session-id" ] }]
+      Example JSON: ["MatchPattern": { "IncludedCookies": \[ "session-id-time", "session-id" \] }]
        |}]
 type cookie_match_pattern = {
   excluded_cookies: string list option;
@@ -364,7 +367,8 @@ type cookie_match_pattern = {
     
      This is used to indicate the web request component to inspect, in the [FieldToMatch] specification.
      
-      Example JSON: ["Cookies": { "MatchPattern": { "All": {} }, "MatchScope": "KEY", "OversizeHandling": "MATCH" }]
+      Example JSON: ["Cookies": { "MatchPattern": { "All": {} }, "MatchScope": "KEY",
+            "OversizeHandling": "MATCH" }]
        |}]
 type cookies = {
   oversize_handling: oversize_handling;
@@ -400,7 +404,7 @@ type cookies = {
     
      You must specify exactly one setting: either [All], [IncludedCookies], or [ExcludedCookies].
      
-      Example JSON: ["MatchPattern": { "IncludedCookies": [ "session-id-time", "session-id" ] }]
+      Example JSON: ["MatchPattern": { "IncludedCookies": \[ "session-id-time", "session-id" \] }]
        |}]
 
 }
@@ -471,11 +475,11 @@ type ja3_fingerprint = {
              
               Example JSON for a [QueryString] field to match:
               
-               ["FieldToMatch": { "QueryString": {} }]
+               [ "FieldToMatch": { "QueryString": {} }]
                
                 Example JSON for a [Method] field to match specification:
                 
-                 ["FieldToMatch": { "Method": { "Name": "DELETE" } }]
+                 [ "FieldToMatch": { "Method": { "Name": "DELETE" } }]
                  
                  }
            {- In a logging configuration, this is used in the [RedactedFields] property to specify a field to redact from the logging records. For this use case, note the following:
@@ -1255,9 +1259,25 @@ type forwarded_ip_config = {
       }
        WAF labels requests using the alpha-2 country and region codes from the International Organization for Standardization (ISO) 3166 standard. WAF determines the codes using either the IP address in the web request origin or, if you specify it, the address in the geo match [ForwardedIPConfig].
        
-        If you use the web request origin, the label formats are [awswaf:clientip:geo:region:-] and [awswaf:clientip:geo:country:].
+        If you use the web request origin, the label formats are 
+        {[
+        awswaf:clientip:geo:region:-
+        ]}
+         and 
+        {[
+        awswaf:clientip:geo:country:
+        ]}
+        .
         
-         If you use a forwarded IP address, the label formats are [awswaf:forwardedip:geo:region:-] and [awswaf:forwardedip:geo:country:].
+         If you use a forwarded IP address, the label formats are 
+         {[
+         awswaf:forwardedip:geo:region:-
+         ]}
+          and 
+         {[
+         awswaf:forwardedip:geo:country:
+         ]}
+         .
          
           For additional details, see {{:https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-geo-match.html}Geographic match rule statement} in the {{:https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html}WAF Developer Guide}.
            *)
@@ -1272,7 +1292,7 @@ type geo_match_statement = {
 
   country_codes: country_code list option;
   [@ocaml.doc {| 
-    An array of two-character country codes that you want to match against, for example, [[ "US", "CN" ]], from the alpha-2 country ISO codes of the ISO 3166 international standard.
+    An array of two-character country codes that you want to match against, for example, [\[ "US", "CN" \]], from the alpha-2 country ISO codes of the ISO 3166 international standard.
     
      When you use a geo match statement just for the region and country labels that it adds to requests, you still have to supply a country code for the rule to evaluate. In this case, you configure the rule to only count matching requests, but it will still generate logging and count metrics for any matches. You can reduce the logging and metrics that the rule produces by specifying a country that's unlikely to be a source of traffic to your site.
       |}]
@@ -1913,14 +1933,14 @@ type response_inspection_status_code = {
   [@ocaml.doc {| 
     Status codes in the response that indicate a failed login or account creation attempt. To be counted as a failure, the response status code must match one of these. Each code must be unique among the success and failure status codes.
     
-     JSON example: ["FailureCodes": [ 400, 404 ]]
+     JSON example: ["FailureCodes": \[ 400, 404 \]]
       |}]
 
   success_codes: int list;
   [@ocaml.doc {| 
     Status codes in the response that indicate a successful login or account creation attempt. To be counted as a success, the response status code must match one of these. Each code must be unique among the success and failure status codes.
     
-     JSON example: ["SuccessCodes": [ 200, 201 ]]
+     JSON example: ["SuccessCodes": \[ 200, 201 \]]
       |}]
 
 }
@@ -1936,21 +1956,21 @@ type response_inspection_header = {
   [@ocaml.doc {| 
     Values in the response header with the specified name that indicate a failed login or account creation attempt. To be counted as a failure, the value must be an exact match, including case. Each value must be unique among the success and failure values.
     
-     JSON examples: ["FailureValues": [ "LoginFailed", "Failed login" ]] and ["FailureValues": [ "AccountCreationFailed" ]]
+     JSON examples: ["FailureValues": \[ "LoginFailed", "Failed login" \]] and ["FailureValues": \[ "AccountCreationFailed" \]]
       |}]
 
   success_values: string list;
   [@ocaml.doc {| 
     Values in the response header with the specified name that indicate a successful login or account creation attempt. To be counted as a success, the value must be an exact match, including case. Each value must be unique among the success and failure values.
     
-     JSON examples: ["SuccessValues": [ "LoginPassed", "Successful login" ]] and ["SuccessValues": [ "AccountCreated", "Successful account creation" ]]
+     JSON examples: ["SuccessValues": \[ "LoginPassed", "Successful login" \]] and ["SuccessValues": \[ "AccountCreated", "Successful account creation" \]]
       |}]
 
   name: string;
   [@ocaml.doc {| 
     The name of the header to match against. The name must be an exact match, including case.
     
-     JSON example: ["Name": [ "RequestResult" ]]
+     JSON example: ["Name": \[ "RequestResult" \]]
       |}]
 
 }
@@ -1966,14 +1986,14 @@ type response_inspection_body_contains = {
   [@ocaml.doc {| 
     Strings in the body of the response that indicate a failed login or account creation attempt. To be counted as a failure, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings.
     
-     JSON example: ["FailureStrings": [ "Request failed" ]]
+     JSON example: ["FailureStrings": \[ "Request failed" \]]
       |}]
 
   success_strings: string list;
   [@ocaml.doc {| 
     Strings in the body of the response that indicate a successful login or account creation attempt. To be counted as a success, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings.
     
-     JSON examples: ["SuccessStrings": [ "Login successful" ]] and ["SuccessStrings": [ "Account creation successful", "Welcome to our site!" ]]
+     JSON examples: ["SuccessStrings": \[ "Login successful" \]] and ["SuccessStrings": \[ "Account creation successful", "Welcome to our site!" \]]
       |}]
 
 }
@@ -1989,21 +2009,21 @@ type response_inspection_json = {
   [@ocaml.doc {| 
     Values for the specified identifier in the response JSON that indicate a failed login or account creation attempt. To be counted as a failure, the value must be an exact match, including case. Each value must be unique among the success and failure values.
     
-     JSON example: ["FailureValues": [ "False", "Failed" ]]
+     JSON example: ["FailureValues": \[ "False", "Failed" \]]
       |}]
 
   success_values: string list;
   [@ocaml.doc {| 
     Values for the specified identifier in the response JSON that indicate a successful login or account creation attempt. To be counted as a success, the value must be an exact match, including case. Each value must be unique among the success and failure values.
     
-     JSON example: ["SuccessValues": [ "True", "Succeeded" ]]
+     JSON example: ["SuccessValues": \[ "True", "Succeeded" \]]
       |}]
 
   identifier: string;
   [@ocaml.doc {| 
     The identifier for the value to match against in the JSON. The identifier must be an exact match, including case.
     
-     JSON examples: ["Identifier": [ "/login/success" ]] and ["Identifier": [ "/sign-up/success" ]]
+     JSON examples: ["Identifier": \[ "/login/success" \]] and ["Identifier": \[ "/sign-up/success" \]]
       |}]
 
 }
@@ -2759,9 +2779,25 @@ type and_statement = {
       }
        WAF labels requests using the alpha-2 country and region codes from the International Organization for Standardization (ISO) 3166 standard. WAF determines the codes using either the IP address in the web request origin or, if you specify it, the address in the geo match [ForwardedIPConfig].
        
-        If you use the web request origin, the label formats are [awswaf:clientip:geo:region:-] and [awswaf:clientip:geo:country:].
+        If you use the web request origin, the label formats are 
+        {[
+        awswaf:clientip:geo:region:-
+        ]}
+         and 
+        {[
+        awswaf:clientip:geo:country:
+        ]}
+        .
         
-         If you use a forwarded IP address, the label formats are [awswaf:forwardedip:geo:region:-] and [awswaf:forwardedip:geo:country:].
+         If you use a forwarded IP address, the label formats are 
+         {[
+         awswaf:forwardedip:geo:region:-
+         ]}
+          and 
+         {[
+         awswaf:forwardedip:geo:country:
+         ]}
+         .
          
           For additional details, see {{:https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-geo-match.html}Geographic match rule statement} in the {{:https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html}WAF Developer Guide}.
            *)
@@ -3078,7 +3114,10 @@ type size_inspection_limit = | KB_64
     
      You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see {{:http://aws.amazon.com/waf/pricing/}WAF Pricing}.
      
-      Example JSON: [{ "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" }]
+      Example JSON: [ {
+    "API_GATEWAY": "KB_48",
+    "APP_RUNNER_SERVICE": "KB_32"
+    }]
       
        For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
        
@@ -3116,7 +3155,10 @@ type association_config = {
     
      You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see {{:http://aws.amazon.com/waf/pricing/}WAF Pricing}.
      
-      Example JSON: [{ "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" }]
+      Example JSON: [ {
+    "API_GATEWAY": "KB_48",
+    "APP_RUNNER_SERVICE": "KB_32"
+    }]
       
        For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         |}]
@@ -3169,12 +3211,20 @@ type web_ac_l = {
      {ul
           {- The syntax for the label namespace prefix for a web ACL is the following:
              
-              [awswaf::webacl::]
+              
+              {[
+              awswaf::webacl::
+              ]}
+              
               
               }
            {- When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:
               
-               [:]
+               
+               {[
+               :
+               ]}
+               
                
                }
           
@@ -3895,16 +3945,16 @@ type update_ip_set_request = {
         Example JSON [Addresses] specifications:
         
          {ul
-              {- Empty array: ["Addresses": []]
+              {- Empty array: ["Addresses": \[\]]
                  
                  }
-               {- Array with one address: ["Addresses": ["192.0.2.44/32"]]
+               {- Array with one address: ["Addresses": \["192.0.2.44/32"\]]
                   
                   }
-               {- Array with three addresses: ["Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]]
+               {- Array with three addresses: ["Addresses": \["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"\]]
                   
                   }
-               {- INVALID specification: ["Addresses": [""]] INVALID
+               {- INVALID specification: ["Addresses": \[""\]] INVALID
                   
                   }
               
@@ -4114,7 +4164,8 @@ type captcha_response = {
 
   response_code: int option;
   (** 
-    The HTTP response code indicating the status of the [CAPTCHA] token in the web request. If the token is missing, invalid, or expired, this code is [405 Method Not Allowed].
+    The HTTP response code indicating the status of the [CAPTCHA] token in the web request. If the token is missing, invalid, or expired, this code is [405 Method
+            Not Allowed].
      *)
 
 }
@@ -4178,7 +4229,15 @@ type sampled_http_request = {
 
   rule_name_within_rule_group: string option;
   (** 
-    The name of the [Rule] that the request matched. For managed rule groups, the format for this name is [##]. For your own rule groups, the format for this name is [#]. If the rule is not in a rule group, this field is absent.
+    The name of the [Rule] that the request matched. For managed rule groups, the format for this name is 
+    {[
+    ##
+    ]}
+    . For your own rule groups, the format for this name is 
+    {[
+    #
+    ]}
+    . If the rule is not in a rule group, this field is absent.
      *)
 
   action: string option;
@@ -4301,12 +4360,20 @@ type rule_group = {
      {ul
           {- The syntax for the label namespace prefix for your rule groups is the following:
              
-              [awswaf::rulegroup::]
+              
+              {[
+              awswaf::rulegroup::
+              ]}
+              
               
               }
            {- When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:
               
-               [:]
+               
+               {[
+               :
+               ]}
+               
                
                }
           
@@ -4845,12 +4912,20 @@ type managed_rule_set_summary = {
      {ul
           {- The syntax for the label namespace prefix for a managed rule group is the following:
              
-              [awswaf:managed::]:
+              
+              {[
+              awswaf:managed::
+              ]}
+              :
               
               }
            {- When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:
               
-               [:]
+               
+               {[
+               :
+               ]}
+               
                
                }
           
@@ -4902,12 +4977,20 @@ type managed_rule_set = {
      {ul
           {- The syntax for the label namespace prefix for a managed rule group is the following:
              
-              [awswaf:managed::]:
+              
+              {[
+              awswaf:managed::
+              ]}
+              :
               
               }
            {- When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:
               
-               [:]
+               
+               {[
+               :
+               ]}
+               
                
                }
           
@@ -5635,16 +5718,16 @@ type ip_set = {
         Example JSON [Addresses] specifications:
         
          {ul
-              {- Empty array: ["Addresses": []]
+              {- Empty array: ["Addresses": \[\]]
                  
                  }
-               {- Array with one address: ["Addresses": ["192.0.2.44/32"]]
+               {- Array with one address: ["Addresses": \["192.0.2.44/32"\]]
                   
                   }
-               {- Array with three addresses: ["Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]]
+               {- Array with three addresses: ["Addresses": \["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"\]]
                   
                   }
-               {- INVALID specification: ["Addresses": [""]] INVALID
+               {- INVALID specification: ["Addresses": \[""\]] INVALID
                   
                   }
               
@@ -5742,22 +5825,46 @@ type get_web_acl_for_resource_request = {
      The ARN must be in one of the following formats:
      
       {ul
-           {- For an Application Load Balancer: [arn:{i partition}:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/app/{i load-balancer-name}/{i load-balancer-id}]
+           {- For an Application Load Balancer: 
+              {[
+              arn:{i partition}:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/app/{i load-balancer-name}/{i load-balancer-id}
+              ]}
+              
               
               }
-            {- For an Amazon API Gateway REST API: [arn:{i partition}:apigateway:{i region}::/restapis/{i api-id}/stages/{i stage-name}]
+            {- For an Amazon API Gateway REST API: 
+               {[
+               arn:{i partition}:apigateway:{i region}::/restapis/{i api-id}/stages/{i stage-name}
+               ]}
+               
                
                }
-            {- For an AppSync GraphQL API: [arn:{i partition}:appsync:{i region}:{i account-id}:apis/{i GraphQLApiId}]
+            {- For an AppSync GraphQL API: 
+               {[
+               arn:{i partition}:appsync:{i region}:{i account-id}:apis/{i GraphQLApiId}
+               ]}
+               
                
                }
-            {- For an Amazon Cognito user pool: [arn:{i partition}:cognito-idp:{i region}:{i account-id}:userpool/{i user-pool-id}]
+            {- For an Amazon Cognito user pool: 
+               {[
+               arn:{i partition}:cognito-idp:{i region}:{i account-id}:userpool/{i user-pool-id}
+               ]}
+               
                
                }
-            {- For an App Runner service: [arn:{i partition}:apprunner:{i region}:{i account-id}:service/{i apprunner-service-name}/{i apprunner-service-id}]
+            {- For an App Runner service: 
+               {[
+               arn:{i partition}:apprunner:{i region}:{i account-id}:service/{i apprunner-service-name}/{i apprunner-service-id}
+               ]}
+               
                
                }
-            {- For an Amazon Web Services Verified Access instance: [arn:{i partition}:ec2:{i region}:{i account-id}:verified-access-instance/{i instance-id}]
+            {- For an Amazon Web Services Verified Access instance: 
+               {[
+               arn:{i partition}:ec2:{i region}:{i account-id}:verified-access-instance/{i instance-id}
+               ]}
+               
                
                }
            
@@ -6194,22 +6301,46 @@ type disassociate_web_acl_request = {
      The ARN must be in one of the following formats:
      
       {ul
-           {- For an Application Load Balancer: [arn:{i partition}:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/app/{i load-balancer-name}/{i load-balancer-id}]
+           {- For an Application Load Balancer: 
+              {[
+              arn:{i partition}:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/app/{i load-balancer-name}/{i load-balancer-id}
+              ]}
+              
               
               }
-            {- For an Amazon API Gateway REST API: [arn:{i partition}:apigateway:{i region}::/restapis/{i api-id}/stages/{i stage-name}]
+            {- For an Amazon API Gateway REST API: 
+               {[
+               arn:{i partition}:apigateway:{i region}::/restapis/{i api-id}/stages/{i stage-name}
+               ]}
+               
                
                }
-            {- For an AppSync GraphQL API: [arn:{i partition}:appsync:{i region}:{i account-id}:apis/{i GraphQLApiId}]
+            {- For an AppSync GraphQL API: 
+               {[
+               arn:{i partition}:appsync:{i region}:{i account-id}:apis/{i GraphQLApiId}
+               ]}
+               
                
                }
-            {- For an Amazon Cognito user pool: [arn:{i partition}:cognito-idp:{i region}:{i account-id}:userpool/{i user-pool-id}]
+            {- For an Amazon Cognito user pool: 
+               {[
+               arn:{i partition}:cognito-idp:{i region}:{i account-id}:userpool/{i user-pool-id}
+               ]}
+               
                
                }
-            {- For an App Runner service: [arn:{i partition}:apprunner:{i region}:{i account-id}:service/{i apprunner-service-name}/{i apprunner-service-id}]
+            {- For an App Runner service: 
+               {[
+               arn:{i partition}:apprunner:{i region}:{i account-id}:service/{i apprunner-service-name}/{i apprunner-service-id}
+               ]}
+               
                
                }
-            {- For an Amazon Web Services Verified Access instance: [arn:{i partition}:ec2:{i region}:{i account-id}:verified-access-instance/{i instance-id}]
+            {- For an Amazon Web Services Verified Access instance: 
+               {[
+               arn:{i partition}:ec2:{i region}:{i account-id}:verified-access-instance/{i instance-id}
+               ]}
+               
                
                }
            
@@ -6236,12 +6367,20 @@ type describe_managed_rule_group_response = {
      {ul
           {- The syntax for the label namespace prefix for a managed rule group is the following:
              
-              [awswaf:managed::]:
+              
+              {[
+              awswaf:managed::
+              ]}
+              :
               
               }
            {- When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:
               
-               [:]
+               
+               {[
+               :
+               ]}
+               
                
                }
           
@@ -6858,16 +6997,16 @@ type create_ip_set_request = {
         Example JSON [Addresses] specifications:
         
          {ul
-              {- Empty array: ["Addresses": []]
+              {- Empty array: ["Addresses": \[\]]
                  
                  }
-               {- Array with one address: ["Addresses": ["192.0.2.44/32"]]
+               {- Array with one address: ["Addresses": \["192.0.2.44/32"\]]
                   
                   }
-               {- Array with three addresses: ["Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]]
+               {- Array with three addresses: ["Addresses": \["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"\]]
                   
                   }
-               {- INVALID specification: ["Addresses": [""]] INVALID
+               {- INVALID specification: ["Addresses": \[""\]] INVALID
                   
                   }
               
@@ -6921,7 +7060,7 @@ type create_api_key_request = {
   [@ocaml.doc {| 
     The client application domains that you want to use this API key for.
     
-     Example JSON: ["TokenDomains": ["abc.com", "store.abc.com"]]
+     Example JSON: ["TokenDomains": \["abc.com", "store.abc.com"\]]
      
       Public suffixes aren't allowed. For example, you can't use [gov.au] or [co.uk] as token domains.
        |}]
@@ -6988,22 +7127,46 @@ type associate_web_acl_request = {
      The ARN must be in one of the following formats:
      
       {ul
-           {- For an Application Load Balancer: [arn:{i partition}:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/app/{i load-balancer-name}/{i load-balancer-id}]
+           {- For an Application Load Balancer: 
+              {[
+              arn:{i partition}:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/app/{i load-balancer-name}/{i load-balancer-id}
+              ]}
+              
               
               }
-            {- For an Amazon API Gateway REST API: [arn:{i partition}:apigateway:{i region}::/restapis/{i api-id}/stages/{i stage-name}]
+            {- For an Amazon API Gateway REST API: 
+               {[
+               arn:{i partition}:apigateway:{i region}::/restapis/{i api-id}/stages/{i stage-name}
+               ]}
+               
                
                }
-            {- For an AppSync GraphQL API: [arn:{i partition}:appsync:{i region}:{i account-id}:apis/{i GraphQLApiId}]
+            {- For an AppSync GraphQL API: 
+               {[
+               arn:{i partition}:appsync:{i region}:{i account-id}:apis/{i GraphQLApiId}
+               ]}
+               
                
                }
-            {- For an Amazon Cognito user pool: [arn:{i partition}:cognito-idp:{i region}:{i account-id}:userpool/{i user-pool-id}]
+            {- For an Amazon Cognito user pool: 
+               {[
+               arn:{i partition}:cognito-idp:{i region}:{i account-id}:userpool/{i user-pool-id}
+               ]}
+               
                
                }
-            {- For an App Runner service: [arn:{i partition}:apprunner:{i region}:{i account-id}:service/{i apprunner-service-name}/{i apprunner-service-id}]
+            {- For an App Runner service: 
+               {[
+               arn:{i partition}:apprunner:{i region}:{i account-id}:service/{i apprunner-service-name}/{i apprunner-service-id}
+               ]}
+               
                
                }
-            {- For an Amazon Web Services Verified Access instance: [arn:{i partition}:ec2:{i region}:{i account-id}:verified-access-instance/{i instance-id}]
+            {- For an Amazon Web Services Verified Access instance: 
+               {[
+               arn:{i partition}:ec2:{i region}:{i account-id}:verified-access-instance/{i instance-id}
+               ]}
+               
                
                }
            

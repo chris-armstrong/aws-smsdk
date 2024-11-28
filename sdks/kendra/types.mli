@@ -1152,7 +1152,7 @@ type s3_data_source_configuration = {
            {- {i **/*.png}—All .png files in all directories.
               
               }
-           {- {i **/*.{png, ico, md}}—All .png, .ico or .md files in all directories.
+           {- {i **/*.\{png, ico, md\}}—All .png, .ico or .md files in all directories.
               
               }
            {- {i /myapp/src/**/*.ts}—All .ts files inside src directory (and all its subdirectories).
@@ -1186,7 +1186,7 @@ type s3_data_source_configuration = {
            {- {i **/*.png}—All .png files in all directories.
               
               }
-           {- {i **/*.{png, ico, md}}—All .png, .ico or .md files in all directories.
+           {- {i **/*.\{png, ico, md\}}—All .png, .ico or .md files in all directories.
               
               }
            {- {i /myapp/src/**/*.ts}—All .ts files inside src directory (and all its subdirectories).
@@ -1885,7 +1885,7 @@ type service_now_configuration = {
 
   host_url: string;
   (** 
-    The ServiceNow instance that the data source connects to. The host endpoint should look like the following: {i {instance}.service-now.com.}
+    The ServiceNow instance that the data source connects to. The host endpoint should look like the following: {i \{instance\}.service-now.com.}
      *)
 
 }
@@ -2251,7 +2251,7 @@ type fsx_configuration = {
     The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the key-value pairs required to connect to your Amazon FSx file system. Windows is currently the only supported type. The secret must contain a JSON structure with the following keys:
     
      {ul
-          {- username—The Active Directory user name, along with the Domain Name System (DNS) domain name. For example, {i user@corp.example.com}. The Active Directory user account must have read and mounting access to the Amazon FSx file system for Windows.
+          {- username—The Active Directory user name, along with the Domain Name System (DNS) domain name. For example, {i user\@corp.example.com}. The Active Directory user account must have read and mounting access to the Amazon FSx file system for Windows.
              
              }
            {- password—The password of the Active Directory user account with read and mounting access to the Amazon FSx Windows file system.
@@ -3546,7 +3546,7 @@ type text_document_statistics = {
 type tag_resource_response = unit
 
 (** 
-    A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+    A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - \@.
      *)
 type tag = {
   value: string;
@@ -4705,7 +4705,8 @@ type query_request = {
 
   query_text: string option;
   (** 
-    The input query text for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries. For example, [Timeoff AND October AND Category:HR] is counted as 3 tokens: [timeoff], [october], [hr]. For more information, see {{:https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax}Searching with advanced query syntax} in the Amazon Kendra Developer Guide.
+    The input query text for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries. For example, [Timeoff AND October AND
+            Category:HR] is counted as 3 tokens: [timeoff], [october], [hr]. For more information, see {{:https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax}Searching with advanced query syntax} in the Amazon Kendra Developer Guide.
      *)
 
   index_id: string;
@@ -7060,7 +7061,7 @@ type create_thesaurus_request = {
 
   tags: tag list option;
   (** 
-    A list of key-value pairs that identify or categorize the thesaurus. You can also use tags to help control access to the thesaurus. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+    A list of key-value pairs that identify or categorize the thesaurus. You can also use tags to help control access to the thesaurus. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - \@.
      *)
 
   role_arn: string;
@@ -7096,7 +7097,7 @@ type create_query_suggestions_block_list_response = {
 type create_query_suggestions_block_list_request = {
   tags: tag list option;
   (** 
-    A list of key-value pairs that identify or categorize the block list. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+    A list of key-value pairs that identify or categorize the block list. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - \@.
      *)
 
   role_arn: string;
@@ -7170,7 +7171,7 @@ type create_index_request = {
 
   tags: tag list option;
   (** 
-    A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+    A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - \@.
      *)
 
   client_token: string option;
@@ -7220,7 +7221,7 @@ type create_featured_results_set_response = {
 type create_featured_results_set_request = {
   tags: tag list option;
   (** 
-    A list of key-value pairs that identify or categorize the featured results set. You can also use tags to help control access to the featured results set. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols:_ . : / = + - @.
+    A list of key-value pairs that identify or categorize the featured results set. You can also use tags to help control access to the featured results set. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols:_ . : / = + - \@.
      *)
 
   featured_documents: featured_document list option;
@@ -7391,7 +7392,7 @@ type create_data_source_request = {
 
   tags: tag list option;
   (** 
-    A list of key-value pairs that identify or categorize the data source connector. You can also use tags to help control access to the data source connector. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+    A list of key-value pairs that identify or categorize the data source connector. You can also use tags to help control access to the data source connector. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - \@.
      *)
 
   role_arn: string option;

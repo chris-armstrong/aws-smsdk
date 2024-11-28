@@ -797,7 +797,7 @@ type content_redaction = {
 (** 
     Provides the name of the custom language model that was included in the specified transcription job.
     
-     Only use [ModelSettings] with the [LanguageModelName] sub-parameter if you're {b not} using automatic language identification ([]). If using [LanguageIdSettings] in your request, this parameter contains a [LanguageModelName] sub-parameter.
+     Only use [ModelSettings] with the [LanguageModelName] sub-parameter if you're {b not} using automatic language identification (). If using [LanguageIdSettings] in your request, this parameter contains a [LanguageModelName] sub-parameter.
       *)
 type model_settings = {
   language_model_name: string option;
@@ -1174,7 +1174,7 @@ type subtitles_output = {
      
       It's recommended that you include [LanguageOptions] when using [LanguageIdSettings] to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in [en-US] but Amazon Transcribe determines that the language spoken in your media is [en-AU], your custom vocabulary {i is not} applied to your transcription. If you include [LanguageOptions] and include [en-US] as the only English language dialect, your custom vocabulary {i is} applied to your transcription.
       
-       If you want to include a custom language model with your request but {b do not} want to use automatic language identification, use instead the [] parameter with the [LanguageModelName] sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but {b do not} want to use automatic language identification, use instead the [] parameter with the [VocabularyName] or [VocabularyFilterName] (or both) sub-parameter.
+       If you want to include a custom language model with your request but {b do not} want to use automatic language identification, use instead the  parameter with the [LanguageModelName] sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but {b do not} want to use automatic language identification, use instead the  parameter with the [VocabularyName] or [VocabularyFilterName] (or both) sub-parameter.
         *)
 type language_id_settings = {
   language_model_name: string option;
@@ -1289,7 +1289,8 @@ type transcription_job = {
                The media format specified in [MediaFormat] isn't valid. Refer to refer to the [MediaFormat] parameter for a list of supported formats.
                
                }
-            {- [The media format provided does not match the detected media format].
+            {- [The media format provided does not match the detected media
+                        format].
                
                 The media format specified in [MediaFormat] doesn't match the format of the input file. Check the media format of your media file and correct the specified value.
                 
@@ -1299,7 +1300,8 @@ type transcription_job = {
                 The sample rate specified in [MediaSampleRateHertz] isn't valid. The sample rate must be between 8,000 and 48,000 hertz.
                 
                 }
-            {- [The sample rate provided does not match the detected sample rate].
+            {- [The sample rate provided does not match the detected sample
+                    rate].
                
                 The sample rate specified in [MediaSampleRateHertz] doesn't match the sample rate detected in your input media file. Check the sample rate of your media file and correct the specified value.
                 
@@ -1445,7 +1447,7 @@ type start_transcription_job_request = {
      
       It's recommended that you include [LanguageOptions] when using [LanguageIdSettings] to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in [en-US] but Amazon Transcribe determines that the language spoken in your media is [en-AU], your custom vocabulary {i is not} applied to your transcription. If you include [LanguageOptions] and include [en-US] as the only English language dialect, your custom vocabulary {i is} applied to your transcription.
       
-       If you want to include a custom language model with your request but {b do not} want to use automatic language identification, use instead the [] parameter with the [LanguageModelName] sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but {b do not} want to use automatic language identification, use instead the [] parameter with the [VocabularyName] or [VocabularyFilterName] (or both) sub-parameter.
+       If you want to include a custom language model with your request but {b do not} want to use automatic language identification, use instead the  parameter with the [LanguageModelName] sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but {b do not} want to use automatic language identification, use instead the  parameter with the [VocabularyName] or [VocabularyFilterName] (or both) sub-parameter.
         *)
 
   tags: tag list option;
@@ -1518,7 +1520,7 @@ type start_transcription_job_request = {
     
      If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but {b do not} want to use automatic language identification, use [Settings] with the [VocabularyName] or [VocabularyFilterName] (or both) sub-parameter.
      
-      If you're using automatic language identification with your request and want to include a custom language model, a custom vocabulary, or a custom vocabulary filter, use instead the [] parameter with the [LanguageModelName], [VocabularyName] or [VocabularyFilterName] sub-parameters.
+      If you're using automatic language identification with your request and want to include a custom language model, a custom vocabulary, or a custom vocabulary filter, use instead the  parameter with the [LanguageModelName], [VocabularyName] or [VocabularyFilterName] sub-parameters.
        *)
 
   kms_encryption_context: (string * string) list option;
@@ -1764,7 +1766,8 @@ type medical_transcription_job = {
                The media format specified in [MediaFormat] isn't valid. Refer to refer to the [MediaFormat] parameter for a list of supported formats.
                
                }
-            {- [The media format provided does not match the detected media format].
+            {- [The media format provided does not match the detected media
+                        format].
                
                 The media format specified in [MediaFormat] doesn't match the format of the input file. Check the media format of your media file and correct the specified value.
                 
@@ -1774,7 +1777,8 @@ type medical_transcription_job = {
                 The sample rate specified in [MediaSampleRateHertz] isn't valid. The sample rate must be between 16,000 and 48,000 hertz.
                 
                 }
-            {- [The sample rate provided does not match the detected sample rate].
+            {- [The sample rate provided does not match the detected sample
+                    rate].
                
                 The sample rate specified in [MediaSampleRateHertz] doesn't match the sample rate detected in your input media file. Check the sample rate of your media file and correct the specified value.
                 
@@ -2354,7 +2358,7 @@ type call_analytics_job_settings = {
      
       It's recommended that you include [LanguageOptions] when using [LanguageIdSettings] to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in [en-US] but Amazon Transcribe determines that the language spoken in your media is [en-AU], your custom vocabulary {i is not} applied to your transcription. If you include [LanguageOptions] and include [en-US] as the only English language dialect, your custom vocabulary {i is} applied to your transcription.
       
-       If you want to include a custom language model, custom vocabulary, or custom vocabulary filter with your request but {b do not} want to use automatic language identification, use instead the [] parameter with the [LanguageModelName], [VocabularyName], or [VocabularyFilterName] sub-parameters.
+       If you want to include a custom language model, custom vocabulary, or custom vocabulary filter with your request but {b do not} want to use automatic language identification, use instead the  parameter with the [LanguageModelName], [VocabularyName], or [VocabularyFilterName] sub-parameters.
        
         For a list of languages supported with Call Analytics, refer to {{:https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html}Supported languages and language-specific features}.
          *)
@@ -2464,7 +2468,8 @@ type call_analytics_job = {
                The media format specified in [MediaFormat] isn't valid. Refer to refer to the [MediaFormat] parameter for a list of supported formats.
                
                }
-            {- [The media format provided does not match the detected media format].
+            {- [The media format provided does not match the detected media
+                        format].
                
                 The media format specified in [MediaFormat] doesn't match the format of the input file. Check the media format of your media file and correct the specified value.
                 
@@ -2474,7 +2479,8 @@ type call_analytics_job = {
                 The sample rate specified in [MediaSampleRateHertz] isn't valid. The sample rate must be between 8,000 and 48,000 hertz.
                 
                 }
-            {- [The sample rate provided does not match the detected sample rate].
+            {- [The sample rate provided does not match the detected sample
+                    rate].
                
                 The sample rate specified in [MediaSampleRateHertz] doesn't match the sample rate detected in your input media file. Check the sample rate of your media file and correct the specified value.
                 

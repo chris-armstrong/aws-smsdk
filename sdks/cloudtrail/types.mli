@@ -826,7 +826,7 @@ type advanced_field_selector = {
                         {- [AWS::SageMaker::FeatureGroup]
                            
                            }
-                        {- [AWS::ServiceDiscovery::Namespace]
+                        {- [AWS::ServiceDiscovery::Namespace ]
                            
                            }
                         {- [AWS::ServiceDiscovery::Service]
@@ -887,10 +887,18 @@ type advanced_field_selector = {
                      The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (<>) with resource-specific information.
                      
                       {ul
-                           {- [arn::s3:::/]
+                           {- 
+                              {[
+                              arn::s3:::/
+                              ]}
+                              
                               
                               }
-                            {- [arn::s3::://]
+                            {- 
+                               {[
+                               arn::s3::://
+                               ]}
+                               
                                
                                }
                            
@@ -898,7 +906,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::DynamoDB::Table], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::dynamodb:::table/]
+                      {- 
+                         {[
+                         arn::dynamodb:::table/
+                         ]}
+                         
                          
                          }
                       
@@ -906,7 +918,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::Lambda::Function], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::lambda:::function:]
+                      {- 
+                         {[
+                         arn::lambda:::function:
+                         ]}
+                         
                          
                          }
                       
@@ -914,7 +930,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::AppConfig::Configuration], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::appconfig:::application//environment//configuration/]
+                      {- 
+                         {[
+                         arn::appconfig:::application//environment//configuration/
+                         ]}
+                         
                          
                          }
                       
@@ -922,7 +942,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::B2BI::Transformer], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::b2bi:::transformer/]
+                      {- 
+                         {[
+                         arn::b2bi:::transformer/
+                         ]}
+                         
                          
                          }
                       
@@ -930,7 +954,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::Bedrock::AgentAlias], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::bedrock:::agent-alias//]
+                      {- 
+                         {[
+                         arn::bedrock:::agent-alias//
+                         ]}
+                         
                          
                          }
                       
@@ -938,7 +966,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::Bedrock::KnowledgeBase], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::bedrock:::knowledge-base/]
+                      {- 
+                         {[
+                         arn::bedrock:::knowledge-base/
+                         ]}
+                         
                          
                          }
                       
@@ -946,7 +978,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::Cassandra::Table], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::cassandra:::/keyspace//table/]
+                      {- 
+                         {[
+                         arn::cassandra:::/keyspace//table/
+                         ]}
+                         
                          
                          }
                       
@@ -954,7 +990,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::CloudFront::KeyValueStore], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::cloudfront:::key-value-store/]
+                      {- 
+                         {[
+                         arn::cloudfront:::key-value-store/
+                         ]}
+                         
                          
                          }
                       
@@ -962,7 +1002,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::CloudTrail::Channel], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::cloudtrail:::channel/]
+                      {- 
+                         {[
+                         arn::cloudtrail:::channel/
+                         ]}
+                         
                          
                          }
                       
@@ -970,7 +1014,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::CodeWhisperer::Customization], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::codewhisperer:::customization/]
+                      {- 
+                         {[
+                         arn::codewhisperer:::customization/
+                         ]}
+                         
                          
                          }
                       
@@ -978,7 +1026,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::CodeWhisperer::Profile], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::codewhisperer:::profile/]
+                      {- 
+                         {[
+                         arn::codewhisperer:::profile/
+                         ]}
+                         
                          
                          }
                       
@@ -986,7 +1038,11 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::Cognito::IdentityPool], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::cognito-identity:::identitypool/]
+                      {- 
+                         {[
+                         arn::cognito-identity:::identitypool/
+                         ]}
+                         
                          
                          }
                       
@@ -994,7 +1050,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::DynamoDB::Stream], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::dynamodb:::table//stream/]
+                      {- 
+                         {[
+                         arn::dynamodb:::table//stream/
+                         ]}
+                         
                          
                          }
                       
@@ -1002,7 +1062,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::EC2::Snapshot], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::ec2:::snapshot/]
+                      {- 
+                         {[
+                         arn::ec2:::snapshot/
+                         ]}
+                         
                          
                          }
                       
@@ -1010,7 +1074,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::EMRWAL::Workspace], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::emrwal:::workspace/]
+                      {- 
+                         {[
+                         arn::emrwal:::workspace/
+                         ]}
+                         
                          
                          }
                       
@@ -1018,7 +1086,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::FinSpace::Environment], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::finspace:::environment/]
+                      {- 
+                         {[
+                         arn::finspace:::environment/
+                         ]}
+                         
                          
                          }
                       
@@ -1026,7 +1098,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::Glue::Table], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::glue:::table//]
+                      {- 
+                         {[
+                         arn::glue:::table//
+                         ]}
+                         
                          
                          }
                       
@@ -1034,7 +1110,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::GreengrassV2::ComponentVersion], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::greengrass:::components/]
+                      {- 
+                         {[
+                         arn::greengrass:::components/
+                         ]}
+                         
                          
                          }
                       
@@ -1042,23 +1122,39 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::GreengrassV2::Deployment], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::greengrass:::deployments/]
+                      {- 
+                         {[
+                         arn::greengrass:::deployments/
+                         ]}
                          
-                         []}
-                      []
+                         
+                         [
+                  ]}
+                      [
+               ]
                }
-               [When [resources.type] equals [AWS::GuardDuty::Detector], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
-                
-                 {ul
-                      {- [arn::guardduty:::detector/]
-                         
-                         }
+               
+             {[
+             When [resources.type] equals [AWS::GuardDuty::Detector], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
+             
+              {ul
+                   {- 
+                      {[
+                      arn::guardduty:::detector/
+                      ]}
                       
+                      
+                      }
+                   
                }
                 When [resources.type] equals [AWS::IoT::Certificate], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::iot:::cert/]
+                      {- 
+                         {[
+                         arn::iot:::cert/
+                         ]}
+                         
                          
                          }
                       
@@ -1066,7 +1162,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::IoT::Thing], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::iot:::thing/]
+                      {- 
+                         {[
+                         arn::iot:::thing/
+                         ]}
+                         
                          
                          }
                       
@@ -1074,7 +1174,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::IoTSiteWise::Asset], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::iotsitewise:::asset/]
+                      {- 
+                         {[
+                         arn::iotsitewise:::asset/
+                         ]}
+                         
                          
                          }
                       
@@ -1082,7 +1186,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::IoTSiteWise::TimeSeries], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::iotsitewise:::timeseries/]
+                      {- 
+                         {[
+                         arn::iotsitewise:::timeseries/
+                         ]}
+                         
                          
                          }
                       
@@ -1090,7 +1198,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::IoTTwinMaker::Entity], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::iottwinmaker:::workspace//entity/]
+                      {- 
+                         {[
+                         arn::iottwinmaker:::workspace//entity/
+                         ]}
+                         
                          
                          }
                       
@@ -1098,7 +1210,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::IoTTwinMaker::Workspace], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::iottwinmaker:::workspace/]
+                      {- 
+                         {[
+                         arn::iottwinmaker:::workspace/
+                         ]}
+                         
                          
                          }
                       
@@ -1106,7 +1222,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::KendraRanking::ExecutionPlan], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::kendra-ranking:::rescore-execution-plan/]
+                      {- 
+                         {[
+                         arn::kendra-ranking:::rescore-execution-plan/
+                         ]}
+                         
                          
                          }
                       
@@ -1114,7 +1234,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::KinesisVideo::Stream], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::kinesisvideo:::stream//]
+                      {- 
+                         {[
+                         arn::kinesisvideo:::stream//
+                         ]}
+                         
                          
                          }
                       
@@ -1122,7 +1246,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::ManagedBlockchain::Network], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::managedblockchain:::networks/]
+                      {- 
+                         {[
+                         arn::managedblockchain:::networks/
+                         ]}
+                         
                          
                          }
                       
@@ -1130,7 +1258,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::ManagedBlockchain::Node], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::managedblockchain:::nodes/]
+                      {- 
+                         {[
+                         arn::managedblockchain:::nodes/
+                         ]}
+                         
                          
                          }
                       
@@ -1138,7 +1270,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::MedicalImaging::Datastore], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::medical-imaging:::datastore/]
+                      {- 
+                         {[
+                         arn::medical-imaging:::datastore/
+                         ]}
+                         
                          
                          }
                       
@@ -1146,7 +1282,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::NeptuneGraph::Graph], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::neptune-graph:::graph/]
+                      {- 
+                         {[
+                         arn::neptune-graph:::graph/
+                         ]}
+                         
                          
                          }
                       
@@ -1154,7 +1294,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::PCAConnectorAD::Connector], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::pca-connector-ad:::connector/]
+                      {- 
+                         {[
+                         arn::pca-connector-ad:::connector/
+                         ]}
+                         
                          
                          }
                       
@@ -1162,7 +1306,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::QApps:QApp], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::qapps:::application//qapp/]
+                      {- 
+                         {[
+                         arn::qapps:::application//qapp/
+                         ]}
+                         
                          
                          }
                       
@@ -1170,7 +1318,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::QBusiness::Application], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::qbusiness:::application/]
+                      {- 
+                         {[
+                         arn::qbusiness:::application/
+                         ]}
+                         
                          
                          }
                       
@@ -1178,7 +1330,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::QBusiness::DataSource], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::qbusiness:::application//index//data-source/]
+                      {- 
+                         {[
+                         arn::qbusiness:::application//index//data-source/
+                         ]}
+                         
                          
                          }
                       
@@ -1186,7 +1342,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::QBusiness::Index], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::qbusiness:::application//index/]
+                      {- 
+                         {[
+                         arn::qbusiness:::application//index/
+                         ]}
+                         
                          
                          }
                       
@@ -1194,7 +1354,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::QBusiness::WebExperience], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::qbusiness:::application//web-experience/]
+                      {- 
+                         {[
+                         arn::qbusiness:::application//web-experience/
+                         ]}
+                         
                          
                          }
                       
@@ -1202,7 +1366,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::RDS::DBCluster], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::rds:::cluster/]
+                      {- 
+                         {[
+                         arn::rds:::cluster/
+                         ]}
+                         
                          
                          }
                       
@@ -1210,10 +1378,18 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::S3::AccessPoint], and the operator is set to [Equals] or [NotEquals], the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the [StartsWith] or [NotStartsWith] operators.
                 
                  {ul
-                      {- [arn::s3:::accesspoint/]
+                      {- 
+                         {[
+                         arn::s3:::accesspoint/
+                         ]}
+                         
                          
                          }
-                       {- [arn::s3:::accesspoint//object/]
+                       {- 
+                          {[
+                          arn::s3:::accesspoint//object/
+                          ]}
+                          
                           
                           }
                       
@@ -1221,7 +1397,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::S3ObjectLambda::AccessPoint], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::s3-object-lambda:::accesspoint/]
+                      {- 
+                         {[
+                         arn::s3-object-lambda:::accesspoint/
+                         ]}
+                         
                          
                          }
                       
@@ -1229,7 +1409,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::S3Outposts::Object], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::s3-outposts:::]
+                      {- 
+                         {[
+                         arn::s3-outposts:::
+                         ]}
+                         
                          
                          }
                       
@@ -1237,7 +1421,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SageMaker::Endpoint], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::sagemaker:::endpoint/]
+                      {- 
+                         {[
+                         arn::sagemaker:::endpoint/
+                         ]}
+                         
                          
                          }
                       
@@ -1245,7 +1433,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SageMaker::ExperimentTrialComponent], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::sagemaker:::experiment-trial-component/]
+                      {- 
+                         {[
+                         arn::sagemaker:::experiment-trial-component/
+                         ]}
+                         
                          
                          }
                       
@@ -1253,7 +1445,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SageMaker::FeatureGroup], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::sagemaker:::feature-group/]
+                      {- 
+                         {[
+                         arn::sagemaker:::feature-group/
+                         ]}
+                         
                          
                          }
                       
@@ -1261,7 +1457,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SCN::Instance], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::scn:::instance/]
+                      {- 
+                         {[
+                         arn::scn:::instance/
+                         ]}
+                         
                          
                          }
                       
@@ -1269,7 +1469,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::ServiceDiscovery::Namespace], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::servicediscovery:::namespace/]
+                      {- 
+                         {[
+                         arn::servicediscovery:::namespace/
+                         ]}
+                         
                          
                          }
                       
@@ -1277,7 +1481,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::ServiceDiscovery::Service], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::servicediscovery:::service/]
+                      {- 
+                         {[
+                         arn::servicediscovery:::service/
+                         ]}
+                         
                          
                          }
                       
@@ -1285,7 +1493,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SNS::PlatformEndpoint], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::sns:::endpoint///]
+                      {- 
+                         {[
+                         arn::sns:::endpoint///
+                         ]}
+                         
                          
                          }
                       
@@ -1293,7 +1505,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SNS::Topic], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::sns:::]
+                      {- 
+                         {[
+                         arn::sns:::
+                         ]}
+                         
                          
                          }
                       
@@ -1301,7 +1517,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SQS::Queue], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::sqs:::]
+                      {- 
+                         {[
+                         arn::sqs:::
+                         ]}
+                         
                          
                          }
                       
@@ -1309,10 +1529,18 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SSM::ManagedNode], and the operator is set to [Equals] or [NotEquals], the ARN must be in one of the following formats:
                 
                  {ul
-                      {- [arn::ssm:::managed-instance/]
+                      {- 
+                         {[
+                         arn::ssm:::managed-instance/
+                         ]}
+                         
                          
                          }
-                       {- [arn::ec2:::instance/]
+                       {- 
+                          {[
+                          arn::ec2:::instance/
+                          ]}
+                          
                           
                           }
                       
@@ -1320,7 +1548,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SSMMessages::ControlChannel], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::ssmmessages:::control-channel/]
+                      {- 
+                         {[
+                         arn::ssmmessages:::control-channel/
+                         ]}
+                         
                          
                          }
                       
@@ -1328,7 +1560,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::SWF::Domain], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::swf:::domain/]
+                      {- 
+                         {[
+                         arn::swf:::domain/
+                         ]}
+                         
                          
                          }
                       
@@ -1336,7 +1572,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::ThinClient::Device], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::thinclient:::device/]
+                      {- 
+                         {[
+                         arn::thinclient:::device/
+                         ]}
+                         
                          
                          }
                       
@@ -1344,7 +1584,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::ThinClient::Environment], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::thinclient:::environment/]
+                      {- 
+                         {[
+                         arn::thinclient:::environment/
+                         ]}
+                         
                          
                          }
                       
@@ -1352,7 +1596,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::Timestream::Database], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::timestream:::database/]
+                      {- 
+                         {[
+                         arn::timestream:::database/
+                         ]}
+                         
                          
                          }
                       
@@ -1360,7 +1608,11 @@ type advanced_field_selector = {
                 When [resources.type] equals [AWS::Timestream::Table], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::timestream:::database//table/]
+                      {- 
+                         {[
+                         arn::timestream:::database//table/
+                         ]}
+                         
                          
                          }
                       
@@ -1368,13 +1620,20 @@ type advanced_field_selector = {
                 When resources.type equals [AWS::VerifiedPermissions::PolicyStore], and the operator is set to [Equals] or [NotEquals], the ARN must be in the following format:
                 
                  {ul
-                      {- [arn::verifiedpermissions:::policy-store/]
+                      {- 
+                         {[
+                         arn::verifiedpermissions:::policy-store/
+                         ]}
+                         
                          
                          }
                       
                }
-               ]}
-             []
+               
+             ]}
+             }
+             [
+         ]
       }
        *)
 
@@ -3151,7 +3410,7 @@ type lookup_attribute = {
   (** 
     Specifies a value for the specified [AttributeKey].
     
-     The maximum length for the [AttributeValue] is 2000 characters. The following characters ('[_]', '[]', '[,]', '[\\n]') count as two characters towards the 2000 character limit.
+     The maximum length for the [AttributeValue] is 2000 characters. The following characters ('[_]', '[ ]', '[,]', '[\\n]') count as two characters towards the 2000 character limit.
       *)
 
   attribute_key: lookup_attribute_key;

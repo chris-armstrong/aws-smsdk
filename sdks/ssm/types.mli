@@ -251,7 +251,8 @@ type patch_filter_key = | Version
     
      A patch filter consists of a key and a set of values. The filter key is a patch property. For example, the available filter keys for [WINDOWS] are [PATCH_SET], [PRODUCT], [PRODUCT_FAMILY], [CLASSIFICATION], and [MSRC_SEVERITY].
      
-      The filter values define a matching criterion for the patch property indicated by the key. For example, if the filter key is [PRODUCT] and the filter values are [["Office 2013", "Office 2016"]], then the filter accepts all patches where product name is either "Office 2013" or "Office 2016". The filter values can be exact values for the patch property given as a key, or a wildcard (*), which matches all values.
+      The filter values define a matching criterion for the patch property indicated by the key. For example, if the filter key is [PRODUCT] and the filter values are [\["Office
+    2013", "Office 2016"\]], then the filter accepts all patches where product name is either "Office 2013" or "Office 2016". The filter values can be exact values for the patch property given as a key, or a wildcard (*), which matches all values.
       
        You can view lists of valid values for the patch properties by running the [DescribePatchProperties] command. For information about which patch properties can be used with each major operating system, see [DescribePatchProperties].
         |}]
@@ -345,7 +346,7 @@ type patch_source = {
   (** 
     The value of the yum repo configuration. For example:
     
-     [[main]]
+     [\[main\]]
      
       [name=MyCustomRepository]
       
@@ -977,7 +978,11 @@ type cloud_watch_output_config = {
   (** 
     The name of the CloudWatch Logs log group where you want to send command output. If you don't specify a group name, Amazon Web Services Systems Manager automatically creates a log group for you. The log group uses the following naming format:
     
-     [aws/ssm/{i SystemsManagerDocumentName}]
+     
+     {[
+     aws/ssm/{i SystemsManagerDocumentName}
+     ]}
+     
       *)
 
 }
@@ -1458,7 +1463,7 @@ type update_maintenance_window_task_request = {
 
   targets: target list option;
   (** 
-    The targets (either managed nodes or tags) to modify. Managed nodes are specified using the format [Key=instanceids,Values=instanceID_1,instanceID_2]. Tags are specified using the format [Key=tag_name,Values=tag_value].
+    The targets (either managed nodes or tags) to modify. Managed nodes are specified using the format [Key=instanceids,Values=instanceID_1,instanceID_2]. Tags are specified using the format [ Key=tag_name,Values=tag_value].
     
      One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see {{:https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html}Registering maintenance window tasks without targets} in the {i Amazon Web Services Systems Manager User Guide}.
      
@@ -2018,21 +2023,23 @@ type attachments_source = {
      {ul
           {- For the key {i SourceUrl}, the value is an S3 bucket location. For example:
              
-              ["Values": [ "s3://doc-example-bucket/my-folder" ]]
+              ["Values": \[ "s3://doc-example-bucket/my-folder" \]]
               
               }
            {- For the key {i S3FileUrl}, the value is a file in an S3 bucket. For example:
               
-               ["Values": [ "s3://doc-example-bucket/my-folder/my-file.py" ]]
+               ["Values": \[ "s3://doc-example-bucket/my-folder/my-file.py" \]]
                
                }
            {- For the key {i AttachmentReference}, the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example:
               
-               ["Values": [ "MyOtherDocument/3/my-other-file.py" ]]
+               ["Values": \[ "MyOtherDocument/3/my-other-file.py" \]]
                
                 However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example:
                 
-                 ["Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ]]
+                 ["Values": \[
+      "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py"
+      \]]
                  
                  }
           
@@ -2638,7 +2645,11 @@ type update_association_request = {
            {- The association for which you specify a duration is cancelable according to the parameters of the SSM command document or Automation runbook associated with this execution.
               
               }
-            {- The command specifies the [{{:https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_UpdateAssociation.html#systemsmanager-UpdateAssociation-request-ApplyOnlyAtCronInterval}ApplyOnlyAtCronInterval}] parameter, which means that the association doesn't run immediately after it is updated, but only according to the specified schedule.
+            {- The command specifies the 
+               {[
+               {{:https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_UpdateAssociation.html#systemsmanager-UpdateAssociation-request-ApplyOnlyAtCronInterval}ApplyOnlyAtCronInterval}
+               ]}
+                parameter, which means that the association doesn't run immediately after it is updated, but only according to the specified schedule.
                
                }
            
@@ -2728,7 +2739,11 @@ type update_association_request = {
      
       For Systems Manager document (SSM document) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:
       
-       [arn:aws:ssm:{i region}:{i account-id}:document/{i document-name}]
+       
+       {[
+       arn:aws:ssm:{i region}:{i account-id}:document/{i document-name}
+       ]}
+       
        
         For example:
         
@@ -3250,7 +3265,11 @@ type step_execution_filter = {
 type start_session_response = {
   stream_url: string option;
   (** 
-    A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the node. Format: [wss://ssmmessages.{b region}.amazonaws.com/v1/data-channel/{b session-id}?stream=(input|output)]
+    A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the node. Format: 
+    {[
+    wss://ssmmessages.{b region}.amazonaws.com/v1/data-channel/{b session-id}?stream=(input|output)
+    ]}
+    
     
      {b region} represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as [us-east-2] for the US East (Ohio) Region. For a list of supported {b region} values, see the {b Region} column in {{:https://docs.aws.amazon.com/general/latest/gr/ssm.html#ssm_region}Systems Manager service endpoints} in the {i Amazon Web Services General Reference}.
      
@@ -4257,7 +4276,11 @@ type s3_output_url = {
 type resume_session_response = {
   stream_url: string option;
   (** 
-    A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the managed node. Format: [wss://ssmmessages.{b region}.amazonaws.com/v1/data-channel/{b session-id}?stream=(input|output)].
+    A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the managed node. Format: 
+    {[
+    wss://ssmmessages.{b region}.amazonaws.com/v1/data-channel/{b session-id}?stream=(input|output)
+    ]}
+    .
     
      {b region} represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as [us-east-2] for the US East (Ohio) Region. For a list of supported {b region} values, see the {b Region} column in {{:https://docs.aws.amazon.com/general/latest/gr/ssm.html#ssm_region}Systems Manager service endpoints} in the {i Amazon Web Services General Reference}.
      
@@ -4756,7 +4779,11 @@ type remove_tags_from_resource_request = {
   (** 
     The type of resource from which you want to remove a tag.
     
-     The [ManagedInstance] type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: [mi-{i ID_number}]. For example, [mi-1a2b3c4d5e6f].
+     The [ManagedInstance] type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: 
+     {[
+     mi-{i ID_number}
+     ]}
+     . For example, [mi-1a2b3c4d5e6f].
      
       *)
 
@@ -4919,11 +4946,19 @@ type register_task_with_maintenance_window_request = {
      
       Specify managed nodes using the following format:
       
-       [Key=InstanceIds,Values=,]
+       
+       {[
+       Key=InstanceIds,Values=,
+       ]}
+       
        
         Specify maintenance window targets using the following format:
         
-         [Key=WindowTargetIds,Values=,]
+         
+         {[
+         Key=WindowTargetIds,Values=,
+         ]}
+         
           *)
 
   window_id: string;
@@ -4983,23 +5018,43 @@ type register_target_with_maintenance_window_request = {
       
        {b Example 1}: Specify managed node IDs
        
-        [Key=InstanceIds,Values=,,]
+        
+        {[
+        Key=InstanceIds,Values=,,
+        ]}
+        
         
          {b Example 2}: Use tag key-pairs applied to managed nodes
          
-          [Key=tag:,Values=,]
+          
+          {[
+          Key=tag:,Values=,
+          ]}
+          
           
            {b Example 3}: Use tag-keys applied to managed nodes
            
-            [Key=tag-key,Values=,]
+            
+            {[
+            Key=tag-key,Values=,
+            ]}
+            
             
              {b Example 4}: Use resource group names
              
-              [Key=resource-groups:Name,Values=]
+              
+              {[
+              Key=resource-groups:Name,Values=
+              ]}
+              
               
                {b Example 5}: Use filters for resource group types
                
-                [Key=resource-groups:ResourceTypeFilters,Values=,]
+                
+                {[
+                Key=resource-groups:ResourceTypeFilters,Values=,
+                ]}
+                
                 
                  For [Key=resource-groups:ResourceTypeFilters], specify resource types in the following format
                  
@@ -5284,7 +5339,11 @@ type put_parameter_request = {
   (** 
     The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
     
-     Parameters can't be referenced or nested in the values of other parameters. You can't include [{{}}] or [{{ssm:{i parameter-name}}}] in a parameter value.
+     Parameters can't be referenced or nested in the values of other parameters. You can't include [{{}}] or 
+     {[
+     \{\{ssm:{i parameter-name}\}\}
+     ]}
+      in a parameter value.
      
       *)
 
@@ -5359,7 +5418,11 @@ type parameter_pattern_mismatch_exception = {
 (** 
     Parameter Store retains the 100 most recently created versions of a parameter. After this number of versions has been created, Parameter Store deletes the oldest version when a new one is created. However, if the oldest version has a {i label} attached to it, Parameter Store won't delete the version and instead presents this error message:
     
-     [An error occurred (ParameterMaxVersionLimitExceeded) when calling the PutParameter operation: You attempted to create a new version of {i parameter-name} by calling the PutParameter API with the overwrite flag. Version {i version-number}, the oldest version, can't be deleted because it has a label associated with it. Move the label to another version of the parameter, and try again.]
+     
+     {[
+     An error occurred (ParameterMaxVersionLimitExceeded) when calling the PutParameter operation: You attempted to create a new version of {i parameter-name} by calling the PutParameter API with the overwrite flag. Version {i version-number}, the oldest version, can't be deleted because it has a label associated with it. Move the label to another version of the parameter, and try again.
+     ]}
+     
      
       This safeguard is to prevent parameter versions with mission critical labels assigned to them from being deleted. To continue creating new parameters, first move the label from the oldest version of the parameter to a newer one for use in your operations. For information about moving parameter labels, see {{:https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html#sysman-paramstore-labels-console-move}Move a parameter label (console)} or {{:https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html#sysman-paramstore-labels-cli-move}Move a parameter label (CLI)} in the {i Amazon Web Services Systems Manager User Guide}.
        *)
@@ -7070,7 +7133,15 @@ type maintenance_window_task = {
 
   targets: target list option;
   (** 
-    The targets (either managed nodes or tags). Managed nodes are specified using [Key=instanceids,Values=,]. Tags are specified using [Key=,Values=].
+    The targets (either managed nodes or tags). Managed nodes are specified using 
+    {[
+    Key=instanceids,Values=,
+    ]}
+    . Tags are specified using 
+    {[
+    Key=,Values=
+    ]}
+    .
      *)
 
   type_: maintenance_window_task_type option;
@@ -7120,11 +7191,19 @@ type maintenance_window_target = {
     
      Specify managed nodes using the following format:
      
-      [Key=instanceids,Values=,]
+      
+      {[
+      Key=instanceids,Values=,
+      ]}
+      
       
        Tags are specified using the following format:
        
-        [Key=,Values=].
+        
+        {[
+        Key=,Values=
+        ]}
+        .
          *)
 
   resource_type: maintenance_window_resource_type option;
@@ -7693,7 +7772,8 @@ type inventory_filter = {
 
   values: string list;
   (** 
-    Inventory filter values. Example: inventory filter where managed node IDs are specified as values [Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal].
+    Inventory filter values. Example: inventory filter where managed node IDs are specified as values [Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g,
+    i-1a2b3c4d5e6,Type=Equal].
      *)
 
   key: string;
@@ -7921,7 +8001,8 @@ type document_filter = {
            
             For example, if you created a key called region and are using the Amazon Web Services CLI to call the [list-documents] command:
             
-             [aws ssm list-documents --filters Key=tag:region,Values=east,west Key=Owner,Values=Self]
+             [aws ssm list-documents --filters Key=tag:region,Values=east,west
+    Key=Owner,Values=Self]
               *)
 type document_key_values_filter = {
   values: string list option;
@@ -10455,7 +10536,7 @@ type get_parameters_by_path_request = {
 
   path: string;
   (** 
-    The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: [/Finance/Prod/IAD/WinServ2016/license33]
+    The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: [/Finance/Prod/IAD/WinServ2016/license33 ]
      *)
 
 }
@@ -11796,7 +11877,11 @@ type create_association_batch_request_entry = {
            {- The association for which you specify a duration is cancelable according to the parameters of the SSM command document or Automation runbook associated with this execution.
               
               }
-            {- The command specifies the [{{:https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateAssociationBatchRequestEntry.html#systemsmanager-Type-CreateAssociationBatchRequestEntry-ApplyOnlyAtCronInterval}ApplyOnlyAtCronInterval}] parameter, which means that the association doesn't run immediately after it is created, but only according to the specified schedule.
+            {- The command specifies the 
+               {[
+               {{:https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateAssociationBatchRequestEntry.html#systemsmanager-Type-CreateAssociationBatchRequestEntry-ApplyOnlyAtCronInterval}ApplyOnlyAtCronInterval}
+               ]}
+                parameter, which means that the association doesn't run immediately after it is created, but only according to the specified schedule.
                
                }
            
@@ -11902,7 +11987,11 @@ type create_association_batch_request_entry = {
      
       For SSM documents that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:
       
-       [arn:aws:ssm:{i region}:{i account-id}:document/{i document-name}]
+       
+       {[
+       arn:aws:ssm:{i region}:{i account-id}:document/{i document-name}
+       ]}
+       
        
         For example:
         
@@ -12061,7 +12150,7 @@ type describe_patch_groups_result = {
     Each entry in the array contains:
     
      {ul
-          {- [PatchGroup]: string (between 1 and 256 characters. Regex: [^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$)]
+          {- [PatchGroup]: string (between 1 and 256 characters. Regex: [^(\[\p{L}\p{Z}\p{N}_.:/=+\-@\]*)$)]
              
              }
            {- [PatchBaselineIdentity]: A [PatchBaselineIdentity] element.
@@ -12382,7 +12471,7 @@ type describe_ops_items_request = {
       }
        *The Equals operator for Title matches the first 100 characters. If you specify more than 100 characters, they system returns an error that the filter value exceeds the length limit.
        
-        **If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
+        **If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: \{"key":"key_name","value":"a_value"\}
          |}]
 
 }
@@ -13219,7 +13308,8 @@ type describe_available_patches_request = {
          
           However, the following command succeeds:
           
-           [aws ssm describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03 Key=CVE_ID,Values=CVE-2018-3615]
+           [aws ssm describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03
+     Key=CVE_ID,Values=CVE-2018-3615]
            
             Supported keys for Linux managed node patches include the following:
             
@@ -14801,7 +14891,11 @@ type create_association_request = {
            {- The association for which you specify a duration is cancelable according to the parameters of the SSM command document or Automation runbook associated with this execution.
               
               }
-            {- The command specifies the [{{:https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateAssociation.html#systemsmanager-CreateAssociation-request-ApplyOnlyAtCronInterval}ApplyOnlyAtCronInterval}] parameter, which means that the association doesn't run immediately after it is created, but only according to the specified schedule.
+            {- The command specifies the 
+               {[
+               {{:https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateAssociation.html#systemsmanager-CreateAssociation-request-ApplyOnlyAtCronInterval}ApplyOnlyAtCronInterval}
+               ]}
+                parameter, which means that the association doesn't run immediately after it is created, but only according to the specified schedule.
                
                }
            
@@ -14913,7 +15007,11 @@ type create_association_request = {
      
       For Systems Manager documents (SSM documents) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:
       
-       [arn:{i partition}:ssm:{i region}:{i account-id}:document/{i document-name}]
+       
+       {[
+       arn:{i partition}:ssm:{i region}:{i account-id}:document/{i document-name}
+       ]}
+       
        
         For example:
         
@@ -15129,7 +15227,11 @@ type add_tags_to_resource_request = {
           
            [ManagedInstance]: [mi-012345abcde]
            
-            The [ManagedInstance] type for this API operation is only for on-premises managed nodes. You must specify the name of the managed node in the following format: [mi-{i ID_number}]. For example, [mi-1a2b3c4d5e6f].
+            The [ManagedInstance] type for this API operation is only for on-premises managed nodes. You must specify the name of the managed node in the following format: 
+            {[
+            mi-{i ID_number}
+            ]}
+            . For example, [mi-1a2b3c4d5e6f].
             
              *)
 
@@ -15137,7 +15239,11 @@ type add_tags_to_resource_request = {
   (** 
     Specifies the type of resource you are tagging.
     
-     The [ManagedInstance] type for this API operation is for on-premises managed nodes. You must specify the name of the managed node in the following format: [mi-{i ID_number}]. For example, [mi-1a2b3c4d5e6f].
+     The [ManagedInstance] type for this API operation is for on-premises managed nodes. You must specify the name of the managed node in the following format: 
+     {[
+     mi-{i ID_number}
+     ]}
+     . For example, [mi-1a2b3c4d5e6f].
      
       *)
 

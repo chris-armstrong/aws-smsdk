@@ -11,6 +11,11 @@ module CancelCluster : sig
             
         ]
       ) result
+  (** 
+    Cancels a cluster job. You can only cancel a cluster job while it's in the [AwaitingQuorum] status. You'll have at least an hour after creating a cluster job to cancel it.
+     *)
+
+  
 end
 
 module CancelJob : sig
@@ -25,6 +30,11 @@ module CancelJob : sig
             
         ]
       ) result
+  (** 
+    Cancels the specified job. You can only cancel a job before its [JobState] value changes to [PreparingAppliance]. Requesting the [ListJobs] or [DescribeJob] action returns a job's [JobState] as part of the response element data returned.
+     *)
+
+  
 end
 
 module CreateAddress : sig
@@ -38,6 +48,11 @@ module CreateAddress : sig
             
         ]
       ) result
+  (** 
+    Creates an address for a Snow device to be shipped to. In most regions, addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown. If providing an address as a JSON file through the [cli-input-json] option, include the full file path. For example, [--cli-input-json file://create-address.json].
+     *)
+
+  
 end
 
 module CreateCluster : sig
@@ -53,6 +68,11 @@ module CreateCluster : sig
             
         ]
       ) result
+  (** 
+    Creates an empty cluster. Each cluster supports five nodes. You use the [CreateJob] action separately to create the jobs for each of these nodes. The cluster does not ship until these five node jobs have been created.
+     *)
+
+  
 end
 
 module CreateJob : sig
@@ -69,6 +89,167 @@ module CreateJob : sig
             
         ]
       ) result
+  (** 
+    Creates a job to import or export data between Amazon S3 and your on-premises data center. Your Amazon Web Services account must have the right trust policies and permissions in place to create a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide the [clusterId] value; the other job attributes are inherited from the cluster.
+    
+     Only the Snowball; Edge device type is supported when ordering clustered jobs.
+     
+      The device capacity is optional.
+      
+       Availability of device types differ by Amazon Web Services Region. For more information about Region availability, see {{:https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&loc=4}Amazon Web Services Regional Services}.
+       
+        
+        
+         {b Snow Family devices and their capacities.}
+         
+          {ul
+               {- Device type: {b SNC1_SSD}
+                  
+                   {ul
+                        {- Capacity: T14
+                           
+                           }
+                         {- Description: Snowcone
+                            
+                            }
+                        
+                 }
+                  
+                  
+                  }
+                {- Device type: {b SNC1_HDD}
+                   
+                    {ul
+                         {- Capacity: T8
+                            
+                            }
+                          {- Description: Snowcone
+                             
+                             }
+                         
+                 }
+                  
+                  
+                  }
+                {- Device type: {b EDGE_S}
+                   
+                    {ul
+                         {- Capacity: T98
+                            
+                            }
+                          {- Description: Snowball Edge Storage Optimized for data transfer only
+                             
+                             }
+                         
+                 }
+                  
+                  
+                  }
+                {- Device type: {b EDGE_CG}
+                   
+                    {ul
+                         {- Capacity: T42
+                            
+                            }
+                          {- Description: Snowball Edge Compute Optimized with GPU
+                             
+                             }
+                         
+                 }
+                  
+                  
+                  }
+                {- Device type: {b EDGE_C}
+                   
+                    {ul
+                         {- Capacity: T42
+                            
+                            }
+                          {- Description: Snowball Edge Compute Optimized without GPU
+                             
+                             }
+                         
+                 }
+                  
+                  
+                  }
+                {- Device type: {b EDGE}
+                   
+                    {ul
+                         {- Capacity: T100
+                            
+                            }
+                          {- Description: Snowball Edge Storage Optimized with EC2 Compute
+                             
+                             }
+                         
+                 }
+                  This device is replaced with T98.
+                  
+                   
+                   
+                   }
+                {- Device type: {b STANDARD}
+                   
+                    {ul
+                         {- Capacity: T50
+                            
+                            }
+                          {- Description: Original Snowball device
+                             
+                              This device is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region
+                              
+                              }
+                         
+                 }
+                  
+                  
+                  }
+                {- Device type: {b STANDARD}
+                   
+                    {ul
+                         {- Capacity: T80
+                            
+                            }
+                          {- Description: Original Snowball device
+                             
+                              This device is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region.
+                              
+                              }
+                         
+                 }
+                  
+                  
+                  }
+                {- Snow Family device type: {b RACK_5U_C}
+                   
+                    {ul
+                         {- Capacity: T13
+                            
+                            }
+                          {- Description: Snowblade.
+                             
+                             }
+                         
+                 }
+                 }
+                {- Device type: {b V3_5S}
+                   
+                    {ul
+                         {- Capacity: T240
+                            
+                            }
+                          {- Description: Snowball Edge Storage Optimized 210TB
+                             
+                             }
+                         
+                 }
+                 }
+               
+      }
+       *)
+
+  
 end
 
 module CreateLongTermPricing : sig
@@ -81,6 +262,11 @@ module CreateLongTermPricing : sig
             
         ]
       ) result
+  (** 
+    Creates a job with the long-term usage option for a device. The long-term usage is a 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing.
+     *)
+
+  
 end
 
 module CreateReturnShippingLabel : sig
@@ -97,6 +283,11 @@ module CreateReturnShippingLabel : sig
             
         ]
       ) result
+  (** 
+    Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
+     *)
+
+  
 end
 
 module DescribeAddress : sig
@@ -109,6 +300,11 @@ module DescribeAddress : sig
             
         ]
       ) result
+  (** 
+    Takes an [AddressId] and returns specific details about that address in the form of an [Address] object.
+     *)
+
+  
 end
 
 module DescribeAddresses : sig
@@ -122,6 +318,11 @@ module DescribeAddresses : sig
             
         ]
       ) result
+  (** 
+    Returns a specified number of [ADDRESS] objects. Calling this API in one of the US regions will return addresses from the list of all addresses associated with this account in all US regions.
+     *)
+
+  
 end
 
 module DescribeCluster : sig
@@ -134,6 +335,11 @@ module DescribeCluster : sig
             
         ]
       ) result
+  (** 
+    Returns information about a specific cluster including shipping information, cluster status, and other important metadata.
+     *)
+
+  
 end
 
 module DescribeJob : sig
@@ -146,6 +352,11 @@ module DescribeJob : sig
             
         ]
       ) result
+  (** 
+    Returns information about a specific job including shipping information, job status, and other important metadata.
+     *)
+
+  
 end
 
 module DescribeReturnShippingLabel : sig
@@ -160,6 +371,11 @@ module DescribeReturnShippingLabel : sig
             
         ]
       ) result
+  (** 
+    Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
+     *)
+
+  
 end
 
 module GetJobManifest : sig
@@ -173,6 +389,17 @@ module GetJobManifest : sig
             
         ]
       ) result
+  (** 
+    Returns a link to an Amazon S3 presigned URL for the manifest file associated with the specified [JobId] value. You can access the manifest file for up to 60 minutes after this request has been made. To access the manifest file after 60 minutes have passed, you'll have to make another call to the [GetJobManifest] action.
+    
+     The manifest is an encrypted file that you can download after your job enters the [WithCustomer] status. This is the only valid status for calling this API as the manifest and [UnlockCode] code value are used for securing your device and should only be used when you have the device. The manifest is decrypted by using the [UnlockCode] code value, when you pass both values to the Snow device through the Snowball client when the client is started for the first time.
+     
+      As a best practice, we recommend that you don't save a copy of an [UnlockCode] value in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snow device associated with that job.
+      
+       The credentials of a given job, including its manifest file and unlock code, expire 360 days after the job is created.
+        *)
+
+  
 end
 
 module GetJobUnlockCode : sig
@@ -186,6 +413,15 @@ module GetJobUnlockCode : sig
             
         ]
       ) result
+  (** 
+    Returns the [UnlockCode] code value for the specified job. A particular [UnlockCode] value can be accessed for up to 360 days after the associated job has been created.
+    
+     The [UnlockCode] value is a 29-character code with 25 alphanumeric characters and 4 hyphens. This code is used to decrypt the manifest file when it is passed along with the manifest to the Snow device through the Snowball client when the client is started for the first time. The only valid status for calling this API is [WithCustomer] as the manifest and [Unlock] code values are used for securing your device and should only be used when you have the device.
+     
+      As a best practice, we recommend that you don't save a copy of the [UnlockCode] in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snow device associated with that job.
+       *)
+
+  
 end
 
 module GetSnowballUsage : sig
@@ -197,6 +433,13 @@ module GetSnowballUsage : sig
             | Smaws_Lib.Protocols.AwsJson.error 
         ]
       ) result
+  (** 
+    Returns information about the Snow Family service limit for your account, and also the number of Snow devices your account has in use.
+    
+     The default service limit for the number of Snow devices that you can have at one time is 1. If you want to increase your service limit, contact Amazon Web Services Support.
+      *)
+
+  
 end
 
 module GetSoftwareUpdates : sig
@@ -210,6 +453,11 @@ module GetSoftwareUpdates : sig
             
         ]
       ) result
+  (** 
+    Returns an Amazon S3 presigned URL for an update file associated with a specified [JobId].
+     *)
+
+  
 end
 
 module ListClusterJobs : sig
@@ -223,6 +471,11 @@ module ListClusterJobs : sig
             
         ]
       ) result
+  (** 
+    Returns an array of [JobListEntry] objects of the specified length. Each [JobListEntry] object is for a job in the specified cluster and contains a job's state, a job's ID, and other information.
+     *)
+
+  
 end
 
 module ListClusters : sig
@@ -235,6 +488,11 @@ module ListClusters : sig
             
         ]
       ) result
+  (** 
+    Returns an array of [ClusterListEntry] objects of the specified length. Each [ClusterListEntry] object contains a cluster's state, a cluster's ID, and other important status information.
+     *)
+
+  
 end
 
 module ListCompatibleImages : sig
@@ -248,6 +506,11 @@ module ListCompatibleImages : sig
             
         ]
       ) result
+  (** 
+    This action returns a list of the different Amazon EC2-compatible Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
+     *)
+
+  
 end
 
 module ListJobs : sig
@@ -260,6 +523,11 @@ module ListJobs : sig
             
         ]
       ) result
+  (** 
+    Returns an array of [JobListEntry] objects of the specified length. Each [JobListEntry] object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. Calling this API action in one of the US regions will return jobs from the list of all jobs associated with this account in all US regions.
+     *)
+
+  
 end
 
 module ListLongTermPricing : sig
@@ -273,6 +541,11 @@ module ListLongTermPricing : sig
             
         ]
       ) result
+  (** 
+    Lists all long-term pricing types.
+     *)
+
+  
 end
 
 module ListPickupLocations : sig
@@ -285,6 +558,11 @@ module ListPickupLocations : sig
             
         ]
       ) result
+  (** 
+    A list of locations from which the customer can choose to pickup a device.
+     *)
+
+  
 end
 
 module ListServiceVersions : sig
@@ -298,6 +576,11 @@ module ListServiceVersions : sig
             
         ]
       ) result
+  (** 
+    Lists all supported versions for Snow on-device services. Returns an array of [ServiceVersion] object containing the supported versions for a particular service.
+     *)
+
+  
 end
 
 module UpdateCluster : sig
@@ -314,6 +597,11 @@ module UpdateCluster : sig
             
         ]
       ) result
+  (** 
+    While a cluster's [ClusterState] value is in the [AwaitingQuorum] state, you can update some of the information associated with a cluster. Once the cluster changes to a different job state, usually 60 minutes after the cluster being created, this action is no longer available.
+     *)
+
+  
 end
 
 module UpdateJob : sig
@@ -331,6 +619,11 @@ module UpdateJob : sig
             
         ]
       ) result
+  (** 
+    While a job's [JobState] value is [New], you can update some of the information associated with a job. Once the job changes to a different job state, usually within 60 minutes of the job being created, this action is no longer available.
+     *)
+
+  
 end
 
 module UpdateJobShipmentState : sig
@@ -344,6 +637,11 @@ module UpdateJobShipmentState : sig
             
         ]
       ) result
+  (** 
+    Updates the state when a shipment state changes to a different state.
+     *)
+
+  
 end
 
 module UpdateLongTermPricing : sig
@@ -356,5 +654,10 @@ module UpdateLongTermPricing : sig
             
         ]
       ) result
+  (** 
+    Updates the long-term pricing type.
+     *)
+
+  
 end
 

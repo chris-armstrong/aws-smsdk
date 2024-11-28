@@ -650,7 +650,8 @@ type egress_type = | VPC
 type egress_configuration = {
   vpc_connector_arn: string option;
   (** 
-    The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to associate with your App Runner service. Only valid when [EgressType = VPC].
+    The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to associate with your App Runner service. Only valid when [EgressType =
+        VPC].
      *)
 
   egress_type: egress_type option;
@@ -955,7 +956,15 @@ type update_default_auto_scaling_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to set as the default.
     
-     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is set as the default.
+     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is set as the default.
       *)
 
 }
@@ -1438,7 +1447,15 @@ type list_services_for_auto_scaling_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to list the services for.
     
-     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is used.
+     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is used.
       *)
 
 }
@@ -1691,7 +1708,11 @@ type custom_domain = {
 
   enable_www_subdomain: bool;
   (** 
-    When [true], the subdomain [www.{i DomainName}] is associated with the App Runner service in addition to the base domain.
+    When [true], the subdomain 
+    {[
+    www.{i DomainName}
+    ]}
+     is associated with the App Runner service in addition to the base domain.
      *)
 
   domain_name: string;
@@ -1800,7 +1821,15 @@ type describe_observability_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner observability configuration that you want a description for.
     
-     The ARN can be a full observability configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is described.
+     The ARN can be a full observability configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is described.
       *)
 
 }
@@ -1868,7 +1897,15 @@ type describe_auto_scaling_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want a description for.
     
-     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is described.
+     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is described.
       *)
 
 }
@@ -1941,7 +1978,15 @@ type delete_observability_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner observability configuration that you want to delete.
     
-     The ARN can be a full observability configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is deleted.
+     The ARN can be a full observability configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is deleted.
       *)
 
 }
@@ -2013,7 +2058,15 @@ type delete_auto_scaling_configuration_request = {
   (** 
     The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to delete.
     
-     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either [.../{i name}] or [.../{i name}/{i revision}]. If a revision isn't specified, the latest active revision is deleted.
+     The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either 
+     {[
+     .../{i name}
+     ]}
+      or 
+     {[
+     .../{i name}/{i revision}
+     ]}
+     . If a revision isn't specified, the latest active revision is deleted.
       *)
 
 }
@@ -2295,7 +2348,11 @@ type associate_custom_domain_response = {
 type associate_custom_domain_request = {
   enable_www_subdomain: bool option;
   (** 
-    Set to [true] to associate the subdomain [www.{i DomainName}] with the App Runner service in addition to the base domain.
+    Set to [true] to associate the subdomain 
+    {[
+    www.{i DomainName}
+    ]}
+     with the App Runner service in addition to the base domain.
     
      Default: [true]
       *)

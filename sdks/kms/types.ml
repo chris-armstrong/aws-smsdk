@@ -604,7 +604,11 @@ type update_custom_key_store_request = {
   (** 
     Changes the base path to the proxy APIs for this external key store. To find this value, see the documentation for your external key manager and external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a [CustomKeyStoreType] of [EXTERNAL_KEY_STORE].
     
-     The value must start with [/] and must end with [/kms/xks/v1], where [v1] represents the version of the KMS external key store proxy API. You can include an optional prefix between the required elements such as [/{i example}/kms/xks/v1].
+     The value must start with [/] and must end with [/kms/xks/v1], where [v1] represents the version of the KMS external key store proxy API. You can include an optional prefix between the required elements such as 
+     {[
+     /{i example}/kms/xks/v1
+     ]}
+     .
      
       The combined [XksProxyUriEndpoint] and [XksProxyUriPath] values must be unique in the Amazon Web Services account and Region.
       
@@ -3584,7 +3588,11 @@ type custom_key_stores_list_entry = {
                         {- It must have a network load balancer (NLB) connected to at least two subnets, each in a different Availability Zone.
                            
                            }
-                        {- The [Allow principals] list must include the KMS service principal for the Region, [cks.kms..amazonaws.com], such as [cks.kms.us-east-1.amazonaws.com].
+                        {- The [Allow principals] list must include the KMS service principal for the Region, 
+                           {[
+                           cks.kms..amazonaws.com
+                           ]}
+                           , such as [cks.kms.us-east-1.amazonaws.com].
                            
                            }
                         {- It must {i not} require {{:https://docs.aws.amazon.com/vpc/latest/privatelink/create-endpoint-service.html}acceptance} of connection requests.
@@ -3761,7 +3769,11 @@ type derive_shared_secret_request = {
       
        If you use {{:https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-welcome.html}Amazon Web Services CLI version 1}, you must provide the DER-encoded X.509 public key in a file. Otherwise, the Amazon Web Services CLI Base64-encodes the public key a second time, resulting in a [ValidationException].
        
-        You can specify the public key as binary data in a file using fileb ([fileb://]) or in-line using a Base64 encoded string.
+        You can specify the public key as binary data in a file using fileb (
+        {[
+        fileb://
+        ]}
+        ) or in-line using a Base64 encoded string.
          *)
 
   key_agreement_algorithm: key_agreement_algorithm_spec;
@@ -4362,7 +4374,11 @@ type create_custom_key_store_request = {
   (** 
     Specifies the base path to the proxy APIs for this external key store. To find this value, see the documentation for your external key store proxy. This parameter is required for all custom key stores with a [CustomKeyStoreType] of [EXTERNAL_KEY_STORE].
     
-     The value must start with [/] and must end with [/kms/xks/v1] where [v1] represents the version of the KMS external key store proxy API. This path can include an optional prefix between the required elements such as [/{i prefix}/kms/xks/v1].
+     The value must start with [/] and must end with [/kms/xks/v1] where [v1] represents the version of the KMS external key store proxy API. This path can include an optional prefix between the required elements such as 
+     {[
+     /{i prefix}/kms/xks/v1
+     ]}
+     .
      
       {b Uniqueness requirements:}
       

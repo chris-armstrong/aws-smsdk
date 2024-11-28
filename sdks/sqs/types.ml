@@ -174,7 +174,11 @@ type set_queue_attributes_request = {
             {- [Policy] – The queue's policy. A valid Amazon Web Services policy. For more information about policy structure, see {{:https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html}Overview of Amazon Web Services IAM Policies} in the {i Identity and Access Management User Guide}.
                
                }
-            {- [ReceiveMessageWaitTimeSeconds] – The length of time, in seconds, for which a [[ReceiveMessage]] action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). Default: 0.
+            {- [ReceiveMessageWaitTimeSeconds] – The length of time, in seconds, for which a 
+               {[
+               [ReceiveMessage]
+               ]}
+                action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). Default: 0.
                
                }
             {- [VisibilityTimeout] – The visibility timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default: 30. For more information about the visibility timeout, see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html}Visibility Timeout} in the {i Amazon SQS Developer Guide}.
@@ -228,7 +232,11 @@ type set_queue_attributes_request = {
         The following attributes apply only to {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html}server-side-encryption}:
         
          {ul
-              {- [KmsMasterKeyId] – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms}Key Terms}. While the alias of the AWS-managed CMK for Amazon SQS is always [alias/aws/sqs], the alias of a custom CMK can, for example, be [alias/{i MyAlias}]. For more examples, see {{:https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters}KeyId} in the {i Key Management Service API Reference}.
+              {- [KmsMasterKeyId] – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms}Key Terms}. While the alias of the AWS-managed CMK for Amazon SQS is always [alias/aws/sqs], the alias of a custom CMK can, for example, be 
+                 {[
+                 alias/{i MyAlias}
+                 ]}
+                 . For more examples, see {{:https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters}KeyId} in the {i Key Management Service API Reference}.
                  
                  }
                {- [KmsDataKeyReusePeriodSeconds] – The length of time, in seconds, for which Amazon SQS can reuse a {{:https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys}data key} to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work}How Does the Data Key Reuse Period Work?}.
@@ -370,7 +378,11 @@ type send_message_result = {
 }
 
 (** 
-    The user-specified message attribute value. For string data types, the [Value] attribute has the same restrictions on the content as the message body. For more information, see [[SendMessage].]
+    The user-specified message attribute value. For string data types, the [Value] attribute has the same restrictions on the content as the message body. For more information, see 
+    {[
+    [SendMessage].
+    ]}
+    
     
      [Name], [type], [value] and the message body must not be empty or null. All parts of the message attribute, including [Name], [Type], and [Value], are part of the message size restriction (256 KiB or 262,144 bytes).
       *)
@@ -405,7 +417,11 @@ type message_attribute_value = {
 }
 
 (** 
-    The user-specified message system attribute value. For string data types, the [Value] attribute has the same restrictions on the content as the message body. For more information, see [[SendMessage].]
+    The user-specified message system attribute value. For string data types, the [Value] attribute has the same restrictions on the content as the message body. For more information, see 
+    {[
+    [SendMessage].
+    ]}
+    
     
      [Name], [type], [value] and the message body must not be empty or null.
       *)
@@ -460,7 +476,7 @@ type send_message_request = {
                }
            
       }
-       The maximum length of [MessageGroupId] is 128 characters. Valid values: alphanumeric characters and punctuation [(!"#$%&'()*+,-./:;<=>?@[\]^_`{|\}~)].
+       The maximum length of [MessageGroupId] is 128 characters. Valid values: alphanumeric characters and punctuation [(!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|\}~)].
        
         For best practices of using [MessageGroupId], see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html}Using the MessageGroupId Property} in the {i Amazon SQS Developer Guide}.
         
@@ -507,7 +523,7 @@ type send_message_request = {
         
          Amazon SQS continues to keep track of the message deduplication ID even after the message is received and deleted.
          
-          The maximum length of [MessageDeduplicationId] is 128 characters. [MessageDeduplicationId] can contain alphanumeric characters ([a-z], [A-Z], [0-9]) and punctuation ([!"#$%&'()*+,-./:;<=>?@[\]^_`{|\}~]).
+          The maximum length of [MessageDeduplicationId] is 128 characters. [MessageDeduplicationId] can contain alphanumeric characters ([a-z], [A-Z], [0-9]) and punctuation ([!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|\}~]).
           
            For best practices of using [MessageDeduplicationId], see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html}Using the MessageDeduplicationId Property} in the {i Amazon SQS Developer Guide}.
             |}]
@@ -562,7 +578,11 @@ type send_message_request = {
 }
 
 (** 
-    Encloses a [MessageId] for a successfully-enqueued message in a [[SendMessageBatch].]
+    Encloses a [MessageId] for a successfully-enqueued message in a 
+    {[
+    [SendMessageBatch].
+    ]}
+    
      *)
 type send_message_batch_result_entry = {
   sequence_number: string option;
@@ -628,17 +648,33 @@ type batch_result_error_entry = {
 }
 
 (** 
-    For each message in the batch, the response contains a [[SendMessageBatchResultEntry]] tag if the message succeeds or a [[BatchResultErrorEntry]] tag if the message fails.
+    For each message in the batch, the response contains a 
+    {[
+    [SendMessageBatchResultEntry]
+    ]}
+     tag if the message succeeds or a 
+    {[
+    [BatchResultErrorEntry]
+    ]}
+     tag if the message fails.
      *)
 type send_message_batch_result = {
   failed: batch_result_error_entry list;
   (** 
-    A list of [[BatchResultErrorEntry]] items with error details about each message that can't be enqueued.
+    A list of 
+    {[
+    [BatchResultErrorEntry]
+    ]}
+     items with error details about each message that can't be enqueued.
      *)
 
   successful: send_message_batch_result_entry list;
   (** 
-    A list of [[SendMessageBatchResultEntry]] items.
+    A list of 
+    {[
+    [SendMessageBatchResultEntry]
+    ]}
+     items.
      *)
 
 }
@@ -662,7 +698,7 @@ type send_message_batch_request_entry = {
                }
            
       }
-       The length of [MessageGroupId] is 128 characters. Valid values: alphanumeric characters and punctuation [(!"#$%&'()*+,-./:;<=>?@[\]^_`{|\}~)].
+       The length of [MessageGroupId] is 128 characters. Valid values: alphanumeric characters and punctuation [(!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|\}~)].
        
         For best practices of using [MessageGroupId], see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html}Using the MessageGroupId Property} in the {i Amazon SQS Developer Guide}.
         
@@ -709,7 +745,7 @@ type send_message_batch_request_entry = {
         
          Amazon SQS continues to keep track of the message deduplication ID even after the message is received and deleted.
          
-          The length of [MessageDeduplicationId] is 128 characters. [MessageDeduplicationId] can contain alphanumeric characters ([a-z], [A-Z], [0-9]) and punctuation ([!"#$%&'()*+,-./:;<=>?@[\]^_`{|\}~]).
+          The length of [MessageDeduplicationId] is 128 characters. [MessageDeduplicationId] can contain alphanumeric characters ([a-z], [A-Z], [0-9]) and punctuation ([!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|\}~]).
           
            For best practices of using [MessageDeduplicationId], see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html}Using the MessageDeduplicationId Property} in the {i Amazon SQS Developer Guide}.
             |}]
@@ -765,7 +801,11 @@ type send_message_batch_request_entry = {
 type send_message_batch_request = {
   entries: send_message_batch_request_entry list;
   (** 
-    A list of [[SendMessageBatchRequestEntry]] items.
+    A list of 
+    {[
+    [SendMessageBatchRequestEntry]
+    ]}
+     items.
      *)
 
   queue_url: string;
@@ -889,7 +929,11 @@ type invalid_message_contents = {
 type remove_permission_request = {
   label: string;
   (** 
-    The identification of the permission to remove. This is the label added using the [[AddPermission]] action.
+    The identification of the permission to remove. This is the label added using the 
+    {[
+    [AddPermission]
+    ]}
+     action.
      *)
 
   queue_url: string;
@@ -928,7 +972,11 @@ type message = {
 
   attributes: (string * string) list option;
   (** 
-    A map of the attributes requested in [[ReceiveMessage]] to their respective values. Supported attributes:
+    A map of the attributes requested in 
+    {[
+    [ReceiveMessage]
+    ]}
+     to their respective values. Supported attributes:
     
      {ul
           {- [ApproximateReceiveCount]
@@ -1025,7 +1073,7 @@ type receive_message_request = {
                }
            
       }
-       The maximum length of [ReceiveRequestAttemptId] is 128 characters. [ReceiveRequestAttemptId] can contain alphanumeric characters ([a-z], [A-Z], [0-9]) and punctuation ([!"#$%&'()*+,-./:;<=>?@[\]^_`{|\}~]).
+       The maximum length of [ReceiveRequestAttemptId] is 128 characters. [ReceiveRequestAttemptId] can contain alphanumeric characters ([a-z], [A-Z], [0-9]) and punctuation ([!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|\}~]).
        
         For best practices of using [ReceiveRequestAttemptId], see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-receiverequestattemptid-request-parameter.html}Using the ReceiveRequestAttemptId Request Parameter} in the {i Amazon SQS Developer Guide}.
          |}]
@@ -1108,10 +1156,18 @@ type receive_message_request = {
            {- [SqsManagedSseEnabled] – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html}SSE-KMS} or {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html}SSE-SQS}).
               
               }
-           {- [MessageDeduplicationId] – Returns the value provided by the producer that calls the [[SendMessage]] action.
+           {- [MessageDeduplicationId] – Returns the value provided by the producer that calls the 
+              {[
+              [SendMessage]
+              ]}
+               action.
               
               }
-           {- [MessageGroupId] – Returns the value provided by the producer that calls the [[SendMessage]] action. Messages with the same [MessageGroupId] are returned in sequence.
+           {- [MessageGroupId] – Returns the value provided by the producer that calls the 
+              {[
+              [SendMessage]
+              ]}
+               action. Messages with the same [MessageGroupId] are returned in sequence.
               
               }
            {- [SequenceNumber] – Returns the value provided by Amazon SQS.
@@ -1158,10 +1214,18 @@ type receive_message_request = {
             {- [SqsManagedSseEnabled] – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html}SSE-KMS} or {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html}SSE-SQS}).
                
                }
-            {- [MessageDeduplicationId] – Returns the value provided by the producer that calls the [[SendMessage]] action.
+            {- [MessageDeduplicationId] – Returns the value provided by the producer that calls the 
+               {[
+               [SendMessage]
+               ]}
+                action.
                
                }
-            {- [MessageGroupId] – Returns the value provided by the producer that calls the [[SendMessage]] action. Messages with the same [MessageGroupId] are returned in sequence.
+            {- [MessageGroupId] – Returns the value provided by the producer that calls the 
+               {[
+               [SendMessage]
+               ]}
+                action. Messages with the same [MessageGroupId] are returned in sequence.
                
                }
             {- [SequenceNumber] – Returns the value provided by Amazon SQS.
@@ -1637,7 +1701,11 @@ type delete_message_request = {
 }
 
 (** 
-    Encloses the [Id] of an entry in [[DeleteMessageBatch].]
+    Encloses the [Id] of an entry in 
+    {[
+    [DeleteMessageBatch].
+    ]}
+    
      *)
 type delete_message_batch_result_entry = {
   id: string;
@@ -1648,17 +1716,33 @@ type delete_message_batch_result_entry = {
 }
 
 (** 
-    For each message in the batch, the response contains a [[DeleteMessageBatchResultEntry]] tag if the message is deleted or a [[BatchResultErrorEntry]] tag if the message can't be deleted.
+    For each message in the batch, the response contains a 
+    {[
+    [DeleteMessageBatchResultEntry]
+    ]}
+     tag if the message is deleted or a 
+    {[
+    [BatchResultErrorEntry]
+    ]}
+     tag if the message can't be deleted.
      *)
 type delete_message_batch_result = {
   failed: batch_result_error_entry list;
   (** 
-    A list of [[BatchResultErrorEntry]] items.
+    A list of 
+    {[
+    [BatchResultErrorEntry]
+    ]}
+     items.
      *)
 
   successful: delete_message_batch_result_entry list;
   (** 
-    A list of [[DeleteMessageBatchResultEntry]] items.
+    A list of 
+    {[
+    [DeleteMessageBatchResultEntry]
+    ]}
+     items.
      *)
 
 }
@@ -1765,7 +1849,11 @@ type create_queue_request = {
             {- [Policy] – The queue's policy. A valid Amazon Web Services policy. For more information about policy structure, see {{:https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html}Overview of Amazon Web Services IAM Policies} in the {i IAM User Guide}.
                
                }
-            {- [ReceiveMessageWaitTimeSeconds] – The length of time, in seconds, for which a [[ReceiveMessage]] action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). Default: 0.
+            {- [ReceiveMessageWaitTimeSeconds] – The length of time, in seconds, for which a 
+               {[
+               [ReceiveMessage]
+               ]}
+                action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). Default: 0.
                
                }
             {- [VisibilityTimeout] – The visibility timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default: 30. For more information about the visibility timeout, see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html}Visibility Timeout} in the {i Amazon SQS Developer Guide}.
@@ -1819,7 +1907,11 @@ type create_queue_request = {
         The following attributes apply only to {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html}server-side-encryption}:
         
          {ul
-              {- [KmsMasterKeyId] – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms}Key Terms}. While the alias of the Amazon Web Services managed CMK for Amazon SQS is always [alias/aws/sqs], the alias of a custom CMK can, for example, be [alias/{i MyAlias}]. For more examples, see {{:https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters}KeyId} in the {i Key Management Service API Reference}.
+              {- [KmsMasterKeyId] – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms}Key Terms}. While the alias of the Amazon Web Services managed CMK for Amazon SQS is always [alias/aws/sqs], the alias of a custom CMK can, for example, be 
+                 {[
+                 alias/{i MyAlias}
+                 ]}
+                 . For more examples, see {{:https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters}KeyId} in the {i Key Management Service API Reference}.
                  
                  }
                {- [KmsDataKeyReusePeriodSeconds] – The length of time, in seconds, for which Amazon SQS can reuse a {{:https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys}data key} to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see {{:https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work}How Does the Data Key Reuse Period Work?}
@@ -1926,7 +2018,11 @@ type change_message_visibility_request = {
 
   receipt_handle: string;
   (** 
-    The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the [[ReceiveMessage]] action.
+    The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the 
+    {[
+    [ReceiveMessage]
+    ]}
+     action.
      *)
 
   queue_url: string;
@@ -1939,7 +2035,11 @@ type change_message_visibility_request = {
 }
 
 (** 
-    Encloses the [Id] of an entry in [[ChangeMessageVisibilityBatch].]
+    Encloses the [Id] of an entry in 
+    {[
+    [ChangeMessageVisibilityBatch].
+    ]}
+    
      *)
 type change_message_visibility_batch_result_entry = {
   id: string;
@@ -1950,23 +2050,43 @@ type change_message_visibility_batch_result_entry = {
 }
 
 (** 
-    For each message in the batch, the response contains a [[ChangeMessageVisibilityBatchResultEntry]] tag if the message succeeds or a [[BatchResultErrorEntry]] tag if the message fails.
+    For each message in the batch, the response contains a 
+    {[
+    [ChangeMessageVisibilityBatchResultEntry]
+    ]}
+     tag if the message succeeds or a 
+    {[
+    [BatchResultErrorEntry]
+    ]}
+     tag if the message fails.
      *)
 type change_message_visibility_batch_result = {
   failed: batch_result_error_entry list;
   (** 
-    A list of [[BatchResultErrorEntry]] items.
+    A list of 
+    {[
+    [BatchResultErrorEntry]
+    ]}
+     items.
      *)
 
   successful: change_message_visibility_batch_result_entry list;
   (** 
-    A list of [[ChangeMessageVisibilityBatchResultEntry]] items.
+    A list of 
+    {[
+    [ChangeMessageVisibilityBatchResultEntry]
+    ]}
+     items.
      *)
 
 }
 
 (** 
-    Encloses a receipt handle and an entry ID for each message in [[ChangeMessageVisibilityBatch].]
+    Encloses a receipt handle and an entry ID for each message in 
+    {[
+    [ChangeMessageVisibilityBatch].
+    ]}
+    
      *)
 type change_message_visibility_batch_request_entry = {
   visibility_timeout: int option;

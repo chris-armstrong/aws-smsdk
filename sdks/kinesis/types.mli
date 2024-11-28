@@ -158,12 +158,12 @@ type access_denied_exception = {
 type tag = {
   value: string option;
   (** 
-    An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
+    An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % \@
      *)
 
   key: string;
   (** 
-    A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
+    A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % \@
      *)
 
 }
@@ -520,7 +520,8 @@ type stream_description_summary = {
           {- Key ARN example: [arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012]
              
              }
-           {- Alias ARN example: [arn:aws:kms:us-east-1:123456789012:alias/MyAliasName]
+           {- Alias ARN example: [
+                        arn:aws:kms:us-east-1:123456789012:alias/MyAliasName]
               
               }
            {- Globally unique key ID example: [12345678-1234-1234-1234-123456789012]
@@ -1012,7 +1013,8 @@ type put_resource_policy_input = {
 type put_records_result_entry = {
   error_message: string option;
   [@ocaml.doc {| 
-    The error message for an individual record result. An [ErrorCode] value of [ProvisionedThroughputExceededException] has an error message that includes the account ID, stream name, and shard ID. An [ErrorCode] value of [InternalFailure] has the error message ["Internal Service Failure"].
+    The error message for an individual record result. An [ErrorCode] value of [ProvisionedThroughputExceededException] has an error message that includes the account ID, stream name, and shard ID. An [ErrorCode] value of [InternalFailure] has the error message ["Internal Service
+                Failure"].
      |}]
 
   error_code: string option;

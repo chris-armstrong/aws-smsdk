@@ -11,6 +11,11 @@ module CreatePerformanceAnalysisReport : sig
             
         ]
       ) result
+  (** 
+    Creates a new performance analysis report for a specific time period for the DB instance.
+     *)
+
+  
 end
 
 module DeletePerformanceAnalysisReport : sig
@@ -25,6 +30,11 @@ module DeletePerformanceAnalysisReport : sig
             
         ]
       ) result
+  (** 
+    Deletes a performance analysis report.
+     *)
+
+  
 end
 
 module DescribeDimensionKeys : sig
@@ -39,6 +49,14 @@ module DescribeDimensionKeys : sig
             
         ]
       ) result
+  (** 
+    For a specific time period, retrieve the top [N] dimension keys for a metric.
+    
+     Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
+     
+      *)
+
+  
 end
 
 module GetDimensionKeyDetails : sig
@@ -53,6 +71,11 @@ module GetDimensionKeyDetails : sig
             
         ]
       ) result
+  (** 
+    Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, [GetDimensionKeyDetails] retrieves the full text of the dimension [db.sql.statement] associated with this ID. This operation is useful because [GetResourceMetrics] and [DescribeDimensionKeys] don't support retrieval of large SQL statement text.
+     *)
+
+  
 end
 
 module GetPerformanceAnalysisReport : sig
@@ -67,6 +90,11 @@ module GetPerformanceAnalysisReport : sig
             
         ]
       ) result
+  (** 
+    Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be [RUNNING], [SUCCEEDED], or [FAILED]. The insights include the [description] and [recommendation] fields.
+     *)
+
+  
 end
 
 module GetResourceMetadata : sig
@@ -81,6 +109,11 @@ module GetResourceMetadata : sig
             
         ]
       ) result
+  (** 
+    Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance.
+     *)
+
+  
 end
 
 module GetResourceMetrics : sig
@@ -95,6 +128,14 @@ module GetResourceMetrics : sig
             
         ]
       ) result
+  (** 
+    Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide filtering criteria for each group. You must specify an aggregate function for each metric.
+    
+     Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
+     
+      *)
+
+  
 end
 
 module ListAvailableResourceDimensions : sig
@@ -109,6 +150,11 @@ module ListAvailableResourceDimensions : sig
             
         ]
       ) result
+  (** 
+    Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
+     *)
+
+  
 end
 
 module ListAvailableResourceMetrics : sig
@@ -123,6 +169,11 @@ module ListAvailableResourceMetrics : sig
             
         ]
       ) result
+  (** 
+    Retrieve metrics of the specified types that can be queried for a specified DB instance.
+     *)
+
+  
 end
 
 module ListPerformanceAnalysisReports : sig
@@ -137,6 +188,11 @@ module ListPerformanceAnalysisReports : sig
             
         ]
       ) result
+  (** 
+    Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
+     *)
+
+  
 end
 
 module ListTagsForResource : sig
@@ -151,6 +207,11 @@ module ListTagsForResource : sig
             
         ]
       ) result
+  (** 
+    Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
+     *)
+
+  
 end
 
 module TagResource : sig
@@ -165,6 +226,11 @@ module TagResource : sig
             
         ]
       ) result
+  (** 
+    Adds metadata tags to the Amazon RDS Performance Insights resource.
+     *)
+
+  
 end
 
 module UntagResource : sig
@@ -179,5 +245,10 @@ module UntagResource : sig
             
         ]
       ) result
+  (** 
+    Deletes the metadata tags from the Amazon RDS Performance Insights resource.
+     *)
+
+  
 end
 

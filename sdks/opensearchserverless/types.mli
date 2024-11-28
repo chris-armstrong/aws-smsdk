@@ -1273,7 +1273,8 @@ type collection_error_detail = {
 
   error_message: string option;
   (** 
-    A description of the error. For example, [The specified Collection is not found.]
+    A description of the error. For example, [The specified Collection is not
+                found.]
      *)
 
   name: string option;

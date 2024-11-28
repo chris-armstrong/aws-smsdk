@@ -384,7 +384,7 @@ type get_resources_input = {
 
   resource_type_filters: string list option;
   (** 
-    Specifies the resource types that you want included in the response. The format of each resource type is [service[:resourceType]]. For example, specifying a resource type of [ec2] returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of [ec2:instance] returns only EC2 instances.
+    Specifies the resource types that you want included in the response. The format of each resource type is [service\[:resourceType\]]. For example, specifying a resource type of [ec2] returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of [ec2:instance] returns only EC2 instances.
     
      The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). For the list of services whose resources you can use in this parameter, see {{:https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html}Services that support the Resource Groups Tagging API}.
      
@@ -416,7 +416,7 @@ type get_resources_input = {
      Note the following when deciding how to use TagFilters:
      
       {ul
-           {- If you {i don't} specify a [TagFilter], the response includes all resources that are currently tagged or ever had a tag. Resources that currently don't have tags are shown with an empty tag set, like this: ["Tags": []].
+           {- If you {i don't} specify a [TagFilter], the response includes all resources that are currently tagged or ever had a tag. Resources that currently don't have tags are shown with an empty tag set, like this: ["Tags": \[\]].
               
               }
             {- If you specify more than one filter in a single request, the response returns only those resources that satisfy all filters.
@@ -427,7 +427,8 @@ type get_resources_input = {
                }
             {- If you don't specify a value for a key, the response returns all resources that are tagged with that key, with any or no value.
                
-                For example, for the following filters: [filter1= {keyA,{value1}}], [filter2={keyB,{value2,value3,value4}}], [filter3= {keyC}]:
+                For example, for the following filters: [filter1= {keyA,{value1}}], [filter2={keyB,{value2,value3,value4}}], [filter3=
+                        {keyC}]:
                 
                  {ul
                       {- [GetResources({filter1})] returns resources tagged with [key1=value1]
@@ -439,7 +440,8 @@ type get_resources_input = {
                        {- [GetResources({filter3})] returns resources tagged with any tag with the key [key3], and with any or no value
                           
                           }
-                       {- [GetResources({filter1,filter2,filter3})] returns resources tagged with [(key1=value1) and (key2=value2 or key2=value3 or key2=value4) and (key3, any or no value)]
+                       {- [GetResources({filter1,filter2,filter3})] returns resources tagged with [(key1=value1) and (key2=value2 or key2=value3 or
+                                key2=value4) and (key3, any or no value)]
                           
                           }
                       
@@ -496,7 +498,7 @@ type get_compliance_summary_input = {
 
   resource_type_filters: string list option;
   (** 
-    Specifies that you want the response to include information for only resources of the specified types. The format of each resource type is [service[:resourceType]]. For example, specifying a resource type of [ec2] returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of [ec2:instance] returns only EC2 instances.
+    Specifies that you want the response to include information for only resources of the specified types. The format of each resource type is [service\[:resourceType\]]. For example, specifying a resource type of [ec2] returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of [ec2:instance] returns only EC2 instances.
     
      The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the {i {{:https://docs.aws.amazon.com/general/latest/gr/}Amazon Web Services General Reference}} for the following:
      

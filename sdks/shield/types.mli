@@ -1440,22 +1440,46 @@ type create_protection_request = {
      The ARN should be in one of the following formats:
      
       {ul
-           {- For an Application Load Balancer: [arn:aws:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/app/{i load-balancer-name}/{i load-balancer-id}]
+           {- For an Application Load Balancer: 
+              {[
+              arn:aws:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/app/{i load-balancer-name}/{i load-balancer-id}
+              ]}
+              
               
               }
-            {- For an Elastic Load Balancer (Classic Load Balancer): [arn:aws:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/{i load-balancer-name}]
+            {- For an Elastic Load Balancer (Classic Load Balancer): 
+               {[
+               arn:aws:elasticloadbalancing:{i region}:{i account-id}:loadbalancer/{i load-balancer-name}
+               ]}
+               
                
                }
-            {- For an Amazon CloudFront distribution: [arn:aws:cloudfront::{i account-id}:distribution/{i distribution-id}]
+            {- For an Amazon CloudFront distribution: 
+               {[
+               arn:aws:cloudfront::{i account-id}:distribution/{i distribution-id}
+               ]}
+               
                
                }
-            {- For an Global Accelerator standard accelerator: [arn:aws:globalaccelerator::{i account-id}:accelerator/{i accelerator-id}]
+            {- For an Global Accelerator standard accelerator: 
+               {[
+               arn:aws:globalaccelerator::{i account-id}:accelerator/{i accelerator-id}
+               ]}
+               
                
                }
-            {- For Amazon Route 53: [arn:aws:route53:::hostedzone/{i hosted-zone-id}]
+            {- For Amazon Route 53: 
+               {[
+               arn:aws:route53:::hostedzone/{i hosted-zone-id}
+               ]}
+               
                
                }
-            {- For an Elastic IP address: [arn:aws:ec2:{i region}:{i account-id}:eip-allocation/{i allocation-id}]
+            {- For an Elastic IP address: 
+               {[
+               arn:aws:ec2:{i region}:{i account-id}:eip-allocation/{i allocation-id}
+               ]}
+               
                
                }
            

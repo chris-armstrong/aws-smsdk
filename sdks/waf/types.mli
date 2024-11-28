@@ -1449,7 +1449,7 @@ type update_regex_pattern_set_response = {
 type regex_pattern_set_update = {
   regex_pattern_string: string;
   (** 
-    Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as [B[a@]dB[o0]t].
+    Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as [B\[a@\]dB\[o0\]t].
      *)
 
   action: change_action;
@@ -2853,12 +2853,12 @@ type regex_pattern_set_summary = {
     
      {b For the latest version of AWS WAF}, use the AWS WAFV2 API and see the {{:https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html}AWS WAF Developer Guide}. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
      
-      The [RegexPatternSet] specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as [B[a@]dB[o0]t]. You can then configure AWS WAF to reject those requests.
+      The [RegexPatternSet] specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as [B\[a@\]dB\[o0\]t]. You can then configure AWS WAF to reject those requests.
        *)
 type regex_pattern_set = {
   regex_pattern_strings: string list;
   (** 
-    Specifies the regular expression (regex) patterns that you want AWS WAF to search for, such as [B[a@]dB[o0]t].
+    Specifies the regular expression (regex) patterns that you want AWS WAF to search for, such as [B\[a@\]dB\[o0\]t].
      *)
 
   name: string option;
