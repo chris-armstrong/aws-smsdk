@@ -863,10 +863,6 @@ val make_retrieve_result_item :
   ?id:string ->
   unit -> retrieve_result_item
 
-val make_retrieve_result :
-  ?result_items:retrieve_result_item list -> ?query_id:string -> unit
--> retrieve_result
-
 val make_attribute_filter :
   ?less_than_or_equals:document_attribute ->
   ?less_than:document_attribute ->
@@ -951,12 +947,6 @@ val make_document_attribute_value_count_pair :
   ?document_attribute_value:document_attribute_value ->
   unit -> document_attribute_value_count_pair
 
-val make_facet_result :
-  ?document_attribute_value_count_pairs:document_attribute_value_count_pair list ->
-  ?document_attribute_value_type:document_attribute_value_type ->
-  ?document_attribute_key:string ->
-  unit -> facet_result
-
 val make_featured_results_item :
   ?feedback_token:string ->
   ?document_attributes:document_attribute list ->
@@ -968,16 +958,6 @@ val make_featured_results_item :
   ?type_:query_result_type ->
   ?id:string ->
   unit -> featured_results_item
-
-val make_query_result :
-  ?featured_results_items:featured_results_item list ->
-  ?spell_corrected_queries:spell_corrected_query list ->
-  ?warnings:warning list ->
-  ?total_number_of_results:int ->
-  ?facet_results:facet_result list ->
-  ?result_items:query_result_item list ->
-  ?query_id:string ->
-  unit -> query_result
 
 val make_facet :
   ?max_results:int ->

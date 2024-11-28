@@ -57,26 +57,29 @@ and transform ~ctx dom =
     begin
       match dom with
       | Element ("p", _, children) ->
-          Format.pp_open_box fmt 0;
+          Format.pp_open_vbox fmt 0;
           transform_children ~ctx children;
-          Format.pp_print_break fmt 0 0;
-          if not last then Format.pp_force_newline fmt ();
+          Format.pp_force_newline fmt ();
+          if not last then begin
+            Format.pp_force_newline fmt ()
+          end;
           Format.pp_close_box fmt ()
       | Element ("b", _, children) ->
           Fmt.pf fmt "{b ";
           transform_children ~ctx children;
           Fmt.pf fmt "}"
       | Element (("ul" as lt), _, children) | Element (("ol" as lt), _, children) ->
-          Fmt.pf fmt "{ol ";
+          Fmt.pf fmt "{";
+          Fmt.pf fmt "%s" (if lt = "ul" then "ul" else "ol");
           Format.pp_open_vbox fmt indent;
-          Format.pp_print_break fmt 0 0;
+          Format.pp_print_cut fmt ();
           transform_children
-            ~ctx:{ ctx with list_type = (if lt == "ot" then Ordered else Unordered) }
+            ~ctx:{ ctx with list_type = (if lt == "ol" then Ordered else Unordered) }
             children;
           Format.pp_close_box fmt ();
-          Format.pp_print_break fmt 0 0;
+          Format.pp_print_break fmt 0 indent;
           Fmt.pf fmt "}";
-          Format.pp_print_break fmt 0 0
+          Format.pp_print_break fmt 0 indent
       | Element ("li", _, children) ->
           Fmt.pf fmt "{- ";
           (* Fmt.pf fmt (if list_type == Unordered then "- " else "+ "); *)
@@ -99,19 +102,25 @@ and transform ~ctx dom =
             | [ Text str ] ->
                 Format.pp_open_box fmt indent;
                 Format.pp_print_break fmt 0 0;
-                Format.pp_print_text fmt str;
+                Format.pp_print_string fmt str;
                 Format.pp_close_box fmt ()
             | _ -> raise (UnexpectedElement "<pre> tags should not contain other elements")
           in
           Format.pp_print_break fmt 0 0;
           Fmt.pf fmt "v}";
           Format.pp_print_break fmt 0 0
-      | Element ("a", attrs, children) ->
-          Fmt.pf fmt "{{: ";
-          Fmt.pf fmt "%s" (List.assoc_opt "href" attrs |> Option.value ~default:"");
-          Fmt.pf fmt " }";
-          transform_children ~ctx children;
-          Fmt.pf fmt "}"
+      | Element ("a", attrs, children) -> (
+          let href = List.assoc_opt "href" attrs in
+          match href with
+          | Some href -> begin
+              Fmt.pf fmt "{{:%s}" href;
+              transform_children ~ctx children;
+              Fmt.pf fmt "}"
+            end
+          | None -> begin
+              let link_href_fallback = match children with [ Text str ] -> str | _ -> "" in
+              Fmt.pf fmt "[%s]" link_href_fallback
+            end)
       | Element (_, _, children) -> transform_children ~ctx children
       | Text str ->
           let str =
@@ -121,14 +130,16 @@ and transform ~ctx dom =
             if last then Re.replace_string ~all:false trailing_whitespace ~by:"" str else str
           in
           let str = Re.replace_string ~all:true multi_whitespace_regex ~by:" " str in
-          Format.pp_print_text fmt str
+          Format.pp_print_string fmt str
     end
 
 and html_to_odoc ?(indent = 2) ?(start_indent = 4) html =
   let buffer = Buffer.create (String.length html) in
   let fmt = Format.formatter_of_buffer buffer in
-  Format.pp_open_vbox fmt start_indent;
+  Format.pp_set_geometry ~max_indent:80 ~margin:100 fmt;
+  if start_indent > 0 then Format.pp_open_vbox fmt start_indent;
   Format.pp_print_break fmt 0 0;
   html |> html_to_tree |> transform ~ctx:(context ~fmt ~indent ~list_type:Undefined ());
+  Format.pp_close_box fmt ();
   Format.pp_print_flush fmt ();
   buffer |> Buffer.to_bytes |> String.of_bytes

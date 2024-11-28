@@ -797,15 +797,6 @@ val make_evaluation_result_identifier :
   unit
 -> evaluation_result_identifier
 
-val make_conformance_pack_evaluation_result :
-  ?annotation:string ->
-  result_recorded_time:float ->
-  config_rule_invoked_time:float ->
-  evaluation_result_identifier:evaluation_result_identifier ->
-  compliance_type:conformance_pack_compliance_type ->
-  unit
--> conformance_pack_evaluation_result
-
 val make_get_conformance_pack_compliance_details_response :
   ?next_token:string ->
   ?conformance_pack_rule_evaluation_results:conformance_pack_evaluation_result list ->
@@ -855,16 +846,6 @@ val make_get_compliance_summary_by_resource_type_request :
 val make_get_compliance_summary_by_config_rule_response :
   ?compliance_summary:compliance_summary -> unit
 -> get_compliance_summary_by_config_rule_response
-
-val make_evaluation_result :
-  ?result_token:string ->
-  ?annotation:string ->
-  ?config_rule_invoked_time:float ->
-  ?result_recorded_time:float ->
-  ?compliance_type:compliance_type ->
-  ?evaluation_result_identifier:evaluation_result_identifier ->
-  unit
--> evaluation_result
 
 val make_get_compliance_details_by_resource_response :
   ?next_token:string -> ?evaluation_results:evaluation_result list -> unit
@@ -984,17 +965,6 @@ val make_get_aggregate_config_rule_compliance_summary_request :
   configuration_aggregator_name:string ->
   unit
 -> get_aggregate_config_rule_compliance_summary_request
-
-val make_aggregate_evaluation_result :
-  ?aws_region:string ->
-  ?account_id:string ->
-  ?annotation:string ->
-  ?config_rule_invoked_time:float ->
-  ?result_recorded_time:float ->
-  ?compliance_type:compliance_type ->
-  ?evaluation_result_identifier:evaluation_result_identifier ->
-  unit
--> aggregate_evaluation_result
 
 val make_get_aggregate_compliance_details_by_config_rule_response :
   ?next_token:string ->

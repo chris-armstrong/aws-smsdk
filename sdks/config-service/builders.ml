@@ -1114,20 +1114,6 @@ let make_evaluation_result_identifier
   resource_evaluation_id; ordering_timestamp; evaluation_result_qualifier; 
 }
 
-let make_conformance_pack_evaluation_result 
-  ?(annotation : string option)
-  ~(result_recorded_time : float)
-  ~(config_rule_invoked_time : float)
-  ~(evaluation_result_identifier : evaluation_result_identifier)
-  ~(compliance_type : conformance_pack_compliance_type)
-  () : conformance_pack_evaluation_result = {
-  annotation;
-  result_recorded_time;
-  config_rule_invoked_time;
-  evaluation_result_identifier;
-  compliance_type;
-   }
-
 let make_get_conformance_pack_compliance_details_response 
   ?(next_token : string option)
   ?(conformance_pack_rule_evaluation_results : conformance_pack_evaluation_result list option)
@@ -1193,22 +1179,6 @@ let make_get_compliance_summary_by_config_rule_response
   ?(compliance_summary : compliance_summary option) ()
 : get_compliance_summary_by_config_rule_response = { compliance_summary; 
 }
-
-let make_evaluation_result 
-  ?(result_token : string option)
-  ?(annotation : string option)
-  ?(config_rule_invoked_time : float option)
-  ?(result_recorded_time : float option)
-  ?(compliance_type : compliance_type option)
-  ?(evaluation_result_identifier : evaluation_result_identifier option)
-  () : evaluation_result = {
-  result_token;
-  annotation;
-  config_rule_invoked_time;
-  result_recorded_time;
-  compliance_type;
-  evaluation_result_identifier;
-   }
 
 let make_get_compliance_details_by_resource_response 
   ?(next_token : string option)
@@ -1359,24 +1329,6 @@ let make_get_aggregate_config_rule_compliance_summary_request
   () : get_aggregate_config_rule_compliance_summary_request = {
   next_token; limit; group_by_key; filters; configuration_aggregator_name; 
 }
-
-let make_aggregate_evaluation_result 
-  ?(aws_region : string option)
-  ?(account_id : string option)
-  ?(annotation : string option)
-  ?(config_rule_invoked_time : float option)
-  ?(result_recorded_time : float option)
-  ?(compliance_type : compliance_type option)
-  ?(evaluation_result_identifier : evaluation_result_identifier option)
-  () : aggregate_evaluation_result = {
-  aws_region;
-  account_id;
-  annotation;
-  config_rule_invoked_time;
-  result_recorded_time;
-  compliance_type;
-  evaluation_result_identifier;
-   }
 
 let make_get_aggregate_compliance_details_by_config_rule_response 
   ?(next_token : string option)

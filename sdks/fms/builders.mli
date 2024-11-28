@@ -665,12 +665,6 @@ val make_policy_summary :
   ?policy_arn:string ->
   unit -> policy_summary
 
-val make_evaluation_result :
-  ?evaluation_limit_exceeded:bool ->
-  ?violator_count:int ->
-  ?compliance_status:policy_compliance_status_type ->
-  unit -> evaluation_result
-
 val make_policy_compliance_status :
   ?issue_info_map:(string * string) list ->
   ?last_updated:float ->

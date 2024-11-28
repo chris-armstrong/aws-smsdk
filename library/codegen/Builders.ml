@@ -51,7 +51,8 @@ let structure_shapes_without_exceptions shapeWithTarget =
   |> List.filter_map (fun { name; descriptor; _ } ->
          match descriptor with
          | StructureShape structureShapeDetails
-           when not Trait.(hasTrait structureShapeDetails.traits isErrorTrait) ->
+           when (not Trait.(hasTrait structureShapeDetails.traits isErrorTrait))
+                && not (String.ends_with ~suffix:"Result" name) ->
              Some (name, structureShapeDetails)
          | _ -> None)
 

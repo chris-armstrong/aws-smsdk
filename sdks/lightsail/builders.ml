@@ -72,11 +72,6 @@ let make_operation
   id;
    }
 
-let make_update_relational_database_result 
-  ?(operations : operation list option) ()
-: update_relational_database_result = { operations; 
-}
-
 let make_update_relational_database_request 
   ?(relational_database_blueprint_id : string option)
   ?(ca_certificate_identifier : string option)
@@ -102,11 +97,6 @@ let make_update_relational_database_request
   master_user_password;
   relational_database_name;
    }
-
-let make_update_relational_database_parameters_result 
-  ?(operations : operation list option) ()
-: update_relational_database_parameters_result = { operations; 
-}
 
 let make_relational_database_parameter 
   ?(parameter_value : string option)
@@ -135,22 +125,12 @@ let make_update_relational_database_parameters_request
   parameters; relational_database_name; 
 }
 
-let make_update_load_balancer_attribute_result 
-  ?(operations : operation list option) ()
-: update_load_balancer_attribute_result = { operations; 
-}
-
 let make_update_load_balancer_attribute_request 
   ~(attribute_value : string)
   ~(attribute_name : load_balancer_attribute_name)
   ~(load_balancer_name : string)
   () : update_load_balancer_attribute_request = {
   attribute_value; attribute_name; load_balancer_name; 
-}
-
-let make_update_instance_metadata_options_result 
-  ?(operation : operation option) ()
-: update_instance_metadata_options_result = { operation; 
 }
 
 let make_update_instance_metadata_options_request 
@@ -167,9 +147,6 @@ let make_update_instance_metadata_options_request
   instance_name;
    }
 
-let make_update_domain_entry_result  ?(operations : operation list option) ()
-: update_domain_entry_result = { operations;  }
-
 let make_domain_entry 
   ?(options : (string * string) list option)
   ?(type_ : string option)
@@ -184,9 +161,6 @@ let make_update_domain_entry_request
   ~(domain_entry : domain_entry) ~(domain_name : string) ()
 : update_domain_entry_request = { domain_entry; domain_name; 
 }
-
-let make_update_distribution_result  ?(operation : operation option) ()
-: update_distribution_result = { operation;  }
 
 let make_input_origin 
   ?(response_timeout : int option)
@@ -264,10 +238,6 @@ let make_update_distribution_request
   origin;
   distribution_name;
    }
-
-let make_update_distribution_bundle_result 
-  ?(operation : operation option) () : update_distribution_bundle_result = {
-  operation;  }
 
 let make_update_distribution_bundle_request 
   ?(bundle_id : string option) ?(distribution_name : string option) ()
@@ -377,11 +347,6 @@ let make_container_service
   container_service_name;
    }
 
-let make_update_container_service_result 
-  ?(container_service : container_service option) ()
-: update_container_service_result = { container_service; 
-}
-
 let make_container_service_ecr_image_puller_role_request 
   ?(is_active : bool option) ()
 : container_service_ecr_image_puller_role_request = { is_active; 
@@ -464,11 +429,6 @@ let make_bucket
   resource_type;
    }
 
-let make_update_bucket_result 
-  ?(operations : operation list option) ?(bucket : bucket option) ()
-: update_bucket_result = { operations; bucket; 
-}
-
 let make_update_bucket_request 
   ?(access_log_config : bucket_access_log_config option)
   ?(readonly_access_accounts : string list option)
@@ -483,17 +443,10 @@ let make_update_bucket_request
   bucket_name;
    }
 
-let make_update_bucket_bundle_result 
-  ?(operations : operation list option) () : update_bucket_bundle_result = {
-  operations;  }
-
 let make_update_bucket_bundle_request 
   ~(bundle_id : string) ~(bucket_name : string) ()
 : update_bucket_bundle_request = { bundle_id; bucket_name; 
 }
-
-let make_untag_resource_result  ?(operations : operation list option) ()
-: untag_resource_result = { operations;  }
 
 let make_untag_resource_request 
   ?(resource_arn : string option)
@@ -502,23 +455,14 @@ let make_untag_resource_request
   () : untag_resource_request = { tag_keys; resource_arn; resource_name; 
 }
 
-let make_unpeer_vpc_result  ?(operation : operation option) ()
-: unpeer_vpc_result = { operation;  }
-
 let make_unpeer_vpc_request  () : unpeer_vpc_request =
 ()
 
 let make_time_period  ?(end_ : float option) ?(start : float option) ()
 : time_period = { end_; start;  }
 
-let make_test_alarm_result  ?(operations : operation list option) ()
-: test_alarm_result = { operations;  }
-
 let make_test_alarm_request  ~(state : alarm_state) ~(alarm_name : string) ()
 : test_alarm_request = { state; alarm_name;  }
-
-let make_tag_resource_result  ?(operations : operation list option) ()
-: tag_resource_result = { operations;  }
 
 let make_tag_resource_request 
   ?(resource_arn : string option)
@@ -527,19 +471,12 @@ let make_tag_resource_request
   () : tag_resource_request = { tags; resource_arn; resource_name; 
 }
 
-let make_stop_relational_database_result 
-  ?(operations : operation list option) () : stop_relational_database_result
-= { operations;  }
-
 let make_stop_relational_database_request 
   ?(relational_database_snapshot_name : string option)
   ~(relational_database_name : string)
   () : stop_relational_database_request = {
   relational_database_snapshot_name; relational_database_name; 
 }
-
-let make_stop_instance_result  ?(operations : operation list option) ()
-: stop_instance_result = { operations;  }
 
 let make_stop_instance_request 
   ?(force : bool option) ~(instance_name : string) () : stop_instance_request
@@ -548,10 +485,6 @@ let make_stop_instance_request
 let make_stop_instance_on_idle_request 
   ?(duration : string option) ?(threshold : string option) ()
 : stop_instance_on_idle_request = { duration; threshold; 
-}
-
-let make_stop_gui_session_result  ?(operations : operation list option) ()
-: stop_gui_session_result = { operations; 
 }
 
 let make_stop_gui_session_request  ~(resource_name : string) ()
@@ -579,32 +512,17 @@ let make_static_ip
   name;
    }
 
-let make_start_relational_database_result 
-  ?(operations : operation list option) () : start_relational_database_result
-= { operations;  }
-
 let make_start_relational_database_request 
   ~(relational_database_name : string) () : start_relational_database_request
 = { relational_database_name;  }
-
-let make_start_instance_result  ?(operations : operation list option) ()
-: start_instance_result = { operations;  }
 
 let make_start_instance_request  ~(instance_name : string) ()
 : start_instance_request = { instance_name; 
 }
 
-let make_start_gui_session_result  ?(operations : operation list option) ()
-: start_gui_session_result = { operations; 
-}
-
 let make_start_gui_session_request  ~(resource_name : string) ()
 : start_gui_session_request = { resource_name; 
 }
-
-let make_setup_instance_https_result 
-  ?(operations : operation list option) () : setup_instance_https_result = {
-  operations;  }
 
 let make_setup_instance_https_request 
   ~(certificate_provider : certificate_provider)
@@ -615,21 +533,12 @@ let make_setup_instance_https_request
   certificate_provider; domain_names; email_address; instance_name; 
 }
 
-let make_set_resource_access_for_bucket_result 
-  ?(operations : operation list option) ()
-: set_resource_access_for_bucket_result = { operations; 
-}
-
 let make_set_resource_access_for_bucket_request 
   ~(access : resource_bucket_access)
   ~(bucket_name : string)
   ~(resource_name : string)
   () : set_resource_access_for_bucket_request = {
   access; bucket_name; resource_name;  }
-
-let make_set_ip_address_type_result  ?(operations : operation list option) ()
-: set_ip_address_type_result = { operations; 
-}
 
 let make_set_ip_address_type_request 
   ?(accept_bundle_update : bool option)
@@ -645,11 +554,6 @@ let make_session
   ?(url : string option)
   ?(name : string option)
   () : session = { is_primary; url; name; 
-}
-
-let make_send_contact_method_verification_result 
-  ?(operations : operation list option) ()
-: send_contact_method_verification_result = { operations; 
 }
 
 let make_send_contact_method_verification_request 
@@ -690,13 +594,6 @@ let make_resource_record
   () : resource_record = { value; type_; name; 
 }
 
-let make_reset_distribution_cache_result 
-  ?(operation : operation option)
-  ?(create_time : float option)
-  ?(status : string option)
-  () : reset_distribution_cache_result = { operation; create_time; status; 
-}
-
 let make_reset_distribution_cache_request 
   ?(distribution_name : string option) () : reset_distribution_cache_request
 = { distribution_name;  }
@@ -727,10 +624,6 @@ let make_renewal_summary
   renewal_status;
   domain_validation_records;
    }
-
-let make_release_static_ip_result  ?(operations : operation list option) ()
-: release_static_ip_result = { operations; 
-}
 
 let make_release_static_ip_request  ~(static_ip_name : string) ()
 : release_static_ip_request = { static_ip_name; 
@@ -927,11 +820,6 @@ let make_container_image
   () : container_image = { created_at; digest; image; 
 }
 
-let make_register_container_image_result 
-  ?(container_image : container_image option) ()
-: register_container_image_result = { container_image; 
-}
-
 let make_register_container_image_request 
   ~(digest : string) ~(label : string) ~(service_name : string) ()
 : register_container_image_request = { digest; label; service_name; 
@@ -957,25 +845,13 @@ let make_region
   continent_code;
    }
 
-let make_reboot_relational_database_result 
-  ?(operations : operation list option) ()
-: reboot_relational_database_result = { operations; 
-}
-
 let make_reboot_relational_database_request 
   ~(relational_database_name : string) ()
 : reboot_relational_database_request = { relational_database_name; 
 }
 
-let make_reboot_instance_result  ?(operations : operation list option) ()
-: reboot_instance_result = { operations;  }
-
 let make_reboot_instance_request  ~(instance_name : string) ()
-: reboot_instance_request = { instance_name; 
-}
-
-let make_put_instance_public_ports_result  ?(operation : operation option) ()
-: put_instance_public_ports_result = { operation;  }
+: reboot_instance_request = { instance_name;  }
 
 let make_port_info 
   ?(cidr_list_aliases : string list option)
@@ -992,9 +868,6 @@ let make_put_instance_public_ports_request
   ~(instance_name : string) ~(port_infos : port_info list) ()
 : put_instance_public_ports_request = { instance_name; port_infos; 
 }
-
-let make_put_alarm_result  ?(operations : operation list option) ()
-: put_alarm_result = { operations;  }
 
 let make_put_alarm_request 
   ?(notification_enabled : bool option)
@@ -1022,9 +895,6 @@ let make_put_alarm_request
   alarm_name;
    }
 
-let make_peer_vpc_result  ?(operation : operation option) ()
-: peer_vpc_result = { operation;  }
-
 let make_peer_vpc_request  () : peer_vpc_request = ()
 
 let make_password_data 
@@ -1040,10 +910,6 @@ let make_origin
   () : origin = {
   response_timeout; protocol_policy; region_name; resource_type; name; 
 }
-
-let make_open_instance_public_ports_result 
-  ?(operation : operation option) () : open_instance_public_ports_result = {
-  operation;  }
 
 let make_open_instance_public_ports_request 
   ~(instance_name : string) ~(port_info : port_info) ()
@@ -1233,39 +1099,19 @@ let make_load_balancer
   name;
    }
 
-let make_is_vpc_peered_result  ?(is_peered : bool option) ()
-: is_vpc_peered_result = { is_peered;  }
-
 let make_is_vpc_peered_request  () : is_vpc_peered_request =
 ()
-
-let make_import_key_pair_result  ?(operation : operation option) ()
-: import_key_pair_result = { operation;  }
 
 let make_import_key_pair_request 
   ~(public_key_base64 : string) ~(key_pair_name : string) ()
 : import_key_pair_request = { public_key_base64; key_pair_name; 
 }
 
-let make_get_static_ips_result 
-  ?(next_page_token : string option) ?(static_ips : static_ip list option) ()
-: get_static_ips_result = { next_page_token; static_ips; 
-}
-
 let make_get_static_ips_request  ?(page_token : string option) ()
 : get_static_ips_request = { page_token;  }
 
-let make_get_static_ip_result  ?(static_ip : static_ip option) ()
-: get_static_ip_result = { static_ip;  }
-
 let make_get_static_ip_request  ~(static_ip_name : string) ()
 : get_static_ip_request = { static_ip_name; 
-}
-
-let make_get_setup_history_result 
-  ?(next_page_token : string option)
-  ?(setup_history : setup_history list option)
-  () : get_setup_history_result = { next_page_token; setup_history; 
 }
 
 let make_get_setup_history_request 
@@ -1273,21 +1119,9 @@ let make_get_setup_history_request
 : get_setup_history_request = { page_token; resource_name; 
 }
 
-let make_get_relational_database_snapshots_result 
-  ?(next_page_token : string option)
-  ?(relational_database_snapshots : relational_database_snapshot list option)
-  () : get_relational_database_snapshots_result = {
-  next_page_token; relational_database_snapshots; 
-}
-
 let make_get_relational_database_snapshots_request 
   ?(page_token : string option) ()
 : get_relational_database_snapshots_request = { page_token; 
-}
-
-let make_get_relational_database_snapshot_result 
-  ?(relational_database_snapshot : relational_database_snapshot option) ()
-: get_relational_database_snapshot_result = { relational_database_snapshot; 
 }
 
 let make_get_relational_database_snapshot_request 
@@ -1296,35 +1130,14 @@ let make_get_relational_database_snapshot_request
   relational_database_snapshot_name; 
 }
 
-let make_get_relational_databases_result 
-  ?(next_page_token : string option)
-  ?(relational_databases : relational_database list option)
-  () : get_relational_databases_result = {
-  next_page_token; relational_databases; 
-}
-
 let make_get_relational_databases_request  ?(page_token : string option) ()
 : get_relational_databases_request = { page_token; 
-}
-
-let make_get_relational_database_parameters_result 
-  ?(next_page_token : string option)
-  ?(parameters : relational_database_parameter list option)
-  () : get_relational_database_parameters_result = {
-  next_page_token; parameters; 
 }
 
 let make_get_relational_database_parameters_request 
   ?(page_token : string option) ~(relational_database_name : string) ()
 : get_relational_database_parameters_request = {
   page_token; relational_database_name; 
-}
-
-let make_get_relational_database_metric_data_result 
-  ?(metric_data : metric_datapoint list option)
-  ?(metric_name : relational_database_metric_name option)
-  () : get_relational_database_metric_data_result = {
-  metric_data; metric_name; 
 }
 
 let make_get_relational_database_metric_data_request 
@@ -1345,12 +1158,6 @@ let make_get_relational_database_metric_data_request
   relational_database_name;
    }
 
-let make_get_relational_database_master_user_password_result 
-  ?(created_at : float option) ?(master_user_password : string option) ()
-: get_relational_database_master_user_password_result = {
-  created_at; master_user_password; 
-}
-
 let make_get_relational_database_master_user_password_request 
   ?(password_version : relational_database_password_version option)
   ~(relational_database_name : string)
@@ -1358,22 +1165,9 @@ let make_get_relational_database_master_user_password_request
   password_version; relational_database_name; 
 }
 
-let make_get_relational_database_log_streams_result 
-  ?(log_streams : string list option) ()
-: get_relational_database_log_streams_result = { log_streams; 
-}
-
 let make_get_relational_database_log_streams_request 
   ~(relational_database_name : string) ()
 : get_relational_database_log_streams_request = { relational_database_name; 
-}
-
-let make_get_relational_database_log_events_result 
-  ?(next_forward_token : string option)
-  ?(next_backward_token : string option)
-  ?(resource_log_events : log_event list option)
-  () : get_relational_database_log_events_result = {
-  next_forward_token; next_backward_token; resource_log_events; 
 }
 
 let make_get_relational_database_log_events_request 
@@ -1392,13 +1186,6 @@ let make_get_relational_database_log_events_request
   relational_database_name;
    }
 
-let make_get_relational_database_events_result 
-  ?(next_page_token : string option)
-  ?(relational_database_events : relational_database_event list option)
-  () : get_relational_database_events_result = {
-  next_page_token; relational_database_events; 
-}
-
 let make_get_relational_database_events_request 
   ?(page_token : string option)
   ?(duration_in_minutes : int option)
@@ -1407,22 +1194,9 @@ let make_get_relational_database_events_request
   page_token; duration_in_minutes; relational_database_name; 
 }
 
-let make_get_relational_database_bundles_result 
-  ?(next_page_token : string option)
-  ?(bundles : relational_database_bundle list option)
-  () : get_relational_database_bundles_result = { next_page_token; bundles; 
-}
-
 let make_get_relational_database_bundles_request 
   ?(include_inactive : bool option) ?(page_token : string option) ()
 : get_relational_database_bundles_request = { include_inactive; page_token; 
-}
-
-let make_get_relational_database_blueprints_result 
-  ?(next_page_token : string option)
-  ?(blueprints : relational_database_blueprint list option)
-  () : get_relational_database_blueprints_result = {
-  next_page_token; blueprints; 
 }
 
 let make_get_relational_database_blueprints_request 
@@ -1430,17 +1204,9 @@ let make_get_relational_database_blueprints_request
 : get_relational_database_blueprints_request = { page_token; 
 }
 
-let make_get_relational_database_result 
-  ?(relational_database : relational_database option) ()
-: get_relational_database_result = { relational_database; 
-}
-
 let make_get_relational_database_request 
   ~(relational_database_name : string) () : get_relational_database_request =
 { relational_database_name;  }
-
-let make_get_regions_result  ?(regions : region list option) ()
-: get_regions_result = { regions;  }
 
 let make_get_regions_request 
   ?(include_relational_database_availability_zones : bool option)
@@ -1449,69 +1215,29 @@ let make_get_regions_request
   include_relational_database_availability_zones; include_availability_zones; 
 }
 
-let make_get_operations_for_resource_result 
-  ?(next_page_token : string option)
-  ?(next_page_count : string option)
-  ?(operations : operation list option)
-  () : get_operations_for_resource_result = {
-  next_page_token; next_page_count; operations; 
-}
-
 let make_get_operations_for_resource_request 
   ?(page_token : string option) ~(resource_name : string) ()
 : get_operations_for_resource_request = { page_token; resource_name; 
 }
 
-let make_get_operations_result 
-  ?(next_page_token : string option) ?(operations : operation list option) ()
-: get_operations_result = { next_page_token; operations; 
-}
-
 let make_get_operations_request  ?(page_token : string option) ()
 : get_operations_request = { page_token;  }
 
-let make_get_operation_result  ?(operation : operation option) ()
-: get_operation_result = { operation;  }
-
 let make_get_operation_request  ~(operation_id : string) ()
 : get_operation_request = { operation_id; 
-}
-
-let make_get_load_balancer_tls_policies_result 
-  ?(next_page_token : string option)
-  ?(tls_policies : load_balancer_tls_policy list option)
-  () : get_load_balancer_tls_policies_result = {
-  next_page_token; tls_policies; 
 }
 
 let make_get_load_balancer_tls_policies_request 
   ?(page_token : string option) () : get_load_balancer_tls_policies_request =
 { page_token;  }
 
-let make_get_load_balancer_tls_certificates_result 
-  ?(tls_certificates : load_balancer_tls_certificate list option) ()
-: get_load_balancer_tls_certificates_result = { tls_certificates; 
-}
-
 let make_get_load_balancer_tls_certificates_request 
   ~(load_balancer_name : string) ()
 : get_load_balancer_tls_certificates_request = { load_balancer_name; 
 }
 
-let make_get_load_balancers_result 
-  ?(next_page_token : string option)
-  ?(load_balancers : load_balancer list option)
-  () : get_load_balancers_result = { next_page_token; load_balancers; 
-}
-
 let make_get_load_balancers_request  ?(page_token : string option) ()
 : get_load_balancers_request = { page_token; 
-}
-
-let make_get_load_balancer_metric_data_result 
-  ?(metric_data : metric_datapoint list option)
-  ?(metric_name : load_balancer_metric_name option)
-  () : get_load_balancer_metric_data_result = { metric_data; metric_name; 
 }
 
 let make_get_load_balancer_metric_data_request 
@@ -1531,10 +1257,6 @@ let make_get_load_balancer_metric_data_request
   metric_name;
   load_balancer_name;
    }
-
-let make_get_load_balancer_result  ?(load_balancer : load_balancer option) ()
-: get_load_balancer_result = { load_balancer; 
-}
 
 let make_get_load_balancer_request  ~(load_balancer_name : string) ()
 : get_load_balancer_request = { load_balancer_name;  }
@@ -1559,27 +1281,16 @@ let make_key_pair
   name;
    }
 
-let make_get_key_pairs_result 
-  ?(next_page_token : string option) ?(key_pairs : key_pair list option) ()
-: get_key_pairs_result = { next_page_token; key_pairs; 
-}
-
 let make_get_key_pairs_request 
   ?(include_default_key_pair : bool option) ?(page_token : string option) ()
 : get_key_pairs_request = { include_default_key_pair; page_token; 
 }
-
-let make_get_key_pair_result  ?(key_pair : key_pair option) ()
-: get_key_pair_result = { key_pair;  }
 
 let make_get_key_pair_request  ~(key_pair_name : string) ()
 : get_key_pair_request = { key_pair_name;  }
 
 let make_instance_state  ?(name : string option) ?(code : int option) ()
 : instance_state = { name; code;  }
-
-let make_get_instance_state_result  ?(state : instance_state option) ()
-: get_instance_state_result = { state;  }
 
 let make_get_instance_state_request  ~(instance_name : string) ()
 : get_instance_state_request = { instance_name;  }
@@ -1676,20 +1387,8 @@ let make_instance_snapshot
   name;
    }
 
-let make_get_instance_snapshots_result 
-  ?(next_page_token : string option)
-  ?(instance_snapshots : instance_snapshot list option)
-  () : get_instance_snapshots_result = {
-  next_page_token; instance_snapshots; 
-}
-
 let make_get_instance_snapshots_request  ?(page_token : string option) ()
 : get_instance_snapshots_request = { page_token; 
-}
-
-let make_get_instance_snapshot_result 
-  ?(instance_snapshot : instance_snapshot option) ()
-: get_instance_snapshot_result = { instance_snapshot; 
 }
 
 let make_get_instance_snapshot_request  ~(instance_snapshot_name : string) ()
@@ -1795,11 +1494,6 @@ let make_instance
   name;
    }
 
-let make_get_instances_result 
-  ?(next_page_token : string option) ?(instances : instance list option) ()
-: get_instances_result = { next_page_token; instances; 
-}
-
 let make_get_instances_request  ?(page_token : string option) ()
 : get_instances_request = { page_token;  }
 
@@ -1815,19 +1509,8 @@ let make_instance_port_state
   cidr_list_aliases; ipv6_cidrs; cidrs; state; protocol; to_port; from_port; 
 }
 
-let make_get_instance_port_states_result 
-  ?(port_states : instance_port_state list option) ()
-: get_instance_port_states_result = { port_states; 
-}
-
 let make_get_instance_port_states_request  ~(instance_name : string) ()
 : get_instance_port_states_request = { instance_name; 
-}
-
-let make_get_instance_metric_data_result 
-  ?(metric_data : metric_datapoint list option)
-  ?(metric_name : instance_metric_name option)
-  () : get_instance_metric_data_result = { metric_data; metric_name; 
 }
 
 let make_get_instance_metric_data_request 
@@ -1892,18 +1575,10 @@ let make_instance_access_details
   cert_key;
    }
 
-let make_get_instance_access_details_result 
-  ?(access_details : instance_access_details option) ()
-: get_instance_access_details_result = { access_details; 
-}
-
 let make_get_instance_access_details_request 
   ?(protocol : instance_access_protocol option) ~(instance_name : string) ()
 : get_instance_access_details_request = { protocol; instance_name; 
 }
-
-let make_get_instance_result  ?(instance : instance option) ()
-: get_instance_result = { instance;  }
 
 let make_get_instance_request  ~(instance_name : string) ()
 : get_instance_request = { instance_name;  }
@@ -1972,13 +1647,6 @@ let make_export_snapshot_record
   name;
    }
 
-let make_get_export_snapshot_records_result 
-  ?(next_page_token : string option)
-  ?(export_snapshot_records : export_snapshot_record list option)
-  () : get_export_snapshot_records_result = {
-  next_page_token; export_snapshot_records; 
-}
-
 let make_get_export_snapshot_records_request 
   ?(page_token : string option) () : get_export_snapshot_records_request = {
   page_token;  }
@@ -2005,16 +1673,8 @@ let make_domain
   name;
    }
 
-let make_get_domains_result 
-  ?(next_page_token : string option) ?(domains : domain list option) ()
-: get_domains_result = { next_page_token; domains; 
-}
-
 let make_get_domains_request  ?(page_token : string option) ()
 : get_domains_request = { page_token;  }
-
-let make_get_domain_result  ?(domain : domain option) () : get_domain_result
-= { domain;  }
 
 let make_get_domain_request  ~(domain_name : string) () : get_domain_request
 = { domain_name;  }
@@ -2065,21 +1725,9 @@ let make_lightsail_distribution
   name;
    }
 
-let make_get_distributions_result 
-  ?(next_page_token : string option)
-  ?(distributions : lightsail_distribution list option)
-  () : get_distributions_result = { next_page_token; distributions; 
-}
-
 let make_get_distributions_request 
   ?(page_token : string option) ?(distribution_name : string option) ()
 : get_distributions_request = { page_token; distribution_name; 
-}
-
-let make_get_distribution_metric_data_result 
-  ?(metric_data : metric_datapoint list option)
-  ?(metric_name : distribution_metric_name option)
-  () : get_distribution_metric_data_result = { metric_data; metric_name; 
 }
 
 let make_get_distribution_metric_data_request 
@@ -2100,11 +1748,6 @@ let make_get_distribution_metric_data_request
   distribution_name;
    }
 
-let make_get_distribution_latest_cache_reset_result 
-  ?(create_time : float option) ?(status : string option) ()
-: get_distribution_latest_cache_reset_result = { create_time; status; 
-}
-
 let make_get_distribution_latest_cache_reset_request 
   ?(distribution_name : string option) ()
 : get_distribution_latest_cache_reset_request = { distribution_name; 
@@ -2118,11 +1761,6 @@ let make_distribution_bundle
   ?(bundle_id : string option)
   () : distribution_bundle = {
   is_active; transfer_per_month_in_gb; price; name; bundle_id; 
-}
-
-let make_get_distribution_bundles_result 
-  ?(bundles : distribution_bundle list option) ()
-: get_distribution_bundles_result = { bundles; 
 }
 
 let make_get_distribution_bundles_request  ()
@@ -2162,50 +1800,23 @@ let make_disk_snapshot
   name;
    }
 
-let make_get_disk_snapshots_result 
-  ?(next_page_token : string option)
-  ?(disk_snapshots : disk_snapshot list option)
-  () : get_disk_snapshots_result = { next_page_token; disk_snapshots; 
-}
-
 let make_get_disk_snapshots_request  ?(page_token : string option) ()
 : get_disk_snapshots_request = { page_token; 
-}
-
-let make_get_disk_snapshot_result  ?(disk_snapshot : disk_snapshot option) ()
-: get_disk_snapshot_result = { disk_snapshot; 
 }
 
 let make_get_disk_snapshot_request  ~(disk_snapshot_name : string) ()
 : get_disk_snapshot_request = { disk_snapshot_name; 
 }
 
-let make_get_disks_result 
-  ?(next_page_token : string option) ?(disks : disk list option) ()
-: get_disks_result = { next_page_token; disks;  }
-
 let make_get_disks_request  ?(page_token : string option) ()
 : get_disks_request = { page_token;  }
-
-let make_get_disk_result  ?(disk : disk option) () : get_disk_result = {
-  disk;  }
 
 let make_get_disk_request  ~(disk_name : string) () : get_disk_request = {
   disk_name;  }
 
-let make_get_cost_estimate_result 
-  ?(resources_budget_estimate : resource_budget_estimate list option) ()
-: get_cost_estimate_result = { resources_budget_estimate; 
-}
-
 let make_get_cost_estimate_request 
   ~(end_time : float) ~(start_time : float) ~(resource_name : string) ()
 : get_cost_estimate_request = { end_time; start_time; resource_name; 
-}
-
-let make_container_services_list_result 
-  ?(container_services : container_service list option) ()
-: container_services_list_result = { container_services; 
 }
 
 let make_get_container_services_request  ?(service_name : string option) ()
@@ -2223,21 +1834,9 @@ let make_container_service_power
   is_active; name; ram_size_in_gb; cpu_count; price; power_id; 
 }
 
-let make_get_container_service_powers_result 
-  ?(powers : container_service_power list option) ()
-: get_container_service_powers_result = { powers; 
-}
-
 let make_get_container_service_powers_request  ()
 : get_container_service_powers_request =
 ()
-
-let make_get_container_service_metric_data_result 
-  ?(metric_data : metric_datapoint list option)
-  ?(metric_name : container_service_metric_name option)
-  () : get_container_service_metric_data_result = {
-  metric_data; metric_name; 
-}
 
 let make_get_container_service_metric_data_request 
   ~(statistics : metric_statistic list)
@@ -2250,11 +1849,6 @@ let make_get_container_service_metric_data_request
   statistics; period; end_time; start_time; metric_name; service_name; 
 }
 
-let make_get_container_service_deployments_result 
-  ?(deployments : container_service_deployment list option) ()
-: get_container_service_deployments_result = { deployments; 
-}
-
 let make_get_container_service_deployments_request 
   ~(service_name : string) () : get_container_service_deployments_request = {
   service_name;  }
@@ -2262,12 +1856,6 @@ let make_get_container_service_deployments_request
 let make_container_service_log_event 
   ?(message : string option) ?(created_at : float option) ()
 : container_service_log_event = { message; created_at; 
-}
-
-let make_get_container_log_result 
-  ?(next_page_token : string option)
-  ?(log_events : container_service_log_event list option)
-  () : get_container_log_result = { next_page_token; log_events; 
 }
 
 let make_get_container_log_request 
@@ -2286,18 +1874,8 @@ let make_get_container_log_request
   service_name;
    }
 
-let make_get_container_images_result 
-  ?(container_images : container_image list option) ()
-: get_container_images_result = { container_images; 
-}
-
 let make_get_container_images_request  ~(service_name : string) ()
 : get_container_images_request = { service_name; 
-}
-
-let make_get_container_api_metadata_result 
-  ?(metadata : (string * string) list list option) ()
-: get_container_api_metadata_result = { metadata; 
 }
 
 let make_get_container_api_metadata_request  ()
@@ -2324,11 +1902,6 @@ let make_contact_method
   status;
   contact_endpoint;
    }
-
-let make_get_contact_methods_result 
-  ?(contact_methods : contact_method list option) ()
-: get_contact_methods_result = { contact_methods; 
-}
 
 let make_get_contact_methods_request 
   ?(protocols : contact_protocol list option) ()
@@ -2361,13 +1934,6 @@ let make_cloud_formation_stack_record
   arn;
   name;
    }
-
-let make_get_cloud_formation_stack_records_result 
-  ?(next_page_token : string option)
-  ?(cloud_formation_stack_records : cloud_formation_stack_record list option)
-  () : get_cloud_formation_stack_records_result = {
-  next_page_token; cloud_formation_stack_records; 
-}
 
 let make_get_cloud_formation_stack_records_request 
   ?(page_token : string option) ()
@@ -2430,12 +1996,6 @@ let make_certificate_summary
   tags; certificate_detail; domain_name; certificate_name; certificate_arn; 
 }
 
-let make_get_certificates_result 
-  ?(next_page_token : string option)
-  ?(certificates : certificate_summary list option)
-  () : get_certificates_result = { next_page_token; certificates; 
-}
-
 let make_get_certificates_request 
   ?(page_token : string option)
   ?(certificate_name : string option)
@@ -2478,11 +2038,6 @@ let make_bundle
   price;
    }
 
-let make_get_bundles_result 
-  ?(next_page_token : string option) ?(bundles : bundle list option) ()
-: get_bundles_result = { next_page_token; bundles; 
-}
-
 let make_get_bundles_request 
   ?(app_category : app_category option)
   ?(page_token : string option)
@@ -2499,26 +2054,12 @@ let make_account_level_bpa_sync
   bpa_impacts_lightsail; message; last_synced_at; status; 
 }
 
-let make_get_buckets_result 
-  ?(account_level_bpa_sync : account_level_bpa_sync option)
-  ?(next_page_token : string option)
-  ?(buckets : bucket list option)
-  () : get_buckets_result = {
-  account_level_bpa_sync; next_page_token; buckets; 
-}
-
 let make_get_buckets_request 
   ?(include_connected_resources : bool option)
   ?(page_token : string option)
   ?(bucket_name : string option)
   () : get_buckets_request = {
   include_connected_resources; page_token; bucket_name; 
-}
-
-let make_get_bucket_metric_data_result 
-  ?(metric_data : metric_datapoint list option)
-  ?(metric_name : bucket_metric_name option)
-  () : get_bucket_metric_data_result = { metric_data; metric_name; 
 }
 
 let make_get_bucket_metric_data_request 
@@ -2549,10 +2090,6 @@ let make_bucket_bundle
   bundle_id;
    }
 
-let make_get_bucket_bundles_result  ?(bundles : bucket_bundle list option) ()
-: get_bucket_bundles_result = { bundles; 
-}
-
 let make_get_bucket_bundles_request  ?(include_inactive : bool option) ()
 : get_bucket_bundles_request = { include_inactive; 
 }
@@ -2573,10 +2110,6 @@ let make_access_key
   () : access_key = {
   last_used; created_at; status; secret_access_key; access_key_id; 
 }
-
-let make_get_bucket_access_keys_result 
-  ?(access_keys : access_key list option) () : get_bucket_access_keys_result
-= { access_keys;  }
 
 let make_get_bucket_access_keys_request  ~(bucket_name : string) ()
 : get_bucket_access_keys_request = { bucket_name;  }
@@ -2611,11 +2144,6 @@ let make_blueprint
   blueprint_id;
    }
 
-let make_get_blueprints_result 
-  ?(next_page_token : string option) ?(blueprints : blueprint list option) ()
-: get_blueprints_result = { next_page_token; blueprints; 
-}
-
 let make_get_blueprints_request 
   ?(app_category : app_category option)
   ?(page_token : string option)
@@ -2633,14 +2161,6 @@ let make_auto_snapshot_details
   ?(date : string option)
   () : auto_snapshot_details = {
   from_attached_disks; status; created_at; date; 
-}
-
-let make_get_auto_snapshots_result 
-  ?(auto_snapshots : auto_snapshot_details list option)
-  ?(resource_type : resource_type option)
-  ?(resource_name : string option)
-  () : get_auto_snapshots_result = {
-  auto_snapshots; resource_type; resource_name; 
 }
 
 let make_get_auto_snapshots_request  ~(resource_name : string) ()
@@ -2690,11 +2210,6 @@ let make_alarm
   name;
    }
 
-let make_get_alarms_result 
-  ?(next_page_token : string option) ?(alarms : alarm list option) ()
-: get_alarms_result = { next_page_token; alarms; 
-}
-
 let make_get_alarms_request 
   ?(monitored_resource_name : string option)
   ?(page_token : string option)
@@ -2703,23 +2218,12 @@ let make_get_alarms_request
   monitored_resource_name; page_token; alarm_name; 
 }
 
-let make_get_active_names_result 
-  ?(next_page_token : string option) ?(active_names : string list option) ()
-: get_active_names_result = { next_page_token; active_names; 
-}
-
 let make_get_active_names_request  ?(page_token : string option) ()
-: get_active_names_request = { page_token;  }
-
-let make_export_snapshot_result  ?(operations : operation list option) ()
-: export_snapshot_result = { operations;  }
+: get_active_names_request = { page_token; 
+}
 
 let make_export_snapshot_request  ~(source_snapshot_name : string) ()
 : export_snapshot_request = { source_snapshot_name; 
-}
-
-let make_enable_add_on_result  ?(operations : operation list option) ()
-: enable_add_on_result = { operations; 
 }
 
 let make_auto_snapshot_add_on_request 
@@ -2739,36 +2243,16 @@ let make_enable_add_on_request
 : enable_add_on_request = { add_on_request; resource_name; 
 }
 
-let make_download_default_key_pair_result 
-  ?(created_at : float option)
-  ?(private_key_base64 : string option)
-  ?(public_key_base64 : string option)
-  () : download_default_key_pair_result = {
-  created_at; private_key_base64; public_key_base64; 
-}
-
 let make_download_default_key_pair_request  ()
 : download_default_key_pair_request = ()
-
-let make_disable_add_on_result  ?(operations : operation list option) ()
-: disable_add_on_result = { operations;  }
 
 let make_disable_add_on_request 
   ~(resource_name : string) ~(add_on_type : add_on_type) ()
 : disable_add_on_request = { resource_name; add_on_type; 
 }
 
-let make_detach_static_ip_result  ?(operations : operation list option) ()
-: detach_static_ip_result = { operations; 
-}
-
 let make_detach_static_ip_request  ~(static_ip_name : string) ()
 : detach_static_ip_request = { static_ip_name; 
-}
-
-let make_detach_instances_from_load_balancer_result 
-  ?(operations : operation list option) ()
-: detach_instances_from_load_balancer_result = { operations; 
 }
 
 let make_detach_instances_from_load_balancer_request 
@@ -2776,36 +2260,18 @@ let make_detach_instances_from_load_balancer_request
 : detach_instances_from_load_balancer_request = {
   instance_names; load_balancer_name;  }
 
-let make_detach_disk_result  ?(operations : operation list option) ()
-: detach_disk_result = { operations;  }
-
 let make_detach_disk_request  ~(disk_name : string) () : detach_disk_request
 = { disk_name;  }
-
-let make_detach_certificate_from_distribution_result 
-  ?(operation : operation option) ()
-: detach_certificate_from_distribution_result = { operation; 
-}
 
 let make_detach_certificate_from_distribution_request 
   ~(distribution_name : string) ()
 : detach_certificate_from_distribution_request = { distribution_name; 
 }
 
-let make_delete_relational_database_snapshot_result 
-  ?(operations : operation list option) ()
-: delete_relational_database_snapshot_result = { operations; 
-}
-
 let make_delete_relational_database_snapshot_request 
   ~(relational_database_snapshot_name : string) ()
 : delete_relational_database_snapshot_request = {
   relational_database_snapshot_name; 
-}
-
-let make_delete_relational_database_result 
-  ?(operations : operation list option) ()
-: delete_relational_database_result = { operations; 
 }
 
 let make_delete_relational_database_request 
@@ -2818,11 +2284,6 @@ let make_delete_relational_database_request
   relational_database_name;
    }
 
-let make_delete_load_balancer_tls_certificate_result 
-  ?(operations : operation list option) ()
-: delete_load_balancer_tls_certificate_result = { operations; 
-}
-
 let make_delete_load_balancer_tls_certificate_request 
   ?(force : bool option)
   ~(certificate_name : string)
@@ -2831,48 +2292,26 @@ let make_delete_load_balancer_tls_certificate_request
   force; certificate_name; load_balancer_name; 
 }
 
-let make_delete_load_balancer_result 
-  ?(operations : operation list option) () : delete_load_balancer_result = {
-  operations;  }
-
 let make_delete_load_balancer_request  ~(load_balancer_name : string) ()
 : delete_load_balancer_request = { load_balancer_name; 
 }
 
-let make_delete_known_host_keys_result 
-  ?(operations : operation list option) () : delete_known_host_keys_result =
-{ operations;  }
-
 let make_delete_known_host_keys_request  ~(instance_name : string) ()
 : delete_known_host_keys_request = { instance_name; 
 }
-
-let make_delete_key_pair_result  ?(operation : operation option) ()
-: delete_key_pair_result = { operation;  }
 
 let make_delete_key_pair_request 
   ?(expected_fingerprint : string option) ~(key_pair_name : string) ()
 : delete_key_pair_request = { expected_fingerprint; key_pair_name; 
 }
 
-let make_delete_instance_snapshot_result 
-  ?(operations : operation list option) () : delete_instance_snapshot_result
-= { operations;  }
-
 let make_delete_instance_snapshot_request 
   ~(instance_snapshot_name : string) () : delete_instance_snapshot_request =
 { instance_snapshot_name;  }
 
-let make_delete_instance_result  ?(operations : operation list option) ()
-: delete_instance_result = { operations;  }
-
 let make_delete_instance_request 
   ?(force_delete_add_ons : bool option) ~(instance_name : string) ()
 : delete_instance_request = { force_delete_add_ons; instance_name; 
-}
-
-let make_delete_domain_entry_result  ?(operation : operation option) ()
-: delete_domain_entry_result = { operation; 
 }
 
 let make_delete_domain_entry_request 
@@ -2880,105 +2319,57 @@ let make_delete_domain_entry_request
 : delete_domain_entry_request = { domain_entry; domain_name; 
 }
 
-let make_delete_domain_result  ?(operation : operation option) ()
-: delete_domain_result = { operation;  }
-
 let make_delete_domain_request  ~(domain_name : string) ()
 : delete_domain_request = { domain_name; 
-}
-
-let make_delete_distribution_result  ?(operation : operation option) ()
-: delete_distribution_result = { operation; 
 }
 
 let make_delete_distribution_request  ?(distribution_name : string option) ()
 : delete_distribution_request = { distribution_name; 
 }
 
-let make_delete_disk_snapshot_result 
-  ?(operations : operation list option) () : delete_disk_snapshot_result = {
-  operations;  }
-
 let make_delete_disk_snapshot_request  ~(disk_snapshot_name : string) ()
 : delete_disk_snapshot_request = { disk_snapshot_name; 
 }
-
-let make_delete_disk_result  ?(operations : operation list option) ()
-: delete_disk_result = { operations;  }
 
 let make_delete_disk_request 
   ?(force_delete_add_ons : bool option) ~(disk_name : string) ()
 : delete_disk_request = { force_delete_add_ons; disk_name; 
 }
 
-let make_delete_container_service_result  ()
-: delete_container_service_result =
-()
-
 let make_delete_container_service_request  ~(service_name : string) ()
 : delete_container_service_request = { service_name; 
 }
-
-let make_delete_container_image_result  () : delete_container_image_result =
-()
 
 let make_delete_container_image_request 
   ~(image : string) ~(service_name : string) ()
 : delete_container_image_request = { image; service_name; 
 }
 
-let make_delete_contact_method_result 
-  ?(operations : operation list option) () : delete_contact_method_result = {
-  operations;  }
-
 let make_delete_contact_method_request  ~(protocol : contact_protocol) ()
 : delete_contact_method_request = { protocol; 
-}
-
-let make_delete_certificate_result  ?(operations : operation list option) ()
-: delete_certificate_result = { operations; 
 }
 
 let make_delete_certificate_request  ~(certificate_name : string) ()
 : delete_certificate_request = { certificate_name; 
 }
 
-let make_delete_bucket_access_key_result 
-  ?(operations : operation list option) () : delete_bucket_access_key_result
-= { operations;  }
-
 let make_delete_bucket_access_key_request 
   ~(access_key_id : string) ~(bucket_name : string) ()
 : delete_bucket_access_key_request = { access_key_id; bucket_name; 
 }
-
-let make_delete_bucket_result  ?(operations : operation list option) ()
-: delete_bucket_result = { operations;  }
 
 let make_delete_bucket_request 
   ?(force_delete : bool option) ~(bucket_name : string) ()
 : delete_bucket_request = { force_delete; bucket_name; 
 }
 
-let make_delete_auto_snapshot_result 
-  ?(operations : operation list option) () : delete_auto_snapshot_result = {
-  operations;  }
-
 let make_delete_auto_snapshot_request 
   ~(date : string) ~(resource_name : string) ()
 : delete_auto_snapshot_request = { date; resource_name; 
 }
 
-let make_delete_alarm_result  ?(operations : operation list option) ()
-: delete_alarm_result = { operations;  }
-
 let make_delete_alarm_request  ~(alarm_name : string) ()
 : delete_alarm_request = { alarm_name; 
-}
-
-let make_create_relational_database_snapshot_result 
-  ?(operations : operation list option) ()
-: create_relational_database_snapshot_result = { operations; 
 }
 
 let make_create_relational_database_snapshot_request 
@@ -2987,11 +2378,6 @@ let make_create_relational_database_snapshot_request
   ~(relational_database_name : string)
   () : create_relational_database_snapshot_request = {
   tags; relational_database_snapshot_name; relational_database_name; 
-}
-
-let make_create_relational_database_from_snapshot_result 
-  ?(operations : operation list option) ()
-: create_relational_database_from_snapshot_result = { operations; 
 }
 
 let make_create_relational_database_from_snapshot_request 
@@ -3015,11 +2401,6 @@ let make_create_relational_database_from_snapshot_request
   availability_zone;
   relational_database_name;
    }
-
-let make_create_relational_database_result 
-  ?(operations : operation list option) ()
-: create_relational_database_result = { operations; 
-}
 
 let make_create_relational_database_request 
   ?(tags : tag list option)
@@ -3047,11 +2428,6 @@ let make_create_relational_database_request
   relational_database_name;
    }
 
-let make_create_load_balancer_tls_certificate_result 
-  ?(operations : operation list option) ()
-: create_load_balancer_tls_certificate_result = { operations; 
-}
-
 let make_create_load_balancer_tls_certificate_request 
   ?(tags : tag list option)
   ?(certificate_alternative_names : string list option)
@@ -3065,10 +2441,6 @@ let make_create_load_balancer_tls_certificate_request
   certificate_name;
   load_balancer_name;
    }
-
-let make_create_load_balancer_result 
-  ?(operations : operation list option) () : create_load_balancer_result = {
-  operations;  }
 
 let make_create_load_balancer_request 
   ?(tls_policy_name : string option)
@@ -3092,35 +2464,17 @@ let make_create_load_balancer_request
   load_balancer_name;
    }
 
-let make_create_key_pair_result 
-  ?(operation : operation option)
-  ?(private_key_base64 : string option)
-  ?(public_key_base64 : string option)
-  ?(key_pair : key_pair option)
-  () : create_key_pair_result = {
-  operation; private_key_base64; public_key_base64; key_pair; 
-}
-
 let make_create_key_pair_request 
   ?(tags : tag list option) ~(key_pair_name : string) ()
 : create_key_pair_request = { tags; key_pair_name; 
 }
-
-let make_create_instance_snapshot_result 
-  ?(operations : operation list option) () : create_instance_snapshot_result
-= { operations;  }
 
 let make_create_instance_snapshot_request 
   ?(tags : tag list option)
   ~(instance_name : string)
   ~(instance_snapshot_name : string)
   () : create_instance_snapshot_request = {
-  tags; instance_name; instance_snapshot_name; 
-}
-
-let make_create_instances_from_snapshot_result 
-  ?(operations : operation list option) ()
-: create_instances_from_snapshot_result = { operations;  }
+  tags; instance_name; instance_snapshot_name;  }
 
 let make_disk_map 
   ?(new_disk_name : string option) ?(original_disk_path : string option) ()
@@ -3157,10 +2511,6 @@ let make_create_instances_from_snapshot_request
   instance_names;
    }
 
-let make_create_instances_result  ?(operations : operation list option) ()
-: create_instances_result = { operations; 
-}
-
 let make_create_instances_request 
   ?(ip_address_type : ip_address_type option)
   ?(add_ons : add_on_request list option)
@@ -3185,41 +2535,18 @@ let make_create_instances_request
   instance_names;
    }
 
-let make_create_gui_session_access_details_result 
-  ?(sessions : session list option)
-  ?(failure_reason : string option)
-  ?(percentage_complete : int option)
-  ?(status : status option)
-  ?(resource_name : string option)
-  () : create_gui_session_access_details_result = {
-  sessions; failure_reason; percentage_complete; status; resource_name; 
-}
-
 let make_create_gui_session_access_details_request 
   ~(resource_name : string) () : create_gui_session_access_details_request =
 { resource_name;  }
-
-let make_create_domain_entry_result  ?(operation : operation option) ()
-: create_domain_entry_result = { operation; 
-}
 
 let make_create_domain_entry_request 
   ~(domain_entry : domain_entry) ~(domain_name : string) ()
 : create_domain_entry_request = { domain_entry; domain_name; 
 }
 
-let make_create_domain_result  ?(operation : operation option) ()
-: create_domain_result = { operation;  }
-
 let make_create_domain_request 
   ?(tags : tag list option) ~(domain_name : string) ()
 : create_domain_request = { tags; domain_name; 
-}
-
-let make_create_distribution_result 
-  ?(operation : operation option)
-  ?(distribution : lightsail_distribution option)
-  () : create_distribution_result = { operation; distribution; 
 }
 
 let make_create_distribution_request 
@@ -3246,10 +2573,6 @@ let make_create_distribution_request
   distribution_name;
    }
 
-let make_create_disk_snapshot_result 
-  ?(operations : operation list option) () : create_disk_snapshot_result = {
-  operations;  }
-
 let make_create_disk_snapshot_request 
   ?(tags : tag list option)
   ?(instance_name : string option)
@@ -3258,10 +2581,6 @@ let make_create_disk_snapshot_request
   () : create_disk_snapshot_request = {
   tags; instance_name; disk_snapshot_name; disk_name; 
 }
-
-let make_create_disk_from_snapshot_result 
-  ?(operations : operation list option) () : create_disk_from_snapshot_result
-= { operations;  }
 
 let make_create_disk_from_snapshot_request 
   ?(use_latest_restorable_auto_snapshot : bool option)
@@ -3285,9 +2604,6 @@ let make_create_disk_from_snapshot_request
   disk_name;
    }
 
-let make_create_disk_result  ?(operations : operation list option) ()
-: create_disk_result = { operations;  }
-
 let make_create_disk_request 
   ?(add_ons : add_on_request list option)
   ?(tags : tag list option)
@@ -3307,19 +2623,9 @@ let make_container_service_registry_login
   registry; expires_at; password; username; 
 }
 
-let make_create_container_service_registry_login_result 
-  ?(registry_login : container_service_registry_login option) ()
-: create_container_service_registry_login_result = { registry_login; 
-}
-
 let make_create_container_service_registry_login_request  ()
 : create_container_service_registry_login_request =
 ()
-
-let make_create_container_service_deployment_result 
-  ?(container_service : container_service option) ()
-: create_container_service_deployment_result = { container_service; 
-}
 
 let make_endpoint_request 
   ?(health_check : container_service_health_check_config option)
@@ -3334,11 +2640,6 @@ let make_create_container_service_deployment_request
   ~(service_name : string)
   () : create_container_service_deployment_request = {
   public_endpoint; containers; service_name; 
-}
-
-let make_create_container_service_result 
-  ?(container_service : container_service option) ()
-: create_container_service_result = { container_service; 
 }
 
 let make_container_service_deployment_request 
@@ -3365,18 +2666,9 @@ let make_create_container_service_request
   service_name;
    }
 
-let make_create_contact_method_result 
-  ?(operations : operation list option) () : create_contact_method_result = {
-  operations;  }
-
 let make_create_contact_method_request 
   ~(contact_endpoint : string) ~(protocol : contact_protocol) ()
 : create_contact_method_request = { contact_endpoint; protocol; 
-}
-
-let make_create_cloud_formation_stack_result 
-  ?(operations : operation list option) ()
-: create_cloud_formation_stack_result = { operations; 
 }
 
 let make_instance_entry 
@@ -3394,12 +2686,6 @@ let make_create_cloud_formation_stack_request
 : create_cloud_formation_stack_request = { instances; 
 }
 
-let make_create_certificate_result 
-  ?(operations : operation list option)
-  ?(certificate : certificate_summary option)
-  () : create_certificate_result = { operations; certificate; 
-}
-
 let make_create_certificate_request 
   ?(tags : tag list option)
   ?(subject_alternative_names : string list option)
@@ -3409,18 +2695,8 @@ let make_create_certificate_request
   tags; subject_alternative_names; domain_name; certificate_name; 
 }
 
-let make_create_bucket_access_key_result 
-  ?(operations : operation list option) ?(access_key : access_key option) ()
-: create_bucket_access_key_result = { operations; access_key; 
-}
-
 let make_create_bucket_access_key_request  ~(bucket_name : string) ()
 : create_bucket_access_key_request = { bucket_name; 
-}
-
-let make_create_bucket_result 
-  ?(operations : operation list option) ?(bucket : bucket option) ()
-: create_bucket_result = { operations; bucket; 
 }
 
 let make_create_bucket_request 
@@ -3431,9 +2707,6 @@ let make_create_bucket_request
   () : create_bucket_request = {
   enable_object_versioning; tags; bundle_id; bucket_name; 
 }
-
-let make_copy_snapshot_result  ?(operations : operation list option) ()
-: copy_snapshot_result = { operations;  }
 
 let make_copy_snapshot_request 
   ?(use_latest_restorable_auto_snapshot : bool option)
@@ -3451,27 +2724,14 @@ let make_copy_snapshot_request
   source_snapshot_name;
    }
 
-let make_close_instance_public_ports_result 
-  ?(operation : operation option) () : close_instance_public_ports_result = {
-  operation;  }
-
 let make_close_instance_public_ports_request 
   ~(instance_name : string) ~(port_info : port_info) ()
 : close_instance_public_ports_request = { instance_name; port_info; 
 }
 
-let make_attach_static_ip_result  ?(operations : operation list option) ()
-: attach_static_ip_result = { operations; 
-}
-
 let make_attach_static_ip_request 
   ~(instance_name : string) ~(static_ip_name : string) ()
 : attach_static_ip_request = { instance_name; static_ip_name; 
-}
-
-let make_attach_load_balancer_tls_certificate_result 
-  ?(operations : operation list option) ()
-: attach_load_balancer_tls_certificate_result = { operations; 
 }
 
 let make_attach_load_balancer_tls_certificate_request 
@@ -3480,18 +2740,10 @@ let make_attach_load_balancer_tls_certificate_request
   certificate_name; load_balancer_name; 
 }
 
-let make_attach_instances_to_load_balancer_result 
-  ?(operations : operation list option) ()
-: attach_instances_to_load_balancer_result = { operations; 
-}
-
 let make_attach_instances_to_load_balancer_request 
   ~(instance_names : string list) ~(load_balancer_name : string) ()
 : attach_instances_to_load_balancer_request = {
   instance_names; load_balancer_name;  }
-
-let make_attach_disk_result  ?(operations : operation list option) ()
-: attach_disk_result = { operations;  }
 
 let make_attach_disk_request 
   ?(auto_mounting : bool option)
@@ -3502,19 +2754,10 @@ let make_attach_disk_request
   auto_mounting; disk_path; instance_name; disk_name; 
 }
 
-let make_attach_certificate_to_distribution_result 
-  ?(operation : operation option) ()
-: attach_certificate_to_distribution_result = { operation; 
-}
-
 let make_attach_certificate_to_distribution_request 
   ~(certificate_name : string) ~(distribution_name : string) ()
 : attach_certificate_to_distribution_request = {
   certificate_name; distribution_name;  }
-
-let make_allocate_static_ip_result  ?(operations : operation list option) ()
-: allocate_static_ip_result = { operations; 
-}
 
 let make_allocate_static_ip_request  ~(static_ip_name : string) ()
 : allocate_static_ip_request = { static_ip_name; 

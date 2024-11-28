@@ -2,9 +2,6 @@ open Types
 val make_wireless_connection : ?is_wifi_enabled:bool -> unit
 -> wireless_connection
 
-val make_update_long_term_pricing_result : unit
--> update_long_term_pricing_result
-
 val make_update_long_term_pricing_request :
   ?is_long_term_pricing_auto_renew:bool ->
   ?replacement_job:string ->
@@ -12,14 +9,9 @@ val make_update_long_term_pricing_request :
   unit
 -> update_long_term_pricing_request
 
-val make_update_job_shipment_state_result : unit
--> update_job_shipment_state_result
-
 val make_update_job_shipment_state_request :
   shipment_state:shipment_state -> job_id:string -> unit
 -> update_job_shipment_state_request
-
-val make_update_job_result : unit -> update_job_result
 
 val make_notification :
   ?device_pickup_sns_topic_ar_n:string ->
@@ -109,9 +101,6 @@ val make_update_job_request :
   job_id:string ->
   unit -> update_job_request
 
-val make_update_cluster_result : unit
--> update_cluster_result
-
 val make_update_cluster_request :
   ?forwarding_address_id:string ->
   ?notification:notification ->
@@ -163,14 +152,6 @@ val make_dependent_service :
   ?service_version:service_version -> ?service_name:service_name -> unit
 -> dependent_service
 
-val make_list_service_versions_result :
-  ?next_token:string ->
-  ?dependent_services:dependent_service list ->
-  service_name:service_name ->
-  service_versions:service_version list ->
-  unit
--> list_service_versions_result
-
 val make_list_service_versions_request :
   ?next_token:string ->
   ?max_results:int ->
@@ -196,19 +177,9 @@ val make_address :
   ?address_id:string ->
   unit -> address
 
-val make_list_pickup_locations_result :
-  ?next_token:string -> ?addresses:address list -> unit
--> list_pickup_locations_result
-
 val make_list_pickup_locations_request :
   ?next_token:string -> ?max_results:int -> unit
 -> list_pickup_locations_request
-
-val make_list_long_term_pricing_result :
-  ?next_token:string ->
-  ?long_term_pricing_entries:long_term_pricing_list_entry list ->
-  unit
--> list_long_term_pricing_result
 
 val make_list_long_term_pricing_request :
   ?next_token:string -> ?max_results:int -> unit
@@ -224,19 +195,11 @@ val make_job_list_entry :
   ?job_id:string ->
   unit -> job_list_entry
 
-val make_list_jobs_result :
-  ?next_token:string -> ?job_list_entries:job_list_entry list -> unit
--> list_jobs_result
-
 val make_list_jobs_request : ?next_token:string -> ?max_results:int -> unit
 -> list_jobs_request
 
 val make_compatible_image : ?name:string -> ?ami_id:string -> unit
 -> compatible_image
-
-val make_list_compatible_images_result :
-  ?next_token:string -> ?compatible_images:compatible_image list -> unit
--> list_compatible_images_result
 
 val make_list_compatible_images_request :
   ?next_token:string -> ?max_results:int -> unit
@@ -249,17 +212,9 @@ val make_cluster_list_entry :
   ?cluster_id:string ->
   unit -> cluster_list_entry
 
-val make_list_clusters_result :
-  ?next_token:string -> ?cluster_list_entries:cluster_list_entry list -> unit
--> list_clusters_result
-
 val make_list_clusters_request :
   ?next_token:string -> ?max_results:int -> unit
 -> list_clusters_request
-
-val make_list_cluster_jobs_result :
-  ?next_token:string -> ?job_list_entries:job_list_entry list -> unit
--> list_cluster_jobs_result
 
 val make_list_cluster_jobs_request :
   ?next_token:string -> ?max_results:int -> cluster_id:string -> unit
@@ -310,44 +265,20 @@ val make_job_metadata :
   ?job_id:string ->
   unit -> job_metadata
 
-val make_get_software_updates_result : ?updates_ur_i:string -> unit
--> get_software_updates_result
-
 val make_get_software_updates_request : job_id:string -> unit
 -> get_software_updates_request
-
-val make_get_snowball_usage_result :
-  ?snowballs_in_use:int -> ?snowball_limit:int -> unit
--> get_snowball_usage_result
 
 val make_get_snowball_usage_request : unit
 -> get_snowball_usage_request
 
-val make_get_job_unlock_code_result : ?unlock_code:string -> unit
--> get_job_unlock_code_result
-
 val make_get_job_unlock_code_request : job_id:string -> unit
 -> get_job_unlock_code_request
-
-val make_get_job_manifest_result : ?manifest_ur_i:string -> unit
--> get_job_manifest_result
 
 val make_get_job_manifest_request : job_id:string -> unit
 -> get_job_manifest_request
 
-val make_describe_return_shipping_label_result :
-  ?return_shipping_label_ur_i:string ->
-  ?expiration_date:float ->
-  ?status:shipping_label_status ->
-  unit
--> describe_return_shipping_label_result
-
 val make_describe_return_shipping_label_request : job_id:string -> unit
 -> describe_return_shipping_label_request
-
-val make_describe_job_result :
-  ?sub_job_metadata:job_metadata list -> ?job_metadata:job_metadata -> unit
--> describe_job_result
 
 val make_describe_job_request : job_id:string -> unit
 -> describe_job_request
@@ -370,46 +301,25 @@ val make_cluster_metadata :
   ?cluster_id:string ->
   unit -> cluster_metadata
 
-val make_describe_cluster_result : ?cluster_metadata:cluster_metadata -> unit
--> describe_cluster_result
-
 val make_describe_cluster_request : cluster_id:string -> unit
 -> describe_cluster_request
-
-val make_describe_addresses_result :
-  ?next_token:string -> ?addresses:address list -> unit
--> describe_addresses_result
 
 val make_describe_addresses_request :
   ?next_token:string -> ?max_results:int -> unit
 -> describe_addresses_request
 
-val make_describe_address_result : ?address:address -> unit
--> describe_address_result
-
 val make_describe_address_request : address_id:string -> unit
 -> describe_address_request
-
-val make_create_return_shipping_label_result :
-  ?status:shipping_label_status -> unit
--> create_return_shipping_label_result
 
 val make_create_return_shipping_label_request :
   ?shipping_option:shipping_option -> job_id:string -> unit
 -> create_return_shipping_label_request
-
-val make_create_long_term_pricing_result :
-  ?long_term_pricing_id:string -> unit
--> create_long_term_pricing_result
 
 val make_create_long_term_pricing_request :
   ?is_long_term_pricing_auto_renew:bool ->
   snowball_type:snowball_type ->
   long_term_pricing_type:long_term_pricing_type ->
   unit -> create_long_term_pricing_request
-
-val make_create_job_result : ?job_id:string -> unit
--> create_job_result
 
 val make_create_job_request :
   ?pickup_details:pickup_details ->
@@ -433,10 +343,6 @@ val make_create_job_request :
   ?job_type:job_type ->
   unit -> create_job_request
 
-val make_create_cluster_result :
-  ?job_list_entries:job_list_entry list -> ?cluster_id:string -> unit
--> create_cluster_result
-
 val make_create_cluster_request :
   ?snowball_capacity_preference:snowball_capacity ->
   ?long_term_pricing_ids:string list ->
@@ -457,20 +363,11 @@ val make_create_cluster_request :
   job_type:job_type ->
   unit -> create_cluster_request
 
-val make_create_address_result : ?address_id:string -> unit
--> create_address_result
-
 val make_create_address_request : address:address -> unit
 -> create_address_request
 
-val make_cancel_job_result : unit
--> cancel_job_result
-
 val make_cancel_job_request : job_id:string -> unit
 -> cancel_job_request
-
-val make_cancel_cluster_result : unit
--> cancel_cluster_result
 
 val make_cancel_cluster_request : cluster_id:string -> unit
 -> cancel_cluster_request

@@ -40,9 +40,9 @@ let generateRecordTypeDefinition ~genDoc members =
         Buffer.add_string b ";";
         if genDoc then (
           Buffer.add_string b "\n  ";
-          let doc_string = Docs.generate member.traits in
+          let doc_string = Docs.(generate FloatingComment member.traits) in
           Option.iter doc_string ~f:(fun doc_string ->
-              Buffer.add_string b " ";
+              (* Buffer.add_string b " "; *)
               Buffer.add_string b doc_string));
         Buffer.add_string b "\n");
 
@@ -178,7 +178,9 @@ let should_generate_type_block descriptor =
 let generate_type ctx ({ name; descriptor } : Shape.t) ?(genDoc = false) () =
   if should_generate_type_block descriptor then begin
     let docs =
-      match genDoc with true -> Docs.generate (Shape.getShapeTraits descriptor) | false -> None
+      match genDoc with
+      | true -> Docs.(generate ItemComment (Shape.getShapeTraits descriptor))
+      | false -> None
     in
     let result = generateTypeTarget ctx descriptor ~genDoc () in
     let is_exception_type =

@@ -4,10 +4,6 @@ let make_wireless_connection  ?(is_wifi_enabled : bool option) ()
 : wireless_connection = { is_wifi_enabled; 
 }
 
-let make_update_long_term_pricing_result  ()
-: update_long_term_pricing_result =
-()
-
 let make_update_long_term_pricing_request 
   ?(is_long_term_pricing_auto_renew : bool option)
   ?(replacement_job : string option)
@@ -16,16 +12,10 @@ let make_update_long_term_pricing_request
   is_long_term_pricing_auto_renew; replacement_job; long_term_pricing_id; 
 }
 
-let make_update_job_shipment_state_result  ()
-: update_job_shipment_state_result =
-()
-
 let make_update_job_shipment_state_request 
   ~(shipment_state : shipment_state) ~(job_id : string) ()
 : update_job_shipment_state_request = { shipment_state; job_id; 
 }
-
-let make_update_job_result  () : update_job_result = ()
 
 let make_notification 
   ?(device_pickup_sns_topic_ar_n : string option)
@@ -160,9 +150,6 @@ let make_update_job_request
   job_id;
    }
 
-let make_update_cluster_result  () : update_cluster_result =
-()
-
 let make_update_cluster_request 
   ?(forwarding_address_id : string option)
   ?(notification : notification option)
@@ -240,15 +227,6 @@ let make_dependent_service
   () : dependent_service = { service_version; service_name; 
 }
 
-let make_list_service_versions_result 
-  ?(next_token : string option)
-  ?(dependent_services : dependent_service list option)
-  ~(service_name : service_name)
-  ~(service_versions : service_version list)
-  () : list_service_versions_result = {
-  next_token; dependent_services; service_name; service_versions; 
-}
-
 let make_list_service_versions_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -292,21 +270,9 @@ let make_address
   address_id;
    }
 
-let make_list_pickup_locations_result 
-  ?(next_token : string option) ?(addresses : address list option) ()
-: list_pickup_locations_result = { next_token; addresses; 
-}
-
 let make_list_pickup_locations_request 
   ?(next_token : string option) ?(max_results : int option) ()
 : list_pickup_locations_request = { next_token; max_results; 
-}
-
-let make_list_long_term_pricing_result 
-  ?(next_token : string option)
-  ?(long_term_pricing_entries : long_term_pricing_list_entry list option)
-  () : list_long_term_pricing_result = {
-  next_token; long_term_pricing_entries; 
 }
 
 let make_list_long_term_pricing_request 
@@ -332,12 +298,6 @@ let make_job_list_entry
   job_id;
    }
 
-let make_list_jobs_result 
-  ?(next_token : string option)
-  ?(job_list_entries : job_list_entry list option)
-  () : list_jobs_result = { next_token; job_list_entries; 
-}
-
 let make_list_jobs_request 
   ?(next_token : string option) ?(max_results : int option) ()
 : list_jobs_request = { next_token; max_results;  }
@@ -345,12 +305,6 @@ let make_list_jobs_request
 let make_compatible_image 
   ?(name : string option) ?(ami_id : string option) () : compatible_image = {
   name; ami_id;  }
-
-let make_list_compatible_images_result 
-  ?(next_token : string option)
-  ?(compatible_images : compatible_image list option)
-  () : list_compatible_images_result = { next_token; compatible_images; 
-}
 
 let make_list_compatible_images_request 
   ?(next_token : string option) ?(max_results : int option) ()
@@ -366,21 +320,9 @@ let make_cluster_list_entry
   description; creation_date; cluster_state; cluster_id; 
 }
 
-let make_list_clusters_result 
-  ?(next_token : string option)
-  ?(cluster_list_entries : cluster_list_entry list option)
-  () : list_clusters_result = { next_token; cluster_list_entries; 
-}
-
 let make_list_clusters_request 
   ?(next_token : string option) ?(max_results : int option) ()
 : list_clusters_request = { next_token; max_results; 
-}
-
-let make_list_cluster_jobs_result 
-  ?(next_token : string option)
-  ?(job_list_entries : job_list_entry list option)
-  () : list_cluster_jobs_result = { next_token; job_list_entries; 
 }
 
 let make_list_cluster_jobs_request 
@@ -466,53 +408,23 @@ let make_job_metadata
   job_id;
    }
 
-let make_get_software_updates_result  ?(updates_ur_i : string option) ()
-: get_software_updates_result = { updates_ur_i; 
-}
-
 let make_get_software_updates_request  ~(job_id : string) ()
 : get_software_updates_request = { job_id; 
-}
-
-let make_get_snowball_usage_result 
-  ?(snowballs_in_use : int option) ?(snowball_limit : int option) ()
-: get_snowball_usage_result = { snowballs_in_use; snowball_limit; 
 }
 
 let make_get_snowball_usage_request  () : get_snowball_usage_request =
 ()
 
-let make_get_job_unlock_code_result  ?(unlock_code : string option) ()
-: get_job_unlock_code_result = { unlock_code; 
-}
-
 let make_get_job_unlock_code_request  ~(job_id : string) ()
-: get_job_unlock_code_request = { job_id;  }
-
-let make_get_job_manifest_result  ?(manifest_ur_i : string option) ()
-: get_job_manifest_result = { manifest_ur_i; 
+: get_job_unlock_code_request = { job_id; 
 }
 
 let make_get_job_manifest_request  ~(job_id : string) ()
 : get_job_manifest_request = { job_id; 
 }
 
-let make_describe_return_shipping_label_result 
-  ?(return_shipping_label_ur_i : string option)
-  ?(expiration_date : float option)
-  ?(status : shipping_label_status option)
-  () : describe_return_shipping_label_result = {
-  return_shipping_label_ur_i; expiration_date; status; 
-}
-
 let make_describe_return_shipping_label_request  ~(job_id : string) ()
 : describe_return_shipping_label_request = { job_id; 
-}
-
-let make_describe_job_result 
-  ?(sub_job_metadata : job_metadata list option)
-  ?(job_metadata : job_metadata option)
-  () : describe_job_result = { sub_job_metadata; job_metadata; 
 }
 
 let make_describe_job_request  ~(job_id : string) () : describe_job_request =
@@ -552,17 +464,8 @@ let make_cluster_metadata
   cluster_id;
    }
 
-let make_describe_cluster_result 
-  ?(cluster_metadata : cluster_metadata option) () : describe_cluster_result
-= { cluster_metadata;  }
-
 let make_describe_cluster_request  ~(cluster_id : string) ()
 : describe_cluster_request = { cluster_id; 
-}
-
-let make_describe_addresses_result 
-  ?(next_token : string option) ?(addresses : address list option) ()
-: describe_addresses_result = { next_token; addresses; 
 }
 
 let make_describe_addresses_request 
@@ -570,26 +473,13 @@ let make_describe_addresses_request
 : describe_addresses_request = { next_token; max_results; 
 }
 
-let make_describe_address_result  ?(address : address option) ()
-: describe_address_result = { address;  }
-
 let make_describe_address_request  ~(address_id : string) ()
 : describe_address_request = { address_id; 
-}
-
-let make_create_return_shipping_label_result 
-  ?(status : shipping_label_status option) ()
-: create_return_shipping_label_result = { status; 
 }
 
 let make_create_return_shipping_label_request 
   ?(shipping_option : shipping_option option) ~(job_id : string) ()
 : create_return_shipping_label_request = { shipping_option; job_id; 
-}
-
-let make_create_long_term_pricing_result 
-  ?(long_term_pricing_id : string option) ()
-: create_long_term_pricing_result = { long_term_pricing_id; 
 }
 
 let make_create_long_term_pricing_request 
@@ -599,9 +489,6 @@ let make_create_long_term_pricing_request
   () : create_long_term_pricing_request = {
   snowball_type; is_long_term_pricing_auto_renew; long_term_pricing_type; 
 }
-
-let make_create_job_result  ?(job_id : string option) () : create_job_result
-= { job_id;  }
 
 let make_create_job_request 
   ?(pickup_details : pickup_details option)
@@ -645,12 +532,6 @@ let make_create_job_request
   job_type;
    }
 
-let make_create_cluster_result 
-  ?(job_list_entries : job_list_entry list option)
-  ?(cluster_id : string option)
-  () : create_cluster_result = { job_list_entries; cluster_id; 
-}
-
 let make_create_cluster_request 
   ?(snowball_capacity_preference : snowball_capacity option)
   ?(long_term_pricing_ids : string list option)
@@ -689,20 +570,11 @@ let make_create_cluster_request
   job_type;
    }
 
-let make_create_address_result  ?(address_id : string option) ()
-: create_address_result = { address_id;  }
-
 let make_create_address_request  ~(address : address) ()
 : create_address_request = { address;  }
 
-let make_cancel_job_result  () : cancel_job_result =
-()
-
 let make_cancel_job_request  ~(job_id : string) () : cancel_job_request = {
   job_id;  }
-
-let make_cancel_cluster_result  () : cancel_cluster_result =
-()
 
 let make_cancel_cluster_request  ~(cluster_id : string) ()
 : cancel_cluster_request = { cluster_id; 

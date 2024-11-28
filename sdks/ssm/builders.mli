@@ -1,13 +1,7 @@
 open Types
-val make_update_service_setting_result : unit
--> update_service_setting_result
-
 val make_update_service_setting_request :
   setting_value:string -> setting_id:string -> unit
 -> update_service_setting_request
-
-val make_update_resource_data_sync_result : unit
--> update_resource_data_sync_result
 
 val make_resource_data_sync_organizational_unit :
   ?organizational_unit_id:string -> unit
@@ -55,24 +49,6 @@ val make_patch_source :
   configuration:string -> products:string list -> name:string -> unit
 -> patch_source
 
-val make_update_patch_baseline_result :
-  ?sources:patch_source list ->
-  ?description:string ->
-  ?modified_date:float ->
-  ?created_date:float ->
-  ?rejected_patches_action:patch_action ->
-  ?rejected_patches:string list ->
-  ?approved_patches_enable_non_security:bool ->
-  ?approved_patches_compliance_level:patch_compliance_level ->
-  ?approved_patches:string list ->
-  ?approval_rules:patch_rule_group ->
-  ?global_filters:patch_filter_group ->
-  ?operating_system:operating_system ->
-  ?name:string ->
-  ?baseline_id:string ->
-  unit
--> update_patch_baseline_result
-
 val make_update_patch_baseline_request :
   ?replace:bool ->
   ?sources:patch_source list ->
@@ -87,9 +63,6 @@ val make_update_patch_baseline_request :
   ?name:string ->
   baseline_id:string ->
   unit -> update_patch_baseline_request
-
-val make_update_ops_metadata_result : ?ops_metadata_arn:string -> unit
--> update_ops_metadata_result
 
 val make_metadata_value : ?value:string -> unit
 -> metadata_value
@@ -132,9 +105,6 @@ val make_update_ops_item_request :
   ops_item_id:string ->
   unit
 -> update_ops_item_request
-
-val make_update_managed_instance_role_result : unit
--> update_managed_instance_role_result
 
 val make_update_managed_instance_role_request :
   iam_role:string -> instance_id:string -> unit
@@ -204,25 +174,6 @@ val make_alarm_configuration :
   ?ignore_poll_alarm_failure:bool -> alarms:alarm list -> unit
 -> alarm_configuration
 
-val make_update_maintenance_window_task_result :
-  ?alarm_configuration:alarm_configuration ->
-  ?cutoff_behavior:maintenance_window_task_cutoff_behavior ->
-  ?description:string ->
-  ?name:string ->
-  ?logging_info:logging_info ->
-  ?max_errors:string ->
-  ?max_concurrency:string ->
-  ?priority:int ->
-  ?task_invocation_parameters:maintenance_window_task_invocation_parameters ->
-  ?task_parameters:(string * maintenance_window_task_parameter_value_expression) list ->
-  ?service_role_arn:string ->
-  ?task_arn:string ->
-  ?targets:target list ->
-  ?window_task_id:string ->
-  ?window_id:string ->
-  unit
--> update_maintenance_window_task_result
-
 val make_update_maintenance_window_task_request :
   ?alarm_configuration:alarm_configuration ->
   ?cutoff_behavior:maintenance_window_task_cutoff_behavior ->
@@ -243,16 +194,6 @@ val make_update_maintenance_window_task_request :
   unit
 -> update_maintenance_window_task_request
 
-val make_update_maintenance_window_target_result :
-  ?description:string ->
-  ?name:string ->
-  ?owner_information:string ->
-  ?targets:target list ->
-  ?window_target_id:string ->
-  ?window_id:string ->
-  unit
--> update_maintenance_window_target_result
-
 val make_update_maintenance_window_target_request :
   ?replace:bool ->
   ?description:string ->
@@ -263,22 +204,6 @@ val make_update_maintenance_window_target_request :
   window_id:string ->
   unit
 -> update_maintenance_window_target_request
-
-val make_update_maintenance_window_result :
-  ?enabled:bool ->
-  ?allow_unassociated_targets:bool ->
-  ?cutoff:int ->
-  ?duration:int ->
-  ?schedule_offset:int ->
-  ?schedule_timezone:string ->
-  ?schedule:string ->
-  ?end_date:string ->
-  ?start_date:string ->
-  ?description:string ->
-  ?name:string ->
-  ?window_id:string ->
-  unit
--> update_maintenance_window_result
 
 val make_update_maintenance_window_request :
   ?replace:bool ->
@@ -353,10 +278,6 @@ val make_document_description :
   ?sha1:string ->
   unit -> document_description
 
-val make_update_document_result :
-  ?document_description:document_description -> unit
--> update_document_result
-
 val make_attachments_source :
   ?name:string -> ?values:string list -> ?key:attachments_source_key -> unit
 -> attachments_source
@@ -397,10 +318,6 @@ val make_document_default_version_description :
   ?name:string ->
   unit
 -> document_default_version_description
-
-val make_update_document_default_version_result :
-  ?description:document_default_version_description -> unit
--> update_document_default_version_result
 
 val make_update_document_default_version_request :
   document_version:string -> name:string -> unit
@@ -474,20 +391,12 @@ val make_association_description :
   ?name:string ->
   unit -> association_description
 
-val make_update_association_status_result :
-  ?association_description:association_description -> unit
--> update_association_status_result
-
 val make_update_association_status_request :
   association_status:association_status ->
   instance_id:string ->
   name:string ->
   unit
 -> update_association_status_request
-
-val make_update_association_result :
-  ?association_description:association_description -> unit
--> update_association_result
 
 val make_update_association_request :
   ?alarm_configuration:alarm_configuration ->
@@ -514,10 +423,6 @@ val make_update_association_request :
   unit
 -> update_association_request
 
-val make_unlabel_parameter_version_result :
-  ?invalid_labels:string list -> ?removed_labels:string list -> unit
--> unlabel_parameter_version_result
-
 val make_unlabel_parameter_version_request :
   labels:string list -> parameter_version:int -> name:string -> unit
 -> unlabel_parameter_version_request
@@ -527,9 +432,6 @@ val make_terminate_session_response : ?session_id:string -> unit
 
 val make_terminate_session_request : session_id:string -> unit
 -> terminate_session_request
-
-val make_stop_automation_execution_result : unit
--> stop_automation_execution_result
 
 val make_stop_automation_execution_request :
   ?type_:stop_type -> automation_execution_id:string -> unit
@@ -589,12 +491,7 @@ val make_start_session_request :
   ?reason:string ->
   ?document_name:string ->
   target:string ->
-  unit
--> start_session_request
-
-val make_start_change_request_execution_result :
-  ?automation_execution_id:string -> unit
--> start_change_request_execution_result
+  unit -> start_session_request
 
 val make_runbook :
   ?target_locations:target_location list ->
@@ -623,10 +520,6 @@ val make_start_change_request_execution_request :
   unit
 -> start_change_request_execution_request
 
-val make_start_automation_execution_result :
-  ?automation_execution_id:string -> unit
--> start_automation_execution_result
-
 val make_start_automation_execution_request :
   ?alarm_configuration:alarm_configuration ->
   ?tags:tag list ->
@@ -643,9 +536,6 @@ val make_start_automation_execution_request :
   document_name:string ->
   unit
 -> start_automation_execution_request
-
-val make_start_associations_once_result : unit
--> start_associations_once_result
 
 val make_start_associations_once_request :
   association_ids:string list -> unit
@@ -719,9 +609,6 @@ val make_command :
   ?command_id:string ->
   unit -> command
 
-val make_send_command_result : ?command:command -> unit
--> send_command_result
-
 val make_send_command_request :
   ?alarm_configuration:alarm_configuration ->
   ?cloud_watch_output_config:cloud_watch_output_config ->
@@ -742,9 +629,6 @@ val make_send_command_request :
   ?instance_ids:string list ->
   document_name:string ->
   unit -> send_command_request
-
-val make_send_automation_signal_result : unit
--> send_automation_signal_result
 
 val make_send_automation_signal_request :
   ?payload:(string * string list) list ->
@@ -834,15 +718,8 @@ val make_resolved_targets :
   ?truncated:bool -> ?parameter_values:string list -> unit
 -> resolved_targets
 
-val make_reset_service_setting_result :
-  ?service_setting:service_setting -> unit
--> reset_service_setting_result
-
 val make_reset_service_setting_request : setting_id:string -> unit
 -> reset_service_setting_request
-
-val make_remove_tags_from_resource_result : unit
--> remove_tags_from_resource_result
 
 val make_remove_tags_from_resource_request :
   tag_keys:string list ->
@@ -853,10 +730,6 @@ val make_remove_tags_from_resource_request :
 
 val make_registration_metadata_item : value:string -> key:string -> unit
 -> registration_metadata_item
-
-val make_register_task_with_maintenance_window_result :
-  ?window_task_id:string -> unit
--> register_task_with_maintenance_window_result
 
 val make_register_task_with_maintenance_window_request :
   ?alarm_configuration:alarm_configuration ->
@@ -878,10 +751,6 @@ val make_register_task_with_maintenance_window_request :
   unit
 -> register_task_with_maintenance_window_request
 
-val make_register_target_with_maintenance_window_result :
-  ?window_target_id:string -> unit
--> register_target_with_maintenance_window_result
-
 val make_register_target_with_maintenance_window_request :
   ?client_token:string ->
   ?description:string ->
@@ -893,16 +762,9 @@ val make_register_target_with_maintenance_window_request :
   unit
 -> register_target_with_maintenance_window_request
 
-val make_register_patch_baseline_for_patch_group_result :
-  ?patch_group:string -> ?baseline_id:string -> unit
--> register_patch_baseline_for_patch_group_result
-
 val make_register_patch_baseline_for_patch_group_request :
   patch_group:string -> baseline_id:string -> unit
 -> register_patch_baseline_for_patch_group_request
-
-val make_register_default_patch_baseline_result : ?baseline_id:string -> unit
--> register_default_patch_baseline_result
 
 val make_register_default_patch_baseline_request : baseline_id:string -> unit
 -> register_default_patch_baseline_request
@@ -918,9 +780,6 @@ val make_put_resource_policy_request :
   resource_arn:string ->
   unit -> put_resource_policy_request
 
-val make_put_parameter_result : ?tier:parameter_tier -> ?version:int -> unit
--> put_parameter_result
-
 val make_put_parameter_request :
   ?data_type:string ->
   ?policies:string ->
@@ -935,9 +794,6 @@ val make_put_parameter_request :
   name:string ->
   unit -> put_parameter_request
 
-val make_put_inventory_result : ?message:string -> unit
--> put_inventory_result
-
 val make_inventory_item :
   ?context:(string * string) list ->
   ?content:(string * string) list list ->
@@ -950,9 +806,6 @@ val make_inventory_item :
 val make_put_inventory_request :
   items:inventory_item list -> instance_id:string -> unit
 -> put_inventory_request
-
-val make_put_compliance_items_result : unit
--> put_compliance_items_result
 
 val make_compliance_item_entry :
   ?details:(string * string) list ->
@@ -1324,28 +1177,13 @@ val make_maintenance_window_execution :
   unit
 -> maintenance_window_execution
 
-val make_list_tags_for_resource_result : ?tag_list:tag list -> unit
--> list_tags_for_resource_result
-
 val make_list_tags_for_resource_request :
   resource_id:string -> resource_type:resource_type_for_tagging -> unit
 -> list_tags_for_resource_request
 
-val make_list_resource_data_sync_result :
-  ?next_token:string ->
-  ?resource_data_sync_items:resource_data_sync_item list ->
-  unit
--> list_resource_data_sync_result
-
 val make_list_resource_data_sync_request :
   ?max_results:int -> ?next_token:string -> ?sync_type:string -> unit
 -> list_resource_data_sync_request
-
-val make_list_resource_compliance_summaries_result :
-  ?next_token:string ->
-  ?resource_compliance_summary_items:resource_compliance_summary_item list ->
-  unit
--> list_resource_compliance_summaries_result
 
 val make_compliance_string_filter :
   ?type_:compliance_query_operator_type ->
@@ -1360,10 +1198,6 @@ val make_list_resource_compliance_summaries_request :
   ?filters:compliance_string_filter list ->
   unit
 -> list_resource_compliance_summaries_request
-
-val make_list_ops_metadata_result :
-  ?next_token:string -> ?ops_metadata_list:ops_metadata list -> unit
--> list_ops_metadata_result
 
 val make_list_ops_metadata_request :
   ?next_token:string ->
@@ -1392,17 +1226,7 @@ val make_list_ops_item_events_request :
   ?next_token:string ->
   ?max_results:int ->
   ?filters:ops_item_event_filter list ->
-  unit
--> list_ops_item_events_request
-
-val make_list_inventory_entries_result :
-  ?next_token:string ->
-  ?entries:(string * string) list list ->
-  ?capture_time:string ->
-  ?schema_version:string ->
-  ?instance_id:string ->
-  ?type_name:string ->
-  unit -> list_inventory_entries_result
+  unit -> list_ops_item_events_request
 
 val make_inventory_filter :
   ?type_:inventory_query_operator_type ->
@@ -1436,11 +1260,6 @@ val make_document_identifier :
   ?name:string ->
   unit -> document_identifier
 
-val make_list_documents_result :
-  ?next_token:string ->
-  ?document_identifiers:document_identifier list ->
-  unit -> list_documents_result
-
 val make_document_filter : value:string -> key:document_filter_key -> unit
 -> document_filter
 
@@ -1467,10 +1286,6 @@ val make_document_version_info :
   ?display_name:string ->
   ?name:string ->
   unit -> document_version_info
-
-val make_list_document_versions_result :
-  ?next_token:string -> ?document_versions:document_version_info list -> unit
--> list_document_versions_result
 
 val make_list_document_versions_request :
   ?next_token:string -> ?max_results:int -> name:string -> unit
@@ -1513,12 +1328,6 @@ val make_compliance_summary_item :
   ?compliance_type:string ->
   unit -> compliance_summary_item
 
-val make_list_compliance_summaries_result :
-  ?next_token:string ->
-  ?compliance_summary_items:compliance_summary_item list ->
-  unit
--> list_compliance_summaries_result
-
 val make_list_compliance_summaries_request :
   ?max_results:int ->
   ?next_token:string ->
@@ -1537,10 +1346,6 @@ val make_compliance_item :
   ?compliance_type:string ->
   unit -> compliance_item
 
-val make_list_compliance_items_result :
-  ?next_token:string -> ?compliance_items:compliance_item list -> unit
--> list_compliance_items_result
-
 val make_list_compliance_items_request :
   ?max_results:int ->
   ?next_token:string ->
@@ -1548,10 +1353,6 @@ val make_list_compliance_items_request :
   ?resource_ids:string list ->
   ?filters:compliance_string_filter list ->
   unit -> list_compliance_items_request
-
-val make_list_commands_result :
-  ?next_token:string -> ?commands:command list -> unit
--> list_commands_result
 
 val make_command_filter : value:string -> key:command_filter_key -> unit
 -> command_filter
@@ -1598,10 +1399,6 @@ val make_command_invocation :
   ?command_id:string ->
   unit -> command_invocation
 
-val make_list_command_invocations_result :
-  ?next_token:string -> ?command_invocations:command_invocation list -> unit
--> list_command_invocations_result
-
 val make_list_command_invocations_request :
   ?details:bool ->
   ?filters:command_filter list ->
@@ -1626,10 +1423,6 @@ val make_association :
   ?instance_id:string ->
   ?name:string ->
   unit -> association
-
-val make_list_associations_result :
-  ?next_token:string -> ?associations:association list -> unit
--> list_associations_result
 
 val make_association_filter :
   value:string -> key:association_filter_key -> unit
@@ -1662,21 +1455,12 @@ val make_association_version_info :
   ?created_date:float ->
   ?association_version:string ->
   ?association_id:string ->
-  unit -> association_version_info
-
-val make_list_association_versions_result :
-  ?next_token:string ->
-  ?association_versions:association_version_info list ->
   unit
--> list_association_versions_result
+-> association_version_info
 
 val make_list_association_versions_request :
   ?next_token:string -> ?max_results:int -> association_id:string -> unit
 -> list_association_versions_request
-
-val make_label_parameter_version_result :
-  ?parameter_version:int -> ?invalid_labels:string list -> unit
--> label_parameter_version_result
 
 val make_label_parameter_version_request :
   ?parameter_version:int -> labels:string list -> name:string -> unit
@@ -1870,10 +1654,6 @@ val make_instance_association :
   ?association_id:string ->
   unit -> instance_association
 
-val make_get_service_setting_result :
-  ?service_setting:service_setting -> unit
--> get_service_setting_result
-
 val make_get_service_setting_request : setting_id:string -> unit
 -> get_service_setting_request
 
@@ -1891,49 +1671,16 @@ val make_get_resource_policies_request :
   ?max_results:int -> ?next_token:string -> resource_arn:string -> unit
 -> get_resource_policies_request
 
-val make_get_patch_baseline_result :
-  ?sources:patch_source list ->
-  ?description:string ->
-  ?modified_date:float ->
-  ?created_date:float ->
-  ?patch_groups:string list ->
-  ?rejected_patches_action:patch_action ->
-  ?rejected_patches:string list ->
-  ?approved_patches_enable_non_security:bool ->
-  ?approved_patches_compliance_level:patch_compliance_level ->
-  ?approved_patches:string list ->
-  ?approval_rules:patch_rule_group ->
-  ?global_filters:patch_filter_group ->
-  ?operating_system:operating_system ->
-  ?name:string ->
-  ?baseline_id:string ->
-  unit -> get_patch_baseline_result
-
 val make_get_patch_baseline_request : baseline_id:string -> unit
 -> get_patch_baseline_request
-
-val make_get_patch_baseline_for_patch_group_result :
-  ?operating_system:operating_system ->
-  ?patch_group:string ->
-  ?baseline_id:string ->
-  unit
--> get_patch_baseline_for_patch_group_result
 
 val make_get_patch_baseline_for_patch_group_request :
   ?operating_system:operating_system -> patch_group:string -> unit
 -> get_patch_baseline_for_patch_group_request
 
-val make_get_parameters_result :
-  ?invalid_parameters:string list -> ?parameters:parameter list -> unit
--> get_parameters_result
-
 val make_get_parameters_request :
   ?with_decryption:bool -> names:string list -> unit
 -> get_parameters_request
-
-val make_get_parameters_by_path_result :
-  ?next_token:string -> ?parameters:parameter list -> unit
--> get_parameters_by_path_result
 
 val make_get_parameters_by_path_request :
   ?next_token:string ->
@@ -1944,15 +1691,8 @@ val make_get_parameters_by_path_request :
   path:string ->
   unit -> get_parameters_by_path_request
 
-val make_get_parameter_result : ?parameter:parameter -> unit
--> get_parameter_result
-
 val make_get_parameter_request : ?with_decryption:bool -> name:string -> unit
 -> get_parameter_request
-
-val make_get_parameter_history_result :
-  ?next_token:string -> ?parameters:parameter_history list -> unit
--> get_parameter_history_result
 
 val make_get_parameter_history_request :
   ?next_token:string ->
@@ -1960,10 +1700,6 @@ val make_get_parameter_history_request :
   ?with_decryption:bool ->
   name:string ->
   unit -> get_parameter_history_request
-
-val make_get_ops_summary_result :
-  ?next_token:string -> ?entities:ops_entity list -> unit
--> get_ops_summary_result
 
 val make_get_ops_summary_request :
   ?max_results:int ->
@@ -1973,12 +1709,6 @@ val make_get_ops_summary_request :
   ?filters:ops_filter list ->
   ?sync_name:string ->
   unit -> get_ops_summary_request
-
-val make_get_ops_metadata_result :
-  ?next_token:string ->
-  ?metadata:(string * metadata_value) list ->
-  ?resource_id:string ->
-  unit -> get_ops_metadata_result
 
 val make_get_ops_metadata_request :
   ?next_token:string -> ?max_results:int -> ops_metadata_arn:string -> unit
@@ -1991,90 +1721,16 @@ val make_get_ops_item_request :
   ?ops_item_arn:string -> ops_item_id:string -> unit
 -> get_ops_item_request
 
-val make_get_maintenance_window_task_result :
-  ?alarm_configuration:alarm_configuration ->
-  ?cutoff_behavior:maintenance_window_task_cutoff_behavior ->
-  ?description:string ->
-  ?name:string ->
-  ?logging_info:logging_info ->
-  ?max_errors:string ->
-  ?max_concurrency:string ->
-  ?priority:int ->
-  ?task_invocation_parameters:maintenance_window_task_invocation_parameters ->
-  ?task_parameters:(string * maintenance_window_task_parameter_value_expression) list ->
-  ?task_type:maintenance_window_task_type ->
-  ?service_role_arn:string ->
-  ?task_arn:string ->
-  ?targets:target list ->
-  ?window_task_id:string ->
-  ?window_id:string ->
-  unit
--> get_maintenance_window_task_result
-
 val make_get_maintenance_window_task_request :
   window_task_id:string -> window_id:string -> unit
 -> get_maintenance_window_task_request
 
-val make_get_maintenance_window_result :
-  ?modified_date:float ->
-  ?created_date:float ->
-  ?enabled:bool ->
-  ?allow_unassociated_targets:bool ->
-  ?cutoff:int ->
-  ?duration:int ->
-  ?next_execution_time:string ->
-  ?schedule_offset:int ->
-  ?schedule_timezone:string ->
-  ?schedule:string ->
-  ?end_date:string ->
-  ?start_date:string ->
-  ?description:string ->
-  ?name:string ->
-  ?window_id:string ->
-  unit
--> get_maintenance_window_result
-
 val make_get_maintenance_window_request : window_id:string -> unit
 -> get_maintenance_window_request
-
-val make_get_maintenance_window_execution_task_result :
-  ?triggered_alarms:alarm_state_information list ->
-  ?alarm_configuration:alarm_configuration ->
-  ?end_time:float ->
-  ?start_time:float ->
-  ?status_details:string ->
-  ?status:maintenance_window_execution_status ->
-  ?max_errors:string ->
-  ?max_concurrency:string ->
-  ?priority:int ->
-  ?task_parameters:(string * maintenance_window_task_parameter_value_expression) list list ->
-  ?type_:maintenance_window_task_type ->
-  ?service_role:string ->
-  ?task_arn:string ->
-  ?task_execution_id:string ->
-  ?window_execution_id:string ->
-  unit
--> get_maintenance_window_execution_task_result
 
 val make_get_maintenance_window_execution_task_request :
   task_id:string -> window_execution_id:string -> unit
 -> get_maintenance_window_execution_task_request
-
-val make_get_maintenance_window_execution_task_invocation_result :
-  ?window_target_id:string ->
-  ?owner_information:string ->
-  ?end_time:float ->
-  ?start_time:float ->
-  ?status_details:string ->
-  ?status:maintenance_window_execution_status ->
-  ?parameters:string ->
-  ?task_type:maintenance_window_task_type ->
-  ?execution_id:string ->
-  ?invocation_id:string ->
-  ?task_execution_id:string ->
-  ?window_execution_id:string ->
-  unit
--> get_maintenance_window_execution_task_invocation_result
 
 val make_get_maintenance_window_execution_task_invocation_request :
   invocation_id:string ->
@@ -2083,23 +1739,9 @@ val make_get_maintenance_window_execution_task_invocation_request :
   unit
 -> get_maintenance_window_execution_task_invocation_request
 
-val make_get_maintenance_window_execution_result :
-  ?end_time:float ->
-  ?start_time:float ->
-  ?status_details:string ->
-  ?status:maintenance_window_execution_status ->
-  ?task_ids:string list ->
-  ?window_execution_id:string ->
-  unit
--> get_maintenance_window_execution_result
-
 val make_get_maintenance_window_execution_request :
   window_execution_id:string -> unit
 -> get_maintenance_window_execution_request
-
-val make_get_inventory_schema_result :
-  ?next_token:string -> ?schemas:inventory_item_schema list -> unit
--> get_inventory_schema_result
 
 val make_get_inventory_schema_request :
   ?sub_type:bool ->
@@ -2108,10 +1750,6 @@ val make_get_inventory_schema_request :
   ?next_token:string ->
   ?type_name:string ->
   unit -> get_inventory_schema_request
-
-val make_get_inventory_result :
-  ?next_token:string -> ?entities:inventory_result_entity list -> unit
--> get_inventory_result
 
 val make_get_inventory_request :
   ?max_results:int ->
@@ -2129,37 +1767,12 @@ val make_attachment_content :
   ?name:string ->
   unit -> attachment_content
 
-val make_get_document_result :
-  ?review_status:review_status ->
-  ?attachments_content:attachment_content list ->
-  ?requires:document_requires list ->
-  ?document_format:document_format ->
-  ?document_type:document_type ->
-  ?content:string ->
-  ?status_information:string ->
-  ?status:document_status ->
-  ?document_version:string ->
-  ?version_name:string ->
-  ?display_name:string ->
-  ?created_date:float ->
-  ?name:string ->
-  unit -> get_document_result
-
 val make_get_document_request :
   ?document_format:document_format ->
   ?document_version:string ->
   ?version_name:string ->
   name:string ->
-  unit
--> get_document_request
-
-val make_get_deployable_patch_snapshot_for_instance_result :
-  ?product:string ->
-  ?snapshot_download_url:string ->
-  ?snapshot_id:string ->
-  ?instance_id:string ->
-  unit
--> get_deployable_patch_snapshot_for_instance_result
+  unit -> get_document_request
 
 val make_baseline_override :
   ?sources:patch_source list ->
@@ -2181,10 +1794,6 @@ val make_get_deployable_patch_snapshot_for_instance_request :
   unit
 -> get_deployable_patch_snapshot_for_instance_request
 
-val make_get_default_patch_baseline_result :
-  ?operating_system:operating_system -> ?baseline_id:string -> unit
--> get_default_patch_baseline_result
-
 val make_get_default_patch_baseline_request :
   ?operating_system:operating_system -> unit
 -> get_default_patch_baseline_request
@@ -2195,27 +1804,6 @@ val make_get_connection_status_response :
 
 val make_get_connection_status_request : target:string -> unit
 -> get_connection_status_request
-
-val make_get_command_invocation_result :
-  ?cloud_watch_output_config:cloud_watch_output_config ->
-  ?standard_error_url:string ->
-  ?standard_error_content:string ->
-  ?standard_output_url:string ->
-  ?standard_output_content:string ->
-  ?status_details:string ->
-  ?status:command_invocation_status ->
-  ?execution_end_date_time:string ->
-  ?execution_elapsed_time:string ->
-  ?execution_start_date_time:string ->
-  ?response_code:int ->
-  ?plugin_name:string ->
-  ?document_version:string ->
-  ?document_name:string ->
-  ?comment:string ->
-  ?instance_id:string ->
-  ?command_id:string ->
-  unit
--> get_command_invocation_result
 
 val make_get_command_invocation_request :
   ?plugin_name:string -> instance_id:string -> command_id:string -> unit
@@ -2267,10 +1855,6 @@ val make_automation_execution :
   ?document_name:string ->
   ?automation_execution_id:string ->
   unit -> automation_execution
-
-val make_get_automation_execution_result :
-  ?automation_execution:automation_execution -> unit
--> get_automation_execution_result
 
 val make_get_automation_execution_request :
   automation_execution_id:string -> unit
@@ -2328,10 +1912,6 @@ val make_describe_sessions_request :
   unit
 -> describe_sessions_request
 
-val make_describe_patch_properties_result :
-  ?next_token:string -> ?properties:(string * string) list list -> unit
--> describe_patch_properties_result
-
 val make_describe_patch_properties_request :
   ?next_token:string ->
   ?max_results:int ->
@@ -2341,12 +1921,6 @@ val make_describe_patch_properties_request :
   unit
 -> describe_patch_properties_request
 
-val make_describe_patch_groups_result :
-  ?next_token:string ->
-  ?mappings:patch_group_patch_baseline_mapping list ->
-  unit
--> describe_patch_groups_result
-
 val make_describe_patch_groups_request :
   ?next_token:string ->
   ?filters:patch_orchestrator_filter list ->
@@ -2354,30 +1928,8 @@ val make_describe_patch_groups_request :
   unit
 -> describe_patch_groups_request
 
-val make_describe_patch_group_state_result :
-  ?instances_with_other_non_compliant_patches:int ->
-  ?instances_with_security_non_compliant_patches:int ->
-  ?instances_with_critical_non_compliant_patches:int ->
-  ?instances_with_unreported_not_applicable_patches:int ->
-  ?instances_with_not_applicable_patches:int ->
-  ?instances_with_failed_patches:int ->
-  ?instances_with_missing_patches:int ->
-  ?instances_with_installed_rejected_patches:int ->
-  ?instances_with_installed_pending_reboot_patches:int ->
-  ?instances_with_installed_other_patches:int ->
-  ?instances_with_installed_patches:int ->
-  ?instances:int ->
-  unit
--> describe_patch_group_state_result
-
 val make_describe_patch_group_state_request : patch_group:string -> unit
 -> describe_patch_group_state_request
-
-val make_describe_patch_baselines_result :
-  ?next_token:string ->
-  ?baseline_identities:patch_baseline_identity list ->
-  unit
--> describe_patch_baselines_result
 
 val make_describe_patch_baselines_request :
   ?next_token:string ->
@@ -2385,10 +1937,6 @@ val make_describe_patch_baselines_request :
   ?filters:patch_orchestrator_filter list ->
   unit
 -> describe_patch_baselines_request
-
-val make_describe_parameters_result :
-  ?next_token:string -> ?parameters:parameter_metadata list -> unit
--> describe_parameters_result
 
 val make_describe_parameters_request :
   ?shared:bool ->
@@ -2409,24 +1957,12 @@ val make_describe_ops_items_request :
   unit
 -> describe_ops_items_request
 
-val make_describe_maintenance_windows_result :
-  ?next_token:string ->
-  ?window_identities:maintenance_window_identity list ->
-  unit
--> describe_maintenance_windows_result
-
 val make_describe_maintenance_windows_request :
   ?next_token:string ->
   ?max_results:int ->
   ?filters:maintenance_window_filter list ->
   unit
 -> describe_maintenance_windows_request
-
-val make_describe_maintenance_windows_for_target_result :
-  ?next_token:string ->
-  ?window_identities:maintenance_window_identity_for_target list ->
-  unit
--> describe_maintenance_windows_for_target_result
 
 val make_describe_maintenance_windows_for_target_request :
   ?next_token:string ->
@@ -2436,10 +1972,6 @@ val make_describe_maintenance_windows_for_target_request :
   unit
 -> describe_maintenance_windows_for_target_request
 
-val make_describe_maintenance_window_tasks_result :
-  ?next_token:string -> ?tasks:maintenance_window_task list -> unit
--> describe_maintenance_window_tasks_result
-
 val make_describe_maintenance_window_tasks_request :
   ?next_token:string ->
   ?max_results:int ->
@@ -2448,10 +1980,6 @@ val make_describe_maintenance_window_tasks_request :
   unit
 -> describe_maintenance_window_tasks_request
 
-val make_describe_maintenance_window_targets_result :
-  ?next_token:string -> ?targets:maintenance_window_target list -> unit
--> describe_maintenance_window_targets_result
-
 val make_describe_maintenance_window_targets_request :
   ?next_token:string ->
   ?max_results:int ->
@@ -2459,12 +1987,6 @@ val make_describe_maintenance_window_targets_request :
   window_id:string ->
   unit
 -> describe_maintenance_window_targets_request
-
-val make_describe_maintenance_window_schedule_result :
-  ?next_token:string ->
-  ?scheduled_window_executions:scheduled_window_execution list ->
-  unit
--> describe_maintenance_window_schedule_result
 
 val make_describe_maintenance_window_schedule_request :
   ?next_token:string ->
@@ -2476,12 +1998,6 @@ val make_describe_maintenance_window_schedule_request :
   unit
 -> describe_maintenance_window_schedule_request
 
-val make_describe_maintenance_window_executions_result :
-  ?next_token:string ->
-  ?window_executions:maintenance_window_execution list ->
-  unit
--> describe_maintenance_window_executions_result
-
 val make_describe_maintenance_window_executions_request :
   ?next_token:string ->
   ?max_results:int ->
@@ -2490,12 +2006,6 @@ val make_describe_maintenance_window_executions_request :
   unit
 -> describe_maintenance_window_executions_request
 
-val make_describe_maintenance_window_execution_tasks_result :
-  ?next_token:string ->
-  ?window_execution_task_identities:maintenance_window_execution_task_identity list ->
-  unit
--> describe_maintenance_window_execution_tasks_result
-
 val make_describe_maintenance_window_execution_tasks_request :
   ?next_token:string ->
   ?max_results:int ->
@@ -2503,12 +2013,6 @@ val make_describe_maintenance_window_execution_tasks_request :
   window_execution_id:string ->
   unit
 -> describe_maintenance_window_execution_tasks_request
-
-val make_describe_maintenance_window_execution_task_invocations_result :
-  ?next_token:string ->
-  ?window_execution_task_invocation_identities:maintenance_window_execution_task_invocation_identity list ->
-  unit
--> describe_maintenance_window_execution_task_invocations_result
 
 val make_describe_maintenance_window_execution_task_invocations_request :
   ?next_token:string ->
@@ -2519,19 +2023,9 @@ val make_describe_maintenance_window_execution_task_invocations_request :
   unit
 -> describe_maintenance_window_execution_task_invocations_request
 
-val make_describe_inventory_deletions_result :
-  ?next_token:string ->
-  ?inventory_deletions:inventory_deletion_status_item list ->
-  unit
--> describe_inventory_deletions_result
-
 val make_describe_inventory_deletions_request :
   ?max_results:int -> ?next_token:string -> ?deletion_id:string -> unit
 -> describe_inventory_deletions_request
-
-val make_describe_instance_properties_result :
-  ?next_token:string -> ?instance_properties:instance_property list -> unit
--> describe_instance_properties_result
 
 val make_describe_instance_properties_request :
   ?next_token:string ->
@@ -2541,10 +2035,6 @@ val make_describe_instance_properties_request :
   unit
 -> describe_instance_properties_request
 
-val make_describe_instance_patches_result :
-  ?next_token:string -> ?patches:patch_compliance_data list -> unit
--> describe_instance_patches_result
-
 val make_describe_instance_patches_request :
   ?max_results:int ->
   ?next_token:string ->
@@ -2553,21 +2043,9 @@ val make_describe_instance_patches_request :
   unit
 -> describe_instance_patches_request
 
-val make_describe_instance_patch_states_result :
-  ?next_token:string ->
-  ?instance_patch_states:instance_patch_state list ->
-  unit
--> describe_instance_patch_states_result
-
 val make_describe_instance_patch_states_request :
   ?max_results:int -> ?next_token:string -> instance_ids:string list -> unit
 -> describe_instance_patch_states_request
-
-val make_describe_instance_patch_states_for_patch_group_result :
-  ?next_token:string ->
-  ?instance_patch_states:instance_patch_state list ->
-  unit
--> describe_instance_patch_states_for_patch_group_result
 
 val make_describe_instance_patch_states_for_patch_group_request :
   ?max_results:int ->
@@ -2577,12 +2055,6 @@ val make_describe_instance_patch_states_for_patch_group_request :
   unit
 -> describe_instance_patch_states_for_patch_group_request
 
-val make_describe_instance_information_result :
-  ?next_token:string ->
-  ?instance_information_list:instance_information list ->
-  unit
--> describe_instance_information_result
-
 val make_describe_instance_information_request :
   ?next_token:string ->
   ?max_results:int ->
@@ -2591,34 +2063,17 @@ val make_describe_instance_information_request :
   unit
 -> describe_instance_information_request
 
-val make_describe_instance_associations_status_result :
-  ?next_token:string ->
-  ?instance_association_status_infos:instance_association_status_info list ->
-  unit
--> describe_instance_associations_status_result
-
 val make_describe_instance_associations_status_request :
   ?next_token:string -> ?max_results:int -> instance_id:string -> unit
 -> describe_instance_associations_status_request
-
-val make_describe_effective_patches_for_patch_baseline_result :
-  ?next_token:string -> ?effective_patches:effective_patch list -> unit
--> describe_effective_patches_for_patch_baseline_result
 
 val make_describe_effective_patches_for_patch_baseline_request :
   ?next_token:string -> ?max_results:int -> baseline_id:string -> unit
 -> describe_effective_patches_for_patch_baseline_request
 
-val make_describe_effective_instance_associations_result :
-  ?next_token:string -> ?associations:instance_association list -> unit
--> describe_effective_instance_associations_result
-
 val make_describe_effective_instance_associations_request :
   ?next_token:string -> ?max_results:int -> instance_id:string -> unit
 -> describe_effective_instance_associations_request
-
-val make_describe_document_result : ?document:document_description -> unit
--> describe_document_result
 
 val make_describe_document_request :
   ?version_name:string -> ?document_version:string -> name:string -> unit
@@ -2643,20 +2098,12 @@ val make_describe_document_permission_request :
   unit
 -> describe_document_permission_request
 
-val make_describe_available_patches_result :
-  ?next_token:string -> ?patches:patch list -> unit
--> describe_available_patches_result
-
 val make_describe_available_patches_request :
   ?next_token:string ->
   ?max_results:int ->
   ?filters:patch_orchestrator_filter list ->
   unit
 -> describe_available_patches_request
-
-val make_describe_automation_step_executions_result :
-  ?next_token:string -> ?step_executions:step_execution list -> unit
--> describe_automation_step_executions_result
 
 val make_describe_automation_step_executions_request :
   ?reverse_order:bool ->
@@ -2698,14 +2145,7 @@ val make_automation_execution_metadata :
   ?document_version:string ->
   ?document_name:string ->
   ?automation_execution_id:string ->
-  unit
--> automation_execution_metadata
-
-val make_describe_automation_executions_result :
-  ?next_token:string ->
-  ?automation_execution_metadata_list:automation_execution_metadata list ->
-  unit
--> describe_automation_executions_result
+  unit -> automation_execution_metadata
 
 val make_automation_execution_filter :
   values:string list -> key:automation_execution_filter_key -> unit
@@ -2717,10 +2157,6 @@ val make_describe_automation_executions_request :
   ?filters:automation_execution_filter list ->
   unit
 -> describe_automation_executions_request
-
-val make_describe_association_result :
-  ?association_description:association_description -> unit
--> describe_association_result
 
 val make_describe_association_request :
   ?association_version:string ->
@@ -2740,14 +2176,7 @@ val make_association_execution :
   ?execution_id:string ->
   ?association_version:string ->
   ?association_id:string ->
-  unit
--> association_execution
-
-val make_describe_association_executions_result :
-  ?next_token:string ->
-  ?association_executions:association_execution list ->
-  unit
--> describe_association_executions_result
+  unit -> association_execution
 
 val make_association_execution_filter :
   type_:association_filter_operator_type ->
@@ -2777,12 +2206,6 @@ val make_association_execution_target :
   unit
 -> association_execution_target
 
-val make_describe_association_execution_targets_result :
-  ?next_token:string ->
-  ?association_execution_targets:association_execution_target list ->
-  unit
--> describe_association_execution_targets_result
-
 val make_association_execution_targets_filter :
   value:string -> key:association_execution_targets_filter_key -> unit
 -> association_execution_targets_filter
@@ -2808,10 +2231,6 @@ val make_activation :
   ?activation_id:string ->
   unit -> activation
 
-val make_describe_activations_result :
-  ?next_token:string -> ?activation_list:activation list -> unit
--> describe_activations_result
-
 val make_describe_activations_filter :
   ?filter_values:string list ->
   ?filter_key:describe_activations_filter_keys ->
@@ -2824,32 +2243,17 @@ val make_describe_activations_request :
   unit
 -> describe_activations_request
 
-val make_deregister_task_from_maintenance_window_result :
-  ?window_task_id:string -> ?window_id:string -> unit
--> deregister_task_from_maintenance_window_result
-
 val make_deregister_task_from_maintenance_window_request :
   window_task_id:string -> window_id:string -> unit
 -> deregister_task_from_maintenance_window_request
-
-val make_deregister_target_from_maintenance_window_result :
-  ?window_target_id:string -> ?window_id:string -> unit
--> deregister_target_from_maintenance_window_result
 
 val make_deregister_target_from_maintenance_window_request :
   ?safe:bool -> window_target_id:string -> window_id:string -> unit
 -> deregister_target_from_maintenance_window_request
 
-val make_deregister_patch_baseline_for_patch_group_result :
-  ?patch_group:string -> ?baseline_id:string -> unit
--> deregister_patch_baseline_for_patch_group_result
-
 val make_deregister_patch_baseline_for_patch_group_request :
   patch_group:string -> baseline_id:string -> unit
 -> deregister_patch_baseline_for_patch_group_request
-
-val make_deregister_managed_instance_result : unit
--> deregister_managed_instance_result
 
 val make_deregister_managed_instance_request : instance_id:string -> unit
 -> deregister_managed_instance_request
@@ -2861,34 +2265,18 @@ val make_delete_resource_policy_request :
   policy_hash:string -> policy_id:string -> resource_arn:string -> unit
 -> delete_resource_policy_request
 
-val make_delete_resource_data_sync_result : unit
--> delete_resource_data_sync_result
-
 val make_delete_resource_data_sync_request :
   ?sync_type:string -> sync_name:string -> unit
 -> delete_resource_data_sync_request
 
-val make_delete_patch_baseline_result : ?baseline_id:string -> unit
--> delete_patch_baseline_result
-
 val make_delete_patch_baseline_request : baseline_id:string -> unit
 -> delete_patch_baseline_request
-
-val make_delete_parameters_result :
-  ?invalid_parameters:string list -> ?deleted_parameters:string list -> unit
--> delete_parameters_result
 
 val make_delete_parameters_request : names:string list -> unit
 -> delete_parameters_request
 
-val make_delete_parameter_result : unit
--> delete_parameter_result
-
 val make_delete_parameter_request : name:string -> unit
 -> delete_parameter_request
-
-val make_delete_ops_metadata_result : unit
--> delete_ops_metadata_result
 
 val make_delete_ops_metadata_request : ops_metadata_arn:string -> unit
 -> delete_ops_metadata_request
@@ -2899,17 +2287,8 @@ val make_delete_ops_item_response : unit
 val make_delete_ops_item_request : ops_item_id:string -> unit
 -> delete_ops_item_request
 
-val make_delete_maintenance_window_result : ?window_id:string -> unit
--> delete_maintenance_window_result
-
 val make_delete_maintenance_window_request : window_id:string -> unit
 -> delete_maintenance_window_request
-
-val make_delete_inventory_result :
-  ?deletion_summary:inventory_deletion_summary ->
-  ?type_name:string ->
-  ?deletion_id:string ->
-  unit -> delete_inventory_result
 
 val make_delete_inventory_request :
   ?client_token:string ->
@@ -2918,9 +2297,6 @@ val make_delete_inventory_request :
   type_name:string ->
   unit -> delete_inventory_request
 
-val make_delete_document_result : unit
--> delete_document_result
-
 val make_delete_document_request :
   ?force:bool ->
   ?version_name:string ->
@@ -2928,21 +2304,12 @@ val make_delete_document_request :
   name:string ->
   unit -> delete_document_request
 
-val make_delete_association_result : unit
--> delete_association_result
-
 val make_delete_association_request :
   ?association_id:string -> ?instance_id:string -> ?name:string -> unit
 -> delete_association_request
 
-val make_delete_activation_result : unit
--> delete_activation_result
-
 val make_delete_activation_request : activation_id:string -> unit
 -> delete_activation_request
-
-val make_create_resource_data_sync_result : unit
--> create_resource_data_sync_result
 
 val make_create_resource_data_sync_request :
   ?sync_source:resource_data_sync_source ->
@@ -2951,9 +2318,6 @@ val make_create_resource_data_sync_request :
   sync_name:string ->
   unit
 -> create_resource_data_sync_request
-
-val make_create_patch_baseline_result : ?baseline_id:string -> unit
--> create_patch_baseline_result
 
 val make_create_patch_baseline_request :
   ?tags:tag list ->
@@ -2970,9 +2334,6 @@ val make_create_patch_baseline_request :
   ?operating_system:operating_system ->
   name:string ->
   unit -> create_patch_baseline_request
-
-val make_create_ops_metadata_result : ?ops_metadata_arn:string -> unit
--> create_ops_metadata_result
 
 val make_create_ops_metadata_request :
   ?tags:tag list ->
@@ -3003,9 +2364,6 @@ val make_create_ops_item_request :
   description:string ->
   unit -> create_ops_item_request
 
-val make_create_maintenance_window_result : ?window_id:string -> unit
--> create_maintenance_window_result
-
 val make_create_maintenance_window_request :
   ?tags:tag list ->
   ?client_token:string ->
@@ -3021,10 +2379,6 @@ val make_create_maintenance_window_request :
   name:string ->
   unit -> create_maintenance_window_request
 
-val make_create_document_result :
-  ?document_description:document_description -> unit
--> create_document_result
-
 val make_create_document_request :
   ?tags:tag list ->
   ?target_type:string ->
@@ -3037,10 +2391,6 @@ val make_create_document_request :
   name:string ->
   content:string ->
   unit -> create_document_request
-
-val make_create_association_result :
-  ?association_description:association_description -> unit
--> create_association_result
 
 val make_create_association_request :
   ?alarm_configuration:alarm_configuration ->
@@ -3067,19 +2417,9 @@ val make_create_association_request :
   unit
 -> create_association_request
 
-val make_create_association_batch_result :
-  ?failed:failed_create_association list ->
-  ?successful:association_description list ->
-  unit
--> create_association_batch_result
-
 val make_create_association_batch_request :
   entries:create_association_batch_request_entry list -> unit
 -> create_association_batch_request
-
-val make_create_activation_result :
-  ?activation_code:string -> ?activation_id:string -> unit
--> create_activation_result
 
 val make_create_activation_request :
   ?registration_metadata:registration_metadata_item list ->
@@ -3092,16 +2432,9 @@ val make_create_activation_request :
   unit
 -> create_activation_request
 
-val make_cancel_maintenance_window_execution_result :
-  ?window_execution_id:string -> unit
--> cancel_maintenance_window_execution_result
-
 val make_cancel_maintenance_window_execution_request :
   window_execution_id:string -> unit
 -> cancel_maintenance_window_execution_request
-
-val make_cancel_command_result : unit
--> cancel_command_result
 
 val make_cancel_command_request :
   ?instance_ids:string list -> command_id:string -> unit
@@ -3118,9 +2451,6 @@ val make_associate_ops_item_related_item_request :
   ops_item_id:string ->
   unit
 -> associate_ops_item_related_item_request
-
-val make_add_tags_to_resource_result : unit
--> add_tags_to_resource_result
 
 val make_add_tags_to_resource_request :
   tags:tag list ->

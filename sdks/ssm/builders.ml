@@ -1,16 +1,9 @@
 [@@@warning "-39"]
 open Types
-let make_update_service_setting_result  () : update_service_setting_result =
-()
-
 let make_update_service_setting_request 
   ~(setting_value : string) ~(setting_id : string) ()
 : update_service_setting_request = { setting_value; setting_id; 
 }
-
-let make_update_resource_data_sync_result  ()
-: update_resource_data_sync_result =
-()
 
 let make_resource_data_sync_organizational_unit 
   ?(organizational_unit_id : string option) ()
@@ -73,38 +66,6 @@ let make_patch_source
 : patch_source = { configuration; products; name; 
 }
 
-let make_update_patch_baseline_result 
-  ?(sources : patch_source list option)
-  ?(description : string option)
-  ?(modified_date : float option)
-  ?(created_date : float option)
-  ?(rejected_patches_action : patch_action option)
-  ?(rejected_patches : string list option)
-  ?(approved_patches_enable_non_security : bool option)
-  ?(approved_patches_compliance_level : patch_compliance_level option)
-  ?(approved_patches : string list option)
-  ?(approval_rules : patch_rule_group option)
-  ?(global_filters : patch_filter_group option)
-  ?(operating_system : operating_system option)
-  ?(name : string option)
-  ?(baseline_id : string option)
-  () : update_patch_baseline_result = {
-  sources;
-  description;
-  modified_date;
-  created_date;
-  rejected_patches_action;
-  rejected_patches;
-  approved_patches_enable_non_security;
-  approved_patches_compliance_level;
-  approved_patches;
-  approval_rules;
-  global_filters;
-  operating_system;
-  name;
-  baseline_id;
-   }
-
 let make_update_patch_baseline_request 
   ?(replace : bool option)
   ?(sources : patch_source list option)
@@ -132,9 +93,6 @@ let make_update_patch_baseline_request
   name;
   baseline_id;
    }
-
-let make_update_ops_metadata_result  ?(ops_metadata_arn : string option) ()
-: update_ops_metadata_result = { ops_metadata_arn;  }
 
 let make_metadata_value  ?(value : string option) () : metadata_value = {
   value;  }
@@ -195,10 +153,6 @@ let make_update_ops_item_request
   operational_data;
   description;
    }
-
-let make_update_managed_instance_role_result  ()
-: update_managed_instance_role_result =
-()
 
 let make_update_managed_instance_role_request 
   ~(iam_role : string) ~(instance_id : string) ()
@@ -298,40 +252,6 @@ let make_alarm_configuration
 : alarm_configuration = { alarms; ignore_poll_alarm_failure; 
 }
 
-let make_update_maintenance_window_task_result 
-  ?(alarm_configuration : alarm_configuration option)
-  ?(cutoff_behavior : maintenance_window_task_cutoff_behavior option)
-  ?(description : string option)
-  ?(name : string option)
-  ?(logging_info : logging_info option)
-  ?(max_errors : string option)
-  ?(max_concurrency : string option)
-  ?(priority : int option)
-  ?(task_invocation_parameters : maintenance_window_task_invocation_parameters option)
-  ?(task_parameters : (string * maintenance_window_task_parameter_value_expression) list option)
-  ?(service_role_arn : string option)
-  ?(task_arn : string option)
-  ?(targets : target list option)
-  ?(window_task_id : string option)
-  ?(window_id : string option)
-  () : update_maintenance_window_task_result = {
-  alarm_configuration;
-  cutoff_behavior;
-  description;
-  name;
-  logging_info;
-  max_errors;
-  max_concurrency;
-  priority;
-  task_invocation_parameters;
-  task_parameters;
-  service_role_arn;
-  task_arn;
-  targets;
-  window_task_id;
-  window_id;
-   }
-
 let make_update_maintenance_window_task_request 
   ?(alarm_configuration : alarm_configuration option)
   ?(cutoff_behavior : maintenance_window_task_cutoff_behavior option)
@@ -368,17 +288,6 @@ let make_update_maintenance_window_task_request
   window_id;
    }
 
-let make_update_maintenance_window_target_result 
-  ?(description : string option)
-  ?(name : string option)
-  ?(owner_information : string option)
-  ?(targets : target list option)
-  ?(window_target_id : string option)
-  ?(window_id : string option)
-  () : update_maintenance_window_target_result = {
-  description; name; owner_information; targets; window_target_id; window_id; 
-}
-
 let make_update_maintenance_window_target_request 
   ?(replace : bool option)
   ?(description : string option)
@@ -394,34 +303,6 @@ let make_update_maintenance_window_target_request
   owner_information;
   targets;
   window_target_id;
-  window_id;
-   }
-
-let make_update_maintenance_window_result 
-  ?(enabled : bool option)
-  ?(allow_unassociated_targets : bool option)
-  ?(cutoff : int option)
-  ?(duration : int option)
-  ?(schedule_offset : int option)
-  ?(schedule_timezone : string option)
-  ?(schedule : string option)
-  ?(end_date : string option)
-  ?(start_date : string option)
-  ?(description : string option)
-  ?(name : string option)
-  ?(window_id : string option)
-  () : update_maintenance_window_result = {
-  enabled;
-  allow_unassociated_targets;
-  cutoff;
-  duration;
-  schedule_offset;
-  schedule_timezone;
-  schedule;
-  end_date;
-  start_date;
-  description;
-  name;
   window_id;
    }
 
@@ -548,11 +429,6 @@ let make_document_description
   sha1;
    }
 
-let make_update_document_result 
-  ?(document_description : document_description option) ()
-: update_document_result = { document_description; 
-}
-
 let make_attachments_source 
   ?(name : string option)
   ?(values : string list option)
@@ -610,11 +486,6 @@ let make_document_default_version_description
   ?(name : string option)
   () : document_default_version_description = {
   default_version_name; default_version; name; 
-}
-
-let make_update_document_default_version_result 
-  ?(description : document_default_version_description option) ()
-: update_document_default_version_result = { description; 
 }
 
 let make_update_document_default_version_request 
@@ -734,22 +605,12 @@ let make_association_description
   name;
    }
 
-let make_update_association_status_result 
-  ?(association_description : association_description option) ()
-: update_association_status_result = { association_description; 
-}
-
 let make_update_association_status_request 
   ~(association_status : association_status)
   ~(instance_id : string)
   ~(name : string)
   () : update_association_status_request = {
   association_status; instance_id; name; 
-}
-
-let make_update_association_result 
-  ?(association_description : association_description option) ()
-: update_association_result = { association_description; 
 }
 
 let make_update_association_request 
@@ -798,12 +659,6 @@ let make_update_association_request
   association_id;
    }
 
-let make_unlabel_parameter_version_result 
-  ?(invalid_labels : string list option)
-  ?(removed_labels : string list option)
-  () : unlabel_parameter_version_result = { invalid_labels; removed_labels; 
-}
-
 let make_unlabel_parameter_version_request 
   ~(labels : string list) ~(parameter_version : int) ~(name : string) ()
 : unlabel_parameter_version_request = { labels; parameter_version; name; 
@@ -816,10 +671,6 @@ let make_terminate_session_response  ?(session_id : string option) ()
 let make_terminate_session_request  ~(session_id : string) ()
 : terminate_session_request = { session_id; 
 }
-
-let make_stop_automation_execution_result  ()
-: stop_automation_execution_result =
-()
 
 let make_stop_automation_execution_request 
   ?(type_ : stop_type option) ~(automation_execution_id : string) ()
@@ -914,11 +765,6 @@ let make_start_session_request
   () : start_session_request = { parameters; reason; document_name; target; 
 }
 
-let make_start_change_request_execution_result 
-  ?(automation_execution_id : string option) ()
-: start_change_request_execution_result = { automation_execution_id; 
-}
-
 let make_runbook 
   ?(target_locations : target_location list option)
   ?(max_errors : string option)
@@ -967,11 +813,6 @@ let make_start_change_request_execution_request
   scheduled_time;
    }
 
-let make_start_automation_execution_result 
-  ?(automation_execution_id : string option) ()
-: start_automation_execution_result = { automation_execution_id; 
-}
-
 let make_start_automation_execution_request 
   ?(alarm_configuration : alarm_configuration option)
   ?(tags : tag list option)
@@ -1001,9 +842,6 @@ let make_start_automation_execution_request
   document_version;
   document_name;
    }
-
-let make_start_associations_once_result  () : start_associations_once_result
-= ()
 
 let make_start_associations_once_request  ~(association_ids : string list) ()
 : start_associations_once_request = { association_ids; 
@@ -1132,9 +970,6 @@ let make_command
   command_id;
    }
 
-let make_send_command_result  ?(command : command option) ()
-: send_command_result = { command;  }
-
 let make_send_command_request 
   ?(alarm_configuration : alarm_configuration option)
   ?(cloud_watch_output_config : cloud_watch_output_config option)
@@ -1174,9 +1009,6 @@ let make_send_command_request
   targets;
   instance_ids;
    }
-
-let make_send_automation_signal_result  () : send_automation_signal_result =
-()
 
 let make_send_automation_signal_request 
   ?(payload : (string * string list) list option)
@@ -1315,18 +1147,9 @@ let make_resolved_targets
 : resolved_targets = { truncated; parameter_values; 
 }
 
-let make_reset_service_setting_result 
-  ?(service_setting : service_setting option) ()
-: reset_service_setting_result = { service_setting; 
-}
-
 let make_reset_service_setting_request  ~(setting_id : string) ()
 : reset_service_setting_request = { setting_id; 
 }
-
-let make_remove_tags_from_resource_result  ()
-: remove_tags_from_resource_result =
-()
 
 let make_remove_tags_from_resource_request 
   ~(tag_keys : string list)
@@ -1338,11 +1161,6 @@ let make_remove_tags_from_resource_request
 
 let make_registration_metadata_item  ~(value : string) ~(key : string) ()
 : registration_metadata_item = { value; key; 
-}
-
-let make_register_task_with_maintenance_window_result 
-  ?(window_task_id : string option) ()
-: register_task_with_maintenance_window_result = { window_task_id; 
 }
 
 let make_register_task_with_maintenance_window_request 
@@ -1381,11 +1199,6 @@ let make_register_task_with_maintenance_window_request
   window_id;
    }
 
-let make_register_target_with_maintenance_window_result 
-  ?(window_target_id : string option) ()
-: register_target_with_maintenance_window_result = { window_target_id; 
-}
-
 let make_register_target_with_maintenance_window_request 
   ?(client_token : string option)
   ?(description : string option)
@@ -1404,21 +1217,11 @@ let make_register_target_with_maintenance_window_request
   window_id;
    }
 
-let make_register_patch_baseline_for_patch_group_result 
-  ?(patch_group : string option) ?(baseline_id : string option) ()
-: register_patch_baseline_for_patch_group_result = {
-  patch_group; baseline_id; 
-}
-
 let make_register_patch_baseline_for_patch_group_request 
   ~(patch_group : string) ~(baseline_id : string) ()
 : register_patch_baseline_for_patch_group_request = {
   patch_group; baseline_id; 
 }
-
-let make_register_default_patch_baseline_result 
-  ?(baseline_id : string option) () : register_default_patch_baseline_result
-= { baseline_id;  }
 
 let make_register_default_patch_baseline_request  ~(baseline_id : string) ()
 : register_default_patch_baseline_request = { baseline_id; 
@@ -1437,10 +1240,6 @@ let make_put_resource_policy_request
   () : put_resource_policy_request = {
   policy_hash; policy_id; policy; resource_arn; 
 }
-
-let make_put_parameter_result 
-  ?(tier : parameter_tier option) ?(version : int option) ()
-: put_parameter_result = { tier; version;  }
 
 let make_put_parameter_request 
   ?(data_type : string option)
@@ -1468,9 +1267,6 @@ let make_put_parameter_request
   name;
    }
 
-let make_put_inventory_result  ?(message : string option) ()
-: put_inventory_result = { message;  }
-
 let make_inventory_item 
   ?(context : (string * string) list option)
   ?(content : (string * string) list list option)
@@ -1486,9 +1282,6 @@ let make_put_inventory_request
   ~(items : inventory_item list) ~(instance_id : string) ()
 : put_inventory_request = { items; instance_id; 
 }
-
-let make_put_compliance_items_result  () : put_compliance_items_result =
-()
 
 let make_compliance_item_entry 
   ?(details : (string * string) list option)
@@ -2095,20 +1888,9 @@ let make_maintenance_window_execution
   window_id;
    }
 
-let make_list_tags_for_resource_result  ?(tag_list : tag list option) ()
-: list_tags_for_resource_result = { tag_list; 
-}
-
 let make_list_tags_for_resource_request 
   ~(resource_id : string) ~(resource_type : resource_type_for_tagging) ()
 : list_tags_for_resource_request = { resource_id; resource_type; 
-}
-
-let make_list_resource_data_sync_result 
-  ?(next_token : string option)
-  ?(resource_data_sync_items : resource_data_sync_item list option)
-  () : list_resource_data_sync_result = {
-  next_token; resource_data_sync_items; 
 }
 
 let make_list_resource_data_sync_request 
@@ -2116,15 +1898,7 @@ let make_list_resource_data_sync_request
   ?(next_token : string option)
   ?(sync_type : string option)
   () : list_resource_data_sync_request = {
-  max_results; next_token; sync_type; 
-}
-
-let make_list_resource_compliance_summaries_result 
-  ?(next_token : string option)
-  ?(resource_compliance_summary_items : resource_compliance_summary_item list option)
-  () : list_resource_compliance_summaries_result = {
-  next_token; resource_compliance_summary_items; 
-}
+  max_results; next_token; sync_type;  }
 
 let make_compliance_string_filter 
   ?(type_ : compliance_query_operator_type option)
@@ -2139,12 +1913,6 @@ let make_list_resource_compliance_summaries_request
   ?(filters : compliance_string_filter list option)
   () : list_resource_compliance_summaries_request = {
   max_results; next_token; filters;  }
-
-let make_list_ops_metadata_result 
-  ?(next_token : string option)
-  ?(ops_metadata_list : ops_metadata list option)
-  () : list_ops_metadata_result = { next_token; ops_metadata_list; 
-}
 
 let make_list_ops_metadata_request 
   ?(next_token : string option)
@@ -2179,17 +1947,6 @@ let make_list_ops_item_events_request
   ?(max_results : int option)
   ?(filters : ops_item_event_filter list option)
   () : list_ops_item_events_request = { next_token; max_results; filters; 
-}
-
-let make_list_inventory_entries_result 
-  ?(next_token : string option)
-  ?(entries : (string * string) list list option)
-  ?(capture_time : string option)
-  ?(schema_version : string option)
-  ?(instance_id : string option)
-  ?(type_name : string option)
-  () : list_inventory_entries_result = {
-  next_token; entries; capture_time; schema_version; instance_id; type_name; 
 }
 
 let make_inventory_filter 
@@ -2243,12 +2000,6 @@ let make_document_identifier
   name;
    }
 
-let make_list_documents_result 
-  ?(next_token : string option)
-  ?(document_identifiers : document_identifier list option)
-  () : list_documents_result = { next_token; document_identifiers; 
-}
-
 let make_document_filter  ~(value : string) ~(key : document_filter_key) ()
 : document_filter = { value; key;  }
 
@@ -2289,12 +2040,6 @@ let make_document_version_info
   display_name;
   name;
    }
-
-let make_list_document_versions_result 
-  ?(next_token : string option)
-  ?(document_versions : document_version_info list option)
-  () : list_document_versions_result = { next_token; document_versions; 
-}
 
 let make_list_document_versions_request 
   ?(next_token : string option)
@@ -2346,13 +2091,6 @@ let make_compliance_summary_item
   non_compliant_summary; compliant_summary; compliance_type; 
 }
 
-let make_list_compliance_summaries_result 
-  ?(next_token : string option)
-  ?(compliance_summary_items : compliance_summary_item list option)
-  () : list_compliance_summaries_result = {
-  next_token; compliance_summary_items; 
-}
-
 let make_list_compliance_summaries_request 
   ?(max_results : int option)
   ?(next_token : string option)
@@ -2382,12 +2120,6 @@ let make_compliance_item
   compliance_type;
    }
 
-let make_list_compliance_items_result 
-  ?(next_token : string option)
-  ?(compliance_items : compliance_item list option)
-  () : list_compliance_items_result = { next_token; compliance_items; 
-}
-
 let make_list_compliance_items_request 
   ?(max_results : int option)
   ?(next_token : string option)
@@ -2397,10 +2129,6 @@ let make_list_compliance_items_request
   () : list_compliance_items_request = {
   max_results; next_token; resource_types; resource_ids; filters; 
 }
-
-let make_list_commands_result 
-  ?(next_token : string option) ?(commands : command list option) ()
-: list_commands_result = { next_token; commands;  }
 
 let make_command_filter  ~(value : string) ~(key : command_filter_key) ()
 : command_filter = { value; key;  }
@@ -2479,12 +2207,6 @@ let make_command_invocation
   command_id;
    }
 
-let make_list_command_invocations_result 
-  ?(next_token : string option)
-  ?(command_invocations : command_invocation list option)
-  () : list_command_invocations_result = { next_token; command_invocations; 
-}
-
 let make_list_command_invocations_request 
   ?(details : bool option)
   ?(filters : command_filter list option)
@@ -2525,11 +2247,6 @@ let make_association
   instance_id;
   name;
    }
-
-let make_list_associations_result 
-  ?(next_token : string option) ?(associations : association list option) ()
-: list_associations_result = { next_token; associations; 
-}
 
 let make_association_filter 
   ~(value : string) ~(key : association_filter_key) () : association_filter =
@@ -2587,24 +2304,12 @@ let make_association_version_info
   association_id;
    }
 
-let make_list_association_versions_result 
-  ?(next_token : string option)
-  ?(association_versions : association_version_info list option)
-  () : list_association_versions_result = {
-  next_token; association_versions; 
-}
-
 let make_list_association_versions_request 
   ?(next_token : string option)
   ?(max_results : int option)
   ~(association_id : string)
   () : list_association_versions_request = {
   next_token; max_results; association_id; 
-}
-
-let make_label_parameter_version_result 
-  ?(parameter_version : int option) ?(invalid_labels : string list option) ()
-: label_parameter_version_result = { parameter_version; invalid_labels; 
 }
 
 let make_label_parameter_version_request 
@@ -2915,10 +2620,6 @@ let make_instance_association
   association_version; content; instance_id; association_id; 
 }
 
-let make_get_service_setting_result 
-  ?(service_setting : service_setting option) () : get_service_setting_result
-= { service_setting;  }
-
 let make_get_service_setting_request  ~(setting_id : string) ()
 : get_service_setting_request = { setting_id; 
 }
@@ -2944,50 +2645,8 @@ let make_get_resource_policies_request
   max_results; next_token; resource_arn; 
 }
 
-let make_get_patch_baseline_result 
-  ?(sources : patch_source list option)
-  ?(description : string option)
-  ?(modified_date : float option)
-  ?(created_date : float option)
-  ?(patch_groups : string list option)
-  ?(rejected_patches_action : patch_action option)
-  ?(rejected_patches : string list option)
-  ?(approved_patches_enable_non_security : bool option)
-  ?(approved_patches_compliance_level : patch_compliance_level option)
-  ?(approved_patches : string list option)
-  ?(approval_rules : patch_rule_group option)
-  ?(global_filters : patch_filter_group option)
-  ?(operating_system : operating_system option)
-  ?(name : string option)
-  ?(baseline_id : string option)
-  () : get_patch_baseline_result = {
-  sources;
-  description;
-  modified_date;
-  created_date;
-  patch_groups;
-  rejected_patches_action;
-  rejected_patches;
-  approved_patches_enable_non_security;
-  approved_patches_compliance_level;
-  approved_patches;
-  approval_rules;
-  global_filters;
-  operating_system;
-  name;
-  baseline_id;
-   }
-
 let make_get_patch_baseline_request  ~(baseline_id : string) ()
 : get_patch_baseline_request = { baseline_id; 
-}
-
-let make_get_patch_baseline_for_patch_group_result 
-  ?(operating_system : operating_system option)
-  ?(patch_group : string option)
-  ?(baseline_id : string option)
-  () : get_patch_baseline_for_patch_group_result = {
-  operating_system; patch_group; baseline_id; 
 }
 
 let make_get_patch_baseline_for_patch_group_request 
@@ -2995,20 +2654,9 @@ let make_get_patch_baseline_for_patch_group_request
 : get_patch_baseline_for_patch_group_request = {
   operating_system; patch_group;  }
 
-let make_get_parameters_result 
-  ?(invalid_parameters : string list option)
-  ?(parameters : parameter list option)
-  () : get_parameters_result = { invalid_parameters; parameters; 
-}
-
 let make_get_parameters_request 
   ?(with_decryption : bool option) ~(names : string list) ()
 : get_parameters_request = { with_decryption; names; 
-}
-
-let make_get_parameters_by_path_result 
-  ?(next_token : string option) ?(parameters : parameter list option) ()
-: get_parameters_by_path_result = { next_token; parameters; 
 }
 
 let make_get_parameters_by_path_request 
@@ -3027,18 +2675,9 @@ let make_get_parameters_by_path_request
   path;
    }
 
-let make_get_parameter_result  ?(parameter : parameter option) ()
-: get_parameter_result = { parameter;  }
-
 let make_get_parameter_request 
   ?(with_decryption : bool option) ~(name : string) ()
 : get_parameter_request = { with_decryption; name; 
-}
-
-let make_get_parameter_history_result 
-  ?(next_token : string option)
-  ?(parameters : parameter_history list option)
-  () : get_parameter_history_result = { next_token; parameters; 
 }
 
 let make_get_parameter_history_request 
@@ -3048,11 +2687,6 @@ let make_get_parameter_history_request
   ~(name : string)
   () : get_parameter_history_request = {
   next_token; max_results; with_decryption; name; 
-}
-
-let make_get_ops_summary_result 
-  ?(next_token : string option) ?(entities : ops_entity list option) ()
-: get_ops_summary_result = { next_token; entities; 
 }
 
 let make_get_ops_summary_request 
@@ -3071,13 +2705,6 @@ let make_get_ops_summary_request
   sync_name;
    }
 
-let make_get_ops_metadata_result 
-  ?(next_token : string option)
-  ?(metadata : (string * metadata_value) list option)
-  ?(resource_id : string option)
-  () : get_ops_metadata_result = { next_token; metadata; resource_id; 
-}
-
 let make_get_ops_metadata_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -3094,152 +2721,20 @@ let make_get_ops_item_request
 : get_ops_item_request = { ops_item_arn; ops_item_id; 
 }
 
-let make_get_maintenance_window_task_result 
-  ?(alarm_configuration : alarm_configuration option)
-  ?(cutoff_behavior : maintenance_window_task_cutoff_behavior option)
-  ?(description : string option)
-  ?(name : string option)
-  ?(logging_info : logging_info option)
-  ?(max_errors : string option)
-  ?(max_concurrency : string option)
-  ?(priority : int option)
-  ?(task_invocation_parameters : maintenance_window_task_invocation_parameters option)
-  ?(task_parameters : (string * maintenance_window_task_parameter_value_expression) list option)
-  ?(task_type : maintenance_window_task_type option)
-  ?(service_role_arn : string option)
-  ?(task_arn : string option)
-  ?(targets : target list option)
-  ?(window_task_id : string option)
-  ?(window_id : string option)
-  () : get_maintenance_window_task_result = {
-  alarm_configuration;
-  cutoff_behavior;
-  description;
-  name;
-  logging_info;
-  max_errors;
-  max_concurrency;
-  priority;
-  task_invocation_parameters;
-  task_parameters;
-  task_type;
-  service_role_arn;
-  task_arn;
-  targets;
-  window_task_id;
-  window_id;
-   }
-
 let make_get_maintenance_window_task_request 
   ~(window_task_id : string) ~(window_id : string) ()
 : get_maintenance_window_task_request = { window_task_id; window_id; 
 }
 
-let make_get_maintenance_window_result 
-  ?(modified_date : float option)
-  ?(created_date : float option)
-  ?(enabled : bool option)
-  ?(allow_unassociated_targets : bool option)
-  ?(cutoff : int option)
-  ?(duration : int option)
-  ?(next_execution_time : string option)
-  ?(schedule_offset : int option)
-  ?(schedule_timezone : string option)
-  ?(schedule : string option)
-  ?(end_date : string option)
-  ?(start_date : string option)
-  ?(description : string option)
-  ?(name : string option)
-  ?(window_id : string option)
-  () : get_maintenance_window_result = {
-  modified_date;
-  created_date;
-  enabled;
-  allow_unassociated_targets;
-  cutoff;
-  duration;
-  next_execution_time;
-  schedule_offset;
-  schedule_timezone;
-  schedule;
-  end_date;
-  start_date;
-  description;
-  name;
-  window_id;
-   }
-
 let make_get_maintenance_window_request  ~(window_id : string) ()
 : get_maintenance_window_request = { window_id; 
 }
-
-let make_get_maintenance_window_execution_task_result 
-  ?(triggered_alarms : alarm_state_information list option)
-  ?(alarm_configuration : alarm_configuration option)
-  ?(end_time : float option)
-  ?(start_time : float option)
-  ?(status_details : string option)
-  ?(status : maintenance_window_execution_status option)
-  ?(max_errors : string option)
-  ?(max_concurrency : string option)
-  ?(priority : int option)
-  ?(task_parameters : (string * maintenance_window_task_parameter_value_expression) list list option)
-  ?(type_ : maintenance_window_task_type option)
-  ?(service_role : string option)
-  ?(task_arn : string option)
-  ?(task_execution_id : string option)
-  ?(window_execution_id : string option)
-  () : get_maintenance_window_execution_task_result = {
-  triggered_alarms;
-  alarm_configuration;
-  end_time;
-  start_time;
-  status_details;
-  status;
-  max_errors;
-  max_concurrency;
-  priority;
-  task_parameters;
-  type_;
-  service_role;
-  task_arn;
-  task_execution_id;
-  window_execution_id;
-   }
 
 let make_get_maintenance_window_execution_task_request 
   ~(task_id : string) ~(window_execution_id : string) ()
 : get_maintenance_window_execution_task_request = {
   task_id; window_execution_id; 
 }
-
-let make_get_maintenance_window_execution_task_invocation_result 
-  ?(window_target_id : string option)
-  ?(owner_information : string option)
-  ?(end_time : float option)
-  ?(start_time : float option)
-  ?(status_details : string option)
-  ?(status : maintenance_window_execution_status option)
-  ?(parameters : string option)
-  ?(task_type : maintenance_window_task_type option)
-  ?(execution_id : string option)
-  ?(invocation_id : string option)
-  ?(task_execution_id : string option)
-  ?(window_execution_id : string option)
-  () : get_maintenance_window_execution_task_invocation_result = {
-  window_target_id;
-  owner_information;
-  end_time;
-  start_time;
-  status_details;
-  status;
-  parameters;
-  task_type;
-  execution_id;
-  invocation_id;
-  task_execution_id;
-  window_execution_id;
-   }
 
 let make_get_maintenance_window_execution_task_invocation_request 
   ~(invocation_id : string)
@@ -3249,31 +2744,9 @@ let make_get_maintenance_window_execution_task_invocation_request
   invocation_id; task_id; window_execution_id; 
 }
 
-let make_get_maintenance_window_execution_result 
-  ?(end_time : float option)
-  ?(start_time : float option)
-  ?(status_details : string option)
-  ?(status : maintenance_window_execution_status option)
-  ?(task_ids : string list option)
-  ?(window_execution_id : string option)
-  () : get_maintenance_window_execution_result = {
-  end_time;
-  start_time;
-  status_details;
-  status;
-  task_ids;
-  window_execution_id;
-   }
-
 let make_get_maintenance_window_execution_request 
   ~(window_execution_id : string) ()
 : get_maintenance_window_execution_request = { window_execution_id; 
-}
-
-let make_get_inventory_schema_result 
-  ?(next_token : string option)
-  ?(schemas : inventory_item_schema list option)
-  () : get_inventory_schema_result = { next_token; schemas; 
 }
 
 let make_get_inventory_schema_request 
@@ -3284,12 +2757,6 @@ let make_get_inventory_schema_request
   ?(type_name : string option)
   () : get_inventory_schema_request = {
   sub_type; aggregator; max_results; next_token; type_name; 
-}
-
-let make_get_inventory_result 
-  ?(next_token : string option)
-  ?(entities : inventory_result_entity list option)
-  () : get_inventory_result = { next_token; entities; 
 }
 
 let make_get_inventory_request 
@@ -3311,36 +2778,6 @@ let make_attachment_content
   () : attachment_content = { url; hash_type; hash; size; name; 
 }
 
-let make_get_document_result 
-  ?(review_status : review_status option)
-  ?(attachments_content : attachment_content list option)
-  ?(requires : document_requires list option)
-  ?(document_format : document_format option)
-  ?(document_type : document_type option)
-  ?(content : string option)
-  ?(status_information : string option)
-  ?(status : document_status option)
-  ?(document_version : string option)
-  ?(version_name : string option)
-  ?(display_name : string option)
-  ?(created_date : float option)
-  ?(name : string option)
-  () : get_document_result = {
-  review_status;
-  attachments_content;
-  requires;
-  document_format;
-  document_type;
-  content;
-  status_information;
-  status;
-  document_version;
-  version_name;
-  display_name;
-  created_date;
-  name;
-   }
-
 let make_get_document_request 
   ?(document_format : document_format option)
   ?(document_version : string option)
@@ -3348,15 +2785,6 @@ let make_get_document_request
   ~(name : string)
   () : get_document_request = {
   document_format; document_version; version_name; name; 
-}
-
-let make_get_deployable_patch_snapshot_for_instance_result 
-  ?(product : string option)
-  ?(snapshot_download_url : string option)
-  ?(snapshot_id : string option)
-  ?(instance_id : string option)
-  () : get_deployable_patch_snapshot_for_instance_result = {
-  product; snapshot_download_url; snapshot_id; instance_id; 
 }
 
 let make_baseline_override 
@@ -3389,12 +2817,6 @@ let make_get_deployable_patch_snapshot_for_instance_request
   baseline_override; snapshot_id; instance_id; 
 }
 
-let make_get_default_patch_baseline_result 
-  ?(operating_system : operating_system option)
-  ?(baseline_id : string option)
-  () : get_default_patch_baseline_result = { operating_system; baseline_id; 
-}
-
 let make_get_default_patch_baseline_request 
   ?(operating_system : operating_system option) ()
 : get_default_patch_baseline_request = { operating_system; 
@@ -3408,44 +2830,6 @@ let make_get_connection_status_response
 let make_get_connection_status_request  ~(target : string) ()
 : get_connection_status_request = { target; 
 }
-
-let make_get_command_invocation_result 
-  ?(cloud_watch_output_config : cloud_watch_output_config option)
-  ?(standard_error_url : string option)
-  ?(standard_error_content : string option)
-  ?(standard_output_url : string option)
-  ?(standard_output_content : string option)
-  ?(status_details : string option)
-  ?(status : command_invocation_status option)
-  ?(execution_end_date_time : string option)
-  ?(execution_elapsed_time : string option)
-  ?(execution_start_date_time : string option)
-  ?(response_code : int option)
-  ?(plugin_name : string option)
-  ?(document_version : string option)
-  ?(document_name : string option)
-  ?(comment : string option)
-  ?(instance_id : string option)
-  ?(command_id : string option)
-  () : get_command_invocation_result = {
-  cloud_watch_output_config;
-  standard_error_url;
-  standard_error_content;
-  standard_output_url;
-  standard_output_content;
-  status_details;
-  status;
-  execution_end_date_time;
-  execution_elapsed_time;
-  execution_start_date_time;
-  response_code;
-  plugin_name;
-  document_version;
-  document_name;
-  comment;
-  instance_id;
-  command_id;
-   }
 
 let make_get_command_invocation_request 
   ?(plugin_name : string option)
@@ -3539,11 +2923,6 @@ let make_automation_execution
   automation_execution_id;
    }
 
-let make_get_automation_execution_result 
-  ?(automation_execution : automation_execution option) ()
-: get_automation_execution_result = { automation_execution; 
-}
-
 let make_get_automation_execution_request 
   ~(automation_execution_id : string) () : get_automation_execution_request =
 { automation_execution_id;  }
@@ -3627,12 +3006,6 @@ let make_describe_sessions_request
   filters; next_token; max_results; state; 
 }
 
-let make_describe_patch_properties_result 
-  ?(next_token : string option)
-  ?(properties : (string * string) list list option)
-  () : describe_patch_properties_result = { next_token; properties; 
-}
-
 let make_describe_patch_properties_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -3643,12 +3016,6 @@ let make_describe_patch_properties_request
   next_token; max_results; patch_set; property; operating_system; 
 }
 
-let make_describe_patch_groups_result 
-  ?(next_token : string option)
-  ?(mappings : patch_group_patch_baseline_mapping list option)
-  () : describe_patch_groups_result = { next_token; mappings; 
-}
-
 let make_describe_patch_groups_request 
   ?(next_token : string option)
   ?(filters : patch_orchestrator_filter list option)
@@ -3656,42 +3023,8 @@ let make_describe_patch_groups_request
   () : describe_patch_groups_request = { next_token; filters; max_results; 
 }
 
-let make_describe_patch_group_state_result 
-  ?(instances_with_other_non_compliant_patches : int option)
-  ?(instances_with_security_non_compliant_patches : int option)
-  ?(instances_with_critical_non_compliant_patches : int option)
-  ?(instances_with_unreported_not_applicable_patches : int option)
-  ?(instances_with_not_applicable_patches : int option)
-  ?(instances_with_failed_patches : int option)
-  ?(instances_with_missing_patches : int option)
-  ?(instances_with_installed_rejected_patches : int option)
-  ?(instances_with_installed_pending_reboot_patches : int option)
-  ?(instances_with_installed_other_patches : int option)
-  ?(instances_with_installed_patches : int option)
-  ?(instances : int option)
-  () : describe_patch_group_state_result = {
-  instances_with_other_non_compliant_patches;
-  instances_with_security_non_compliant_patches;
-  instances_with_critical_non_compliant_patches;
-  instances_with_unreported_not_applicable_patches;
-  instances_with_not_applicable_patches;
-  instances_with_failed_patches;
-  instances_with_missing_patches;
-  instances_with_installed_rejected_patches;
-  instances_with_installed_pending_reboot_patches;
-  instances_with_installed_other_patches;
-  instances_with_installed_patches;
-  instances;
-   }
-
 let make_describe_patch_group_state_request  ~(patch_group : string) ()
 : describe_patch_group_state_request = { patch_group; 
-}
-
-let make_describe_patch_baselines_result 
-  ?(next_token : string option)
-  ?(baseline_identities : patch_baseline_identity list option)
-  () : describe_patch_baselines_result = { next_token; baseline_identities; 
 }
 
 let make_describe_patch_baselines_request 
@@ -3700,12 +3033,6 @@ let make_describe_patch_baselines_request
   ?(filters : patch_orchestrator_filter list option)
   () : describe_patch_baselines_request = {
   next_token; max_results; filters;  }
-
-let make_describe_parameters_result 
-  ?(next_token : string option)
-  ?(parameters : parameter_metadata list option)
-  () : describe_parameters_result = { next_token; parameters; 
-}
 
 let make_describe_parameters_request 
   ?(shared : bool option)
@@ -3731,26 +3058,12 @@ let make_describe_ops_items_request
   next_token; max_results; ops_item_filters; 
 }
 
-let make_describe_maintenance_windows_result 
-  ?(next_token : string option)
-  ?(window_identities : maintenance_window_identity list option)
-  () : describe_maintenance_windows_result = {
-  next_token; window_identities; 
-}
-
 let make_describe_maintenance_windows_request 
   ?(next_token : string option)
   ?(max_results : int option)
   ?(filters : maintenance_window_filter list option)
   () : describe_maintenance_windows_request = {
   next_token; max_results; filters; 
-}
-
-let make_describe_maintenance_windows_for_target_result 
-  ?(next_token : string option)
-  ?(window_identities : maintenance_window_identity_for_target list option)
-  () : describe_maintenance_windows_for_target_result = {
-  next_token; window_identities; 
 }
 
 let make_describe_maintenance_windows_for_target_request 
@@ -3762,12 +3075,6 @@ let make_describe_maintenance_windows_for_target_request
   next_token; max_results; resource_type; targets; 
 }
 
-let make_describe_maintenance_window_tasks_result 
-  ?(next_token : string option)
-  ?(tasks : maintenance_window_task list option)
-  () : describe_maintenance_window_tasks_result = { next_token; tasks; 
-}
-
 let make_describe_maintenance_window_tasks_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -3777,12 +3084,6 @@ let make_describe_maintenance_window_tasks_request
   next_token; max_results; filters; window_id; 
 }
 
-let make_describe_maintenance_window_targets_result 
-  ?(next_token : string option)
-  ?(targets : maintenance_window_target list option)
-  () : describe_maintenance_window_targets_result = { next_token; targets; 
-}
-
 let make_describe_maintenance_window_targets_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -3790,13 +3091,6 @@ let make_describe_maintenance_window_targets_request
   ~(window_id : string)
   () : describe_maintenance_window_targets_request = {
   next_token; max_results; filters; window_id; 
-}
-
-let make_describe_maintenance_window_schedule_result 
-  ?(next_token : string option)
-  ?(scheduled_window_executions : scheduled_window_execution list option)
-  () : describe_maintenance_window_schedule_result = {
-  next_token; scheduled_window_executions; 
 }
 
 let make_describe_maintenance_window_schedule_request 
@@ -3810,13 +3104,6 @@ let make_describe_maintenance_window_schedule_request
   next_token; max_results; filters; resource_type; targets; window_id; 
 }
 
-let make_describe_maintenance_window_executions_result 
-  ?(next_token : string option)
-  ?(window_executions : maintenance_window_execution list option)
-  () : describe_maintenance_window_executions_result = {
-  next_token; window_executions; 
-}
-
 let make_describe_maintenance_window_executions_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -3826,13 +3113,6 @@ let make_describe_maintenance_window_executions_request
   next_token; max_results; filters; window_id; 
 }
 
-let make_describe_maintenance_window_execution_tasks_result 
-  ?(next_token : string option)
-  ?(window_execution_task_identities : maintenance_window_execution_task_identity list option)
-  () : describe_maintenance_window_execution_tasks_result = {
-  next_token; window_execution_task_identities; 
-}
-
 let make_describe_maintenance_window_execution_tasks_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -3840,13 +3120,6 @@ let make_describe_maintenance_window_execution_tasks_request
   ~(window_execution_id : string)
   () : describe_maintenance_window_execution_tasks_request = {
   next_token; max_results; filters; window_execution_id; 
-}
-
-let make_describe_maintenance_window_execution_task_invocations_result 
-  ?(next_token : string option)
-  ?(window_execution_task_invocation_identities : maintenance_window_execution_task_invocation_identity list option)
-  () : describe_maintenance_window_execution_task_invocations_result = {
-  next_token; window_execution_task_invocation_identities; 
 }
 
 let make_describe_maintenance_window_execution_task_invocations_request 
@@ -3859,26 +3132,12 @@ let make_describe_maintenance_window_execution_task_invocations_request
   next_token; max_results; filters; task_id; window_execution_id; 
 }
 
-let make_describe_inventory_deletions_result 
-  ?(next_token : string option)
-  ?(inventory_deletions : inventory_deletion_status_item list option)
-  () : describe_inventory_deletions_result = {
-  next_token; inventory_deletions; 
-}
-
 let make_describe_inventory_deletions_request 
   ?(max_results : int option)
   ?(next_token : string option)
   ?(deletion_id : string option)
   () : describe_inventory_deletions_request = {
   max_results; next_token; deletion_id; 
-}
-
-let make_describe_instance_properties_result 
-  ?(next_token : string option)
-  ?(instance_properties : instance_property list option)
-  () : describe_instance_properties_result = {
-  next_token; instance_properties; 
 }
 
 let make_describe_instance_properties_request 
@@ -3893,12 +3152,6 @@ let make_describe_instance_properties_request
   instance_property_filter_list;
    }
 
-let make_describe_instance_patches_result 
-  ?(next_token : string option)
-  ?(patches : patch_compliance_data list option)
-  () : describe_instance_patches_result = { next_token; patches; 
-}
-
 let make_describe_instance_patches_request 
   ?(max_results : int option)
   ?(next_token : string option)
@@ -3908,26 +3161,12 @@ let make_describe_instance_patches_request
   max_results; next_token; filters; instance_id; 
 }
 
-let make_describe_instance_patch_states_result 
-  ?(next_token : string option)
-  ?(instance_patch_states : instance_patch_state list option)
-  () : describe_instance_patch_states_result = {
-  next_token; instance_patch_states; 
-}
-
 let make_describe_instance_patch_states_request 
   ?(max_results : int option)
   ?(next_token : string option)
   ~(instance_ids : string list)
   () : describe_instance_patch_states_request = {
   max_results; next_token; instance_ids; 
-}
-
-let make_describe_instance_patch_states_for_patch_group_result 
-  ?(next_token : string option)
-  ?(instance_patch_states : instance_patch_state list option)
-  () : describe_instance_patch_states_for_patch_group_result = {
-  next_token; instance_patch_states; 
 }
 
 let make_describe_instance_patch_states_for_patch_group_request 
@@ -3939,13 +3178,6 @@ let make_describe_instance_patch_states_for_patch_group_request
   max_results; next_token; filters; patch_group; 
 }
 
-let make_describe_instance_information_result 
-  ?(next_token : string option)
-  ?(instance_information_list : instance_information list option)
-  () : describe_instance_information_result = {
-  next_token; instance_information_list; 
-}
-
 let make_describe_instance_information_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -3953,13 +3185,6 @@ let make_describe_instance_information_request
   ?(instance_information_filter_list : instance_information_filter list option)
   () : describe_instance_information_request = {
   next_token; max_results; filters; instance_information_filter_list; 
-}
-
-let make_describe_instance_associations_status_result 
-  ?(next_token : string option)
-  ?(instance_association_status_infos : instance_association_status_info list option)
-  () : describe_instance_associations_status_result = {
-  next_token; instance_association_status_infos; 
 }
 
 let make_describe_instance_associations_status_request 
@@ -3970,13 +3195,6 @@ let make_describe_instance_associations_status_request
   next_token; max_results; instance_id; 
 }
 
-let make_describe_effective_patches_for_patch_baseline_result 
-  ?(next_token : string option)
-  ?(effective_patches : effective_patch list option)
-  () : describe_effective_patches_for_patch_baseline_result = {
-  next_token; effective_patches; 
-}
-
 let make_describe_effective_patches_for_patch_baseline_request 
   ?(next_token : string option)
   ?(max_results : int option)
@@ -3985,23 +3203,12 @@ let make_describe_effective_patches_for_patch_baseline_request
   next_token; max_results; baseline_id; 
 }
 
-let make_describe_effective_instance_associations_result 
-  ?(next_token : string option)
-  ?(associations : instance_association list option)
-  () : describe_effective_instance_associations_result = {
-  next_token; associations; 
-}
-
 let make_describe_effective_instance_associations_request 
   ?(next_token : string option)
   ?(max_results : int option)
   ~(instance_id : string)
   () : describe_effective_instance_associations_request = {
   next_token; max_results; instance_id;  }
-
-let make_describe_document_result 
-  ?(document : document_description option) () : describe_document_result = {
-  document;  }
 
 let make_describe_document_request 
   ?(version_name : string option)
@@ -4032,24 +3239,12 @@ let make_describe_document_permission_request
   next_token; max_results; permission_type; name; 
 }
 
-let make_describe_available_patches_result 
-  ?(next_token : string option) ?(patches : patch list option) ()
-: describe_available_patches_result = { next_token; patches; 
-}
-
 let make_describe_available_patches_request 
   ?(next_token : string option)
   ?(max_results : int option)
   ?(filters : patch_orchestrator_filter list option)
   () : describe_available_patches_request = {
   next_token; max_results; filters; 
-}
-
-let make_describe_automation_step_executions_result 
-  ?(next_token : string option)
-  ?(step_executions : step_execution list option)
-  () : describe_automation_step_executions_result = {
-  next_token; step_executions; 
 }
 
 let make_describe_automation_step_executions_request 
@@ -4126,13 +3321,6 @@ let make_automation_execution_metadata
   automation_execution_id;
    }
 
-let make_describe_automation_executions_result 
-  ?(next_token : string option)
-  ?(automation_execution_metadata_list : automation_execution_metadata list option)
-  () : describe_automation_executions_result = {
-  next_token; automation_execution_metadata_list; 
-}
-
 let make_automation_execution_filter 
   ~(values : string list) ~(key : automation_execution_filter_key) ()
 : automation_execution_filter = { values; key; 
@@ -4144,11 +3332,6 @@ let make_describe_automation_executions_request
   ?(filters : automation_execution_filter list option)
   () : describe_automation_executions_request = {
   next_token; max_results; filters;  }
-
-let make_describe_association_result 
-  ?(association_description : association_description option) ()
-: describe_association_result = { association_description; 
-}
 
 let make_describe_association_request 
   ?(association_version : string option)
@@ -4182,13 +3365,6 @@ let make_association_execution
   association_version;
   association_id;
    }
-
-let make_describe_association_executions_result 
-  ?(next_token : string option)
-  ?(association_executions : association_execution list option)
-  () : describe_association_executions_result = {
-  next_token; association_executions; 
-}
 
 let make_association_execution_filter 
   ~(type_ : association_filter_operator_type)
@@ -4227,13 +3403,6 @@ let make_association_execution_target
   association_version;
   association_id;
    }
-
-let make_describe_association_execution_targets_result 
-  ?(next_token : string option)
-  ?(association_execution_targets : association_execution_target list option)
-  () : describe_association_execution_targets_result = {
-  next_token; association_execution_targets; 
-}
 
 let make_association_execution_targets_filter 
   ~(value : string) ~(key : association_execution_targets_filter_key) ()
@@ -4274,12 +3443,6 @@ let make_activation
   activation_id;
    }
 
-let make_describe_activations_result 
-  ?(next_token : string option)
-  ?(activation_list : activation list option)
-  () : describe_activations_result = { next_token; activation_list; 
-}
-
 let make_describe_activations_filter 
   ?(filter_values : string list option)
   ?(filter_key : describe_activations_filter_keys option)
@@ -4293,22 +3456,10 @@ let make_describe_activations_request
   () : describe_activations_request = { next_token; max_results; filters; 
 }
 
-let make_deregister_task_from_maintenance_window_result 
-  ?(window_task_id : string option) ?(window_id : string option) ()
-: deregister_task_from_maintenance_window_result = {
-  window_task_id; window_id; 
-}
-
 let make_deregister_task_from_maintenance_window_request 
   ~(window_task_id : string) ~(window_id : string) ()
 : deregister_task_from_maintenance_window_request = {
   window_task_id; window_id; 
-}
-
-let make_deregister_target_from_maintenance_window_result 
-  ?(window_target_id : string option) ?(window_id : string option) ()
-: deregister_target_from_maintenance_window_result = {
-  window_target_id; window_id; 
 }
 
 let make_deregister_target_from_maintenance_window_request 
@@ -4317,20 +3468,10 @@ let make_deregister_target_from_maintenance_window_request
   safe; window_target_id; window_id; 
 }
 
-let make_deregister_patch_baseline_for_patch_group_result 
-  ?(patch_group : string option) ?(baseline_id : string option) ()
-: deregister_patch_baseline_for_patch_group_result = {
-  patch_group; baseline_id; 
-}
-
 let make_deregister_patch_baseline_for_patch_group_request 
   ~(patch_group : string) ~(baseline_id : string) ()
 : deregister_patch_baseline_for_patch_group_request = {
   patch_group; baseline_id;  }
-
-let make_deregister_managed_instance_result  ()
-: deregister_managed_instance_result =
-()
 
 let make_deregister_managed_instance_request  ~(instance_id : string) ()
 : deregister_managed_instance_request = { instance_id; 
@@ -4345,40 +3486,20 @@ let make_delete_resource_policy_request
 : delete_resource_policy_request = { policy_hash; policy_id; resource_arn; 
 }
 
-let make_delete_resource_data_sync_result  ()
-: delete_resource_data_sync_result =
-()
-
 let make_delete_resource_data_sync_request 
   ?(sync_type : string option) ~(sync_name : string) ()
 : delete_resource_data_sync_request = { sync_type; sync_name; 
-}
-
-let make_delete_patch_baseline_result  ?(baseline_id : string option) ()
-: delete_patch_baseline_result = { baseline_id; 
 }
 
 let make_delete_patch_baseline_request  ~(baseline_id : string) ()
 : delete_patch_baseline_request = { baseline_id; 
 }
 
-let make_delete_parameters_result 
-  ?(invalid_parameters : string list option)
-  ?(deleted_parameters : string list option)
-  () : delete_parameters_result = { invalid_parameters; deleted_parameters; 
-}
-
 let make_delete_parameters_request  ~(names : string list) ()
 : delete_parameters_request = { names;  }
 
-let make_delete_parameter_result  () : delete_parameter_result =
-()
-
 let make_delete_parameter_request  ~(name : string) ()
 : delete_parameter_request = { name;  }
-
-let make_delete_ops_metadata_result  () : delete_ops_metadata_result =
-()
 
 let make_delete_ops_metadata_request  ~(ops_metadata_arn : string) ()
 : delete_ops_metadata_request = { ops_metadata_arn; 
@@ -4391,19 +3512,8 @@ let make_delete_ops_item_request  ~(ops_item_id : string) ()
 : delete_ops_item_request = { ops_item_id; 
 }
 
-let make_delete_maintenance_window_result  ?(window_id : string option) ()
-: delete_maintenance_window_result = { window_id; 
-}
-
 let make_delete_maintenance_window_request  ~(window_id : string) ()
 : delete_maintenance_window_request = { window_id; 
-}
-
-let make_delete_inventory_result 
-  ?(deletion_summary : inventory_deletion_summary option)
-  ?(type_name : string option)
-  ?(deletion_id : string option)
-  () : delete_inventory_result = { deletion_summary; type_name; deletion_id; 
 }
 
 let make_delete_inventory_request 
@@ -4415,9 +3525,6 @@ let make_delete_inventory_request
   client_token; dry_run; schema_delete_option; type_name; 
 }
 
-let make_delete_document_result  () : delete_document_result =
-()
-
 let make_delete_document_request 
   ?(force : bool option)
   ?(version_name : string option)
@@ -4427,9 +3534,6 @@ let make_delete_document_request
   force; version_name; document_version; name; 
 }
 
-let make_delete_association_result  () : delete_association_result =
-()
-
 let make_delete_association_request 
   ?(association_id : string option)
   ?(instance_id : string option)
@@ -4437,16 +3541,9 @@ let make_delete_association_request
   () : delete_association_request = { association_id; instance_id; name; 
 }
 
-let make_delete_activation_result  () : delete_activation_result =
-()
-
 let make_delete_activation_request  ~(activation_id : string) ()
 : delete_activation_request = { activation_id; 
 }
-
-let make_create_resource_data_sync_result  ()
-: create_resource_data_sync_result =
-()
 
 let make_create_resource_data_sync_request 
   ?(sync_source : resource_data_sync_source option)
@@ -4455,10 +3552,6 @@ let make_create_resource_data_sync_request
   ~(sync_name : string)
   () : create_resource_data_sync_request = {
   sync_source; sync_type; s3_destination; sync_name; 
-}
-
-let make_create_patch_baseline_result  ?(baseline_id : string option) ()
-: create_patch_baseline_result = { baseline_id; 
 }
 
 let make_create_patch_baseline_request 
@@ -4490,10 +3583,6 @@ let make_create_patch_baseline_request
   name;
   operating_system;
    }
-
-let make_create_ops_metadata_result  ?(ops_metadata_arn : string option) ()
-: create_ops_metadata_result = { ops_metadata_arn; 
-}
 
 let make_create_ops_metadata_request 
   ?(tags : tag list option)
@@ -4543,10 +3632,6 @@ let make_create_ops_item_request
   description;
    }
 
-let make_create_maintenance_window_result  ?(window_id : string option) ()
-: create_maintenance_window_result = { window_id; 
-}
-
 let make_create_maintenance_window_request 
   ?(tags : tag list option)
   ?(client_token : string option)
@@ -4575,11 +3660,6 @@ let make_create_maintenance_window_request
   name;
    }
 
-let make_create_document_result 
-  ?(document_description : document_description option) ()
-: create_document_result = { document_description; 
-}
-
 let make_create_document_request 
   ?(tags : tag list option)
   ?(target_type : string option)
@@ -4603,11 +3683,6 @@ let make_create_document_request
   requires;
   content;
    }
-
-let make_create_association_result 
-  ?(association_description : association_description option) ()
-: create_association_result = { association_description; 
-}
 
 let make_create_association_request 
   ?(alarm_configuration : alarm_configuration option)
@@ -4655,20 +3730,9 @@ let make_create_association_request
   name;
    }
 
-let make_create_association_batch_result 
-  ?(failed : failed_create_association list option)
-  ?(successful : association_description list option)
-  () : create_association_batch_result = { failed; successful; 
-}
-
 let make_create_association_batch_request 
   ~(entries : create_association_batch_request_entry list) ()
 : create_association_batch_request = { entries; 
-}
-
-let make_create_activation_result 
-  ?(activation_code : string option) ?(activation_id : string option) ()
-: create_activation_result = { activation_code; activation_id; 
 }
 
 let make_create_activation_request 
@@ -4689,18 +3753,10 @@ let make_create_activation_request
   description;
    }
 
-let make_cancel_maintenance_window_execution_result 
-  ?(window_execution_id : string option) ()
-: cancel_maintenance_window_execution_result = { window_execution_id; 
-}
-
 let make_cancel_maintenance_window_execution_request 
   ~(window_execution_id : string) ()
 : cancel_maintenance_window_execution_request = { window_execution_id; 
 }
-
-let make_cancel_command_result  () : cancel_command_result =
-()
 
 let make_cancel_command_request 
   ?(instance_ids : string list option) ~(command_id : string) ()
@@ -4720,9 +3776,6 @@ let make_associate_ops_item_related_item_request
   () : associate_ops_item_related_item_request = {
   resource_uri; resource_type; association_type; ops_item_id; 
 }
-
-let make_add_tags_to_resource_result  () : add_tags_to_resource_result =
-()
 
 let make_add_tags_to_resource_request 
   ~(tags : tag list)
