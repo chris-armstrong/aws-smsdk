@@ -133,3 +133,9 @@ let hasTrait traitsOption traitTest =
        traitsOption)
 
 let findTrait traits traitsTest = traits |> List.find ~f:traitsTest
+
+let extractTrait extractor traits =
+  List.find_map_exn (traits |> Option.value ~default:[]) ~f:extractor
+
+let extractServiceTrait = extractTrait (function ServiceTrait x -> Some x | _ -> None)
+let extractDocumentationTrait = extractTrait (function DocumentationTrait x -> Some x | _ -> None)

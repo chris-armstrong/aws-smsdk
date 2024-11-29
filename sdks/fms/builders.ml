@@ -989,14 +989,6 @@ let make_policy_summary
   policy_arn;
    }
 
-let make_evaluation_result 
-  ?(evaluation_limit_exceeded : bool option)
-  ?(violator_count : int option)
-  ?(compliance_status : policy_compliance_status_type option)
-  () : evaluation_result = {
-  evaluation_limit_exceeded; violator_count; compliance_status; 
-}
-
 let make_policy_compliance_status 
   ?(issue_info_map : (string * string) list option)
   ?(last_updated : float option)

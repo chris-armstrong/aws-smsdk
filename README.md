@@ -32,7 +32,6 @@ Please see the [documentation](https://chris-armstrong.github.io/smaws/smaws-cli
 
 You can find examples in the [examples directory](https://github.com/chris-armstrong/smaws/tree/main/awssdklib_examples).
 
-
 ## Developing
 
 See the [Developers Guide](DEVELOPERS.md) for contributing to this project.
@@ -96,6 +95,9 @@ suites for AWS service implementations, please reach out!)
 * workmail
 
 Note that we do not have any compliance suites to test our implementations for each service - if you have any ideas, please get in touch.
+## Developing
+
+See the [Developers Guide](DEVELOPERS.md)
 
 ## Licence
 

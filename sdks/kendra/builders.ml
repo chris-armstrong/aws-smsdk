@@ -1273,12 +1273,6 @@ let make_retrieve_result_item
   id;
    }
 
-let make_retrieve_result 
-  ?(result_items : retrieve_result_item list option)
-  ?(query_id : string option)
-  () : retrieve_result = { result_items; query_id; 
-}
-
 let make_attribute_filter 
   ?(less_than_or_equals : document_attribute option)
   ?(less_than : document_attribute option)
@@ -1403,26 +1397,13 @@ let make_query_result_item
   id;
    }
 
-let rec
-  make_document_attribute_value_count_pair 
-    ?(facet_results : facet_result list option)
-    ?(count : int option)
-    ?(document_attribute_value : document_attribute_value option)
-    ()
-  : document_attribute_value_count_pair = {
-    facet_results; count; document_attribute_value; 
-  }
-and
-  make_facet_result 
-    ?(document_attribute_value_count_pairs : document_attribute_value_count_pair list option)
-    ?(document_attribute_value_type : document_attribute_value_type option)
-    ?(document_attribute_key : string option)
-    ()
-  : facet_result = {
-    document_attribute_value_count_pairs;
-    document_attribute_value_type;
-    document_attribute_key;
-     }
+let make_document_attribute_value_count_pair 
+  ?(facet_results : facet_result list option)
+  ?(count : int option)
+  ?(document_attribute_value : document_attribute_value option)
+  () : document_attribute_value_count_pair = {
+  facet_results; count; document_attribute_value; 
+}
 
 let make_featured_results_item 
   ?(feedback_token : string option)
@@ -1444,24 +1425,6 @@ let make_featured_results_item
   additional_attributes;
   type_;
   id;
-   }
-
-let make_query_result 
-  ?(featured_results_items : featured_results_item list option)
-  ?(spell_corrected_queries : spell_corrected_query list option)
-  ?(warnings : warning list option)
-  ?(total_number_of_results : int option)
-  ?(facet_results : facet_result list option)
-  ?(result_items : query_result_item list option)
-  ?(query_id : string option)
-  () : query_result = {
-  featured_results_items;
-  spell_corrected_queries;
-  warnings;
-  total_number_of_results;
-  facet_results;
-  result_items;
-  query_id;
    }
 
 let make_facet 

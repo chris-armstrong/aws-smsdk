@@ -3,11 +3,14 @@ val make_setup_request :
   ?certificate_provider:certificate_provider ->
   ?domain_names:string list ->
   ?instance_name:string ->
-  unit -> setup_request
+  unit
+-> setup_request
+(** Create a {!type-setup_request} type *)
 
 val make_resource_location :
   ?region_name:region_name -> ?availability_zone:string -> unit
 -> resource_location
+(** Create a {!type-resource_location} type *)
 
 val make_setup_history_resource :
   ?resource_type:resource_type ->
@@ -15,7 +18,9 @@ val make_setup_history_resource :
   ?created_at:float ->
   ?arn:string ->
   ?name:string ->
-  unit -> setup_history_resource
+  unit
+-> setup_history_resource
+(** Create a {!type-setup_history_resource} type *)
 
 val make_setup_execution_details :
   ?version:string ->
@@ -25,7 +30,9 @@ val make_setup_execution_details :
   ?name:string ->
   ?date_time:float ->
   ?command:string ->
-  unit -> setup_execution_details
+  unit
+-> setup_execution_details
+(** Create a {!type-setup_execution_details} type *)
 
 val make_setup_history :
   ?status:setup_status ->
@@ -33,7 +40,9 @@ val make_setup_history :
   ?resource:setup_history_resource ->
   ?request:setup_request ->
   ?operation_id:string ->
-  unit -> setup_history
+  unit
+-> setup_history
+(** Create a {!type-setup_history} type *)
 
 val make_operation :
   ?error_details:string ->
@@ -48,11 +57,9 @@ val make_operation :
   ?resource_type:resource_type ->
   ?resource_name:string ->
   ?id:string ->
-  unit -> operation
-
-val make_update_relational_database_result :
-  ?operations:operation list -> unit
--> update_relational_database_result
+  unit
+-> operation
+(** Create a {!type-operation} type *)
 
 val make_update_relational_database_request :
   ?relational_database_blueprint_id:string ->
@@ -68,10 +75,7 @@ val make_update_relational_database_request :
   relational_database_name:string ->
   unit
 -> update_relational_database_request
-
-val make_update_relational_database_parameters_result :
-  ?operations:operation list -> unit
--> update_relational_database_parameters_result
+(** Create a {!type-update_relational_database_request} type *)
 
 val make_relational_database_parameter :
   ?parameter_value:string ->
@@ -84,16 +88,14 @@ val make_relational_database_parameter :
   ?allowed_values:string ->
   unit
 -> relational_database_parameter
+(** Create a {!type-relational_database_parameter} type *)
 
 val make_update_relational_database_parameters_request :
   parameters:relational_database_parameter list ->
   relational_database_name:string ->
   unit
 -> update_relational_database_parameters_request
-
-val make_update_load_balancer_attribute_result :
-  ?operations:operation list -> unit
--> update_load_balancer_attribute_result
+(** Create a {!type-update_relational_database_parameters_request} type *)
 
 val make_update_load_balancer_attribute_request :
   attribute_value:string ->
@@ -101,10 +103,7 @@ val make_update_load_balancer_attribute_request :
   load_balancer_name:string ->
   unit
 -> update_load_balancer_attribute_request
-
-val make_update_instance_metadata_options_result :
-  ?operation:operation -> unit
--> update_instance_metadata_options_result
+(** Create a {!type-update_load_balancer_attribute_request} type *)
 
 val make_update_instance_metadata_options_request :
   ?http_protocol_ipv6:http_protocol_ipv6 ->
@@ -114,9 +113,7 @@ val make_update_instance_metadata_options_request :
   instance_name:string ->
   unit
 -> update_instance_metadata_options_request
-
-val make_update_domain_entry_result : ?operations:operation list -> unit
--> update_domain_entry_result
+(** Create a {!type-update_instance_metadata_options_request} type *)
 
 val make_domain_entry :
   ?options:(string * string) list ->
@@ -125,36 +122,42 @@ val make_domain_entry :
   ?target:string ->
   ?name:string ->
   ?id:string ->
-  unit -> domain_entry
+  unit
+-> domain_entry
+(** Create a {!type-domain_entry} type *)
 
 val make_update_domain_entry_request :
   domain_entry:domain_entry -> domain_name:string -> unit
 -> update_domain_entry_request
-
-val make_update_distribution_result : ?operation:operation -> unit
--> update_distribution_result
+(** Create a {!type-update_domain_entry_request} type *)
 
 val make_input_origin :
   ?response_timeout:int ->
   ?protocol_policy:origin_protocol_policy_enum ->
   ?region_name:region_name ->
   ?name:string ->
-  unit -> input_origin
+  unit
+-> input_origin
+(** Create a {!type-input_origin} type *)
 
 val make_cache_behavior : ?behavior:behavior_enum -> unit
 -> cache_behavior
+(** Create a {!type-cache_behavior} type *)
 
 val make_cookie_object :
   ?cookies_allow_list:string list -> ?option_:forward_values -> unit
 -> cookie_object
+(** Create a {!type-cookie_object} type *)
 
 val make_header_object :
   ?headers_allow_list:header_enum list -> ?option_:forward_values -> unit
 -> header_object
+(** Create a {!type-header_object} type *)
 
 val make_query_string_object :
   ?query_strings_allow_list:string list -> ?option_:bool -> unit
 -> query_string_object
+(** Create a {!type-query_string_object} type *)
 
 val make_cache_settings :
   ?forwarded_query_strings:query_string_object ->
@@ -165,11 +168,14 @@ val make_cache_settings :
   ?maximum_tt_l:int ->
   ?minimum_tt_l:int ->
   ?default_tt_l:int ->
-  unit -> cache_settings
+  unit
+-> cache_settings
+(** Create a {!type-cache_settings} type *)
 
 val make_cache_behavior_per_path :
   ?behavior:behavior_enum -> ?path:string -> unit
 -> cache_behavior_per_path
+(** Create a {!type-cache_behavior_per_path} type *)
 
 val make_update_distribution_request :
   ?use_default_certificate:bool ->
@@ -183,27 +189,30 @@ val make_update_distribution_request :
   distribution_name:string ->
   unit
 -> update_distribution_request
-
-val make_update_distribution_bundle_result : ?operation:operation -> unit
--> update_distribution_bundle_result
+(** Create a {!type-update_distribution_request} type *)
 
 val make_update_distribution_bundle_request :
   ?bundle_id:string -> ?distribution_name:string -> unit
 -> update_distribution_bundle_request
+(** Create a {!type-update_distribution_bundle_request} type *)
 
 val make_tag : ?value:string -> ?key:string -> unit
 -> tag
+(** Create a {!type-tag} type *)
 
 val make_container_service_state_detail :
   ?message:string -> ?code:container_service_state_detail_code -> unit
 -> container_service_state_detail
+(** Create a {!type-container_service_state_detail} type *)
 
 val make_container :
   ?ports:(string * container_service_protocol) list ->
   ?environment:(string * string) list ->
   ?command:string list ->
   ?image:string ->
-  unit -> container
+  unit
+-> container
+(** Create a {!type-container} type *)
 
 val make_container_service_health_check_config :
   ?success_codes:string ->
@@ -214,12 +223,15 @@ val make_container_service_health_check_config :
   ?healthy_threshold:int ->
   unit
 -> container_service_health_check_config
+(** Create a {!type-container_service_health_check_config} type *)
 
 val make_container_service_endpoint :
   ?health_check:container_service_health_check_config ->
   ?container_port:int ->
   ?container_name:string ->
-  unit -> container_service_endpoint
+  unit
+-> container_service_endpoint
+(** Create a {!type-container_service_endpoint} type *)
 
 val make_container_service_deployment :
   ?created_at:float ->
@@ -229,14 +241,17 @@ val make_container_service_deployment :
   ?version:int ->
   unit
 -> container_service_deployment
+(** Create a {!type-container_service_deployment} type *)
 
 val make_container_service_ecr_image_puller_role :
   ?principal_arn:string -> ?is_active:bool -> unit
 -> container_service_ecr_image_puller_role
+(** Create a {!type-container_service_ecr_image_puller_role} type *)
 
 val make_private_registry_access :
   ?ecr_image_puller_role:container_service_ecr_image_puller_role -> unit
 -> private_registry_access
+(** Create a {!type-private_registry_access} type *)
 
 val make_container_service :
   ?private_registry_access:private_registry_access ->
@@ -258,20 +273,20 @@ val make_container_service :
   ?created_at:float ->
   ?arn:string ->
   ?container_service_name:string ->
-  unit -> container_service
-
-val make_update_container_service_result :
-  ?container_service:container_service -> unit
--> update_container_service_result
+  unit
+-> container_service
+(** Create a {!type-container_service} type *)
 
 val make_container_service_ecr_image_puller_role_request :
   ?is_active:bool -> unit
 -> container_service_ecr_image_puller_role_request
+(** Create a {!type-container_service_ecr_image_puller_role_request} type *)
 
 val make_private_registry_access_request :
   ?ecr_image_puller_role:container_service_ecr_image_puller_role_request ->
   unit
 -> private_registry_access_request
+(** Create a {!type-private_registry_access_request} type *)
 
 val make_update_container_service_request :
   ?private_registry_access:private_registry_access_request ->
@@ -280,22 +295,28 @@ val make_update_container_service_request :
   ?scale:int ->
   ?power:container_service_power_name ->
   service_name:string ->
-  unit -> update_container_service_request
+  unit
+-> update_container_service_request
+(** Create a {!type-update_container_service_request} type *)
 
 val make_access_rules :
   ?allow_public_overrides:bool -> ?get_object:access_type -> unit
 -> access_rules
+(** Create a {!type-access_rules} type *)
 
 val make_resource_receiving_access :
   ?resource_type:string -> ?name:string -> unit
 -> resource_receiving_access
+(** Create a {!type-resource_receiving_access} type *)
 
 val make_bucket_state : ?message:string -> ?code:string -> unit
 -> bucket_state
+(** Create a {!type-bucket_state} type *)
 
 val make_bucket_access_log_config :
   ?prefix:string -> ?destination:string -> enabled:bool -> unit
 -> bucket_access_log_config
+(** Create a {!type-bucket_access_log_config} type *)
 
 val make_bucket :
   ?access_log_config:bucket_access_log_config ->
@@ -314,11 +335,9 @@ val make_bucket :
   ?arn:string ->
   ?access_rules:access_rules ->
   ?resource_type:string ->
-  unit -> bucket
-
-val make_update_bucket_result :
-  ?operations:operation list -> ?bucket:bucket -> unit
--> update_bucket_result
+  unit
+-> bucket
+(** Create a {!type-bucket} type *)
 
 val make_update_bucket_request :
   ?access_log_config:bucket_access_log_config ->
@@ -326,69 +345,59 @@ val make_update_bucket_request :
   ?versioning:string ->
   ?access_rules:access_rules ->
   bucket_name:string ->
-  unit -> update_bucket_request
-
-val make_update_bucket_bundle_result : ?operations:operation list -> unit
--> update_bucket_bundle_result
+  unit
+-> update_bucket_request
+(** Create a {!type-update_bucket_request} type *)
 
 val make_update_bucket_bundle_request :
   bundle_id:string -> bucket_name:string -> unit
 -> update_bucket_bundle_request
-
-val make_untag_resource_result : ?operations:operation list -> unit
--> untag_resource_result
+(** Create a {!type-update_bucket_bundle_request} type *)
 
 val make_untag_resource_request :
   ?resource_arn:string ->
   tag_keys:string list ->
   resource_name:string ->
-  unit -> untag_resource_request
-
-val make_unpeer_vpc_result : ?operation:operation -> unit
--> unpeer_vpc_result
+  unit
+-> untag_resource_request
+(** Create a {!type-untag_resource_request} type *)
 
 val make_unpeer_vpc_request : unit
 -> unpeer_vpc_request
+(** Create a {!type-unpeer_vpc_request} type *)
 
 val make_time_period : ?end_:float -> ?start:float -> unit
 -> time_period
-
-val make_test_alarm_result : ?operations:operation list -> unit
--> test_alarm_result
+(** Create a {!type-time_period} type *)
 
 val make_test_alarm_request : state:alarm_state -> alarm_name:string -> unit
 -> test_alarm_request
-
-val make_tag_resource_result : ?operations:operation list -> unit
--> tag_resource_result
+(** Create a {!type-test_alarm_request} type *)
 
 val make_tag_resource_request :
   ?resource_arn:string -> tags:tag list -> resource_name:string -> unit
 -> tag_resource_request
-
-val make_stop_relational_database_result : ?operations:operation list -> unit
--> stop_relational_database_result
+(** Create a {!type-tag_resource_request} type *)
 
 val make_stop_relational_database_request :
   ?relational_database_snapshot_name:string ->
   relational_database_name:string ->
-  unit -> stop_relational_database_request
-
-val make_stop_instance_result : ?operations:operation list -> unit
--> stop_instance_result
+  unit
+-> stop_relational_database_request
+(** Create a {!type-stop_relational_database_request} type *)
 
 val make_stop_instance_request : ?force:bool -> instance_name:string -> unit
 -> stop_instance_request
+(** Create a {!type-stop_instance_request} type *)
 
 val make_stop_instance_on_idle_request :
   ?duration:string -> ?threshold:string -> unit
 -> stop_instance_on_idle_request
-
-val make_stop_gui_session_result : ?operations:operation list -> unit
--> stop_gui_session_result
+(** Create a {!type-stop_instance_on_idle_request} type *)
 
 val make_stop_gui_session_request : resource_name:string -> unit
 -> stop_gui_session_request
+(** Create a {!type-stop_gui_session_request} type *)
 
 val make_static_ip :
   ?is_attached:bool ->
@@ -400,30 +409,22 @@ val make_static_ip :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> static_ip
-
-val make_start_relational_database_result :
-  ?operations:operation list -> unit
--> start_relational_database_result
+  unit
+-> static_ip
+(** Create a {!type-static_ip} type *)
 
 val make_start_relational_database_request :
   relational_database_name:string -> unit
 -> start_relational_database_request
-
-val make_start_instance_result : ?operations:operation list -> unit
--> start_instance_result
+(** Create a {!type-start_relational_database_request} type *)
 
 val make_start_instance_request : instance_name:string -> unit
 -> start_instance_request
-
-val make_start_gui_session_result : ?operations:operation list -> unit
--> start_gui_session_result
+(** Create a {!type-start_instance_request} type *)
 
 val make_start_gui_session_request : resource_name:string -> unit
 -> start_gui_session_request
-
-val make_setup_instance_https_result : ?operations:operation list -> unit
--> setup_instance_https_result
+(** Create a {!type-start_gui_session_request} type *)
 
 val make_setup_instance_https_request :
   certificate_provider:certificate_provider ->
@@ -432,10 +433,7 @@ val make_setup_instance_https_request :
   instance_name:string ->
   unit
 -> setup_instance_https_request
-
-val make_set_resource_access_for_bucket_result :
-  ?operations:operation list -> unit
--> set_resource_access_for_bucket_result
+(** Create a {!type-setup_instance_https_request} type *)
 
 val make_set_resource_access_for_bucket_request :
   access:resource_bucket_access ->
@@ -443,27 +441,25 @@ val make_set_resource_access_for_bucket_request :
   resource_name:string ->
   unit
 -> set_resource_access_for_bucket_request
-
-val make_set_ip_address_type_result : ?operations:operation list -> unit
--> set_ip_address_type_result
+(** Create a {!type-set_resource_access_for_bucket_request} type *)
 
 val make_set_ip_address_type_request :
   ?accept_bundle_update:bool ->
   ip_address_type:ip_address_type ->
   resource_name:string ->
   resource_type:resource_type ->
-  unit -> set_ip_address_type_request
+  unit
+-> set_ip_address_type_request
+(** Create a {!type-set_ip_address_type_request} type *)
 
 val make_session : ?is_primary:bool -> ?url:string -> ?name:string -> unit
 -> session
-
-val make_send_contact_method_verification_result :
-  ?operations:operation list -> unit
--> send_contact_method_verification_result
+(** Create a {!type-session} type *)
 
 val make_send_contact_method_verification_request :
   protocol:contact_method_verification_protocol -> unit
 -> send_contact_method_verification_request
+(** Create a {!type-send_contact_method_verification_request} type *)
 
 val make_estimate_by_time :
   ?time_period:time_period ->
@@ -471,11 +467,14 @@ val make_estimate_by_time :
   ?unit_:float ->
   ?pricing_unit:pricing_unit ->
   ?usage_cost:float ->
-  unit -> estimate_by_time
+  unit
+-> estimate_by_time
+(** Create a {!type-estimate_by_time} type *)
 
 val make_cost_estimate :
   ?results_by_time:estimate_by_time list -> ?usage_type:string -> unit
 -> cost_estimate
+(** Create a {!type-cost_estimate} type *)
 
 val make_resource_budget_estimate :
   ?end_time:float ->
@@ -483,42 +482,45 @@ val make_resource_budget_estimate :
   ?cost_estimates:cost_estimate list ->
   ?resource_type:resource_type ->
   ?resource_name:string ->
-  unit -> resource_budget_estimate
+  unit
+-> resource_budget_estimate
+(** Create a {!type-resource_budget_estimate} type *)
 
 val make_resource_record :
   ?value:string -> ?type_:string -> ?name:string -> unit
 -> resource_record
-
-val make_reset_distribution_cache_result :
-  ?operation:operation -> ?create_time:float -> ?status:string -> unit
--> reset_distribution_cache_result
+(** Create a {!type-resource_record} type *)
 
 val make_reset_distribution_cache_request : ?distribution_name:string -> unit
 -> reset_distribution_cache_request
+(** Create a {!type-reset_distribution_cache_request} type *)
 
 val make_dns_record_creation_state :
   ?message:string -> ?code:dns_record_creation_state_code -> unit
 -> dns_record_creation_state
+(** Create a {!type-dns_record_creation_state} type *)
 
 val make_domain_validation_record :
   ?validation_status:certificate_domain_validation_status ->
   ?dns_record_creation_state:dns_record_creation_state ->
   ?resource_record:resource_record ->
   ?domain_name:string ->
-  unit -> domain_validation_record
+  unit
+-> domain_validation_record
+(** Create a {!type-domain_validation_record} type *)
 
 val make_renewal_summary :
   ?updated_at:float ->
   ?renewal_status_reason:string ->
   ?renewal_status:renewal_status ->
   ?domain_validation_records:domain_validation_record list ->
-  unit -> renewal_summary
-
-val make_release_static_ip_result : ?operations:operation list -> unit
--> release_static_ip_result
+  unit
+-> renewal_summary
+(** Create a {!type-renewal_summary} type *)
 
 val make_release_static_ip_request : static_ip_name:string -> unit
 -> release_static_ip_request
+(** Create a {!type-release_static_ip_request} type *)
 
 val make_relational_database_snapshot :
   ?from_relational_database_blueprint_id:string ->
@@ -536,11 +538,14 @@ val make_relational_database_snapshot :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> relational_database_snapshot
+  unit
+-> relational_database_snapshot
+(** Create a {!type-relational_database_snapshot} type *)
 
 val make_relational_database_hardware :
   ?ram_size_in_gb:float -> ?disk_size_in_gb:int -> ?cpu_count:int -> unit
 -> relational_database_hardware
+(** Create a {!type-relational_database_hardware} type *)
 
 val make_pending_modified_relational_database_values :
   ?backup_retention_enabled:bool ->
@@ -548,13 +553,16 @@ val make_pending_modified_relational_database_values :
   ?master_user_password:string ->
   unit
 -> pending_modified_relational_database_values
+(** Create a {!type-pending_modified_relational_database_values} type *)
 
 val make_relational_database_endpoint : ?address:string -> ?port:int -> unit
 -> relational_database_endpoint
+(** Create a {!type-relational_database_endpoint} type *)
 
 val make_pending_maintenance_action :
   ?current_apply_date:float -> ?description:string -> ?action:string -> unit
 -> pending_maintenance_action
+(** Create a {!type-pending_maintenance_action} type *)
 
 val make_relational_database :
   ?ca_certificate_identifier:string ->
@@ -583,14 +591,18 @@ val make_relational_database :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> relational_database
+  unit
+-> relational_database
+(** Create a {!type-relational_database} type *)
 
 val make_relational_database_event :
   ?event_categories:string list ->
   ?message:string ->
   ?created_at:float ->
   ?resource:string ->
-  unit -> relational_database_event
+  unit
+-> relational_database_event
+(** Create a {!type-relational_database_event} type *)
 
 val make_relational_database_bundle :
   ?is_active:bool ->
@@ -602,7 +614,9 @@ val make_relational_database_bundle :
   ?price:float ->
   ?name:string ->
   ?bundle_id:string ->
-  unit -> relational_database_bundle
+  unit
+-> relational_database_bundle
+(** Create a {!type-relational_database_bundle} type *)
 
 val make_relational_database_blueprint :
   ?is_engine_default:bool ->
@@ -611,35 +625,40 @@ val make_relational_database_blueprint :
   ?engine_version:string ->
   ?engine:relational_database_engine ->
   ?blueprint_id:string ->
-  unit -> relational_database_blueprint
+  unit
+-> relational_database_blueprint
+(** Create a {!type-relational_database_blueprint} type *)
 
 val make_name_servers_update_state :
   ?message:string -> ?code:name_servers_update_state_code -> unit
 -> name_servers_update_state
+(** Create a {!type-name_servers_update_state} type *)
 
 val make_r53_hosted_zone_deletion_state :
   ?message:string -> ?code:r53_hosted_zone_deletion_state_code -> unit
 -> r53_hosted_zone_deletion_state
+(** Create a {!type-r53_hosted_zone_deletion_state} type *)
 
 val make_registered_domain_delegation_info :
   ?r53_hosted_zone_deletion_state:r53_hosted_zone_deletion_state ->
   ?name_servers_update_state:name_servers_update_state ->
-  unit -> registered_domain_delegation_info
+  unit
+-> registered_domain_delegation_info
+(** Create a {!type-registered_domain_delegation_info} type *)
 
 val make_container_image :
   ?created_at:float -> ?digest:string -> ?image:string -> unit
 -> container_image
-
-val make_register_container_image_result :
-  ?container_image:container_image -> unit
--> register_container_image_result
+(** Create a {!type-container_image} type *)
 
 val make_register_container_image_request :
   digest:string -> label:string -> service_name:string -> unit
 -> register_container_image_request
+(** Create a {!type-register_container_image_request} type *)
 
 val make_availability_zone : ?state:string -> ?zone_name:string -> unit
 -> availability_zone
+(** Create a {!type-availability_zone} type *)
 
 val make_region :
   ?relational_database_availability_zones:availability_zone list ->
@@ -648,24 +667,18 @@ val make_region :
   ?display_name:string ->
   ?description:string ->
   ?continent_code:string ->
-  unit -> region
-
-val make_reboot_relational_database_result :
-  ?operations:operation list -> unit
--> reboot_relational_database_result
+  unit
+-> region
+(** Create a {!type-region} type *)
 
 val make_reboot_relational_database_request :
   relational_database_name:string -> unit
 -> reboot_relational_database_request
-
-val make_reboot_instance_result : ?operations:operation list -> unit
--> reboot_instance_result
+(** Create a {!type-reboot_relational_database_request} type *)
 
 val make_reboot_instance_request : instance_name:string -> unit
 -> reboot_instance_request
-
-val make_put_instance_public_ports_result : ?operation:operation -> unit
--> put_instance_public_ports_result
+(** Create a {!type-reboot_instance_request} type *)
 
 val make_port_info :
   ?cidr_list_aliases:string list ->
@@ -674,14 +687,14 @@ val make_port_info :
   ?protocol:network_protocol ->
   ?to_port:int ->
   ?from_port:int ->
-  unit -> port_info
+  unit
+-> port_info
+(** Create a {!type-port_info} type *)
 
 val make_put_instance_public_ports_request :
   instance_name:string -> port_infos:port_info list -> unit
 -> put_instance_public_ports_request
-
-val make_put_alarm_result : ?operations:operation list -> unit
--> put_alarm_result
+(** Create a {!type-put_instance_public_ports_request} type *)
 
 val make_put_alarm_request :
   ?notification_enabled:bool ->
@@ -695,15 +708,17 @@ val make_put_alarm_request :
   monitored_resource_name:string ->
   metric_name:metric_name ->
   alarm_name:string ->
-  unit -> put_alarm_request
+  unit
+-> put_alarm_request
+(** Create a {!type-put_alarm_request} type *)
 
-val make_peer_vpc_result : ?operation:operation -> unit
--> peer_vpc_result
-
-val make_peer_vpc_request : unit -> peer_vpc_request
+val make_peer_vpc_request : unit
+-> peer_vpc_request
+(** Create a {!type-peer_vpc_request} type *)
 
 val make_password_data : ?key_pair_name:string -> ?ciphertext:string -> unit
 -> password_data
+(** Create a {!type-password_data} type *)
 
 val make_origin :
   ?response_timeout:int ->
@@ -711,21 +726,23 @@ val make_origin :
   ?region_name:region_name ->
   ?resource_type:resource_type ->
   ?name:string ->
-  unit -> origin
-
-val make_open_instance_public_ports_result : ?operation:operation -> unit
--> open_instance_public_ports_result
+  unit
+-> origin
+(** Create a {!type-origin} type *)
 
 val make_open_instance_public_ports_request :
   instance_name:string -> port_info:port_info -> unit
 -> open_instance_public_ports_request
+(** Create a {!type-open_instance_public_ports_request} type *)
 
 val make_monthly_transfer : ?gb_per_month_allocated:int -> unit
 -> monthly_transfer
+(** Create a {!type-monthly_transfer} type *)
 
 val make_monitored_resource_info :
   ?resource_type:resource_type -> ?name:string -> ?arn:string -> unit
 -> monitored_resource_info
+(** Create a {!type-monitored_resource_info} type *)
 
 val make_metric_datapoint :
   ?unit_:metric_unit ->
@@ -735,10 +752,13 @@ val make_metric_datapoint :
   ?minimum:float ->
   ?maximum:float ->
   ?average:float ->
-  unit -> metric_datapoint
+  unit
+-> metric_datapoint
+(** Create a {!type-metric_datapoint} type *)
 
 val make_log_event : ?message:string -> ?created_at:float -> unit
 -> log_event
+(** Create a {!type-log_event} type *)
 
 val make_load_balancer_tls_policy :
   ?ciphers:string list ->
@@ -748,28 +768,33 @@ val make_load_balancer_tls_policy :
   ?name:string ->
   unit
 -> load_balancer_tls_policy
+(** Create a {!type-load_balancer_tls_policy} type *)
 
 val make_load_balancer_tls_certificate_summary :
   ?is_attached:bool -> ?name:string -> unit
 -> load_balancer_tls_certificate_summary
+(** Create a {!type-load_balancer_tls_certificate_summary} type *)
 
 val make_load_balancer_tls_certificate_domain_validation_option :
   ?validation_status:load_balancer_tls_certificate_domain_status ->
   ?domain_name:string ->
   unit
 -> load_balancer_tls_certificate_domain_validation_option
+(** Create a {!type-load_balancer_tls_certificate_domain_validation_option} type *)
 
 val make_load_balancer_tls_certificate_renewal_summary :
   ?domain_validation_options:load_balancer_tls_certificate_domain_validation_option list ->
   ?renewal_status:load_balancer_tls_certificate_renewal_status ->
   unit
 -> load_balancer_tls_certificate_renewal_summary
+(** Create a {!type-load_balancer_tls_certificate_renewal_summary} type *)
 
 val make_load_balancer_tls_certificate_dns_record_creation_state :
   ?message:string ->
   ?code:load_balancer_tls_certificate_dns_record_creation_state_code ->
   unit
 -> load_balancer_tls_certificate_dns_record_creation_state
+(** Create a {!type-load_balancer_tls_certificate_dns_record_creation_state} type *)
 
 val make_load_balancer_tls_certificate_domain_validation_record :
   ?dns_record_creation_state:load_balancer_tls_certificate_dns_record_creation_state ->
@@ -780,6 +805,7 @@ val make_load_balancer_tls_certificate_domain_validation_record :
   ?name:string ->
   unit
 -> load_balancer_tls_certificate_domain_validation_record
+(** Create a {!type-load_balancer_tls_certificate_domain_validation_record} type *)
 
 val make_load_balancer_tls_certificate :
   ?subject_alternative_names:string list ->
@@ -807,13 +833,17 @@ val make_load_balancer_tls_certificate :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> load_balancer_tls_certificate
+  unit
+-> load_balancer_tls_certificate
+(** Create a {!type-load_balancer_tls_certificate} type *)
 
 val make_instance_health_summary :
   ?instance_health_reason:instance_health_reason ->
   ?instance_health:instance_health_state ->
   ?instance_name:string ->
-  unit -> instance_health_summary
+  unit
+-> instance_health_summary
+(** Create a {!type-instance_health_summary} type *)
 
 val make_load_balancer :
   ?tls_policy_name:string ->
@@ -835,84 +865,50 @@ val make_load_balancer :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> load_balancer
-
-val make_is_vpc_peered_result : ?is_peered:bool -> unit
--> is_vpc_peered_result
+  unit
+-> load_balancer
+(** Create a {!type-load_balancer} type *)
 
 val make_is_vpc_peered_request : unit
 -> is_vpc_peered_request
-
-val make_import_key_pair_result : ?operation:operation -> unit
--> import_key_pair_result
+(** Create a {!type-is_vpc_peered_request} type *)
 
 val make_import_key_pair_request :
   public_key_base64:string -> key_pair_name:string -> unit
 -> import_key_pair_request
-
-val make_get_static_ips_result :
-  ?next_page_token:string -> ?static_ips:static_ip list -> unit
--> get_static_ips_result
+(** Create a {!type-import_key_pair_request} type *)
 
 val make_get_static_ips_request : ?page_token:string -> unit
 -> get_static_ips_request
-
-val make_get_static_ip_result : ?static_ip:static_ip -> unit
--> get_static_ip_result
+(** Create a {!type-get_static_ips_request} type *)
 
 val make_get_static_ip_request : static_ip_name:string -> unit
 -> get_static_ip_request
-
-val make_get_setup_history_result :
-  ?next_page_token:string -> ?setup_history:setup_history list -> unit
--> get_setup_history_result
+(** Create a {!type-get_static_ip_request} type *)
 
 val make_get_setup_history_request :
   ?page_token:string -> resource_name:string -> unit
 -> get_setup_history_request
-
-val make_get_relational_database_snapshots_result :
-  ?next_page_token:string ->
-  ?relational_database_snapshots:relational_database_snapshot list ->
-  unit
--> get_relational_database_snapshots_result
+(** Create a {!type-get_setup_history_request} type *)
 
 val make_get_relational_database_snapshots_request :
   ?page_token:string -> unit
 -> get_relational_database_snapshots_request
-
-val make_get_relational_database_snapshot_result :
-  ?relational_database_snapshot:relational_database_snapshot -> unit
--> get_relational_database_snapshot_result
+(** Create a {!type-get_relational_database_snapshots_request} type *)
 
 val make_get_relational_database_snapshot_request :
   relational_database_snapshot_name:string -> unit
 -> get_relational_database_snapshot_request
-
-val make_get_relational_databases_result :
-  ?next_page_token:string ->
-  ?relational_databases:relational_database list ->
-  unit
--> get_relational_databases_result
+(** Create a {!type-get_relational_database_snapshot_request} type *)
 
 val make_get_relational_databases_request : ?page_token:string -> unit
 -> get_relational_databases_request
-
-val make_get_relational_database_parameters_result :
-  ?next_page_token:string ->
-  ?parameters:relational_database_parameter list ->
-  unit
--> get_relational_database_parameters_result
+(** Create a {!type-get_relational_databases_request} type *)
 
 val make_get_relational_database_parameters_request :
   ?page_token:string -> relational_database_name:string -> unit
 -> get_relational_database_parameters_request
-
-val make_get_relational_database_metric_data_result :
-  ?metric_data:metric_datapoint list ->
-  ?metric_name:relational_database_metric_name ->
-  unit
--> get_relational_database_metric_data_result
+(** Create a {!type-get_relational_database_parameters_request} type *)
 
 val make_get_relational_database_metric_data_request :
   statistics:metric_statistic list ->
@@ -924,31 +920,19 @@ val make_get_relational_database_metric_data_request :
   relational_database_name:string ->
   unit
 -> get_relational_database_metric_data_request
-
-val make_get_relational_database_master_user_password_result :
-  ?created_at:float -> ?master_user_password:string -> unit
--> get_relational_database_master_user_password_result
+(** Create a {!type-get_relational_database_metric_data_request} type *)
 
 val make_get_relational_database_master_user_password_request :
   ?password_version:relational_database_password_version ->
   relational_database_name:string ->
   unit
 -> get_relational_database_master_user_password_request
-
-val make_get_relational_database_log_streams_result :
-  ?log_streams:string list -> unit
--> get_relational_database_log_streams_result
+(** Create a {!type-get_relational_database_master_user_password_request} type *)
 
 val make_get_relational_database_log_streams_request :
   relational_database_name:string -> unit
 -> get_relational_database_log_streams_request
-
-val make_get_relational_database_log_events_result :
-  ?next_forward_token:string ->
-  ?next_backward_token:string ->
-  ?resource_log_events:log_event list ->
-  unit
--> get_relational_database_log_events_result
+(** Create a {!type-get_relational_database_log_streams_request} type *)
 
 val make_get_relational_database_log_events_request :
   ?page_token:string ->
@@ -959,12 +943,7 @@ val make_get_relational_database_log_events_request :
   relational_database_name:string ->
   unit
 -> get_relational_database_log_events_request
-
-val make_get_relational_database_events_result :
-  ?next_page_token:string ->
-  ?relational_database_events:relational_database_event list ->
-  unit
--> get_relational_database_events_result
+(** Create a {!type-get_relational_database_log_events_request} type *)
 
 val make_get_relational_database_events_request :
   ?page_token:string ->
@@ -972,94 +951,55 @@ val make_get_relational_database_events_request :
   relational_database_name:string ->
   unit
 -> get_relational_database_events_request
-
-val make_get_relational_database_bundles_result :
-  ?next_page_token:string -> ?bundles:relational_database_bundle list -> unit
--> get_relational_database_bundles_result
+(** Create a {!type-get_relational_database_events_request} type *)
 
 val make_get_relational_database_bundles_request :
   ?include_inactive:bool -> ?page_token:string -> unit
 -> get_relational_database_bundles_request
-
-val make_get_relational_database_blueprints_result :
-  ?next_page_token:string ->
-  ?blueprints:relational_database_blueprint list ->
-  unit
--> get_relational_database_blueprints_result
+(** Create a {!type-get_relational_database_bundles_request} type *)
 
 val make_get_relational_database_blueprints_request :
   ?page_token:string -> unit
 -> get_relational_database_blueprints_request
-
-val make_get_relational_database_result :
-  ?relational_database:relational_database -> unit
--> get_relational_database_result
+(** Create a {!type-get_relational_database_blueprints_request} type *)
 
 val make_get_relational_database_request :
   relational_database_name:string -> unit
 -> get_relational_database_request
-
-val make_get_regions_result : ?regions:region list -> unit
--> get_regions_result
+(** Create a {!type-get_relational_database_request} type *)
 
 val make_get_regions_request :
   ?include_relational_database_availability_zones:bool ->
   ?include_availability_zones:bool ->
-  unit -> get_regions_request
-
-val make_get_operations_for_resource_result :
-  ?next_page_token:string ->
-  ?next_page_count:string ->
-  ?operations:operation list ->
   unit
--> get_operations_for_resource_result
+-> get_regions_request
+(** Create a {!type-get_regions_request} type *)
 
 val make_get_operations_for_resource_request :
   ?page_token:string -> resource_name:string -> unit
 -> get_operations_for_resource_request
-
-val make_get_operations_result :
-  ?next_page_token:string -> ?operations:operation list -> unit
--> get_operations_result
+(** Create a {!type-get_operations_for_resource_request} type *)
 
 val make_get_operations_request : ?page_token:string -> unit
 -> get_operations_request
-
-val make_get_operation_result : ?operation:operation -> unit
--> get_operation_result
+(** Create a {!type-get_operations_request} type *)
 
 val make_get_operation_request : operation_id:string -> unit
 -> get_operation_request
-
-val make_get_load_balancer_tls_policies_result :
-  ?next_page_token:string ->
-  ?tls_policies:load_balancer_tls_policy list ->
-  unit
--> get_load_balancer_tls_policies_result
+(** Create a {!type-get_operation_request} type *)
 
 val make_get_load_balancer_tls_policies_request : ?page_token:string -> unit
 -> get_load_balancer_tls_policies_request
-
-val make_get_load_balancer_tls_certificates_result :
-  ?tls_certificates:load_balancer_tls_certificate list -> unit
--> get_load_balancer_tls_certificates_result
+(** Create a {!type-get_load_balancer_tls_policies_request} type *)
 
 val make_get_load_balancer_tls_certificates_request :
   load_balancer_name:string -> unit
 -> get_load_balancer_tls_certificates_request
-
-val make_get_load_balancers_result :
-  ?next_page_token:string -> ?load_balancers:load_balancer list -> unit
--> get_load_balancers_result
+(** Create a {!type-get_load_balancer_tls_certificates_request} type *)
 
 val make_get_load_balancers_request : ?page_token:string -> unit
 -> get_load_balancers_request
-
-val make_get_load_balancer_metric_data_result :
-  ?metric_data:metric_datapoint list ->
-  ?metric_name:load_balancer_metric_name ->
-  unit
--> get_load_balancer_metric_data_result
+(** Create a {!type-get_load_balancers_request} type *)
 
 val make_get_load_balancer_metric_data_request :
   statistics:metric_statistic list ->
@@ -1071,12 +1011,11 @@ val make_get_load_balancer_metric_data_request :
   load_balancer_name:string ->
   unit
 -> get_load_balancer_metric_data_request
-
-val make_get_load_balancer_result : ?load_balancer:load_balancer -> unit
--> get_load_balancer_result
+(** Create a {!type-get_load_balancer_metric_data_request} type *)
 
 val make_get_load_balancer_request : load_balancer_name:string -> unit
 -> get_load_balancer_request
+(** Create a {!type-get_load_balancer_request} type *)
 
 val make_key_pair :
   ?fingerprint:string ->
@@ -1087,30 +1026,26 @@ val make_key_pair :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> key_pair
-
-val make_get_key_pairs_result :
-  ?next_page_token:string -> ?key_pairs:key_pair list -> unit
--> get_key_pairs_result
+  unit
+-> key_pair
+(** Create a {!type-key_pair} type *)
 
 val make_get_key_pairs_request :
   ?include_default_key_pair:bool -> ?page_token:string -> unit
 -> get_key_pairs_request
-
-val make_get_key_pair_result : ?key_pair:key_pair -> unit
--> get_key_pair_result
+(** Create a {!type-get_key_pairs_request} type *)
 
 val make_get_key_pair_request : key_pair_name:string -> unit
 -> get_key_pair_request
+(** Create a {!type-get_key_pair_request} type *)
 
 val make_instance_state : ?name:string -> ?code:int -> unit
 -> instance_state
-
-val make_get_instance_state_result : ?state:instance_state -> unit
--> get_instance_state_result
+(** Create a {!type-instance_state} type *)
 
 val make_get_instance_state_request : instance_name:string -> unit
 -> get_instance_state_request
+(** Create a {!type-get_instance_state_request} type *)
 
 val make_add_on :
   ?duration:string ->
@@ -1120,6 +1055,7 @@ val make_add_on :
   ?status:string ->
   ?name:string ->
   unit -> add_on
+(** Create a {!type-add_on} type *)
 
 val make_disk :
   ?auto_mount_status:auto_mount_status ->
@@ -1141,6 +1077,7 @@ val make_disk :
   ?arn:string ->
   ?name:string ->
   unit -> disk
+(** Create a {!type-disk} type *)
 
 val make_instance_snapshot :
   ?size_in_gb:int ->
@@ -1159,28 +1096,23 @@ val make_instance_snapshot :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> instance_snapshot
-
-val make_get_instance_snapshots_result :
-  ?next_page_token:string ->
-  ?instance_snapshots:instance_snapshot list ->
   unit
--> get_instance_snapshots_result
+-> instance_snapshot
+(** Create a {!type-instance_snapshot} type *)
 
 val make_get_instance_snapshots_request : ?page_token:string -> unit
 -> get_instance_snapshots_request
-
-val make_get_instance_snapshot_result :
-  ?instance_snapshot:instance_snapshot -> unit
--> get_instance_snapshot_result
+(** Create a {!type-get_instance_snapshots_request} type *)
 
 val make_get_instance_snapshot_request :
   instance_snapshot_name:string -> unit
 -> get_instance_snapshot_request
+(** Create a {!type-get_instance_snapshot_request} type *)
 
 val make_instance_hardware :
   ?ram_size_in_gb:float -> ?disks:disk list -> ?cpu_count:int -> unit
 -> instance_hardware
+(** Create a {!type-instance_hardware} type *)
 
 val make_instance_port_info :
   ?cidr_list_aliases:string list ->
@@ -1193,12 +1125,16 @@ val make_instance_port_info :
   ?protocol:network_protocol ->
   ?to_port:int ->
   ?from_port:int ->
-  unit -> instance_port_info
+  unit
+-> instance_port_info
+(** Create a {!type-instance_port_info} type *)
 
 val make_instance_networking :
   ?ports:instance_port_info list ->
   ?monthly_transfer:monthly_transfer ->
-  unit -> instance_networking
+  unit
+-> instance_networking
+(** Create a {!type-instance_networking} type *)
 
 val make_instance_metadata_options :
   ?http_protocol_ipv6:http_protocol_ipv6 ->
@@ -1206,7 +1142,9 @@ val make_instance_metadata_options :
   ?http_endpoint:http_endpoint ->
   ?http_tokens:http_tokens ->
   ?state:instance_metadata_state ->
-  unit -> instance_metadata_options
+  unit
+-> instance_metadata_options
+(** Create a {!type-instance_metadata_options} type *)
 
 val make_instance :
   ?metadata_options:instance_metadata_options ->
@@ -1231,14 +1169,13 @@ val make_instance :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> instance
-
-val make_get_instances_result :
-  ?next_page_token:string -> ?instances:instance list -> unit
--> get_instances_result
+  unit
+-> instance
+(** Create a {!type-instance} type *)
 
 val make_get_instances_request : ?page_token:string -> unit
 -> get_instances_request
+(** Create a {!type-get_instances_request} type *)
 
 val make_instance_port_state :
   ?cidr_list_aliases:string list ->
@@ -1248,20 +1185,13 @@ val make_instance_port_state :
   ?protocol:network_protocol ->
   ?to_port:int ->
   ?from_port:int ->
-  unit -> instance_port_state
-
-val make_get_instance_port_states_result :
-  ?port_states:instance_port_state list -> unit
--> get_instance_port_states_result
+  unit
+-> instance_port_state
+(** Create a {!type-instance_port_state} type *)
 
 val make_get_instance_port_states_request : instance_name:string -> unit
 -> get_instance_port_states_request
-
-val make_get_instance_metric_data_result :
-  ?metric_data:metric_datapoint list ->
-  ?metric_name:instance_metric_name ->
-  unit
--> get_instance_metric_data_result
+(** Create a {!type-get_instance_port_states_request} type *)
 
 val make_get_instance_metric_data_request :
   statistics:metric_statistic list ->
@@ -1271,7 +1201,9 @@ val make_get_instance_metric_data_request :
   period:int ->
   metric_name:instance_metric_name ->
   instance_name:string ->
-  unit -> get_instance_metric_data_request
+  unit
+-> get_instance_metric_data_request
+(** Create a {!type-get_instance_metric_data_request} type *)
 
 val make_host_key_attributes :
   ?not_valid_after:float ->
@@ -1281,7 +1213,9 @@ val make_host_key_attributes :
   ?witnessed_at:float ->
   ?public_key:string ->
   ?algorithm:string ->
-  unit -> host_key_attributes
+  unit
+-> host_key_attributes
+(** Create a {!type-host_key_attributes} type *)
 
 val make_instance_access_details :
   ?host_keys:host_key_attributes list ->
@@ -1297,36 +1231,37 @@ val make_instance_access_details :
   ?cert_key:string ->
   unit
 -> instance_access_details
-
-val make_get_instance_access_details_result :
-  ?access_details:instance_access_details -> unit
--> get_instance_access_details_result
+(** Create a {!type-instance_access_details} type *)
 
 val make_get_instance_access_details_request :
   ?protocol:instance_access_protocol -> instance_name:string -> unit
 -> get_instance_access_details_request
-
-val make_get_instance_result : ?instance:instance -> unit
--> get_instance_result
+(** Create a {!type-get_instance_access_details_request} type *)
 
 val make_get_instance_request : instance_name:string -> unit
 -> get_instance_request
+(** Create a {!type-get_instance_request} type *)
 
 val make_disk_info :
   ?is_system_disk:bool ->
   ?size_in_gb:int ->
   ?path:string ->
   ?name:string ->
-  unit -> disk_info
+  unit
+-> disk_info
+(** Create a {!type-disk_info} type *)
 
 val make_instance_snapshot_info :
   ?from_disk_info:disk_info list ->
   ?from_blueprint_id:string ->
   ?from_bundle_id:string ->
-  unit -> instance_snapshot_info
+  unit
+-> instance_snapshot_info
+(** Create a {!type-instance_snapshot_info} type *)
 
 val make_disk_snapshot_info : ?size_in_gb:int -> unit
 -> disk_snapshot_info
+(** Create a {!type-disk_snapshot_info} type *)
 
 val make_export_snapshot_record_source_info :
   ?disk_snapshot_info:disk_snapshot_info ->
@@ -1337,10 +1272,13 @@ val make_export_snapshot_record_source_info :
   ?name:string ->
   ?created_at:float ->
   ?resource_type:export_snapshot_record_source_type ->
-  unit -> export_snapshot_record_source_info
+  unit
+-> export_snapshot_record_source_info
+(** Create a {!type-export_snapshot_record_source_info} type *)
 
 val make_destination_info : ?service:string -> ?id:string -> unit
 -> destination_info
+(** Create a {!type-destination_info} type *)
 
 val make_export_snapshot_record :
   ?destination_info:destination_info ->
@@ -1351,16 +1289,13 @@ val make_export_snapshot_record :
   ?created_at:float ->
   ?arn:string ->
   ?name:string ->
-  unit -> export_snapshot_record
-
-val make_get_export_snapshot_records_result :
-  ?next_page_token:string ->
-  ?export_snapshot_records:export_snapshot_record list ->
   unit
--> get_export_snapshot_records_result
+-> export_snapshot_record
+(** Create a {!type-export_snapshot_record} type *)
 
 val make_get_export_snapshot_records_request : ?page_token:string -> unit
 -> get_export_snapshot_records_request
+(** Create a {!type-get_export_snapshot_records_request} type *)
 
 val make_domain :
   ?registered_domain_delegation_info:registered_domain_delegation_info ->
@@ -1372,20 +1307,17 @@ val make_domain :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> domain
-
-val make_get_domains_result :
-  ?next_page_token:string -> ?domains:domain list -> unit
--> get_domains_result
+  unit
+-> domain
+(** Create a {!type-domain} type *)
 
 val make_get_domains_request : ?page_token:string -> unit
 -> get_domains_request
-
-val make_get_domain_result : ?domain:domain -> unit
--> get_domain_result
+(** Create a {!type-get_domains_request} type *)
 
 val make_get_domain_request : domain_name:string -> unit
 -> get_domain_request
+(** Create a {!type-get_domain_request} type *)
 
 val make_lightsail_distribution :
   ?viewer_minimum_tls_protocol_version:string ->
@@ -1409,22 +1341,14 @@ val make_lightsail_distribution :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> lightsail_distribution
-
-val make_get_distributions_result :
-  ?next_page_token:string ->
-  ?distributions:lightsail_distribution list ->
-  unit -> get_distributions_result
+  unit
+-> lightsail_distribution
+(** Create a {!type-lightsail_distribution} type *)
 
 val make_get_distributions_request :
   ?page_token:string -> ?distribution_name:string -> unit
 -> get_distributions_request
-
-val make_get_distribution_metric_data_result :
-  ?metric_data:metric_datapoint list ->
-  ?metric_name:distribution_metric_name ->
-  unit
--> get_distribution_metric_data_result
+(** Create a {!type-get_distributions_request} type *)
 
 val make_get_distribution_metric_data_request :
   statistics:metric_statistic list ->
@@ -1436,14 +1360,12 @@ val make_get_distribution_metric_data_request :
   distribution_name:string ->
   unit
 -> get_distribution_metric_data_request
-
-val make_get_distribution_latest_cache_reset_result :
-  ?create_time:float -> ?status:string -> unit
--> get_distribution_latest_cache_reset_result
+(** Create a {!type-get_distribution_metric_data_request} type *)
 
 val make_get_distribution_latest_cache_reset_request :
   ?distribution_name:string -> unit
 -> get_distribution_latest_cache_reset_request
+(** Create a {!type-get_distribution_latest_cache_reset_request} type *)
 
 val make_distribution_bundle :
   ?is_active:bool ->
@@ -1451,14 +1373,13 @@ val make_distribution_bundle :
   ?price:float ->
   ?name:string ->
   ?bundle_id:string ->
-  unit -> distribution_bundle
-
-val make_get_distribution_bundles_result :
-  ?bundles:distribution_bundle list -> unit
--> get_distribution_bundles_result
+  unit
+-> distribution_bundle
+(** Create a {!type-distribution_bundle} type *)
 
 val make_get_distribution_bundles_request : unit
 -> get_distribution_bundles_request
+(** Create a {!type-get_distribution_bundles_request} type *)
 
 val make_disk_snapshot :
   ?is_from_auto_snapshot:bool ->
@@ -1476,48 +1397,34 @@ val make_disk_snapshot :
   ?support_code:string ->
   ?arn:string ->
   ?name:string ->
-  unit -> disk_snapshot
-
-val make_get_disk_snapshots_result :
-  ?next_page_token:string -> ?disk_snapshots:disk_snapshot list -> unit
--> get_disk_snapshots_result
+  unit
+-> disk_snapshot
+(** Create a {!type-disk_snapshot} type *)
 
 val make_get_disk_snapshots_request : ?page_token:string -> unit
 -> get_disk_snapshots_request
-
-val make_get_disk_snapshot_result : ?disk_snapshot:disk_snapshot -> unit
--> get_disk_snapshot_result
+(** Create a {!type-get_disk_snapshots_request} type *)
 
 val make_get_disk_snapshot_request : disk_snapshot_name:string -> unit
 -> get_disk_snapshot_request
-
-val make_get_disks_result :
-  ?next_page_token:string -> ?disks:disk list -> unit
--> get_disks_result
+(** Create a {!type-get_disk_snapshot_request} type *)
 
 val make_get_disks_request : ?page_token:string -> unit
 -> get_disks_request
-
-val make_get_disk_result : ?disk:disk -> unit
--> get_disk_result
+(** Create a {!type-get_disks_request} type *)
 
 val make_get_disk_request : disk_name:string -> unit
 -> get_disk_request
-
-val make_get_cost_estimate_result :
-  ?resources_budget_estimate:resource_budget_estimate list -> unit
--> get_cost_estimate_result
+(** Create a {!type-get_disk_request} type *)
 
 val make_get_cost_estimate_request :
   end_time:float -> start_time:float -> resource_name:string -> unit
 -> get_cost_estimate_request
-
-val make_container_services_list_result :
-  ?container_services:container_service list -> unit
--> container_services_list_result
+(** Create a {!type-get_cost_estimate_request} type *)
 
 val make_get_container_services_request : ?service_name:string -> unit
 -> get_container_services_request
+(** Create a {!type-get_container_services_request} type *)
 
 val make_container_service_power :
   ?is_active:bool ->
@@ -1528,19 +1435,11 @@ val make_container_service_power :
   ?power_id:string ->
   unit
 -> container_service_power
-
-val make_get_container_service_powers_result :
-  ?powers:container_service_power list -> unit
--> get_container_service_powers_result
+(** Create a {!type-container_service_power} type *)
 
 val make_get_container_service_powers_request : unit
 -> get_container_service_powers_request
-
-val make_get_container_service_metric_data_result :
-  ?metric_data:metric_datapoint list ->
-  ?metric_name:container_service_metric_name ->
-  unit
--> get_container_service_metric_data_result
+(** Create a {!type-get_container_service_powers_request} type *)
 
 val make_get_container_service_metric_data_request :
   statistics:metric_statistic list ->
@@ -1551,23 +1450,17 @@ val make_get_container_service_metric_data_request :
   service_name:string ->
   unit
 -> get_container_service_metric_data_request
-
-val make_get_container_service_deployments_result :
-  ?deployments:container_service_deployment list -> unit
--> get_container_service_deployments_result
+(** Create a {!type-get_container_service_metric_data_request} type *)
 
 val make_get_container_service_deployments_request :
   service_name:string -> unit
 -> get_container_service_deployments_request
+(** Create a {!type-get_container_service_deployments_request} type *)
 
 val make_container_service_log_event :
   ?message:string -> ?created_at:float -> unit
 -> container_service_log_event
-
-val make_get_container_log_result :
-  ?next_page_token:string ->
-  ?log_events:container_service_log_event list ->
-  unit -> get_container_log_result
+(** Create a {!type-container_service_log_event} type *)
 
 val make_get_container_log_request :
   ?page_token:string ->
@@ -1576,21 +1469,17 @@ val make_get_container_log_request :
   ?start_time:float ->
   container_name:string ->
   service_name:string ->
-  unit -> get_container_log_request
-
-val make_get_container_images_result :
-  ?container_images:container_image list -> unit
--> get_container_images_result
+  unit
+-> get_container_log_request
+(** Create a {!type-get_container_log_request} type *)
 
 val make_get_container_images_request : service_name:string -> unit
 -> get_container_images_request
-
-val make_get_container_api_metadata_result :
-  ?metadata:(string * string) list list -> unit
--> get_container_api_metadata_result
+(** Create a {!type-get_container_images_request} type *)
 
 val make_get_container_api_metadata_request : unit
 -> get_container_api_metadata_request
+(** Create a {!type-get_container_api_metadata_request} type *)
 
 val make_contact_method :
   ?support_code:string ->
@@ -1602,15 +1491,14 @@ val make_contact_method :
   ?protocol:contact_protocol ->
   ?status:contact_method_status ->
   ?contact_endpoint:string ->
-  unit -> contact_method
-
-val make_get_contact_methods_result :
-  ?contact_methods:contact_method list -> unit
--> get_contact_methods_result
+  unit
+-> contact_method
+(** Create a {!type-contact_method} type *)
 
 val make_get_contact_methods_request :
   ?protocols:contact_protocol list -> unit
 -> get_contact_methods_request
+(** Create a {!type-get_contact_methods_request} type *)
 
 val make_cloud_formation_stack_record_source_info :
   ?arn:string ->
@@ -1618,6 +1506,7 @@ val make_cloud_formation_stack_record_source_info :
   ?resource_type:cloud_formation_stack_record_source_type ->
   unit
 -> cloud_formation_stack_record_source_info
+(** Create a {!type-cloud_formation_stack_record_source_info} type *)
 
 val make_cloud_formation_stack_record :
   ?destination_info:destination_info ->
@@ -1630,16 +1519,12 @@ val make_cloud_formation_stack_record :
   ?name:string ->
   unit
 -> cloud_formation_stack_record
-
-val make_get_cloud_formation_stack_records_result :
-  ?next_page_token:string ->
-  ?cloud_formation_stack_records:cloud_formation_stack_record list ->
-  unit
--> get_cloud_formation_stack_records_result
+(** Create a {!type-cloud_formation_stack_record} type *)
 
 val make_get_cloud_formation_stack_records_request :
   ?page_token:string -> unit
 -> get_cloud_formation_stack_records_request
+(** Create a {!type-get_cloud_formation_stack_records_request} type *)
 
 val make_certificate :
   ?support_code:string ->
@@ -1663,7 +1548,9 @@ val make_certificate :
   ?domain_name:string ->
   ?name:string ->
   ?arn:string ->
-  unit -> certificate
+  unit
+-> certificate
+(** Create a {!type-certificate} type *)
 
 val make_certificate_summary :
   ?tags:tag list ->
@@ -1671,18 +1558,18 @@ val make_certificate_summary :
   ?domain_name:string ->
   ?certificate_name:string ->
   ?certificate_arn:string ->
-  unit -> certificate_summary
-
-val make_get_certificates_result :
-  ?next_page_token:string -> ?certificates:certificate_summary list -> unit
--> get_certificates_result
+  unit
+-> certificate_summary
+(** Create a {!type-certificate_summary} type *)
 
 val make_get_certificates_request :
   ?page_token:string ->
   ?certificate_name:string ->
   ?include_certificate_details:bool ->
   ?certificate_statuses:certificate_status list ->
-  unit -> get_certificates_request
+  unit
+-> get_certificates_request
+(** Create a {!type-get_certificates_request} type *)
 
 val make_bundle :
   ?public_ipv4_address_count:int ->
@@ -1698,42 +1585,34 @@ val make_bundle :
   ?disk_size_in_gb:int ->
   ?cpu_count:int ->
   ?price:float ->
-  unit -> bundle
-
-val make_get_bundles_result :
-  ?next_page_token:string -> ?bundles:bundle list -> unit
--> get_bundles_result
+  unit
+-> bundle
+(** Create a {!type-bundle} type *)
 
 val make_get_bundles_request :
   ?app_category:app_category ->
   ?page_token:string ->
   ?include_inactive:bool ->
-  unit -> get_bundles_request
+  unit
+-> get_bundles_request
+(** Create a {!type-get_bundles_request} type *)
 
 val make_account_level_bpa_sync :
   ?bpa_impacts_lightsail:bool ->
   ?message:bpa_status_message ->
   ?last_synced_at:float ->
   ?status:account_level_bpa_sync_status ->
-  unit -> account_level_bpa_sync
-
-val make_get_buckets_result :
-  ?account_level_bpa_sync:account_level_bpa_sync ->
-  ?next_page_token:string ->
-  ?buckets:bucket list ->
-  unit -> get_buckets_result
+  unit
+-> account_level_bpa_sync
+(** Create a {!type-account_level_bpa_sync} type *)
 
 val make_get_buckets_request :
   ?include_connected_resources:bool ->
   ?page_token:string ->
   ?bucket_name:string ->
-  unit -> get_buckets_request
-
-val make_get_bucket_metric_data_result :
-  ?metric_data:metric_datapoint list ->
-  ?metric_name:bucket_metric_name ->
   unit
--> get_bucket_metric_data_result
+-> get_buckets_request
+(** Create a {!type-get_buckets_request} type *)
 
 val make_get_bucket_metric_data_request :
   unit_:metric_unit ->
@@ -1743,7 +1622,9 @@ val make_get_bucket_metric_data_request :
   start_time:float ->
   metric_name:bucket_metric_name ->
   bucket_name:string ->
-  unit -> get_bucket_metric_data_request
+  unit
+-> get_bucket_metric_data_request
+(** Create a {!type-get_bucket_metric_data_request} type *)
 
 val make_bucket_bundle :
   ?is_active:bool ->
@@ -1752,17 +1633,18 @@ val make_bucket_bundle :
   ?price:float ->
   ?name:string ->
   ?bundle_id:string ->
-  unit -> bucket_bundle
-
-val make_get_bucket_bundles_result : ?bundles:bucket_bundle list -> unit
--> get_bucket_bundles_result
+  unit
+-> bucket_bundle
+(** Create a {!type-bucket_bundle} type *)
 
 val make_get_bucket_bundles_request : ?include_inactive:bool -> unit
 -> get_bucket_bundles_request
+(** Create a {!type-get_bucket_bundles_request} type *)
 
 val make_access_key_last_used :
   ?service_name:string -> ?region:string -> ?last_used_date:float -> unit
 -> access_key_last_used
+(** Create a {!type-access_key_last_used} type *)
 
 val make_access_key :
   ?last_used:access_key_last_used ->
@@ -1770,13 +1652,13 @@ val make_access_key :
   ?status:status_type ->
   ?secret_access_key:string ->
   ?access_key_id:string ->
-  unit -> access_key
-
-val make_get_bucket_access_keys_result : ?access_keys:access_key list -> unit
--> get_bucket_access_keys_result
+  unit
+-> access_key
+(** Create a {!type-access_key} type *)
 
 val make_get_bucket_access_keys_request : bucket_name:string -> unit
 -> get_bucket_access_keys_request
+(** Create a {!type-get_bucket_access_keys_request} type *)
 
 val make_blueprint :
   ?app_category:app_category ->
@@ -1792,36 +1674,34 @@ val make_blueprint :
   ?group:string ->
   ?name:string ->
   ?blueprint_id:string ->
-  unit -> blueprint
-
-val make_get_blueprints_result :
-  ?next_page_token:string -> ?blueprints:blueprint list -> unit
--> get_blueprints_result
+  unit
+-> blueprint
+(** Create a {!type-blueprint} type *)
 
 val make_get_blueprints_request :
   ?app_category:app_category ->
   ?page_token:string ->
   ?include_inactive:bool ->
-  unit -> get_blueprints_request
+  unit
+-> get_blueprints_request
+(** Create a {!type-get_blueprints_request} type *)
 
 val make_attached_disk : ?size_in_gb:int -> ?path:string -> unit
 -> attached_disk
+(** Create a {!type-attached_disk} type *)
 
 val make_auto_snapshot_details :
   ?from_attached_disks:attached_disk list ->
   ?status:auto_snapshot_status ->
   ?created_at:float ->
   ?date:string ->
-  unit -> auto_snapshot_details
-
-val make_get_auto_snapshots_result :
-  ?auto_snapshots:auto_snapshot_details list ->
-  ?resource_type:resource_type ->
-  ?resource_name:string ->
-  unit -> get_auto_snapshots_result
+  unit
+-> auto_snapshot_details
+(** Create a {!type-auto_snapshot_details} type *)
 
 val make_get_auto_snapshots_request : resource_name:string -> unit
 -> get_auto_snapshots_request
+(** Create a {!type-get_auto_snapshots_request} type *)
 
 val make_alarm :
   ?notification_enabled:bool ->
@@ -1844,103 +1724,74 @@ val make_alarm :
   ?created_at:float ->
   ?arn:string ->
   ?name:string ->
-  unit -> alarm
-
-val make_get_alarms_result :
-  ?next_page_token:string -> ?alarms:alarm list -> unit
--> get_alarms_result
+  unit
+-> alarm
+(** Create a {!type-alarm} type *)
 
 val make_get_alarms_request :
   ?monitored_resource_name:string ->
   ?page_token:string ->
   ?alarm_name:string ->
-  unit -> get_alarms_request
-
-val make_get_active_names_result :
-  ?next_page_token:string -> ?active_names:string list -> unit
--> get_active_names_result
+  unit
+-> get_alarms_request
+(** Create a {!type-get_alarms_request} type *)
 
 val make_get_active_names_request : ?page_token:string -> unit
 -> get_active_names_request
-
-val make_export_snapshot_result : ?operations:operation list -> unit
--> export_snapshot_result
+(** Create a {!type-get_active_names_request} type *)
 
 val make_export_snapshot_request : source_snapshot_name:string -> unit
 -> export_snapshot_request
-
-val make_enable_add_on_result : ?operations:operation list -> unit
--> enable_add_on_result
+(** Create a {!type-export_snapshot_request} type *)
 
 val make_auto_snapshot_add_on_request : ?snapshot_time_of_day:string -> unit
 -> auto_snapshot_add_on_request
+(** Create a {!type-auto_snapshot_add_on_request} type *)
 
 val make_add_on_request :
   ?stop_instance_on_idle_request:stop_instance_on_idle_request ->
   ?auto_snapshot_add_on_request:auto_snapshot_add_on_request ->
   add_on_type:add_on_type ->
-  unit -> add_on_request
+  unit
+-> add_on_request
+(** Create a {!type-add_on_request} type *)
 
 val make_enable_add_on_request :
   add_on_request:add_on_request -> resource_name:string -> unit
 -> enable_add_on_request
-
-val make_download_default_key_pair_result :
-  ?created_at:float ->
-  ?private_key_base64:string ->
-  ?public_key_base64:string ->
-  unit
--> download_default_key_pair_result
+(** Create a {!type-enable_add_on_request} type *)
 
 val make_download_default_key_pair_request : unit
 -> download_default_key_pair_request
-
-val make_disable_add_on_result : ?operations:operation list -> unit
--> disable_add_on_result
+(** Create a {!type-download_default_key_pair_request} type *)
 
 val make_disable_add_on_request :
   resource_name:string -> add_on_type:add_on_type -> unit
 -> disable_add_on_request
-
-val make_detach_static_ip_result : ?operations:operation list -> unit
--> detach_static_ip_result
+(** Create a {!type-disable_add_on_request} type *)
 
 val make_detach_static_ip_request : static_ip_name:string -> unit
 -> detach_static_ip_request
-
-val make_detach_instances_from_load_balancer_result :
-  ?operations:operation list -> unit
--> detach_instances_from_load_balancer_result
+(** Create a {!type-detach_static_ip_request} type *)
 
 val make_detach_instances_from_load_balancer_request :
   instance_names:string list -> load_balancer_name:string -> unit
 -> detach_instances_from_load_balancer_request
-
-val make_detach_disk_result : ?operations:operation list -> unit
--> detach_disk_result
+(** Create a {!type-detach_instances_from_load_balancer_request} type *)
 
 val make_detach_disk_request : disk_name:string -> unit
 -> detach_disk_request
-
-val make_detach_certificate_from_distribution_result :
-  ?operation:operation -> unit
--> detach_certificate_from_distribution_result
+(** Create a {!type-detach_disk_request} type *)
 
 val make_detach_certificate_from_distribution_request :
   distribution_name:string -> unit
 -> detach_certificate_from_distribution_request
-
-val make_delete_relational_database_snapshot_result :
-  ?operations:operation list -> unit
--> delete_relational_database_snapshot_result
+(** Create a {!type-detach_certificate_from_distribution_request} type *)
 
 val make_delete_relational_database_snapshot_request :
   relational_database_snapshot_name:string -> unit
 -> delete_relational_database_snapshot_request
-
-val make_delete_relational_database_result :
-  ?operations:operation list -> unit
--> delete_relational_database_result
+(** Create a {!type-delete_relational_database_snapshot_request} type *)
 
 val make_delete_relational_database_request :
   ?final_relational_database_snapshot_name:string ->
@@ -1948,135 +1799,93 @@ val make_delete_relational_database_request :
   relational_database_name:string ->
   unit
 -> delete_relational_database_request
-
-val make_delete_load_balancer_tls_certificate_result :
-  ?operations:operation list -> unit
--> delete_load_balancer_tls_certificate_result
+(** Create a {!type-delete_relational_database_request} type *)
 
 val make_delete_load_balancer_tls_certificate_request :
   ?force:bool -> certificate_name:string -> load_balancer_name:string -> unit
 -> delete_load_balancer_tls_certificate_request
-
-val make_delete_load_balancer_result : ?operations:operation list -> unit
--> delete_load_balancer_result
+(** Create a {!type-delete_load_balancer_tls_certificate_request} type *)
 
 val make_delete_load_balancer_request : load_balancer_name:string -> unit
 -> delete_load_balancer_request
-
-val make_delete_known_host_keys_result : ?operations:operation list -> unit
--> delete_known_host_keys_result
+(** Create a {!type-delete_load_balancer_request} type *)
 
 val make_delete_known_host_keys_request : instance_name:string -> unit
 -> delete_known_host_keys_request
-
-val make_delete_key_pair_result : ?operation:operation -> unit
--> delete_key_pair_result
+(** Create a {!type-delete_known_host_keys_request} type *)
 
 val make_delete_key_pair_request :
   ?expected_fingerprint:string -> key_pair_name:string -> unit
 -> delete_key_pair_request
-
-val make_delete_instance_snapshot_result : ?operations:operation list -> unit
--> delete_instance_snapshot_result
+(** Create a {!type-delete_key_pair_request} type *)
 
 val make_delete_instance_snapshot_request :
   instance_snapshot_name:string -> unit
 -> delete_instance_snapshot_request
-
-val make_delete_instance_result : ?operations:operation list -> unit
--> delete_instance_result
+(** Create a {!type-delete_instance_snapshot_request} type *)
 
 val make_delete_instance_request :
   ?force_delete_add_ons:bool -> instance_name:string -> unit
 -> delete_instance_request
-
-val make_delete_domain_entry_result : ?operation:operation -> unit
--> delete_domain_entry_result
+(** Create a {!type-delete_instance_request} type *)
 
 val make_delete_domain_entry_request :
   domain_entry:domain_entry -> domain_name:string -> unit
 -> delete_domain_entry_request
-
-val make_delete_domain_result : ?operation:operation -> unit
--> delete_domain_result
+(** Create a {!type-delete_domain_entry_request} type *)
 
 val make_delete_domain_request : domain_name:string -> unit
 -> delete_domain_request
-
-val make_delete_distribution_result : ?operation:operation -> unit
--> delete_distribution_result
+(** Create a {!type-delete_domain_request} type *)
 
 val make_delete_distribution_request : ?distribution_name:string -> unit
 -> delete_distribution_request
-
-val make_delete_disk_snapshot_result : ?operations:operation list -> unit
--> delete_disk_snapshot_result
+(** Create a {!type-delete_distribution_request} type *)
 
 val make_delete_disk_snapshot_request : disk_snapshot_name:string -> unit
 -> delete_disk_snapshot_request
-
-val make_delete_disk_result : ?operations:operation list -> unit
--> delete_disk_result
+(** Create a {!type-delete_disk_snapshot_request} type *)
 
 val make_delete_disk_request :
   ?force_delete_add_ons:bool -> disk_name:string -> unit
 -> delete_disk_request
-
-val make_delete_container_service_result : unit
--> delete_container_service_result
+(** Create a {!type-delete_disk_request} type *)
 
 val make_delete_container_service_request : service_name:string -> unit
 -> delete_container_service_request
-
-val make_delete_container_image_result : unit
--> delete_container_image_result
+(** Create a {!type-delete_container_service_request} type *)
 
 val make_delete_container_image_request :
   image:string -> service_name:string -> unit
 -> delete_container_image_request
-
-val make_delete_contact_method_result : ?operations:operation list -> unit
--> delete_contact_method_result
+(** Create a {!type-delete_container_image_request} type *)
 
 val make_delete_contact_method_request : protocol:contact_protocol -> unit
 -> delete_contact_method_request
-
-val make_delete_certificate_result : ?operations:operation list -> unit
--> delete_certificate_result
+(** Create a {!type-delete_contact_method_request} type *)
 
 val make_delete_certificate_request : certificate_name:string -> unit
 -> delete_certificate_request
-
-val make_delete_bucket_access_key_result : ?operations:operation list -> unit
--> delete_bucket_access_key_result
+(** Create a {!type-delete_certificate_request} type *)
 
 val make_delete_bucket_access_key_request :
   access_key_id:string -> bucket_name:string -> unit
 -> delete_bucket_access_key_request
-
-val make_delete_bucket_result : ?operations:operation list -> unit
--> delete_bucket_result
+(** Create a {!type-delete_bucket_access_key_request} type *)
 
 val make_delete_bucket_request :
   ?force_delete:bool -> bucket_name:string -> unit
 -> delete_bucket_request
-
-val make_delete_auto_snapshot_result : ?operations:operation list -> unit
--> delete_auto_snapshot_result
+(** Create a {!type-delete_bucket_request} type *)
 
 val make_delete_auto_snapshot_request :
   date:string -> resource_name:string -> unit
 -> delete_auto_snapshot_request
-
-val make_delete_alarm_result : ?operations:operation list -> unit
--> delete_alarm_result
+(** Create a {!type-delete_auto_snapshot_request} type *)
 
 val make_delete_alarm_request : alarm_name:string -> unit
 -> delete_alarm_request
-
-val make_create_relational_database_snapshot_result :
-  ?operations:operation list -> unit
--> create_relational_database_snapshot_result
+(** Create a {!type-delete_alarm_request} type *)
 
 val make_create_relational_database_snapshot_request :
   ?tags:tag list ->
@@ -2084,10 +1893,7 @@ val make_create_relational_database_snapshot_request :
   relational_database_name:string ->
   unit
 -> create_relational_database_snapshot_request
-
-val make_create_relational_database_from_snapshot_result :
-  ?operations:operation list -> unit
--> create_relational_database_from_snapshot_result
+(** Create a {!type-create_relational_database_snapshot_request} type *)
 
 val make_create_relational_database_from_snapshot_request :
   ?tags:tag list ->
@@ -2101,10 +1907,7 @@ val make_create_relational_database_from_snapshot_request :
   relational_database_name:string ->
   unit
 -> create_relational_database_from_snapshot_request
-
-val make_create_relational_database_result :
-  ?operations:operation list -> unit
--> create_relational_database_result
+(** Create a {!type-create_relational_database_from_snapshot_request} type *)
 
 val make_create_relational_database_request :
   ?tags:tag list ->
@@ -2120,10 +1923,7 @@ val make_create_relational_database_request :
   relational_database_name:string ->
   unit
 -> create_relational_database_request
-
-val make_create_load_balancer_tls_certificate_result :
-  ?operations:operation list -> unit
--> create_load_balancer_tls_certificate_result
+(** Create a {!type-create_relational_database_request} type *)
 
 val make_create_load_balancer_tls_certificate_request :
   ?tags:tag list ->
@@ -2133,9 +1933,7 @@ val make_create_load_balancer_tls_certificate_request :
   load_balancer_name:string ->
   unit
 -> create_load_balancer_tls_certificate_request
-
-val make_create_load_balancer_result : ?operations:operation list -> unit
--> create_load_balancer_result
+(** Create a {!type-create_load_balancer_tls_certificate_request} type *)
 
 val make_create_load_balancer_request :
   ?tls_policy_name:string ->
@@ -2147,21 +1945,14 @@ val make_create_load_balancer_request :
   ?health_check_path:string ->
   instance_port:int ->
   load_balancer_name:string ->
-  unit -> create_load_balancer_request
-
-val make_create_key_pair_result :
-  ?operation:operation ->
-  ?private_key_base64:string ->
-  ?public_key_base64:string ->
-  ?key_pair:key_pair ->
-  unit -> create_key_pair_result
+  unit
+-> create_load_balancer_request
+(** Create a {!type-create_load_balancer_request} type *)
 
 val make_create_key_pair_request :
   ?tags:tag list -> key_pair_name:string -> unit
 -> create_key_pair_request
-
-val make_create_instance_snapshot_result : ?operations:operation list -> unit
--> create_instance_snapshot_result
+(** Create a {!type-create_key_pair_request} type *)
 
 val make_create_instance_snapshot_request :
   ?tags:tag list ->
@@ -2169,14 +1960,12 @@ val make_create_instance_snapshot_request :
   instance_snapshot_name:string ->
   unit
 -> create_instance_snapshot_request
-
-val make_create_instances_from_snapshot_result :
-  ?operations:operation list -> unit
--> create_instances_from_snapshot_result
+(** Create a {!type-create_instance_snapshot_request} type *)
 
 val make_disk_map :
   ?new_disk_name:string -> ?original_disk_path:string -> unit
 -> disk_map
+(** Create a {!type-disk_map} type *)
 
 val make_create_instances_from_snapshot_request :
   ?use_latest_restorable_auto_snapshot:bool ->
@@ -2194,9 +1983,7 @@ val make_create_instances_from_snapshot_request :
   instance_names:string list ->
   unit
 -> create_instances_from_snapshot_request
-
-val make_create_instances_result : ?operations:operation list -> unit
--> create_instances_result
+(** Create a {!type-create_instances_from_snapshot_request} type *)
 
 val make_create_instances_request :
   ?ip_address_type:ip_address_type ->
@@ -2211,36 +1998,21 @@ val make_create_instances_request :
   instance_names:string list ->
   unit
 -> create_instances_request
-
-val make_create_gui_session_access_details_result :
-  ?sessions:session list ->
-  ?failure_reason:string ->
-  ?percentage_complete:int ->
-  ?status:status ->
-  ?resource_name:string ->
-  unit
--> create_gui_session_access_details_result
+(** Create a {!type-create_instances_request} type *)
 
 val make_create_gui_session_access_details_request :
   resource_name:string -> unit
 -> create_gui_session_access_details_request
-
-val make_create_domain_entry_result : ?operation:operation -> unit
--> create_domain_entry_result
+(** Create a {!type-create_gui_session_access_details_request} type *)
 
 val make_create_domain_entry_request :
   domain_entry:domain_entry -> domain_name:string -> unit
 -> create_domain_entry_request
-
-val make_create_domain_result : ?operation:operation -> unit
--> create_domain_result
+(** Create a {!type-create_domain_entry_request} type *)
 
 val make_create_domain_request : ?tags:tag list -> domain_name:string -> unit
 -> create_domain_request
-
-val make_create_distribution_result :
-  ?operation:operation -> ?distribution:lightsail_distribution -> unit
--> create_distribution_result
+(** Create a {!type-create_domain_request} type *)
 
 val make_create_distribution_request :
   ?viewer_minimum_tls_protocol_version:viewer_minimum_tls_protocol_version_enum ->
@@ -2253,10 +2025,9 @@ val make_create_distribution_request :
   default_cache_behavior:cache_behavior ->
   origin:input_origin ->
   distribution_name:string ->
-  unit -> create_distribution_request
-
-val make_create_disk_snapshot_result : ?operations:operation list -> unit
--> create_disk_snapshot_result
+  unit
+-> create_distribution_request
+(** Create a {!type-create_distribution_request} type *)
 
 val make_create_disk_snapshot_request :
   ?tags:tag list ->
@@ -2265,10 +2036,7 @@ val make_create_disk_snapshot_request :
   disk_snapshot_name:string ->
   unit
 -> create_disk_snapshot_request
-
-val make_create_disk_from_snapshot_result :
-  ?operations:operation list -> unit
--> create_disk_from_snapshot_result
+(** Create a {!type-create_disk_snapshot_request} type *)
 
 val make_create_disk_from_snapshot_request :
   ?use_latest_restorable_auto_snapshot:bool ->
@@ -2280,10 +2048,9 @@ val make_create_disk_from_snapshot_request :
   size_in_gb:int ->
   availability_zone:string ->
   disk_name:string ->
-  unit -> create_disk_from_snapshot_request
-
-val make_create_disk_result : ?operations:operation list -> unit
--> create_disk_result
+  unit
+-> create_disk_from_snapshot_request
+(** Create a {!type-create_disk_from_snapshot_request} type *)
 
 val make_create_disk_request :
   ?add_ons:add_on_request list ->
@@ -2291,7 +2058,9 @@ val make_create_disk_request :
   size_in_gb:int ->
   availability_zone:string ->
   disk_name:string ->
-  unit -> create_disk_request
+  unit
+-> create_disk_request
+(** Create a {!type-create_disk_request} type *)
 
 val make_container_service_registry_login :
   ?registry:string ->
@@ -2300,17 +2069,11 @@ val make_container_service_registry_login :
   ?username:string ->
   unit
 -> container_service_registry_login
-
-val make_create_container_service_registry_login_result :
-  ?registry_login:container_service_registry_login -> unit
--> create_container_service_registry_login_result
+(** Create a {!type-container_service_registry_login} type *)
 
 val make_create_container_service_registry_login_request : unit
 -> create_container_service_registry_login_request
-
-val make_create_container_service_deployment_result :
-  ?container_service:container_service -> unit
--> create_container_service_deployment_result
+(** Create a {!type-create_container_service_registry_login_request} type *)
 
 val make_endpoint_request :
   ?health_check:container_service_health_check_config ->
@@ -2318,6 +2081,7 @@ val make_endpoint_request :
   container_name:string ->
   unit
 -> endpoint_request
+(** Create a {!type-endpoint_request} type *)
 
 val make_create_container_service_deployment_request :
   ?public_endpoint:endpoint_request ->
@@ -2325,16 +2089,14 @@ val make_create_container_service_deployment_request :
   service_name:string ->
   unit
 -> create_container_service_deployment_request
-
-val make_create_container_service_result :
-  ?container_service:container_service -> unit
--> create_container_service_result
+(** Create a {!type-create_container_service_deployment_request} type *)
 
 val make_container_service_deployment_request :
   ?public_endpoint:endpoint_request ->
   ?containers:(string * container) list ->
   unit
 -> container_service_deployment_request
+(** Create a {!type-container_service_deployment_request} type *)
 
 val make_create_container_service_request :
   ?private_registry_access:private_registry_access_request ->
@@ -2346,17 +2108,12 @@ val make_create_container_service_request :
   service_name:string ->
   unit
 -> create_container_service_request
-
-val make_create_contact_method_result : ?operations:operation list -> unit
--> create_contact_method_result
+(** Create a {!type-create_container_service_request} type *)
 
 val make_create_contact_method_request :
   contact_endpoint:string -> protocol:contact_protocol -> unit
 -> create_contact_method_request
-
-val make_create_cloud_formation_stack_result :
-  ?operations:operation list -> unit
--> create_cloud_formation_stack_result
+(** Create a {!type-create_contact_method_request} type *)
 
 val make_instance_entry :
   ?user_data:string ->
@@ -2364,15 +2121,14 @@ val make_instance_entry :
   port_info_source:port_info_source_type ->
   instance_type:string ->
   source_name:string ->
-  unit -> instance_entry
+  unit
+-> instance_entry
+(** Create a {!type-instance_entry} type *)
 
 val make_create_cloud_formation_stack_request :
   instances:instance_entry list -> unit
 -> create_cloud_formation_stack_request
-
-val make_create_certificate_result :
-  ?operations:operation list -> ?certificate:certificate_summary -> unit
--> create_certificate_result
+(** Create a {!type-create_cloud_formation_stack_request} type *)
 
 val make_create_certificate_request :
   ?tags:tag list ->
@@ -2381,27 +2137,20 @@ val make_create_certificate_request :
   certificate_name:string ->
   unit
 -> create_certificate_request
-
-val make_create_bucket_access_key_result :
-  ?operations:operation list -> ?access_key:access_key -> unit
--> create_bucket_access_key_result
+(** Create a {!type-create_certificate_request} type *)
 
 val make_create_bucket_access_key_request : bucket_name:string -> unit
 -> create_bucket_access_key_request
-
-val make_create_bucket_result :
-  ?operations:operation list -> ?bucket:bucket -> unit
--> create_bucket_result
+(** Create a {!type-create_bucket_access_key_request} type *)
 
 val make_create_bucket_request :
   ?enable_object_versioning:bool ->
   ?tags:tag list ->
   bundle_id:string ->
   bucket_name:string ->
-  unit -> create_bucket_request
-
-val make_copy_snapshot_result : ?operations:operation list -> unit
--> copy_snapshot_result
+  unit
+-> create_bucket_request
+(** Create a {!type-create_bucket_request} type *)
 
 val make_copy_snapshot_request :
   ?use_latest_restorable_auto_snapshot:bool ->
@@ -2410,40 +2159,29 @@ val make_copy_snapshot_request :
   ?source_snapshot_name:string ->
   source_region:region_name ->
   target_snapshot_name:string ->
-  unit -> copy_snapshot_request
-
-val make_close_instance_public_ports_result : ?operation:operation -> unit
--> close_instance_public_ports_result
+  unit
+-> copy_snapshot_request
+(** Create a {!type-copy_snapshot_request} type *)
 
 val make_close_instance_public_ports_request :
   instance_name:string -> port_info:port_info -> unit
 -> close_instance_public_ports_request
-
-val make_attach_static_ip_result : ?operations:operation list -> unit
--> attach_static_ip_result
+(** Create a {!type-close_instance_public_ports_request} type *)
 
 val make_attach_static_ip_request :
   instance_name:string -> static_ip_name:string -> unit
 -> attach_static_ip_request
-
-val make_attach_load_balancer_tls_certificate_result :
-  ?operations:operation list -> unit
--> attach_load_balancer_tls_certificate_result
+(** Create a {!type-attach_static_ip_request} type *)
 
 val make_attach_load_balancer_tls_certificate_request :
   certificate_name:string -> load_balancer_name:string -> unit
 -> attach_load_balancer_tls_certificate_request
-
-val make_attach_instances_to_load_balancer_result :
-  ?operations:operation list -> unit
--> attach_instances_to_load_balancer_result
+(** Create a {!type-attach_load_balancer_tls_certificate_request} type *)
 
 val make_attach_instances_to_load_balancer_request :
   instance_names:string list -> load_balancer_name:string -> unit
 -> attach_instances_to_load_balancer_request
-
-val make_attach_disk_result : ?operations:operation list -> unit
--> attach_disk_result
+(** Create a {!type-attach_instances_to_load_balancer_request} type *)
 
 val make_attach_disk_request :
   ?auto_mounting:bool ->
@@ -2452,18 +2190,14 @@ val make_attach_disk_request :
   disk_name:string ->
   unit
 -> attach_disk_request
-
-val make_attach_certificate_to_distribution_result :
-  ?operation:operation -> unit
--> attach_certificate_to_distribution_result
+(** Create a {!type-attach_disk_request} type *)
 
 val make_attach_certificate_to_distribution_request :
   certificate_name:string -> distribution_name:string -> unit
 -> attach_certificate_to_distribution_request
-
-val make_allocate_static_ip_result : ?operations:operation list -> unit
--> allocate_static_ip_result
+(** Create a {!type-attach_certificate_to_distribution_request} type *)
 
 val make_allocate_static_ip_request : static_ip_name:string -> unit
 -> allocate_static_ip_request
+(** Create a {!type-allocate_static_ip_request} type *)
 

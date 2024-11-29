@@ -29,6 +29,7 @@ rec {
       alcotest
       odoc
       base
+      markup
     ];
   };
 
@@ -77,7 +78,6 @@ rec {
       dune_3
       smaws-lib
     ];
-    inherit doCheck;
   };
 
   smaws-client-dynamodb = ocamlPackages.buildDunePackage {
@@ -95,6 +95,5 @@ rec {
       dune_3
       smaws-lib
     ];
-    inherit doCheck;
   };
 }

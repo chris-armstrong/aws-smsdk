@@ -22,7 +22,7 @@ let partitionOperationShapes shapesWithTargets =
         | OperationShape x -> Base.Either.First (name, x, targets)
         | _ -> Base.Either.Second { name; descriptor; targets; recursWith })
   in
-  (List.hd_exn service, operations, structured)
+  (List.hd_exn service, operations |> List.rev, structured)
 
 let operationDependencies (operationDetailsList : operationTriple list) =
   operationDetailsList |> List.map ~f:(fun (_, _, targets) -> targets) |> List.concat

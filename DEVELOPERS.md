@@ -37,6 +37,12 @@ sdks/                # service SDKs builders
       - deserialisers (`deserialisers`)
       - operations (`operations`)
       - structure type construction helpers (`builders`)
+      - module type definition (`module`)
+3. The generated files are wrapped up as a OCaml Library, built with dune
+
+### Generation Pipeline
+
+![Generation pipeline for SDKs](doc/pipeline.png)
 
 ### Smithy Definitions
 

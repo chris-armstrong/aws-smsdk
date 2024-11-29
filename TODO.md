@@ -2,6 +2,8 @@
 
 ## Code Generator
 
+* [x] Rename from `aws-smsdk` to `aws-smsdk-gen` to disambiguate code generator
+
 ## HTTP
 
 * [x] Make Http module a functor that returns a new HTTP module with its own connection pool on the same switch

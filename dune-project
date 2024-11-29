@@ -29,6 +29,7 @@
   (digestif (>= "1.1.4"))
   (ppx_deriving (>= "5.0"))
   ocamlgraph
+  (markup (>= "1.0.3"))
   (uri (>= "4.2.0"))
   (logs (>= "0.7.0"))
   ppx_compare

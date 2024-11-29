@@ -9,10 +9,6 @@ let make_tag_queue_request
 : tag_queue_request = { tags; queue_url; 
 }
 
-let make_start_message_move_task_result  ?(task_handle : string option) ()
-: start_message_move_task_result = { task_handle; 
-}
-
 let make_start_message_move_task_request 
   ?(max_number_of_messages_per_second : int option)
   ?(destination_arn : string option)
@@ -25,20 +21,6 @@ let make_set_queue_attributes_request
   ~(attributes : (string * string) list) ~(queue_url : string) ()
 : set_queue_attributes_request = { attributes; queue_url; 
 }
-
-let make_send_message_result 
-  ?(sequence_number : string option)
-  ?(message_id : string option)
-  ?(md5_of_message_system_attributes : string option)
-  ?(md5_of_message_attributes : string option)
-  ?(md5_of_message_body : string option)
-  () : send_message_result = {
-  sequence_number;
-  message_id;
-  md5_of_message_system_attributes;
-  md5_of_message_attributes;
-  md5_of_message_body;
-   }
 
 let make_message_attribute_value 
   ?(binary_list_values : bytes list option)
@@ -110,12 +92,6 @@ let make_batch_result_error_entry
   () : batch_result_error_entry = { message; code; sender_fault; id; 
 }
 
-let make_send_message_batch_result 
-  ~(failed : batch_result_error_entry list)
-  ~(successful : send_message_batch_result_entry list)
-  () : send_message_batch_result = { failed; successful; 
-}
-
 let make_send_message_batch_request_entry 
   ?(message_group_id : string option)
   ?(message_deduplication_id : string option)
@@ -161,9 +137,6 @@ let make_message
   message_id;
    }
 
-let make_receive_message_result  ?(messages : message list option) ()
-: receive_message_result = { messages;  }
-
 let make_receive_message_request 
   ?(receive_request_attempt_id : string option)
   ?(wait_time_seconds : int option)
@@ -187,20 +160,12 @@ let make_receive_message_request
 let make_purge_queue_request  ~(queue_url : string) () : purge_queue_request
 = { queue_url;  }
 
-let make_list_queues_result 
-  ?(next_token : string option) ?(queue_urls : string list option) ()
-: list_queues_result = { next_token; queue_urls; 
-}
-
 let make_list_queues_request 
   ?(max_results : int option)
   ?(next_token : string option)
   ?(queue_name_prefix : string option)
   () : list_queues_request = { max_results; next_token; queue_name_prefix; 
 }
-
-let make_list_queue_tags_result  ?(tags : (string * string) list option) ()
-: list_queue_tags_result = { tags;  }
 
 let make_list_queue_tags_request  ~(queue_url : string) ()
 : list_queue_tags_request = { queue_url; 
@@ -228,19 +193,9 @@ let make_list_message_move_tasks_result_entry
   task_handle;
    }
 
-let make_list_message_move_tasks_result 
-  ?(results : list_message_move_tasks_result_entry list option) ()
-: list_message_move_tasks_result = { results; 
-}
-
 let make_list_message_move_tasks_request 
   ?(max_results : int option) ~(source_arn : string) ()
 : list_message_move_tasks_request = { max_results; source_arn; 
-}
-
-let make_list_dead_letter_source_queues_result 
-  ?(next_token : string option) ~(queue_urls : string list) ()
-: list_dead_letter_source_queues_result = { next_token; queue_urls; 
 }
 
 let make_list_dead_letter_source_queues_request 
@@ -250,17 +205,9 @@ let make_list_dead_letter_source_queues_request
   () : list_dead_letter_source_queues_request = {
   max_results; next_token; queue_url;  }
 
-let make_get_queue_url_result  ?(queue_url : string option) ()
-: get_queue_url_result = { queue_url;  }
-
 let make_get_queue_url_request 
   ?(queue_owner_aws_account_id : string option) ~(queue_name : string) ()
 : get_queue_url_request = { queue_owner_aws_account_id; queue_name; 
-}
-
-let make_get_queue_attributes_result 
-  ?(attributes : (string * string) list option) ()
-: get_queue_attributes_result = { attributes; 
 }
 
 let make_get_queue_attributes_request 
@@ -281,12 +228,6 @@ let make_delete_message_batch_result_entry  ~(id : string) ()
 : delete_message_batch_result_entry = { id; 
 }
 
-let make_delete_message_batch_result 
-  ~(failed : batch_result_error_entry list)
-  ~(successful : delete_message_batch_result_entry list)
-  () : delete_message_batch_result = { failed; successful; 
-}
-
 let make_delete_message_batch_request_entry 
   ~(receipt_handle : string) ~(id : string) ()
 : delete_message_batch_request_entry = { receipt_handle; id; 
@@ -297,9 +238,6 @@ let make_delete_message_batch_request
   ~(queue_url : string)
   () : delete_message_batch_request = { entries; queue_url; 
 }
-
-let make_create_queue_result  ?(queue_url : string option) ()
-: create_queue_result = { queue_url;  }
 
 let make_create_queue_request 
   ?(tags : (string * string) list option)
@@ -320,12 +258,6 @@ let make_change_message_visibility_batch_result_entry  ~(id : string) ()
 : change_message_visibility_batch_result_entry = { id; 
 }
 
-let make_change_message_visibility_batch_result 
-  ~(failed : batch_result_error_entry list)
-  ~(successful : change_message_visibility_batch_result_entry list)
-  () : change_message_visibility_batch_result = { failed; successful; 
-}
-
 let make_change_message_visibility_batch_request_entry 
   ?(visibility_timeout : int option)
   ~(receipt_handle : string)
@@ -338,11 +270,6 @@ let make_change_message_visibility_batch_request
   ~(entries : change_message_visibility_batch_request_entry list)
   ~(queue_url : string)
   () : change_message_visibility_batch_request = { entries; queue_url; 
-}
-
-let make_cancel_message_move_task_result 
-  ?(approximate_number_of_messages_moved : int option) ()
-: cancel_message_move_task_result = { approximate_number_of_messages_moved; 
 }
 
 let make_cancel_message_move_task_request  ~(task_handle : string) ()

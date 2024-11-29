@@ -311,5 +311,8 @@ module Operations = struct
                     (Types.type_name ~is_exception_type:true constructor));
            Fmt.pf fmt "@]@;]";
            Fmt.pf fmt "@]@;) result";
-           Fmt.pf fmt "@]@]@]@\nend@\n@\n")
+           Fmt.pf fmt "@]";
+           let doc = Docs.generate ItemComment os.traits in
+           Option.iter doc ~f:(fun doc_string -> Fmt.pf fmt "@\n%s@\n" doc_string);
+           Fmt.pf fmt "@]@]@\nend@\n@\n")
 end

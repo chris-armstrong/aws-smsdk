@@ -74,6 +74,7 @@ let _ =
       let (name, service), operation_shapes, structure_shapes =
         Ast.Organize.partitionOperationShapes ordered
       in
+      let serviceDetails = Ast.Trait.extractServiceTrait service.traits in
       let alias_context =
         Codegen.Types.create_alias_context
           (structure_shapes
@@ -83,7 +84,6 @@ let _ =
                         List.map recurs ~f:(fun Ast.Dependencies.{ name; descriptor; _ } ->
                             Ast.Shape.{ name; descriptor }))))
       in
-      let serviceDetails = SmithyHelpers.extractServiceTrait service.traits in
       List.iter
         ~f:(fun command ->
           let sdkId = serviceDetails.sdkId |> Str.global_replace (Str.regexp "[ ]") "" in
@@ -135,11 +135,15 @@ let _ =
                   Fmt.pf output_fmt "include Builders@\n";
                   Fmt.pf output_fmt "include Operations@\n");
               write_output (Fmt.str "Smaws_Client_%s.mli" module_name) (fun output_fmt ->
-                  Fmt.pf output_fmt "open Smaws_Lib@\n";
+                  Gen_doc.module_doc ~name ~service ~operation_shapes ~structure_shapes output_fmt;
+                  Fmt.pf output_fmt "open Smaws_Lib@\n@\n";
+                  Fmt.pf output_fmt "(** {1:types Types} *)@\n@\n";
                   Gen_types.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~alias_context ~no_open:true output_fmt;
+                  Fmt.pf output_fmt "(** {1:builders Builders} *)@\n@\n";
                   Gen_builders.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~alias_context ~no_open:true output_fmt;
+                  Fmt.pf output_fmt "(** {1:operations Operations} *)@\n@\n";
                   Gen_operations.generate_mli ~name ~service ~operation_shapes ~structure_shapes
                     ~alias_context ~no_open:true output_fmt))
         targets

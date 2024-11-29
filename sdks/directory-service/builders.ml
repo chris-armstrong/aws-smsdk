@@ -1,8 +1,5 @@
 [@@@warning "-39"]
 open Types
-let make_verify_trust_result  ?(trust_id : string option) ()
-: verify_trust_result = { trust_id;  }
-
 let make_verify_trust_request  ~(trust_id : string) () : verify_trust_request
 = { trust_id;  }
 
@@ -12,18 +9,9 @@ let make_os_update_settings  ?(os_version : os_version option) ()
 let make_update_value  ?(os_update_settings : os_update_settings option) ()
 : update_value = { os_update_settings;  }
 
-let make_update_trust_result 
-  ?(trust_id : string option) ?(request_id : string option) ()
-: update_trust_result = { trust_id; request_id; 
-}
-
 let make_update_trust_request 
   ?(selective_auth : selective_auth option) ~(trust_id : string) ()
-: update_trust_request = { selective_auth; trust_id; 
-}
-
-let make_update_settings_result  ?(directory_id : string option) ()
-: update_settings_result = { directory_id;  }
+: update_trust_request = { selective_auth; trust_id;  }
 
 let make_setting  ~(value : string) ~(name : string) () : setting = {
   value; name;  }
@@ -32,9 +20,6 @@ let make_update_settings_request
   ~(settings : setting list) ~(directory_id : string) ()
 : update_settings_request = { settings; directory_id; 
 }
-
-let make_update_radius_result  () : update_radius_result =
-()
 
 let make_radius_settings 
   ?(use_same_username : bool option)
@@ -61,10 +46,6 @@ let make_update_radius_request
 : update_radius_request = { radius_settings; directory_id; 
 }
 
-let make_update_number_of_domain_controllers_result  ()
-: update_number_of_domain_controllers_result =
-()
-
 let make_update_number_of_domain_controllers_request 
   ~(desired_number : int) ~(directory_id : string) ()
 : update_number_of_domain_controllers_request = {
@@ -90,9 +71,6 @@ let make_update_info_entry
   region;
    }
 
-let make_update_directory_setup_result  () : update_directory_setup_result =
-()
-
 let make_update_directory_setup_request 
   ?(create_snapshot_before_update : bool option)
   ?(os_update_settings : os_update_settings option)
@@ -105,10 +83,6 @@ let make_update_directory_setup_request
   directory_id;
    }
 
-let make_update_conditional_forwarder_result  ()
-: update_conditional_forwarder_result =
-()
-
 let make_update_conditional_forwarder_request 
   ~(dns_ip_addrs : string list)
   ~(remote_domain_name : string)
@@ -118,10 +92,6 @@ let make_update_conditional_forwarder_request
 
 let make_unshare_target  ~(type_ : target_type) ~(id : string) ()
 : unshare_target = { type_; id;  }
-
-let make_unshare_directory_result  ?(shared_directory_id : string option) ()
-: unshare_directory_result = { shared_directory_id; 
-}
 
 let make_unshare_directory_request 
   ~(unshare_target : unshare_target) ~(directory_id : string) ()
@@ -156,10 +126,6 @@ let make_trust
 
 let make_tag  ~(value : string) ~(key : string) () : tag = { value; key; 
 }
-
-let make_start_schema_extension_result 
-  ?(schema_extension_id : string option) () : start_schema_extension_result =
-{ schema_extension_id;  }
 
 let make_start_schema_extension_request 
   ~(description : string)
@@ -219,10 +185,6 @@ let make_shared_directory
 let make_share_target  ~(type_ : target_type) ~(id : string) ()
 : share_target = { type_; id;  }
 
-let make_share_directory_result  ?(shared_directory_id : string option) ()
-: share_directory_result = { shared_directory_id; 
-}
-
 let make_share_directory_request 
   ?(share_notes : string option)
   ~(share_method : share_method)
@@ -276,62 +238,36 @@ let make_schema_extension_info
   directory_id;
    }
 
-let make_restore_from_snapshot_result  () : restore_from_snapshot_result =
-()
-
 let make_restore_from_snapshot_request  ~(snapshot_id : string) ()
 : restore_from_snapshot_request = { snapshot_id; 
 }
-
-let make_reset_user_password_result  () : reset_user_password_result =
-()
 
 let make_reset_user_password_request 
   ~(new_password : string) ~(user_name : string) ~(directory_id : string) ()
 : reset_user_password_request = { new_password; user_name; directory_id; 
 }
 
-let make_remove_tags_from_resource_result  ()
-: remove_tags_from_resource_result =
-()
-
 let make_remove_tags_from_resource_request 
   ~(tag_keys : string list) ~(resource_id : string) ()
 : remove_tags_from_resource_request = { tag_keys; resource_id; 
 }
 
-let make_remove_region_result  () : remove_region_result =
-()
-
 let make_remove_region_request  ~(directory_id : string) ()
-: remove_region_request = { directory_id;  }
-
-let make_remove_ip_routes_result  () : remove_ip_routes_result =
-()
+: remove_region_request = { directory_id; 
+}
 
 let make_remove_ip_routes_request 
   ~(cidr_ips : string list) ~(directory_id : string) ()
 : remove_ip_routes_request = { cidr_ips; directory_id; 
 }
 
-let make_reject_shared_directory_result 
-  ?(shared_directory_id : string option) () : reject_shared_directory_result
-= { shared_directory_id;  }
-
 let make_reject_shared_directory_request  ~(shared_directory_id : string) ()
 : reject_shared_directory_request = { shared_directory_id; 
 }
 
-let make_register_event_topic_result  () : register_event_topic_result =
-()
-
 let make_register_event_topic_request 
   ~(topic_name : string) ~(directory_id : string) ()
 : register_event_topic_request = { topic_name; directory_id; 
-}
-
-let make_register_certificate_result  ?(certificate_id : string option) ()
-: register_certificate_result = { certificate_id; 
 }
 
 let make_client_cert_auth_settings  ?(ocsp_url : string option) ()
@@ -412,11 +348,6 @@ let make_log_subscription
   subscription_created_date_time; log_group_name; directory_id; 
 }
 
-let make_list_tags_for_resource_result 
-  ?(next_token : string option) ?(tags : tag list option) ()
-: list_tags_for_resource_result = { next_token; tags; 
-}
-
 let make_list_tags_for_resource_request 
   ?(limit : int option)
   ?(next_token : string option)
@@ -424,23 +355,11 @@ let make_list_tags_for_resource_request
   () : list_tags_for_resource_request = { limit; next_token; resource_id; 
 }
 
-let make_list_schema_extensions_result 
-  ?(next_token : string option)
-  ?(schema_extensions_info : schema_extension_info list option)
-  () : list_schema_extensions_result = { next_token; schema_extensions_info; 
-}
-
 let make_list_schema_extensions_request 
   ?(limit : int option)
   ?(next_token : string option)
   ~(directory_id : string)
   () : list_schema_extensions_request = { limit; next_token; directory_id; 
-}
-
-let make_list_log_subscriptions_result 
-  ?(next_token : string option)
-  ?(log_subscriptions : log_subscription list option)
-  () : list_log_subscriptions_result = { next_token; log_subscriptions; 
 }
 
 let make_list_log_subscriptions_request 
@@ -466,12 +385,6 @@ let make_ip_route_info
   directory_id;
    }
 
-let make_list_ip_routes_result 
-  ?(next_token : string option)
-  ?(ip_routes_info : ip_route_info list option)
-  () : list_ip_routes_result = { next_token; ip_routes_info; 
-}
-
 let make_list_ip_routes_request 
   ?(limit : int option)
   ?(next_token : string option)
@@ -487,12 +400,6 @@ let make_certificate_info
   ?(certificate_id : string option)
   () : certificate_info = {
   type_; expiry_date_time; state; common_name; certificate_id; 
-}
-
-let make_list_certificates_result 
-  ?(certificates_info : certificate_info list option)
-  ?(next_token : string option)
-  () : list_certificates_result = { certificates_info; next_token; 
 }
 
 let make_list_certificates_request 
@@ -513,10 +420,6 @@ let make_ldaps_setting_info
 let make_ip_route 
   ?(description : string option) ?(cidr_ip : string option) () : ip_route = {
   description; cidr_ip;  }
-
-let make_get_snapshot_limits_result 
-  ?(snapshot_limits : snapshot_limits option) () : get_snapshot_limits_result
-= { snapshot_limits;  }
 
 let make_get_snapshot_limits_request  ~(directory_id : string) ()
 : get_snapshot_limits_request = { directory_id;  }
@@ -543,11 +446,6 @@ let make_directory_limits
   cloud_only_directories_limit;
    }
 
-let make_get_directory_limits_result 
-  ?(directory_limits : directory_limits option) ()
-: get_directory_limits_result = { directory_limits; 
-}
-
 let make_get_directory_limits_request  () : get_directory_limits_request =
 ()
 
@@ -561,9 +459,6 @@ let make_event_topic
   status; created_date_time; topic_arn; topic_name; directory_id; 
 }
 
-let make_enable_sso_result  () : enable_sso_result =
-()
-
 let make_enable_sso_request 
   ?(password : string option)
   ?(user_name : string option)
@@ -571,24 +466,14 @@ let make_enable_sso_request
   () : enable_sso_request = { password; user_name; directory_id; 
 }
 
-let make_enable_radius_result  () : enable_radius_result =
-()
-
 let make_enable_radius_request 
   ~(radius_settings : radius_settings) ~(directory_id : string) ()
 : enable_radius_request = { radius_settings; directory_id; 
 }
 
-let make_enable_ldaps_result  () : enable_ldaps_result =
-()
-
 let make_enable_ldaps_request 
   ~(type_ : ldaps_type) ~(directory_id : string) () : enable_ldaps_request =
 { type_; directory_id;  }
-
-let make_enable_client_authentication_result  ()
-: enable_client_authentication_result =
-()
 
 let make_enable_client_authentication_request 
   ~(type_ : client_authentication_type) ~(directory_id : string) ()
@@ -619,9 +504,6 @@ let make_domain_controller
   directory_id;
    }
 
-let make_disable_sso_result  () : disable_sso_result =
-()
-
 let make_disable_sso_request 
   ?(password : string option)
   ?(user_name : string option)
@@ -629,32 +511,16 @@ let make_disable_sso_request
   () : disable_sso_request = { password; user_name; directory_id; 
 }
 
-let make_disable_radius_result  () : disable_radius_result =
-()
-
 let make_disable_radius_request  ~(directory_id : string) ()
 : disable_radius_request = { directory_id;  }
-
-let make_disable_ldaps_result  () : disable_ldaps_result =
-()
 
 let make_disable_ldaps_request 
   ~(type_ : ldaps_type) ~(directory_id : string) () : disable_ldaps_request =
 { type_; directory_id;  }
 
-let make_disable_client_authentication_result  ()
-: disable_client_authentication_result =
-()
-
 let make_disable_client_authentication_request 
   ~(type_ : client_authentication_type) ~(directory_id : string) ()
 : disable_client_authentication_request = { type_; directory_id; 
-}
-
-let make_describe_update_directory_result 
-  ?(next_token : string option)
-  ?(update_activities : update_info_entry list option)
-  () : describe_update_directory_result = { next_token; update_activities; 
 }
 
 let make_describe_update_directory_request 
@@ -666,11 +532,6 @@ let make_describe_update_directory_request
   next_token; region_name; update_type; directory_id; 
 }
 
-let make_describe_trusts_result 
-  ?(next_token : string option) ?(trusts : trust list option) ()
-: describe_trusts_result = { next_token; trusts; 
-}
-
 let make_describe_trusts_request 
   ?(limit : int option)
   ?(next_token : string option)
@@ -678,11 +539,6 @@ let make_describe_trusts_request
   ?(directory_id : string option)
   () : describe_trusts_request = {
   limit; next_token; trust_ids; directory_id; 
-}
-
-let make_describe_snapshots_result 
-  ?(next_token : string option) ?(snapshots : snapshot list option) ()
-: describe_snapshots_result = { next_token; snapshots; 
 }
 
 let make_describe_snapshots_request 
@@ -694,13 +550,6 @@ let make_describe_snapshots_request
   limit; next_token; snapshot_ids; directory_id; 
 }
 
-let make_describe_shared_directories_result 
-  ?(next_token : string option)
-  ?(shared_directories : shared_directory list option)
-  () : describe_shared_directories_result = {
-  next_token; shared_directories; 
-}
-
 let make_describe_shared_directories_request 
   ?(limit : int option)
   ?(next_token : string option)
@@ -710,14 +559,6 @@ let make_describe_shared_directories_request
   limit; next_token; shared_directory_ids; owner_directory_id; 
 }
 
-let make_describe_settings_result 
-  ?(next_token : string option)
-  ?(setting_entries : setting_entry list option)
-  ?(directory_id : string option)
-  () : describe_settings_result = {
-  next_token; setting_entries; directory_id; 
-}
-
 let make_describe_settings_request 
   ?(next_token : string option)
   ?(status : directory_configuration_status option)
@@ -725,23 +566,11 @@ let make_describe_settings_request
   () : describe_settings_request = { next_token; status; directory_id; 
 }
 
-let make_describe_regions_result 
-  ?(next_token : string option)
-  ?(regions_description : region_description list option)
-  () : describe_regions_result = { next_token; regions_description; 
-}
-
 let make_describe_regions_request 
   ?(next_token : string option)
   ?(region_name : string option)
   ~(directory_id : string)
   () : describe_regions_request = { next_token; region_name; directory_id; 
-}
-
-let make_describe_ldaps_settings_result 
-  ?(next_token : string option)
-  ?(ldaps_settings_info : ldaps_setting_info list option)
-  () : describe_ldaps_settings_result = { next_token; ldaps_settings_info; 
 }
 
 let make_describe_ldaps_settings_request 
@@ -753,20 +582,9 @@ let make_describe_ldaps_settings_request
   limit; next_token; type_; directory_id; 
 }
 
-let make_describe_event_topics_result 
-  ?(event_topics : event_topic list option) () : describe_event_topics_result
-= { event_topics;  }
-
 let make_describe_event_topics_request 
   ?(topic_names : string list option) ?(directory_id : string option) ()
 : describe_event_topics_request = { topic_names; directory_id; 
-}
-
-let make_describe_domain_controllers_result 
-  ?(next_token : string option)
-  ?(domain_controllers : domain_controller list option)
-  () : describe_domain_controllers_result = {
-  next_token; domain_controllers; 
 }
 
 let make_describe_domain_controllers_request 
@@ -850,12 +668,6 @@ let make_directory_description
   directory_id;
    }
 
-let make_describe_directories_result 
-  ?(next_token : string option)
-  ?(directory_descriptions : directory_description list option)
-  () : describe_directories_result = { next_token; directory_descriptions; 
-}
-
 let make_describe_directories_request 
   ?(limit : int option)
   ?(next_token : string option)
@@ -871,11 +683,6 @@ let make_conditional_forwarder
   replication_scope; dns_ip_addrs; remote_domain_name; 
 }
 
-let make_describe_conditional_forwarders_result 
-  ?(conditional_forwarders : conditional_forwarder list option) ()
-: describe_conditional_forwarders_result = { conditional_forwarders; 
-}
-
 let make_describe_conditional_forwarders_request 
   ?(remote_domain_names : string list option) ~(directory_id : string) ()
 : describe_conditional_forwarders_request = {
@@ -888,13 +695,6 @@ let make_client_authentication_setting_info
   ?(type_ : client_authentication_type option)
   () : client_authentication_setting_info = {
   last_updated_date_time; status; type_; 
-}
-
-let make_describe_client_authentication_settings_result 
-  ?(next_token : string option)
-  ?(client_authentication_settings_info : client_authentication_setting_info list option)
-  () : describe_client_authentication_settings_result = {
-  next_token; client_authentication_settings_info; 
 }
 
 let make_describe_client_authentication_settings_request 
@@ -925,33 +725,20 @@ let make_certificate
   certificate_id;
    }
 
-let make_describe_certificate_result  ?(certificate : certificate option) ()
-: describe_certificate_result = { certificate; 
-}
-
 let make_describe_certificate_request 
   ~(certificate_id : string) ~(directory_id : string) ()
 : describe_certificate_request = { certificate_id; directory_id; 
 }
-
-let make_deregister_event_topic_result  () : deregister_event_topic_result =
-()
 
 let make_deregister_event_topic_request 
   ~(topic_name : string) ~(directory_id : string) ()
 : deregister_event_topic_request = { topic_name; directory_id; 
 }
 
-let make_deregister_certificate_result  () : deregister_certificate_result =
-()
-
 let make_deregister_certificate_request 
   ~(certificate_id : string) ~(directory_id : string) ()
 : deregister_certificate_request = { certificate_id; directory_id; 
 }
-
-let make_delete_trust_result  ?(trust_id : string option) ()
-: delete_trust_result = { trust_id;  }
 
 let make_delete_trust_request 
   ?(delete_associated_conditional_forwarder : bool option)
@@ -960,39 +747,22 @@ let make_delete_trust_request
   delete_associated_conditional_forwarder; trust_id; 
 }
 
-let make_delete_snapshot_result  ?(snapshot_id : string option) ()
-: delete_snapshot_result = { snapshot_id;  }
-
 let make_delete_snapshot_request  ~(snapshot_id : string) ()
 : delete_snapshot_request = { snapshot_id; 
 }
 
-let make_delete_log_subscription_result  () : delete_log_subscription_result
-= ()
-
 let make_delete_log_subscription_request  ~(directory_id : string) ()
 : delete_log_subscription_request = { directory_id; 
-}
-
-let make_delete_directory_result  ?(directory_id : string option) ()
-: delete_directory_result = { directory_id; 
 }
 
 let make_delete_directory_request  ~(directory_id : string) ()
 : delete_directory_request = { directory_id; 
 }
 
-let make_delete_conditional_forwarder_result  ()
-: delete_conditional_forwarder_result =
-()
-
 let make_delete_conditional_forwarder_request 
   ~(remote_domain_name : string) ~(directory_id : string) ()
 : delete_conditional_forwarder_request = { remote_domain_name; directory_id; 
 }
-
-let make_create_trust_result  ?(trust_id : string option) ()
-: create_trust_result = { trust_id;  }
 
 let make_create_trust_request 
   ?(selective_auth : selective_auth option)
@@ -1012,16 +782,9 @@ let make_create_trust_request
   directory_id;
    }
 
-let make_create_snapshot_result  ?(snapshot_id : string option) ()
-: create_snapshot_result = { snapshot_id;  }
-
 let make_create_snapshot_request 
   ?(name : string option) ~(directory_id : string) ()
 : create_snapshot_request = { name; directory_id; 
-}
-
-let make_create_microsoft_ad_result  ?(directory_id : string option) ()
-: create_microsoft_ad_result = { directory_id; 
 }
 
 let make_create_microsoft_ad_request 
@@ -1036,16 +799,9 @@ let make_create_microsoft_ad_request
   tags; edition; vpc_settings; description; password; short_name; name; 
 }
 
-let make_create_log_subscription_result  () : create_log_subscription_result
-= ()
-
 let make_create_log_subscription_request 
   ~(log_group_name : string) ~(directory_id : string) ()
 : create_log_subscription_request = { log_group_name; directory_id; 
-}
-
-let make_create_directory_result  ?(directory_id : string option) ()
-: create_directory_result = { directory_id; 
 }
 
 let make_create_directory_request 
@@ -1059,10 +815,6 @@ let make_create_directory_request
   () : create_directory_request = {
   tags; vpc_settings; size; description; password; short_name; name; 
 }
-
-let make_create_conditional_forwarder_result  ()
-: create_conditional_forwarder_result =
-()
 
 let make_create_conditional_forwarder_request 
   ~(dns_ip_addrs : string list)
@@ -1081,9 +833,6 @@ let make_computer
   () : computer = { computer_attributes; computer_name; computer_id; 
 }
 
-let make_create_computer_result  ?(computer : computer option) ()
-: create_computer_result = { computer;  }
-
 let make_create_computer_request 
   ?(computer_attributes : attribute list option)
   ?(organizational_unit_distinguished_name : string option)
@@ -1098,17 +847,8 @@ let make_create_computer_request
   directory_id;
    }
 
-let make_create_alias_result 
-  ?(alias : string option) ?(directory_id : string option) ()
-: create_alias_result = { alias; directory_id; 
-}
-
 let make_create_alias_request  ~(alias : string) ~(directory_id : string) ()
 : create_alias_request = { alias; directory_id; 
-}
-
-let make_connect_directory_result  ?(directory_id : string option) ()
-: connect_directory_result = { directory_id; 
 }
 
 let make_directory_connect_settings 
@@ -1132,24 +872,15 @@ let make_connect_directory_request
   tags; connect_settings; size; description; password; short_name; name; 
 }
 
-let make_cancel_schema_extension_result  () : cancel_schema_extension_result
-= ()
-
 let make_cancel_schema_extension_request 
   ~(schema_extension_id : string) ~(directory_id : string) ()
 : cancel_schema_extension_request = { schema_extension_id; directory_id; 
 }
 
-let make_add_tags_to_resource_result  () : add_tags_to_resource_result =
-()
-
 let make_add_tags_to_resource_request 
   ~(tags : tag list) ~(resource_id : string) ()
 : add_tags_to_resource_request = { tags; resource_id; 
 }
-
-let make_add_region_result  () : add_region_result =
-()
 
 let make_add_region_request 
   ~(vpc_settings : directory_vpc_settings)
@@ -1158,20 +889,12 @@ let make_add_region_request
   () : add_region_request = { vpc_settings; region_name; directory_id; 
 }
 
-let make_add_ip_routes_result  () : add_ip_routes_result =
-()
-
 let make_add_ip_routes_request 
   ?(update_security_group_for_directory_controllers : bool option)
   ~(ip_routes : ip_route list)
   ~(directory_id : string)
   () : add_ip_routes_request = {
   update_security_group_for_directory_controllers; ip_routes; directory_id; 
-}
-
-let make_accept_shared_directory_result 
-  ?(shared_directory : shared_directory option) ()
-: accept_shared_directory_result = { shared_directory; 
 }
 
 let make_accept_shared_directory_request  ~(shared_directory_id : string) ()

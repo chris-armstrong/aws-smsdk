@@ -12,9 +12,6 @@ let make_resource_attribute
 : resource_attribute = { value; type_; 
 }
 
-let make_put_resource_attributes_result  () : put_resource_attributes_result
-= ()
-
 let make_put_resource_attributes_request 
   ?(dry_run : bool option)
   ~(resource_attribute_list : resource_attribute list)
@@ -32,10 +29,6 @@ let make_progress_update_stream_summary
 : progress_update_stream_summary = { progress_update_stream_name; 
 }
 
-let make_notify_migration_task_state_result  ()
-: notify_migration_task_state_result =
-()
-
 let make_notify_migration_task_state_request 
   ?(dry_run : bool option)
   ~(next_update_seconds : int)
@@ -51,10 +44,6 @@ let make_notify_migration_task_state_request
   migration_task_name;
   progress_update_stream;
    }
-
-let make_notify_application_state_result  ()
-: notify_application_state_result =
-()
 
 let make_notify_application_state_request 
   ?(dry_run : bool option)
@@ -95,23 +84,9 @@ let make_migration_task
   progress_update_stream;
    }
 
-let make_list_progress_update_streams_result 
-  ?(next_token : string option)
-  ?(progress_update_stream_summary_list : progress_update_stream_summary list option)
-  () : list_progress_update_streams_result = {
-  next_token; progress_update_stream_summary_list; 
-}
-
 let make_list_progress_update_streams_request 
   ?(max_results : int option) ?(next_token : string option) ()
 : list_progress_update_streams_request = { max_results; next_token; 
-}
-
-let make_list_migration_tasks_result 
-  ?(migration_task_summary_list : migration_task_summary list option)
-  ?(next_token : string option)
-  () : list_migration_tasks_result = {
-  migration_task_summary_list; next_token; 
 }
 
 let make_list_migration_tasks_request 
@@ -126,13 +101,6 @@ let make_discovered_resource
 : discovered_resource = { description; configuration_id; 
 }
 
-let make_list_discovered_resources_result 
-  ?(discovered_resource_list : discovered_resource list option)
-  ?(next_token : string option)
-  () : list_discovered_resources_result = {
-  discovered_resource_list; next_token; 
-}
-
 let make_list_discovered_resources_request 
   ?(max_results : int option)
   ?(next_token : string option)
@@ -144,12 +112,6 @@ let make_list_discovered_resources_request
 
 let make_created_artifact  ?(description : string option) ~(name : string) ()
 : created_artifact = { description; name; 
-}
-
-let make_list_created_artifacts_result 
-  ?(created_artifact_list : created_artifact list option)
-  ?(next_token : string option)
-  () : list_created_artifacts_result = { created_artifact_list; next_token; 
 }
 
 let make_list_created_artifacts_request 
@@ -169,13 +131,6 @@ let make_application_state
   last_updated_time; application_status; application_id; 
 }
 
-let make_list_application_states_result 
-  ?(next_token : string option)
-  ?(application_state_list : application_state list option)
-  () : list_application_states_result = {
-  next_token; application_state_list; 
-}
-
 let make_list_application_states_request 
   ?(max_results : int option)
   ?(next_token : string option)
@@ -183,9 +138,6 @@ let make_list_application_states_request
   () : list_application_states_request = {
   max_results; next_token; application_ids; 
 }
-
-let make_import_migration_task_result  () : import_migration_task_result =
-()
 
 let make_import_migration_task_request 
   ?(dry_run : bool option)
@@ -195,10 +147,6 @@ let make_import_migration_task_request
   dry_run; migration_task_name; progress_update_stream; 
 }
 
-let make_disassociate_discovered_resource_result  ()
-: disassociate_discovered_resource_result =
-()
-
 let make_disassociate_discovered_resource_request 
   ?(dry_run : bool option)
   ~(configuration_id : string)
@@ -207,10 +155,6 @@ let make_disassociate_discovered_resource_request
   () : disassociate_discovered_resource_request = {
   dry_run; configuration_id; migration_task_name; progress_update_stream; 
 }
-
-let make_disassociate_created_artifact_result  ()
-: disassociate_created_artifact_result =
-()
 
 let make_disassociate_created_artifact_request 
   ?(dry_run : bool option)
@@ -224,31 +168,15 @@ let make_disassociate_created_artifact_request
   progress_update_stream;
    }
 
-let make_describe_migration_task_result 
-  ?(migration_task : migration_task option) ()
-: describe_migration_task_result = { migration_task; 
-}
-
 let make_describe_migration_task_request 
   ~(migration_task_name : string) ~(progress_update_stream : string) ()
 : describe_migration_task_request = {
   migration_task_name; progress_update_stream; 
 }
 
-let make_describe_application_state_result 
-  ?(last_updated_time : float option)
-  ?(application_status : application_status option)
-  () : describe_application_state_result = {
-  last_updated_time; application_status; 
-}
-
 let make_describe_application_state_request  ~(application_id : string) ()
 : describe_application_state_request = { application_id; 
 }
-
-let make_delete_progress_update_stream_result  ()
-: delete_progress_update_stream_result =
-()
 
 let make_delete_progress_update_stream_request 
   ?(dry_run : bool option) ~(progress_update_stream_name : string) ()
@@ -256,19 +184,11 @@ let make_delete_progress_update_stream_request
   dry_run; progress_update_stream_name; 
 }
 
-let make_create_progress_update_stream_result  ()
-: create_progress_update_stream_result =
-()
-
 let make_create_progress_update_stream_request 
   ?(dry_run : bool option) ~(progress_update_stream_name : string) ()
 : create_progress_update_stream_request = {
   dry_run; progress_update_stream_name; 
 }
-
-let make_associate_discovered_resource_result  ()
-: associate_discovered_resource_result =
-()
 
 let make_associate_discovered_resource_request 
   ?(dry_run : bool option)
@@ -278,10 +198,6 @@ let make_associate_discovered_resource_request
   () : associate_discovered_resource_request = {
   dry_run; discovered_resource; migration_task_name; progress_update_stream; 
 }
-
-let make_associate_created_artifact_result  ()
-: associate_created_artifact_result =
-()
 
 let make_associate_created_artifact_request 
   ?(dry_run : bool option)
