@@ -4620,19 +4620,24 @@ val make_xks_proxy_configuration_type :
   ?connectivity:xks_proxy_connectivity_type ->
   unit
 -> xks_proxy_configuration_type
+(** Create a {!type-xks_proxy_configuration_type} type *)
 
 val make_xks_proxy_authentication_credential_type :
   raw_secret_access_key:string -> access_key_id:string -> unit
 -> xks_proxy_authentication_credential_type
+(** Create a {!type-xks_proxy_authentication_credential_type} type *)
 
 val make_xks_key_configuration_type : ?id:string -> unit
 -> xks_key_configuration_type
+(** Create a {!type-xks_key_configuration_type} type *)
 
 val make_verify_response :
   ?signing_algorithm:signing_algorithm_spec ->
   ?signature_valid:bool ->
   ?key_id:string ->
-  unit -> verify_response
+  unit
+-> verify_response
+(** Create a {!type-verify_response} type *)
 
 val make_verify_request :
   ?dry_run:bool ->
@@ -4642,13 +4647,17 @@ val make_verify_request :
   signature:bytes ->
   message:bytes ->
   key_id:string ->
-  unit -> verify_request
+  unit
+-> verify_request
+(** Create a {!type-verify_request} type *)
 
 val make_verify_mac_response :
   ?mac_algorithm:mac_algorithm_spec ->
   ?mac_valid:bool ->
   ?key_id:string ->
-  unit -> verify_mac_response
+  unit
+-> verify_mac_response
+(** Create a {!type-verify_mac_response} type *)
 
 val make_verify_mac_request :
   ?dry_run:bool ->
@@ -4657,18 +4666,23 @@ val make_verify_mac_request :
   mac_algorithm:mac_algorithm_spec ->
   key_id:string ->
   message:bytes ->
-  unit -> verify_mac_request
+  unit
+-> verify_mac_request
+(** Create a {!type-verify_mac_request} type *)
 
 val make_update_primary_region_request :
   primary_region:string -> key_id:string -> unit
 -> update_primary_region_request
+(** Create a {!type-update_primary_region_request} type *)
 
 val make_update_key_description_request :
   description:string -> key_id:string -> unit
 -> update_key_description_request
+(** Create a {!type-update_key_description_request} type *)
 
 val make_update_custom_key_store_response : unit
 -> update_custom_key_store_response
+(** Create a {!type-update_custom_key_store_response} type *)
 
 val make_update_custom_key_store_request :
   ?xks_proxy_connectivity:xks_proxy_connectivity_type ->
@@ -4680,27 +4694,35 @@ val make_update_custom_key_store_request :
   ?key_store_password:string ->
   ?new_custom_key_store_name:string ->
   custom_key_store_id:string ->
-  unit -> update_custom_key_store_request
+  unit
+-> update_custom_key_store_request
+(** Create a {!type-update_custom_key_store_request} type *)
 
 val make_update_alias_request :
   target_key_id:string -> alias_name:string -> unit
 -> update_alias_request
+(** Create a {!type-update_alias_request} type *)
 
 val make_untag_resource_request :
   tag_keys:string list -> key_id:string -> unit
 -> untag_resource_request
+(** Create a {!type-untag_resource_request} type *)
 
 val make_tag : tag_value:string -> tag_key:string -> unit
 -> tag
+(** Create a {!type-tag} type *)
 
 val make_tag_resource_request : tags:tag list -> key_id:string -> unit
 -> tag_resource_request
+(** Create a {!type-tag_resource_request} type *)
 
 val make_sign_response :
   ?signing_algorithm:signing_algorithm_spec ->
   ?signature:bytes ->
   ?key_id:string ->
-  unit -> sign_response
+  unit
+-> sign_response
+(** Create a {!type-sign_response} type *)
 
 val make_sign_request :
   ?dry_run:bool ->
@@ -4709,7 +4731,9 @@ val make_sign_request :
   signing_algorithm:signing_algorithm_spec ->
   message:bytes ->
   key_id:string ->
-  unit -> sign_request
+  unit
+-> sign_request
+(** Create a {!type-sign_request} type *)
 
 val make_schedule_key_deletion_response :
   ?pending_window_in_days:int ->
@@ -4718,36 +4742,46 @@ val make_schedule_key_deletion_response :
   ?key_id:string ->
   unit
 -> schedule_key_deletion_response
+(** Create a {!type-schedule_key_deletion_response} type *)
 
 val make_schedule_key_deletion_request :
   ?pending_window_in_days:int -> key_id:string -> unit
 -> schedule_key_deletion_request
+(** Create a {!type-schedule_key_deletion_request} type *)
 
 val make_rotate_key_on_demand_response : ?key_id:string -> unit
 -> rotate_key_on_demand_response
+(** Create a {!type-rotate_key_on_demand_response} type *)
 
 val make_rotate_key_on_demand_request : key_id:string -> unit
 -> rotate_key_on_demand_request
+(** Create a {!type-rotate_key_on_demand_request} type *)
 
 val make_revoke_grant_request :
   ?dry_run:bool -> grant_id:string -> key_id:string -> unit
 -> revoke_grant_request
+(** Create a {!type-revoke_grant_request} type *)
 
 val make_retire_grant_request :
   ?dry_run:bool ->
   ?grant_id:string ->
   ?key_id:string ->
   ?grant_token:string ->
-  unit -> retire_grant_request
+  unit
+-> retire_grant_request
+(** Create a {!type-retire_grant_request} type *)
 
 val make_multi_region_key : ?region:string -> ?arn:string -> unit
 -> multi_region_key
+(** Create a {!type-multi_region_key} type *)
 
 val make_multi_region_configuration :
   ?replica_keys:multi_region_key list ->
   ?primary_key:multi_region_key ->
   ?multi_region_key_type:multi_region_key_type ->
-  unit -> multi_region_configuration
+  unit
+-> multi_region_configuration
+(** Create a {!type-multi_region_configuration} type *)
 
 val make_key_metadata :
   ?xks_key_configuration:xks_key_configuration_type ->
@@ -4775,13 +4809,17 @@ val make_key_metadata :
   ?arn:string ->
   ?aws_account_id:string ->
   key_id:string ->
-  unit -> key_metadata
+  unit
+-> key_metadata
+(** Create a {!type-key_metadata} type *)
 
 val make_replicate_key_response :
   ?replica_tags:tag list ->
   ?replica_policy:string ->
   ?replica_key_metadata:key_metadata ->
-  unit -> replicate_key_response
+  unit
+-> replicate_key_response
+(** Create a {!type-replicate_key_response} type *)
 
 val make_replicate_key_request :
   ?tags:tag list ->
@@ -4790,7 +4828,9 @@ val make_replicate_key_request :
   ?policy:string ->
   replica_region:string ->
   key_id:string ->
-  unit -> replicate_key_request
+  unit
+-> replicate_key_request
+(** Create a {!type-replicate_key_request} type *)
 
 val make_re_encrypt_response :
   ?destination_encryption_algorithm:encryption_algorithm_spec ->
@@ -4798,7 +4838,9 @@ val make_re_encrypt_response :
   ?key_id:string ->
   ?source_key_id:string ->
   ?ciphertext_blob:bytes ->
-  unit -> re_encrypt_response
+  unit
+-> re_encrypt_response
+(** Create a {!type-re_encrypt_response} type *)
 
 val make_re_encrypt_request :
   ?dry_run:bool ->
@@ -4810,19 +4852,25 @@ val make_re_encrypt_request :
   ?source_encryption_context:(string * string) list ->
   destination_key_id:string ->
   ciphertext_blob:bytes ->
-  unit -> re_encrypt_request
+  unit
+-> re_encrypt_request
+(** Create a {!type-re_encrypt_request} type *)
 
 val make_put_key_policy_request :
   ?bypass_policy_lockout_safety_check:bool ->
   ?policy_name:string ->
   policy:string ->
   key_id:string ->
-  unit -> put_key_policy_request
+  unit
+-> put_key_policy_request
+(** Create a {!type-put_key_policy_request} type *)
 
 val make_grant_constraints :
   ?encryption_context_equals:(string * string) list ->
   ?encryption_context_subset:(string * string) list ->
-  unit -> grant_constraints
+  unit
+-> grant_constraints
+(** Create a {!type-grant_constraints} type *)
 
 val make_grant_list_entry :
   ?constraints:grant_constraints ->
@@ -4834,59 +4882,76 @@ val make_grant_list_entry :
   ?name:string ->
   ?grant_id:string ->
   ?key_id:string ->
-  unit -> grant_list_entry
+  unit
+-> grant_list_entry
+(** Create a {!type-grant_list_entry} type *)
 
 val make_list_grants_response :
   ?truncated:bool ->
   ?next_marker:string ->
   ?grants:grant_list_entry list ->
-  unit -> list_grants_response
+  unit
+-> list_grants_response
+(** Create a {!type-list_grants_response} type *)
 
 val make_list_retirable_grants_request :
   ?marker:string -> ?limit:int -> retiring_principal:string -> unit
 -> list_retirable_grants_request
+(** Create a {!type-list_retirable_grants_request} type *)
 
 val make_list_resource_tags_response :
   ?truncated:bool -> ?next_marker:string -> ?tags:tag list -> unit
 -> list_resource_tags_response
+(** Create a {!type-list_resource_tags_response} type *)
 
 val make_list_resource_tags_request :
   ?marker:string -> ?limit:int -> key_id:string -> unit
 -> list_resource_tags_request
+(** Create a {!type-list_resource_tags_request} type *)
 
 val make_key_list_entry : ?key_arn:string -> ?key_id:string -> unit
 -> key_list_entry
+(** Create a {!type-key_list_entry} type *)
 
 val make_list_keys_response :
   ?truncated:bool -> ?next_marker:string -> ?keys:key_list_entry list -> unit
 -> list_keys_response
+(** Create a {!type-list_keys_response} type *)
 
 val make_list_keys_request : ?marker:string -> ?limit:int -> unit
 -> list_keys_request
+(** Create a {!type-list_keys_request} type *)
 
 val make_rotations_list_entry :
   ?rotation_type:rotation_type ->
   ?rotation_date:float ->
   ?key_id:string ->
-  unit -> rotations_list_entry
+  unit
+-> rotations_list_entry
+(** Create a {!type-rotations_list_entry} type *)
 
 val make_list_key_rotations_response :
   ?truncated:bool ->
   ?next_marker:string ->
   ?rotations:rotations_list_entry list ->
-  unit -> list_key_rotations_response
+  unit
+-> list_key_rotations_response
+(** Create a {!type-list_key_rotations_response} type *)
 
 val make_list_key_rotations_request :
   ?marker:string -> ?limit:int -> key_id:string -> unit
 -> list_key_rotations_request
+(** Create a {!type-list_key_rotations_request} type *)
 
 val make_list_key_policies_response :
   ?truncated:bool -> ?next_marker:string -> ?policy_names:string list -> unit
 -> list_key_policies_response
+(** Create a {!type-list_key_policies_response} type *)
 
 val make_list_key_policies_request :
   ?marker:string -> ?limit:int -> key_id:string -> unit
 -> list_key_policies_request
+(** Create a {!type-list_key_policies_request} type *)
 
 val make_list_grants_request :
   ?grantee_principal:string ->
@@ -4894,7 +4959,9 @@ val make_list_grants_request :
   ?marker:string ->
   ?limit:int ->
   key_id:string ->
-  unit -> list_grants_request
+  unit
+-> list_grants_request
+(** Create a {!type-list_grants_request} type *)
 
 val make_alias_list_entry :
   ?last_updated_date:float ->
@@ -4902,20 +4969,26 @@ val make_alias_list_entry :
   ?target_key_id:string ->
   ?alias_arn:string ->
   ?alias_name:string ->
-  unit -> alias_list_entry
+  unit
+-> alias_list_entry
+(** Create a {!type-alias_list_entry} type *)
 
 val make_list_aliases_response :
   ?truncated:bool ->
   ?next_marker:string ->
   ?aliases:alias_list_entry list ->
-  unit -> list_aliases_response
+  unit
+-> list_aliases_response
+(** Create a {!type-list_aliases_response} type *)
 
 val make_list_aliases_request :
   ?marker:string -> ?limit:int -> ?key_id:string -> unit
 -> list_aliases_request
+(** Create a {!type-list_aliases_request} type *)
 
 val make_import_key_material_response : unit
 -> import_key_material_response
+(** Create a {!type-import_key_material_response} type *)
 
 val make_import_key_material_request :
   ?expiration_model:expiration_model_type ->
@@ -4923,7 +4996,9 @@ val make_import_key_material_request :
   encrypted_key_material:bytes ->
   import_token:bytes ->
   key_id:string ->
-  unit -> import_key_material_request
+  unit
+-> import_key_material_request
+(** Create a {!type-import_key_material_request} type *)
 
 val make_get_public_key_response :
   ?key_agreement_algorithms:key_agreement_algorithm_spec list ->
@@ -4934,11 +5009,14 @@ val make_get_public_key_response :
   ?customer_master_key_spec:customer_master_key_spec ->
   ?public_key:bytes ->
   ?key_id:string ->
-  unit -> get_public_key_response
+  unit
+-> get_public_key_response
+(** Create a {!type-get_public_key_response} type *)
 
 val make_get_public_key_request :
   ?grant_tokens:string list -> key_id:string -> unit
 -> get_public_key_request
+(** Create a {!type-get_public_key_request} type *)
 
 val make_get_parameters_for_import_response :
   ?parameters_valid_to:float ->
@@ -4947,6 +5025,7 @@ val make_get_parameters_for_import_response :
   ?key_id:string ->
   unit
 -> get_parameters_for_import_response
+(** Create a {!type-get_parameters_for_import_response} type *)
 
 val make_get_parameters_for_import_request :
   wrapping_key_spec:wrapping_key_spec ->
@@ -4954,6 +5033,7 @@ val make_get_parameters_for_import_request :
   key_id:string ->
   unit
 -> get_parameters_for_import_request
+(** Create a {!type-get_parameters_for_import_request} type *)
 
 val make_get_key_rotation_status_response :
   ?on_demand_rotation_start_date:float ->
@@ -4963,36 +5043,46 @@ val make_get_key_rotation_status_response :
   ?key_rotation_enabled:bool ->
   unit
 -> get_key_rotation_status_response
+(** Create a {!type-get_key_rotation_status_response} type *)
 
 val make_get_key_rotation_status_request : key_id:string -> unit
 -> get_key_rotation_status_request
+(** Create a {!type-get_key_rotation_status_request} type *)
 
 val make_get_key_policy_response :
   ?policy_name:string -> ?policy:string -> unit
 -> get_key_policy_response
+(** Create a {!type-get_key_policy_response} type *)
 
 val make_get_key_policy_request :
   ?policy_name:string -> key_id:string -> unit
 -> get_key_policy_request
+(** Create a {!type-get_key_policy_request} type *)
 
 val make_generate_random_response :
   ?ciphertext_for_recipient:bytes -> ?plaintext:bytes -> unit
 -> generate_random_response
+(** Create a {!type-generate_random_response} type *)
 
 val make_recipient_info :
   ?attestation_document:bytes ->
   ?key_encryption_algorithm:key_encryption_mechanism ->
-  unit -> recipient_info
+  unit
+-> recipient_info
+(** Create a {!type-recipient_info} type *)
 
 val make_generate_random_request :
   ?recipient:recipient_info ->
   ?custom_key_store_id:string ->
   ?number_of_bytes:int ->
-  unit -> generate_random_request
+  unit
+-> generate_random_request
+(** Create a {!type-generate_random_request} type *)
 
 val make_generate_mac_response :
   ?key_id:string -> ?mac_algorithm:mac_algorithm_spec -> ?mac:bytes -> unit
 -> generate_mac_response
+(** Create a {!type-generate_mac_response} type *)
 
 val make_generate_mac_request :
   ?dry_run:bool ->
@@ -5002,10 +5092,12 @@ val make_generate_mac_request :
   message:bytes ->
   unit
 -> generate_mac_request
+(** Create a {!type-generate_mac_request} type *)
 
 val make_generate_data_key_without_plaintext_response :
   ?key_id:string -> ?ciphertext_blob:bytes -> unit
 -> generate_data_key_without_plaintext_response
+(** Create a {!type-generate_data_key_without_plaintext_response} type *)
 
 val make_generate_data_key_without_plaintext_request :
   ?dry_run:bool ->
@@ -5016,6 +5108,7 @@ val make_generate_data_key_without_plaintext_request :
   key_id:string ->
   unit
 -> generate_data_key_without_plaintext_request
+(** Create a {!type-generate_data_key_without_plaintext_request} type *)
 
 val make_generate_data_key_pair_without_plaintext_response :
   ?key_pair_spec:data_key_pair_spec ->
@@ -5024,6 +5117,7 @@ val make_generate_data_key_pair_without_plaintext_response :
   ?private_key_ciphertext_blob:bytes ->
   unit
 -> generate_data_key_pair_without_plaintext_response
+(** Create a {!type-generate_data_key_pair_without_plaintext_response} type *)
 
 val make_generate_data_key_pair_without_plaintext_request :
   ?dry_run:bool ->
@@ -5033,6 +5127,7 @@ val make_generate_data_key_pair_without_plaintext_request :
   key_id:string ->
   unit
 -> generate_data_key_pair_without_plaintext_request
+(** Create a {!type-generate_data_key_pair_without_plaintext_request} type *)
 
 val make_generate_data_key_pair_response :
   ?ciphertext_for_recipient:bytes ->
@@ -5043,6 +5138,7 @@ val make_generate_data_key_pair_response :
   ?private_key_ciphertext_blob:bytes ->
   unit
 -> generate_data_key_pair_response
+(** Create a {!type-generate_data_key_pair_response} type *)
 
 val make_generate_data_key_pair_request :
   ?dry_run:bool ->
@@ -5051,14 +5147,18 @@ val make_generate_data_key_pair_request :
   ?encryption_context:(string * string) list ->
   key_pair_spec:data_key_pair_spec ->
   key_id:string ->
-  unit -> generate_data_key_pair_request
+  unit
+-> generate_data_key_pair_request
+(** Create a {!type-generate_data_key_pair_request} type *)
 
 val make_generate_data_key_response :
   ?ciphertext_for_recipient:bytes ->
   ?key_id:string ->
   ?plaintext:bytes ->
   ?ciphertext_blob:bytes ->
-  unit -> generate_data_key_response
+  unit
+-> generate_data_key_response
+(** Create a {!type-generate_data_key_response} type *)
 
 val make_generate_data_key_request :
   ?dry_run:bool ->
@@ -5068,13 +5168,17 @@ val make_generate_data_key_request :
   ?number_of_bytes:int ->
   ?encryption_context:(string * string) list ->
   key_id:string ->
-  unit -> generate_data_key_request
+  unit
+-> generate_data_key_request
+(** Create a {!type-generate_data_key_request} type *)
 
 val make_encrypt_response :
   ?encryption_algorithm:encryption_algorithm_spec ->
   ?key_id:string ->
   ?ciphertext_blob:bytes ->
-  unit -> encrypt_response
+  unit
+-> encrypt_response
+(** Create a {!type-encrypt_response} type *)
 
 val make_encrypt_request :
   ?dry_run:bool ->
@@ -5083,34 +5187,44 @@ val make_encrypt_request :
   ?encryption_context:(string * string) list ->
   plaintext:bytes ->
   key_id:string ->
-  unit -> encrypt_request
+  unit
+-> encrypt_request
+(** Create a {!type-encrypt_request} type *)
 
 val make_enable_key_rotation_request :
   ?rotation_period_in_days:int -> key_id:string -> unit
 -> enable_key_rotation_request
+(** Create a {!type-enable_key_rotation_request} type *)
 
 val make_enable_key_request : key_id:string -> unit
 -> enable_key_request
+(** Create a {!type-enable_key_request} type *)
 
 val make_disconnect_custom_key_store_response : unit
 -> disconnect_custom_key_store_response
+(** Create a {!type-disconnect_custom_key_store_response} type *)
 
 val make_disconnect_custom_key_store_request :
   custom_key_store_id:string -> unit
 -> disconnect_custom_key_store_request
+(** Create a {!type-disconnect_custom_key_store_request} type *)
 
 val make_disable_key_rotation_request : key_id:string -> unit
 -> disable_key_rotation_request
+(** Create a {!type-disable_key_rotation_request} type *)
 
 val make_disable_key_request : key_id:string -> unit
 -> disable_key_request
+(** Create a {!type-disable_key_request} type *)
 
 val make_describe_key_response : ?key_metadata:key_metadata -> unit
 -> describe_key_response
+(** Create a {!type-describe_key_response} type *)
 
 val make_describe_key_request :
   ?grant_tokens:string list -> key_id:string -> unit
 -> describe_key_request
+(** Create a {!type-describe_key_request} type *)
 
 val make_custom_key_stores_list_entry :
   ?xks_proxy_configuration:xks_proxy_configuration_type ->
@@ -5124,6 +5238,7 @@ val make_custom_key_stores_list_entry :
   ?custom_key_store_id:string ->
   unit
 -> custom_key_stores_list_entry
+(** Create a {!type-custom_key_stores_list_entry} type *)
 
 val make_describe_custom_key_stores_response :
   ?truncated:bool ->
@@ -5131,6 +5246,7 @@ val make_describe_custom_key_stores_response :
   ?custom_key_stores:custom_key_stores_list_entry list ->
   unit
 -> describe_custom_key_stores_response
+(** Create a {!type-describe_custom_key_stores_response} type *)
 
 val make_describe_custom_key_stores_request :
   ?marker:string ->
@@ -5139,6 +5255,7 @@ val make_describe_custom_key_stores_request :
   ?custom_key_store_id:string ->
   unit
 -> describe_custom_key_stores_request
+(** Create a {!type-describe_custom_key_stores_request} type *)
 
 val make_derive_shared_secret_response :
   ?key_origin:origin_type ->
@@ -5148,6 +5265,7 @@ val make_derive_shared_secret_response :
   ?key_id:string ->
   unit
 -> derive_shared_secret_response
+(** Create a {!type-derive_shared_secret_response} type *)
 
 val make_derive_shared_secret_request :
   ?recipient:recipient_info ->
@@ -5158,25 +5276,32 @@ val make_derive_shared_secret_request :
   key_id:string ->
   unit
 -> derive_shared_secret_request
+(** Create a {!type-derive_shared_secret_request} type *)
 
 val make_delete_imported_key_material_request : key_id:string -> unit
 -> delete_imported_key_material_request
+(** Create a {!type-delete_imported_key_material_request} type *)
 
 val make_delete_custom_key_store_response : unit
 -> delete_custom_key_store_response
+(** Create a {!type-delete_custom_key_store_response} type *)
 
 val make_delete_custom_key_store_request : custom_key_store_id:string -> unit
 -> delete_custom_key_store_request
+(** Create a {!type-delete_custom_key_store_request} type *)
 
 val make_delete_alias_request : alias_name:string -> unit
 -> delete_alias_request
+(** Create a {!type-delete_alias_request} type *)
 
 val make_decrypt_response :
   ?ciphertext_for_recipient:bytes ->
   ?encryption_algorithm:encryption_algorithm_spec ->
   ?plaintext:bytes ->
   ?key_id:string ->
-  unit -> decrypt_response
+  unit
+-> decrypt_response
+(** Create a {!type-decrypt_response} type *)
 
 val make_decrypt_request :
   ?dry_run:bool ->
@@ -5186,10 +5311,13 @@ val make_decrypt_request :
   ?grant_tokens:string list ->
   ?encryption_context:(string * string) list ->
   ciphertext_blob:bytes ->
-  unit -> decrypt_request
+  unit
+-> decrypt_request
+(** Create a {!type-decrypt_request} type *)
 
 val make_create_key_response : ?key_metadata:key_metadata -> unit
 -> create_key_response
+(** Create a {!type-create_key_response} type *)
 
 val make_create_key_request :
   ?xks_key_id:string ->
@@ -5203,11 +5331,14 @@ val make_create_key_request :
   ?key_usage:key_usage_type ->
   ?description:string ->
   ?policy:string ->
-  unit -> create_key_request
+  unit
+-> create_key_request
+(** Create a {!type-create_key_request} type *)
 
 val make_create_grant_response :
   ?grant_id:string -> ?grant_token:string -> unit
 -> create_grant_response
+(** Create a {!type-create_grant_response} type *)
 
 val make_create_grant_request :
   ?dry_run:bool ->
@@ -5218,11 +5349,14 @@ val make_create_grant_request :
   operations:grant_operation list ->
   grantee_principal:string ->
   key_id:string ->
-  unit -> create_grant_request
+  unit
+-> create_grant_request
+(** Create a {!type-create_grant_request} type *)
 
 val make_create_custom_key_store_response :
   ?custom_key_store_id:string -> unit
 -> create_custom_key_store_response
+(** Create a {!type-create_custom_key_store_response} type *)
 
 val make_create_custom_key_store_request :
   ?xks_proxy_connectivity:xks_proxy_connectivity_type ->
@@ -5235,24 +5369,31 @@ val make_create_custom_key_store_request :
   ?trust_anchor_certificate:string ->
   ?cloud_hsm_cluster_id:string ->
   custom_key_store_name:string ->
-  unit -> create_custom_key_store_request
+  unit
+-> create_custom_key_store_request
+(** Create a {!type-create_custom_key_store_request} type *)
 
 val make_create_alias_request :
   target_key_id:string -> alias_name:string -> unit
 -> create_alias_request
+(** Create a {!type-create_alias_request} type *)
 
 val make_connect_custom_key_store_response : unit
 -> connect_custom_key_store_response
+(** Create a {!type-connect_custom_key_store_response} type *)
 
 val make_connect_custom_key_store_request :
   custom_key_store_id:string -> unit
 -> connect_custom_key_store_request
+(** Create a {!type-connect_custom_key_store_request} type *)
 
 val make_cancel_key_deletion_response : ?key_id:string -> unit
 -> cancel_key_deletion_response
+(** Create a {!type-cancel_key_deletion_response} type *)
 
 val make_cancel_key_deletion_request : key_id:string -> unit
 -> cancel_key_deletion_request
+(** Create a {!type-cancel_key_deletion_request} type *)
 
 (** {1:operations Operations} *)
 

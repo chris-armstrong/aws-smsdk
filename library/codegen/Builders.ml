@@ -77,6 +77,9 @@ let generate ~name ~structure_shapes ~alias_context fmt =
                     generate_builder fmt alias_context name descriptor);
              Fmt.pf fmt "@]@\n@\n")
 
+let generate_builder_docstring ~name fmt =
+  Fmt.pf fmt "(** Create a {!type-%s} type *)@\n" (SafeNames.safeTypeName name)
+
 let generate_interfaces ~name ~structure_shapes ~alias_context fmt =
   structure_shapes
   |> List.iter (fun shapeWithTarget ->
@@ -86,13 +89,16 @@ let generate_interfaces ~name ~structure_shapes ~alias_context fmt =
          | (name, descriptor) :: [] ->
              Fmt.pf fmt "val ";
              generate_builder_interface fmt alias_context name descriptor;
+             generate_builder_docstring fmt ~name;
              Fmt.pf fmt "@\n"
          | (name, descriptor) :: remainder ->
              Fmt.pf fmt "val ";
              generate_builder_interface fmt alias_context name descriptor;
+             generate_builder_docstring fmt ~name;
              Fmt.pf fmt "@\n";
              remainder
              |> List.iter (fun (name, descriptor) ->
                     Fmt.pf fmt "val ";
                     generate_builder_interface fmt alias_context name descriptor;
+                    generate_builder_docstring fmt ~name;
                     Fmt.pf fmt "@\n"))

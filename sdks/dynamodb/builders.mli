@@ -1,27 +1,33 @@
 open Types
 val make_put_request : item:(string * attribute_value) list -> unit
 -> put_request
+(** Create a {!type-put_request} type *)
 
 val make_delete_request : key:(string * attribute_value) list -> unit
 -> delete_request
+(** Create a {!type-delete_request} type *)
 
 val make_write_request :
   ?delete_request:delete_request -> ?put_request:put_request -> unit
 -> write_request
+(** Create a {!type-write_request} type *)
 
 val make_time_to_live_specification :
   attribute_name:string -> enabled:bool -> unit
 -> time_to_live_specification
+(** Create a {!type-time_to_live_specification} type *)
 
 val make_update_time_to_live_output :
   ?time_to_live_specification:time_to_live_specification -> unit
 -> update_time_to_live_output
+(** Create a {!type-update_time_to_live_output} type *)
 
 val make_update_time_to_live_input :
   time_to_live_specification:time_to_live_specification ->
   table_name:string ->
   unit
 -> update_time_to_live_input
+(** Create a {!type-update_time_to_live_input} type *)
 
 val make_auto_scaling_target_tracking_scaling_policy_configuration_description :
   ?scale_out_cooldown:int ->
@@ -30,12 +36,14 @@ val make_auto_scaling_target_tracking_scaling_policy_configuration_description :
   target_value:float ->
   unit
 -> auto_scaling_target_tracking_scaling_policy_configuration_description
+(** Create a {!type-auto_scaling_target_tracking_scaling_policy_configuration_description} type *)
 
 val make_auto_scaling_policy_description :
   ?target_tracking_scaling_policy_configuration:auto_scaling_target_tracking_scaling_policy_configuration_description ->
   ?policy_name:string ->
   unit
 -> auto_scaling_policy_description
+(** Create a {!type-auto_scaling_policy_description} type *)
 
 val make_auto_scaling_settings_description :
   ?scaling_policies:auto_scaling_policy_description list ->
@@ -45,6 +53,7 @@ val make_auto_scaling_settings_description :
   ?minimum_units:int ->
   unit
 -> auto_scaling_settings_description
+(** Create a {!type-auto_scaling_settings_description} type *)
 
 val make_replica_global_secondary_index_auto_scaling_description :
   ?provisioned_write_capacity_auto_scaling_settings:auto_scaling_settings_description ->
@@ -53,6 +62,7 @@ val make_replica_global_secondary_index_auto_scaling_description :
   ?index_name:string ->
   unit
 -> replica_global_secondary_index_auto_scaling_description
+(** Create a {!type-replica_global_secondary_index_auto_scaling_description} type *)
 
 val make_replica_auto_scaling_description :
   ?replica_status:replica_status ->
@@ -62,6 +72,7 @@ val make_replica_auto_scaling_description :
   ?region_name:string ->
   unit
 -> replica_auto_scaling_description
+(** Create a {!type-replica_auto_scaling_description} type *)
 
 val make_table_auto_scaling_description :
   ?replicas:replica_auto_scaling_description list ->
@@ -69,10 +80,12 @@ val make_table_auto_scaling_description :
   ?table_name:string ->
   unit
 -> table_auto_scaling_description
+(** Create a {!type-table_auto_scaling_description} type *)
 
 val make_update_table_replica_auto_scaling_output :
   ?table_auto_scaling_description:table_auto_scaling_description -> unit
 -> update_table_replica_auto_scaling_output
+(** Create a {!type-update_table_replica_auto_scaling_output} type *)
 
 val make_auto_scaling_target_tracking_scaling_policy_configuration_update :
   ?scale_out_cooldown:int ->
@@ -81,11 +94,14 @@ val make_auto_scaling_target_tracking_scaling_policy_configuration_update :
   target_value:float ->
   unit
 -> auto_scaling_target_tracking_scaling_policy_configuration_update
+(** Create a {!type-auto_scaling_target_tracking_scaling_policy_configuration_update} type *)
 
 val make_auto_scaling_policy_update :
   ?policy_name:string ->
   target_tracking_scaling_policy_configuration:auto_scaling_target_tracking_scaling_policy_configuration_update ->
-  unit -> auto_scaling_policy_update
+  unit
+-> auto_scaling_policy_update
+(** Create a {!type-auto_scaling_policy_update} type *)
 
 val make_auto_scaling_settings_update :
   ?scaling_policy_update:auto_scaling_policy_update ->
@@ -95,18 +111,21 @@ val make_auto_scaling_settings_update :
   ?minimum_units:int ->
   unit
 -> auto_scaling_settings_update
+(** Create a {!type-auto_scaling_settings_update} type *)
 
 val make_global_secondary_index_auto_scaling_update :
   ?provisioned_write_capacity_auto_scaling_update:auto_scaling_settings_update ->
   ?index_name:string ->
   unit
 -> global_secondary_index_auto_scaling_update
+(** Create a {!type-global_secondary_index_auto_scaling_update} type *)
 
 val make_replica_global_secondary_index_auto_scaling_update :
   ?provisioned_read_capacity_auto_scaling_update:auto_scaling_settings_update ->
   ?index_name:string ->
   unit
 -> replica_global_secondary_index_auto_scaling_update
+(** Create a {!type-replica_global_secondary_index_auto_scaling_update} type *)
 
 val make_replica_auto_scaling_update :
   ?replica_provisioned_read_capacity_auto_scaling_update:auto_scaling_settings_update ->
@@ -114,6 +133,7 @@ val make_replica_auto_scaling_update :
   region_name:string ->
   unit
 -> replica_auto_scaling_update
+(** Create a {!type-replica_auto_scaling_update} type *)
 
 val make_update_table_replica_auto_scaling_input :
   ?replica_updates:replica_auto_scaling_update list ->
@@ -122,14 +142,17 @@ val make_update_table_replica_auto_scaling_input :
   table_name:string ->
   unit
 -> update_table_replica_auto_scaling_input
+(** Create a {!type-update_table_replica_auto_scaling_input} type *)
 
 val make_attribute_definition :
   attribute_type:scalar_attribute_type -> attribute_name:string -> unit
 -> attribute_definition
+(** Create a {!type-attribute_definition} type *)
 
 val make_key_schema_element :
   key_type:key_type -> attribute_name:string -> unit
 -> key_schema_element
+(** Create a {!type-key_schema_element} type *)
 
 val make_provisioned_throughput_description :
   ?write_capacity_units:int ->
@@ -137,16 +160,21 @@ val make_provisioned_throughput_description :
   ?number_of_decreases_today:int ->
   ?last_decrease_date_time:float ->
   ?last_increase_date_time:float ->
-  unit -> provisioned_throughput_description
+  unit
+-> provisioned_throughput_description
+(** Create a {!type-provisioned_throughput_description} type *)
 
 val make_billing_mode_summary :
   ?last_update_to_pay_per_request_date_time:float ->
   ?billing_mode:billing_mode ->
-  unit -> billing_mode_summary
+  unit
+-> billing_mode_summary
+(** Create a {!type-billing_mode_summary} type *)
 
 val make_projection :
   ?non_key_attributes:string list -> ?projection_type:projection_type -> unit
 -> projection
+(** Create a {!type-projection} type *)
 
 val make_local_secondary_index_description :
   ?index_arn:string ->
@@ -155,11 +183,14 @@ val make_local_secondary_index_description :
   ?projection:projection ->
   ?key_schema:key_schema_element list ->
   ?index_name:string ->
-  unit -> local_secondary_index_description
+  unit
+-> local_secondary_index_description
+(** Create a {!type-local_secondary_index_description} type *)
 
 val make_on_demand_throughput :
   ?max_write_request_units:int -> ?max_read_request_units:int -> unit
 -> on_demand_throughput
+(** Create a {!type-on_demand_throughput} type *)
 
 val make_global_secondary_index_description :
   ?on_demand_throughput:on_demand_throughput ->
@@ -172,17 +203,22 @@ val make_global_secondary_index_description :
   ?projection:projection ->
   ?key_schema:key_schema_element list ->
   ?index_name:string ->
-  unit -> global_secondary_index_description
+  unit
+-> global_secondary_index_description
+(** Create a {!type-global_secondary_index_description} type *)
 
 val make_stream_specification :
   ?stream_view_type:stream_view_type -> stream_enabled:bool -> unit
 -> stream_specification
+(** Create a {!type-stream_specification} type *)
 
 val make_provisioned_throughput_override : ?read_capacity_units:int -> unit
 -> provisioned_throughput_override
+(** Create a {!type-provisioned_throughput_override} type *)
 
 val make_on_demand_throughput_override : ?max_read_request_units:int -> unit
 -> on_demand_throughput_override
+(** Create a {!type-on_demand_throughput_override} type *)
 
 val make_replica_global_secondary_index_description :
   ?on_demand_throughput_override:on_demand_throughput_override ->
@@ -190,10 +226,12 @@ val make_replica_global_secondary_index_description :
   ?index_name:string ->
   unit
 -> replica_global_secondary_index_description
+(** Create a {!type-replica_global_secondary_index_description} type *)
 
 val make_table_class_summary :
   ?last_update_date_time:float -> ?table_class:table_class -> unit
 -> table_class_summary
+(** Create a {!type-table_class_summary} type *)
 
 val make_replica_description :
   ?replica_table_class_summary:table_class_summary ->
@@ -206,27 +244,35 @@ val make_replica_description :
   ?replica_status_description:string ->
   ?replica_status:replica_status ->
   ?region_name:string ->
-  unit -> replica_description
+  unit
+-> replica_description
+(** Create a {!type-replica_description} type *)
 
 val make_restore_summary :
   ?source_table_arn:string ->
   ?source_backup_arn:string ->
   restore_in_progress:bool ->
   restore_date_time:float ->
-  unit -> restore_summary
+  unit
+-> restore_summary
+(** Create a {!type-restore_summary} type *)
 
 val make_sse_description :
   ?inaccessible_encryption_date_time:float ->
   ?kms_master_key_arn:string ->
   ?sse_type:sse_type ->
   ?status:sse_status ->
-  unit -> sse_description
+  unit
+-> sse_description
+(** Create a {!type-sse_description} type *)
 
 val make_archival_summary :
   ?archival_backup_arn:string ->
   ?archival_reason:string ->
   ?archival_date_time:float ->
-  unit -> archival_summary
+  unit
+-> archival_summary
+(** Create a {!type-archival_summary} type *)
 
 val make_table_description :
   ?on_demand_throughput:on_demand_throughput ->
@@ -253,14 +299,18 @@ val make_table_description :
   ?key_schema:key_schema_element list ->
   ?table_name:string ->
   ?attribute_definitions:attribute_definition list ->
-  unit -> table_description
+  unit
+-> table_description
+(** Create a {!type-table_description} type *)
 
 val make_update_table_output : ?table_description:table_description -> unit
 -> update_table_output
+(** Create a {!type-update_table_output} type *)
 
 val make_provisioned_throughput :
   write_capacity_units:int -> read_capacity_units:int -> unit
 -> provisioned_throughput
+(** Create a {!type-provisioned_throughput} type *)
 
 val make_update_global_secondary_index_action :
   ?on_demand_throughput:on_demand_throughput ->
@@ -268,6 +318,7 @@ val make_update_global_secondary_index_action :
   index_name:string ->
   unit
 -> update_global_secondary_index_action
+(** Create a {!type-update_global_secondary_index_action} type *)
 
 val make_create_global_secondary_index_action :
   ?on_demand_throughput:on_demand_throughput ->
@@ -277,19 +328,24 @@ val make_create_global_secondary_index_action :
   index_name:string ->
   unit
 -> create_global_secondary_index_action
+(** Create a {!type-create_global_secondary_index_action} type *)
 
 val make_delete_global_secondary_index_action : index_name:string -> unit
 -> delete_global_secondary_index_action
+(** Create a {!type-delete_global_secondary_index_action} type *)
 
 val make_global_secondary_index_update :
   ?delete:delete_global_secondary_index_action ->
   ?create:create_global_secondary_index_action ->
   ?update:update_global_secondary_index_action ->
-  unit -> global_secondary_index_update
+  unit
+-> global_secondary_index_update
+(** Create a {!type-global_secondary_index_update} type *)
 
 val make_sse_specification :
   ?kms_master_key_id:string -> ?sse_type:sse_type -> ?enabled:bool -> unit
 -> sse_specification
+(** Create a {!type-sse_specification} type *)
 
 val make_replica_global_secondary_index :
   ?on_demand_throughput_override:on_demand_throughput_override ->
@@ -297,6 +353,7 @@ val make_replica_global_secondary_index :
   index_name:string ->
   unit
 -> replica_global_secondary_index
+(** Create a {!type-replica_global_secondary_index} type *)
 
 val make_create_replication_group_member_action :
   ?table_class_override:table_class ->
@@ -307,6 +364,7 @@ val make_create_replication_group_member_action :
   region_name:string ->
   unit
 -> create_replication_group_member_action
+(** Create a {!type-create_replication_group_member_action} type *)
 
 val make_update_replication_group_member_action :
   ?table_class_override:table_class ->
@@ -317,15 +375,19 @@ val make_update_replication_group_member_action :
   region_name:string ->
   unit
 -> update_replication_group_member_action
+(** Create a {!type-update_replication_group_member_action} type *)
 
 val make_delete_replication_group_member_action : region_name:string -> unit
 -> delete_replication_group_member_action
+(** Create a {!type-delete_replication_group_member_action} type *)
 
 val make_replication_group_update :
   ?delete:delete_replication_group_member_action ->
   ?update:update_replication_group_member_action ->
   ?create:create_replication_group_member_action ->
-  unit -> replication_group_update
+  unit
+-> replication_group_update
+(** Create a {!type-replication_group_update} type *)
 
 val make_update_table_input :
   ?on_demand_throughput:on_demand_throughput ->
@@ -339,12 +401,15 @@ val make_update_table_input :
   ?billing_mode:billing_mode ->
   ?attribute_definitions:attribute_definition list ->
   table_name:string ->
-  unit -> update_table_input
+  unit
+-> update_table_input
+(** Create a {!type-update_table_input} type *)
 
 val make_update_kinesis_streaming_configuration :
   ?approximate_creation_date_time_precision:approximate_creation_date_time_precision ->
   unit
 -> update_kinesis_streaming_configuration
+(** Create a {!type-update_kinesis_streaming_configuration} type *)
 
 val make_update_kinesis_streaming_destination_output :
   ?update_kinesis_streaming_configuration:update_kinesis_streaming_configuration ->
@@ -353,18 +418,23 @@ val make_update_kinesis_streaming_destination_output :
   ?table_name:string ->
   unit
 -> update_kinesis_streaming_destination_output
+(** Create a {!type-update_kinesis_streaming_destination_output} type *)
 
 val make_update_kinesis_streaming_destination_input :
   ?update_kinesis_streaming_configuration:update_kinesis_streaming_configuration ->
   stream_arn:string ->
   table_name:string ->
-  unit -> update_kinesis_streaming_destination_input
+  unit
+-> update_kinesis_streaming_destination_input
+(** Create a {!type-update_kinesis_streaming_destination_input} type *)
 
 val make_capacity :
   ?capacity_units:float ->
   ?write_capacity_units:float ->
   ?read_capacity_units:float ->
-  unit -> capacity
+  unit
+-> capacity
+(** Create a {!type-capacity} type *)
 
 val make_consumed_capacity :
   ?global_secondary_indexes:(string * capacity) list ->
@@ -374,29 +444,38 @@ val make_consumed_capacity :
   ?read_capacity_units:float ->
   ?capacity_units:float ->
   ?table_name:string ->
-  unit -> consumed_capacity
+  unit
+-> consumed_capacity
+(** Create a {!type-consumed_capacity} type *)
 
 val make_item_collection_metrics :
   ?size_estimate_range_g_b:float list ->
   ?item_collection_key:(string * attribute_value) list ->
-  unit -> item_collection_metrics
+  unit
+-> item_collection_metrics
+(** Create a {!type-item_collection_metrics} type *)
 
 val make_update_item_output :
   ?item_collection_metrics:item_collection_metrics ->
   ?consumed_capacity:consumed_capacity ->
   ?attributes:(string * attribute_value) list ->
-  unit -> update_item_output
+  unit
+-> update_item_output
+(** Create a {!type-update_item_output} type *)
 
 val make_attribute_value_update :
   ?action:attribute_action -> ?value:attribute_value -> unit
 -> attribute_value_update
+(** Create a {!type-attribute_value_update} type *)
 
 val make_expected_attribute_value :
   ?attribute_value_list:attribute_value list ->
   ?comparison_operator:comparison_operator ->
   ?exists:bool ->
   ?value:attribute_value ->
-  unit -> expected_attribute_value
+  unit
+-> expected_attribute_value
+(** Create a {!type-expected_attribute_value} type *)
 
 val make_update_item_input :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
@@ -414,6 +493,7 @@ val make_update_item_input :
   table_name:string ->
   unit
 -> update_item_input
+(** Create a {!type-update_item_input} type *)
 
 val make_replica_global_secondary_index_settings_description :
   ?provisioned_write_capacity_auto_scaling_settings:auto_scaling_settings_description ->
@@ -424,6 +504,7 @@ val make_replica_global_secondary_index_settings_description :
   index_name:string ->
   unit
 -> replica_global_secondary_index_settings_description
+(** Create a {!type-replica_global_secondary_index_settings_description} type *)
 
 val make_replica_settings_description :
   ?replica_table_class_summary:table_class_summary ->
@@ -437,12 +518,14 @@ val make_replica_settings_description :
   region_name:string ->
   unit
 -> replica_settings_description
+(** Create a {!type-replica_settings_description} type *)
 
 val make_update_global_table_settings_output :
   ?replica_settings:replica_settings_description list ->
   ?global_table_name:string ->
   unit
 -> update_global_table_settings_output
+(** Create a {!type-update_global_table_settings_output} type *)
 
 val make_global_table_global_secondary_index_settings_update :
   ?provisioned_write_capacity_auto_scaling_settings_update:auto_scaling_settings_update ->
@@ -450,6 +533,7 @@ val make_global_table_global_secondary_index_settings_update :
   index_name:string ->
   unit
 -> global_table_global_secondary_index_settings_update
+(** Create a {!type-global_table_global_secondary_index_settings_update} type *)
 
 val make_replica_global_secondary_index_settings_update :
   ?provisioned_read_capacity_auto_scaling_settings_update:auto_scaling_settings_update ->
@@ -457,6 +541,7 @@ val make_replica_global_secondary_index_settings_update :
   index_name:string ->
   unit
 -> replica_global_secondary_index_settings_update
+(** Create a {!type-replica_global_secondary_index_settings_update} type *)
 
 val make_replica_settings_update :
   ?replica_table_class:table_class ->
@@ -466,6 +551,7 @@ val make_replica_settings_update :
   region_name:string ->
   unit
 -> replica_settings_update
+(** Create a {!type-replica_settings_update} type *)
 
 val make_update_global_table_settings_input :
   ?replica_settings_update:replica_settings_update list ->
@@ -476,6 +562,7 @@ val make_update_global_table_settings_input :
   global_table_name:string ->
   unit
 -> update_global_table_settings_input
+(** Create a {!type-update_global_table_settings_input} type *)
 
 val make_global_table_description :
   ?global_table_name:string ->
@@ -483,25 +570,32 @@ val make_global_table_description :
   ?creation_date_time:float ->
   ?global_table_arn:string ->
   ?replication_group:replica_description list ->
-  unit -> global_table_description
+  unit
+-> global_table_description
+(** Create a {!type-global_table_description} type *)
 
 val make_update_global_table_output :
   ?global_table_description:global_table_description -> unit
 -> update_global_table_output
+(** Create a {!type-update_global_table_output} type *)
 
 val make_create_replica_action : region_name:string -> unit
 -> create_replica_action
+(** Create a {!type-create_replica_action} type *)
 
 val make_delete_replica_action : region_name:string -> unit
 -> delete_replica_action
+(** Create a {!type-delete_replica_action} type *)
 
 val make_replica_update :
   ?delete:delete_replica_action -> ?create:create_replica_action -> unit
 -> replica_update
+(** Create a {!type-replica_update} type *)
 
 val make_update_global_table_input :
   replica_updates:replica_update list -> global_table_name:string -> unit
 -> update_global_table_input
+(** Create a {!type-update_global_table_input} type *)
 
 val make_update_contributor_insights_output :
   ?contributor_insights_status:contributor_insights_status ->
@@ -509,6 +603,7 @@ val make_update_contributor_insights_output :
   ?table_name:string ->
   unit
 -> update_contributor_insights_output
+(** Create a {!type-update_contributor_insights_output} type *)
 
 val make_update_contributor_insights_input :
   ?index_name:string ->
@@ -516,6 +611,7 @@ val make_update_contributor_insights_input :
   table_name:string ->
   unit
 -> update_contributor_insights_input
+(** Create a {!type-update_contributor_insights_input} type *)
 
 val make_point_in_time_recovery_description :
   ?latest_restorable_date_time:float ->
@@ -523,25 +619,31 @@ val make_point_in_time_recovery_description :
   ?point_in_time_recovery_status:point_in_time_recovery_status ->
   unit
 -> point_in_time_recovery_description
+(** Create a {!type-point_in_time_recovery_description} type *)
 
 val make_continuous_backups_description :
   ?point_in_time_recovery_description:point_in_time_recovery_description ->
   continuous_backups_status:continuous_backups_status ->
   unit
 -> continuous_backups_description
+(** Create a {!type-continuous_backups_description} type *)
 
 val make_update_continuous_backups_output :
   ?continuous_backups_description:continuous_backups_description -> unit
 -> update_continuous_backups_output
+(** Create a {!type-update_continuous_backups_output} type *)
 
 val make_point_in_time_recovery_specification :
   point_in_time_recovery_enabled:bool -> unit
 -> point_in_time_recovery_specification
+(** Create a {!type-point_in_time_recovery_specification} type *)
 
 val make_update_continuous_backups_input :
   point_in_time_recovery_specification:point_in_time_recovery_specification ->
   table_name:string ->
-  unit -> update_continuous_backups_input
+  unit
+-> update_continuous_backups_input
+(** Create a {!type-update_continuous_backups_input} type *)
 
 val make_update :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
@@ -551,22 +653,29 @@ val make_update :
   table_name:string ->
   update_expression:string ->
   key:(string * attribute_value) list ->
-  unit -> update
+  unit
+-> update
+(** Create a {!type-update} type *)
 
 val make_untag_resource_input :
   tag_keys:string list -> resource_arn:string -> unit
 -> untag_resource_input
+(** Create a {!type-untag_resource_input} type *)
 
 val make_cancellation_reason :
   ?message:string ->
   ?code:string ->
   ?item:(string * attribute_value) list ->
-  unit -> cancellation_reason
+  unit
+-> cancellation_reason
+(** Create a {!type-cancellation_reason} type *)
 
 val make_transact_write_items_output :
   ?item_collection_metrics:(string * item_collection_metrics list) list ->
   ?consumed_capacity:consumed_capacity list ->
-  unit -> transact_write_items_output
+  unit
+-> transact_write_items_output
+(** Create a {!type-transact_write_items_output} type *)
 
 val make_condition_check :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
@@ -575,7 +684,9 @@ val make_condition_check :
   condition_expression:string ->
   table_name:string ->
   key:(string * attribute_value) list ->
-  unit -> condition_check
+  unit
+-> condition_check
+(** Create a {!type-condition_check} type *)
 
 val make_put :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
@@ -585,6 +696,7 @@ val make_put :
   table_name:string ->
   item:(string * attribute_value) list ->
   unit -> put
+(** Create a {!type-put} type *)
 
 val make_delete :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
@@ -593,29 +705,38 @@ val make_delete :
   ?condition_expression:string ->
   table_name:string ->
   key:(string * attribute_value) list ->
-  unit -> delete
+  unit
+-> delete
+(** Create a {!type-delete} type *)
 
 val make_transact_write_item :
   ?update:update ->
   ?delete:delete ->
   ?put:put ->
   ?condition_check:condition_check ->
-  unit -> transact_write_item
+  unit
+-> transact_write_item
+(** Create a {!type-transact_write_item} type *)
 
 val make_transact_write_items_input :
   ?client_request_token:string ->
   ?return_item_collection_metrics:return_item_collection_metrics ->
   ?return_consumed_capacity:return_consumed_capacity ->
   transact_items:transact_write_item list ->
-  unit -> transact_write_items_input
+  unit
+-> transact_write_items_input
+(** Create a {!type-transact_write_items_input} type *)
 
 val make_item_response : ?item:(string * attribute_value) list -> unit
 -> item_response
+(** Create a {!type-item_response} type *)
 
 val make_transact_get_items_output :
   ?responses:item_response list ->
   ?consumed_capacity:consumed_capacity list ->
-  unit -> transact_get_items_output
+  unit
+-> transact_get_items_output
+(** Create a {!type-transact_get_items_output} type *)
 
 val make_get :
   ?expression_attribute_names:(string * string) list ->
@@ -623,24 +744,31 @@ val make_get :
   table_name:string ->
   key:(string * attribute_value) list ->
   unit -> get
+(** Create a {!type-get} type *)
 
 val make_transact_get_item : get:get -> unit
 -> transact_get_item
+(** Create a {!type-transact_get_item} type *)
 
 val make_transact_get_items_input :
   ?return_consumed_capacity:return_consumed_capacity ->
   transact_items:transact_get_item list ->
-  unit -> transact_get_items_input
+  unit
+-> transact_get_items_input
+(** Create a {!type-transact_get_items_input} type *)
 
 val make_time_to_live_description :
   ?attribute_name:string -> ?time_to_live_status:time_to_live_status -> unit
 -> time_to_live_description
+(** Create a {!type-time_to_live_description} type *)
 
 val make_tag : value:string -> key:string -> unit
 -> tag
+(** Create a {!type-tag} type *)
 
 val make_tag_resource_input : tags:tag list -> resource_arn:string -> unit
 -> tag_resource_input
+(** Create a {!type-tag_resource_input} type *)
 
 val make_global_secondary_index :
   ?on_demand_throughput:on_demand_throughput ->
@@ -648,7 +776,9 @@ val make_global_secondary_index :
   projection:projection ->
   key_schema:key_schema_element list ->
   index_name:string ->
-  unit -> global_secondary_index
+  unit
+-> global_secondary_index
+(** Create a {!type-global_secondary_index} type *)
 
 val make_table_creation_parameters :
   ?global_secondary_indexes:global_secondary_index list ->
@@ -659,13 +789,17 @@ val make_table_creation_parameters :
   key_schema:key_schema_element list ->
   attribute_definitions:attribute_definition list ->
   table_name:string ->
-  unit -> table_creation_parameters
+  unit
+-> table_creation_parameters
+(** Create a {!type-table_creation_parameters} type *)
 
 val make_local_secondary_index_info :
   ?projection:projection ->
   ?key_schema:key_schema_element list ->
   ?index_name:string ->
-  unit -> local_secondary_index_info
+  unit
+-> local_secondary_index_info
+(** Create a {!type-local_secondary_index_info} type *)
 
 val make_global_secondary_index_info :
   ?on_demand_throughput:on_demand_throughput ->
@@ -673,7 +807,9 @@ val make_global_secondary_index_info :
   ?projection:projection ->
   ?key_schema:key_schema_element list ->
   ?index_name:string ->
-  unit -> global_secondary_index_info
+  unit
+-> global_secondary_index_info
+(** Create a {!type-global_secondary_index_info} type *)
 
 val make_source_table_feature_details :
   ?sse_description:sse_description ->
@@ -681,7 +817,9 @@ val make_source_table_feature_details :
   ?stream_description:stream_specification ->
   ?global_secondary_indexes:global_secondary_index_info list ->
   ?local_secondary_indexes:local_secondary_index_info list ->
-  unit -> source_table_feature_details
+  unit
+-> source_table_feature_details
+(** Create a {!type-source_table_feature_details} type *)
 
 val make_source_table_details :
   ?billing_mode:billing_mode ->
@@ -694,7 +832,9 @@ val make_source_table_details :
   key_schema:key_schema_element list ->
   table_id:string ->
   table_name:string ->
-  unit -> source_table_details
+  unit
+-> source_table_details
+(** Create a {!type-source_table_details} type *)
 
 val make_scan_output :
   ?consumed_capacity:consumed_capacity ->
@@ -702,12 +842,16 @@ val make_scan_output :
   ?scanned_count:int ->
   ?count:int ->
   ?items:(string * attribute_value) list list ->
-  unit -> scan_output
+  unit
+-> scan_output
+(** Create a {!type-scan_output} type *)
 
 val make_condition :
   ?attribute_value_list:attribute_value list ->
   comparison_operator:comparison_operator ->
-  unit -> condition
+  unit
+-> condition
+(** Create a {!type-condition} type *)
 
 val make_scan_input :
   ?consistent_read:bool ->
@@ -726,17 +870,22 @@ val make_scan_input :
   ?attributes_to_get:string list ->
   ?index_name:string ->
   table_name:string ->
-  unit -> scan_input
+  unit
+-> scan_input
+(** Create a {!type-scan_input} type *)
 
 val make_s3_bucket_source :
   ?s3_key_prefix:string ->
   ?s3_bucket_owner:string ->
   s3_bucket:string ->
-  unit -> s3_bucket_source
+  unit
+-> s3_bucket_source
+(** Create a {!type-s3_bucket_source} type *)
 
 val make_restore_table_to_point_in_time_output :
   ?table_description:table_description -> unit
 -> restore_table_to_point_in_time_output
+(** Create a {!type-restore_table_to_point_in_time_output} type *)
 
 val make_local_secondary_index :
   projection:projection ->
@@ -744,6 +893,7 @@ val make_local_secondary_index :
   index_name:string ->
   unit
 -> local_secondary_index
+(** Create a {!type-local_secondary_index} type *)
 
 val make_restore_table_to_point_in_time_input :
   ?sse_specification_override:sse_specification ->
@@ -759,10 +909,12 @@ val make_restore_table_to_point_in_time_input :
   target_table_name:string ->
   unit
 -> restore_table_to_point_in_time_input
+(** Create a {!type-restore_table_to_point_in_time_input} type *)
 
 val make_restore_table_from_backup_output :
   ?table_description:table_description -> unit
 -> restore_table_from_backup_output
+(** Create a {!type-restore_table_from_backup_output} type *)
 
 val make_restore_table_from_backup_input :
   ?sse_specification_override:sse_specification ->
@@ -773,10 +925,13 @@ val make_restore_table_from_backup_input :
   ?billing_mode_override:billing_mode ->
   backup_arn:string ->
   target_table_name:string ->
-  unit -> restore_table_from_backup_input
+  unit
+-> restore_table_from_backup_input
+(** Create a {!type-restore_table_from_backup_input} type *)
 
 val make_replica : ?region_name:string -> unit
 -> replica
+(** Create a {!type-replica} type *)
 
 val make_query_output :
   ?consumed_capacity:consumed_capacity ->
@@ -784,7 +939,9 @@ val make_query_output :
   ?scanned_count:int ->
   ?count:int ->
   ?items:(string * attribute_value) list list ->
-  unit -> query_output
+  unit
+-> query_output
+(** Create a {!type-query_output} type *)
 
 val make_query_input :
   ?expression_attribute_values:(string * attribute_value) list ->
@@ -804,23 +961,30 @@ val make_query_input :
   ?select:select ->
   ?index_name:string ->
   table_name:string ->
-  unit -> query_input
+  unit
+-> query_input
+(** Create a {!type-query_input} type *)
 
 val make_put_resource_policy_output : ?revision_id:string -> unit
 -> put_resource_policy_output
+(** Create a {!type-put_resource_policy_output} type *)
 
 val make_put_resource_policy_input :
   ?confirm_remove_self_resource_access:bool ->
   ?expected_revision_id:string ->
   policy:string ->
   resource_arn:string ->
-  unit -> put_resource_policy_input
+  unit
+-> put_resource_policy_input
+(** Create a {!type-put_resource_policy_input} type *)
 
 val make_put_item_output :
   ?item_collection_metrics:item_collection_metrics ->
   ?consumed_capacity:consumed_capacity ->
   ?attributes:(string * attribute_value) list ->
-  unit -> put_item_output
+  unit
+-> put_item_output
+(** Create a {!type-put_item_output} type *)
 
 val make_put_item_input :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
@@ -834,48 +998,62 @@ val make_put_item_input :
   ?expected:(string * expected_attribute_value) list ->
   item:(string * attribute_value) list ->
   table_name:string ->
-  unit -> put_item_input
+  unit
+-> put_item_input
+(** Create a {!type-put_item_input} type *)
 
 val make_batch_statement_error :
   ?item:(string * attribute_value) list ->
   ?message:string ->
   ?code:batch_statement_error_code_enum ->
-  unit -> batch_statement_error
+  unit
+-> batch_statement_error
+(** Create a {!type-batch_statement_error} type *)
 
 val make_batch_statement_response :
   ?item:(string * attribute_value) list ->
   ?table_name:string ->
   ?error:batch_statement_error ->
-  unit -> batch_statement_response
+  unit
+-> batch_statement_response
+(** Create a {!type-batch_statement_response} type *)
 
 val make_batch_statement_request :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
   ?consistent_read:bool ->
   ?parameters:attribute_value list ->
   statement:string ->
-  unit -> batch_statement_request
+  unit
+-> batch_statement_request
+(** Create a {!type-batch_statement_request} type *)
 
 val make_parameterized_statement :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
   ?parameters:attribute_value list ->
   statement:string ->
-  unit -> parameterized_statement
+  unit
+-> parameterized_statement
+(** Create a {!type-parameterized_statement} type *)
 
 val make_list_tags_of_resource_output :
   ?next_token:string -> ?tags:tag list -> unit
 -> list_tags_of_resource_output
+(** Create a {!type-list_tags_of_resource_output} type *)
 
 val make_list_tags_of_resource_input :
   ?next_token:string -> resource_arn:string -> unit
 -> list_tags_of_resource_input
+(** Create a {!type-list_tags_of_resource_input} type *)
 
 val make_list_tables_output :
   ?last_evaluated_table_name:string -> ?table_names:string list -> unit
 -> list_tables_output
+(** Create a {!type-list_tables_output} type *)
 
 val make_list_tables_input :
   ?limit:int -> ?exclusive_start_table_name:string -> unit
 -> list_tables_input
+(** Create a {!type-list_tables_input} type *)
 
 val make_import_summary :
   ?end_time:float ->
@@ -886,44 +1064,57 @@ val make_import_summary :
   ?table_arn:string ->
   ?import_status:import_status ->
   ?import_arn:string ->
-  unit -> import_summary
+  unit
+-> import_summary
+(** Create a {!type-import_summary} type *)
 
 val make_list_imports_output :
   ?next_token:string -> ?import_summary_list:import_summary list -> unit
 -> list_imports_output
+(** Create a {!type-list_imports_output} type *)
 
 val make_list_imports_input :
   ?next_token:string -> ?page_size:int -> ?table_arn:string -> unit
 -> list_imports_input
+(** Create a {!type-list_imports_input} type *)
 
 val make_global_table :
   ?replication_group:replica list -> ?global_table_name:string -> unit
 -> global_table
+(** Create a {!type-global_table} type *)
 
 val make_list_global_tables_output :
   ?last_evaluated_global_table_name:string ->
   ?global_tables:global_table list ->
-  unit -> list_global_tables_output
+  unit
+-> list_global_tables_output
+(** Create a {!type-list_global_tables_output} type *)
 
 val make_list_global_tables_input :
   ?region_name:string ->
   ?limit:int ->
   ?exclusive_start_global_table_name:string ->
-  unit -> list_global_tables_input
+  unit
+-> list_global_tables_input
+(** Create a {!type-list_global_tables_input} type *)
 
 val make_export_summary :
   ?export_type:export_type ->
   ?export_status:export_status ->
   ?export_arn:string ->
-  unit -> export_summary
+  unit
+-> export_summary
+(** Create a {!type-export_summary} type *)
 
 val make_list_exports_output :
   ?next_token:string -> ?export_summaries:export_summary list -> unit
 -> list_exports_output
+(** Create a {!type-list_exports_output} type *)
 
 val make_list_exports_input :
   ?next_token:string -> ?max_results:int -> ?table_arn:string -> unit
 -> list_exports_input
+(** Create a {!type-list_exports_input} type *)
 
 val make_contributor_insights_summary :
   ?contributor_insights_status:contributor_insights_status ->
@@ -931,16 +1122,19 @@ val make_contributor_insights_summary :
   ?table_name:string ->
   unit
 -> contributor_insights_summary
+(** Create a {!type-contributor_insights_summary} type *)
 
 val make_list_contributor_insights_output :
   ?next_token:string ->
   ?contributor_insights_summaries:contributor_insights_summary list ->
   unit
 -> list_contributor_insights_output
+(** Create a {!type-list_contributor_insights_output} type *)
 
 val make_list_contributor_insights_input :
   ?max_results:int -> ?next_token:string -> ?table_name:string -> unit
 -> list_contributor_insights_input
+(** Create a {!type-list_contributor_insights_input} type *)
 
 val make_backup_summary :
   ?backup_size_bytes:int ->
@@ -953,12 +1147,16 @@ val make_backup_summary :
   ?table_arn:string ->
   ?table_id:string ->
   ?table_name:string ->
-  unit -> backup_summary
+  unit
+-> backup_summary
+(** Create a {!type-backup_summary} type *)
 
 val make_list_backups_output :
   ?last_evaluated_backup_arn:string ->
   ?backup_summaries:backup_summary list ->
-  unit -> list_backups_output
+  unit
+-> list_backups_output
+(** Create a {!type-list_backups_output} type *)
 
 val make_list_backups_input :
   ?backup_type:backup_type_filter ->
@@ -967,12 +1165,15 @@ val make_list_backups_input :
   ?time_range_lower_bound:float ->
   ?limit:int ->
   ?table_name:string ->
-  unit -> list_backups_input
+  unit
+-> list_backups_input
+(** Create a {!type-list_backups_input} type *)
 
 val make_enable_kinesis_streaming_configuration :
   ?approximate_creation_date_time_precision:approximate_creation_date_time_precision ->
   unit
 -> enable_kinesis_streaming_configuration
+(** Create a {!type-enable_kinesis_streaming_configuration} type *)
 
 val make_kinesis_streaming_destination_output :
   ?enable_kinesis_streaming_configuration:enable_kinesis_streaming_configuration ->
@@ -981,6 +1182,7 @@ val make_kinesis_streaming_destination_output :
   ?table_name:string ->
   unit
 -> kinesis_streaming_destination_output
+(** Create a {!type-kinesis_streaming_destination_output} type *)
 
 val make_kinesis_streaming_destination_input :
   ?enable_kinesis_streaming_configuration:enable_kinesis_streaming_configuration ->
@@ -988,13 +1190,16 @@ val make_kinesis_streaming_destination_input :
   table_name:string ->
   unit
 -> kinesis_streaming_destination_input
+(** Create a {!type-kinesis_streaming_destination_input} type *)
 
 val make_kinesis_data_stream_destination :
   ?approximate_creation_date_time_precision:approximate_creation_date_time_precision ->
   ?destination_status_description:string ->
   ?destination_status:destination_status ->
   ?stream_arn:string ->
-  unit -> kinesis_data_stream_destination
+  unit
+-> kinesis_data_stream_destination
+(** Create a {!type-kinesis_data_stream_destination} type *)
 
 val make_keys_and_attributes :
   ?expression_attribute_names:(string * string) list ->
@@ -1002,19 +1207,25 @@ val make_keys_and_attributes :
   ?consistent_read:bool ->
   ?attributes_to_get:string list ->
   keys:(string * attribute_value) list list ->
-  unit -> keys_and_attributes
+  unit
+-> keys_and_attributes
+(** Create a {!type-keys_and_attributes} type *)
 
 val make_csv_options : ?header_list:string list -> ?delimiter:string -> unit
 -> csv_options
+(** Create a {!type-csv_options} type *)
 
 val make_input_format_options : ?csv:csv_options -> unit
 -> input_format_options
+(** Create a {!type-input_format_options} type *)
 
 val make_incremental_export_specification :
   ?export_view_type:export_view_type ->
   ?export_to_time:float ->
   ?export_from_time:float ->
-  unit -> incremental_export_specification
+  unit
+-> incremental_export_specification
+(** Create a {!type-incremental_export_specification} type *)
 
 val make_import_table_description :
   ?failure_message:string ->
@@ -1036,11 +1247,14 @@ val make_import_table_description :
   ?table_arn:string ->
   ?import_status:import_status ->
   ?import_arn:string ->
-  unit -> import_table_description
+  unit
+-> import_table_description
+(** Create a {!type-import_table_description} type *)
 
 val make_import_table_output :
   import_table_description:import_table_description -> unit
 -> import_table_output
+(** Create a {!type-import_table_output} type *)
 
 val make_import_table_input :
   ?input_compression_type:input_compression_type ->
@@ -1049,19 +1263,25 @@ val make_import_table_input :
   table_creation_parameters:table_creation_parameters ->
   input_format:input_format ->
   s3_bucket_source:s3_bucket_source ->
-  unit -> import_table_input
+  unit
+-> import_table_input
+(** Create a {!type-import_table_input} type *)
 
 val make_get_resource_policy_output :
   ?revision_id:string -> ?policy:string -> unit
 -> get_resource_policy_output
+(** Create a {!type-get_resource_policy_output} type *)
 
 val make_get_resource_policy_input : resource_arn:string -> unit
 -> get_resource_policy_input
+(** Create a {!type-get_resource_policy_input} type *)
 
 val make_get_item_output :
   ?consumed_capacity:consumed_capacity ->
   ?item:(string * attribute_value) list ->
-  unit -> get_item_output
+  unit
+-> get_item_output
+(** Create a {!type-get_item_output} type *)
 
 val make_get_item_input :
   ?expression_attribute_names:(string * string) list ->
@@ -1071,11 +1291,14 @@ val make_get_item_input :
   ?attributes_to_get:string list ->
   key:(string * attribute_value) list ->
   table_name:string ->
-  unit -> get_item_input
+  unit
+-> get_item_input
+(** Create a {!type-get_item_input} type *)
 
 val make_failure_exception :
   ?exception_description:string -> ?exception_name:string -> unit
 -> failure_exception
+(** Create a {!type-failure_exception} type *)
 
 val make_export_description :
   ?incremental_export_specification:incremental_export_specification ->
@@ -1099,11 +1322,14 @@ val make_export_description :
   ?start_time:float ->
   ?export_status:export_status ->
   ?export_arn:string ->
-  unit -> export_description
+  unit
+-> export_description
+(** Create a {!type-export_description} type *)
 
 val make_export_table_to_point_in_time_output :
   ?export_description:export_description -> unit
 -> export_table_to_point_in_time_output
+(** Create a {!type-export_table_to_point_in_time_output} type *)
 
 val make_export_table_to_point_in_time_input :
   ?incremental_export_specification:incremental_export_specification ->
@@ -1119,24 +1345,31 @@ val make_export_table_to_point_in_time_input :
   table_arn:string ->
   unit
 -> export_table_to_point_in_time_input
+(** Create a {!type-export_table_to_point_in_time_input} type *)
 
 val make_execute_transaction_output :
   ?consumed_capacity:consumed_capacity list ->
   ?responses:item_response list ->
-  unit -> execute_transaction_output
+  unit
+-> execute_transaction_output
+(** Create a {!type-execute_transaction_output} type *)
 
 val make_execute_transaction_input :
   ?return_consumed_capacity:return_consumed_capacity ->
   ?client_request_token:string ->
   transact_statements:parameterized_statement list ->
-  unit -> execute_transaction_input
+  unit
+-> execute_transaction_input
+(** Create a {!type-execute_transaction_input} type *)
 
 val make_execute_statement_output :
   ?last_evaluated_key:(string * attribute_value) list ->
   ?consumed_capacity:consumed_capacity ->
   ?next_token:string ->
   ?items:(string * attribute_value) list list ->
-  unit -> execute_statement_output
+  unit
+-> execute_statement_output
+(** Create a {!type-execute_statement_output} type *)
 
 val make_execute_statement_input :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
@@ -1146,88 +1379,112 @@ val make_execute_statement_input :
   ?consistent_read:bool ->
   ?parameters:attribute_value list ->
   statement:string ->
-  unit -> execute_statement_input
+  unit
+-> execute_statement_input
+(** Create a {!type-execute_statement_input} type *)
 
 val make_endpoint : cache_period_in_minutes:int -> address:string -> unit
 -> endpoint
+(** Create a {!type-endpoint} type *)
 
 val make_describe_time_to_live_output :
   ?time_to_live_description:time_to_live_description -> unit
 -> describe_time_to_live_output
+(** Create a {!type-describe_time_to_live_output} type *)
 
 val make_describe_time_to_live_input : table_name:string -> unit
 -> describe_time_to_live_input
+(** Create a {!type-describe_time_to_live_input} type *)
 
 val make_describe_table_replica_auto_scaling_output :
   ?table_auto_scaling_description:table_auto_scaling_description -> unit
 -> describe_table_replica_auto_scaling_output
+(** Create a {!type-describe_table_replica_auto_scaling_output} type *)
 
 val make_describe_table_replica_auto_scaling_input :
   table_name:string -> unit
 -> describe_table_replica_auto_scaling_input
+(** Create a {!type-describe_table_replica_auto_scaling_input} type *)
 
 val make_describe_table_output : ?table:table_description -> unit
 -> describe_table_output
+(** Create a {!type-describe_table_output} type *)
 
 val make_describe_table_input : table_name:string -> unit
 -> describe_table_input
+(** Create a {!type-describe_table_input} type *)
 
 val make_describe_limits_output :
   ?table_max_write_capacity_units:int ->
   ?table_max_read_capacity_units:int ->
   ?account_max_write_capacity_units:int ->
   ?account_max_read_capacity_units:int ->
-  unit -> describe_limits_output
+  unit
+-> describe_limits_output
+(** Create a {!type-describe_limits_output} type *)
 
 val make_describe_limits_input : unit
 -> describe_limits_input
+(** Create a {!type-describe_limits_input} type *)
 
 val make_describe_kinesis_streaming_destination_output :
   ?kinesis_data_stream_destinations:kinesis_data_stream_destination list ->
   ?table_name:string ->
   unit
 -> describe_kinesis_streaming_destination_output
+(** Create a {!type-describe_kinesis_streaming_destination_output} type *)
 
 val make_describe_kinesis_streaming_destination_input :
   table_name:string -> unit
 -> describe_kinesis_streaming_destination_input
+(** Create a {!type-describe_kinesis_streaming_destination_input} type *)
 
 val make_describe_import_output :
   import_table_description:import_table_description -> unit
 -> describe_import_output
+(** Create a {!type-describe_import_output} type *)
 
 val make_describe_import_input : import_arn:string -> unit
 -> describe_import_input
+(** Create a {!type-describe_import_input} type *)
 
 val make_describe_global_table_settings_output :
   ?replica_settings:replica_settings_description list ->
   ?global_table_name:string ->
   unit
 -> describe_global_table_settings_output
+(** Create a {!type-describe_global_table_settings_output} type *)
 
 val make_describe_global_table_settings_input :
   global_table_name:string -> unit
 -> describe_global_table_settings_input
+(** Create a {!type-describe_global_table_settings_input} type *)
 
 val make_describe_global_table_output :
   ?global_table_description:global_table_description -> unit
 -> describe_global_table_output
+(** Create a {!type-describe_global_table_output} type *)
 
 val make_describe_global_table_input : global_table_name:string -> unit
 -> describe_global_table_input
+(** Create a {!type-describe_global_table_input} type *)
 
 val make_describe_export_output :
   ?export_description:export_description -> unit
 -> describe_export_output
+(** Create a {!type-describe_export_output} type *)
 
 val make_describe_export_input : export_arn:string -> unit
 -> describe_export_input
+(** Create a {!type-describe_export_input} type *)
 
 val make_describe_endpoints_response : endpoints:endpoint list -> unit
 -> describe_endpoints_response
+(** Create a {!type-describe_endpoints_response} type *)
 
 val make_describe_endpoints_request : unit
 -> describe_endpoints_request
+(** Create a {!type-describe_endpoints_request} type *)
 
 val make_describe_contributor_insights_output :
   ?failure_exception:failure_exception ->
@@ -1238,17 +1495,21 @@ val make_describe_contributor_insights_output :
   ?table_name:string ->
   unit
 -> describe_contributor_insights_output
+(** Create a {!type-describe_contributor_insights_output} type *)
 
 val make_describe_contributor_insights_input :
   ?index_name:string -> table_name:string -> unit
 -> describe_contributor_insights_input
+(** Create a {!type-describe_contributor_insights_input} type *)
 
 val make_describe_continuous_backups_output :
   ?continuous_backups_description:continuous_backups_description -> unit
 -> describe_continuous_backups_output
+(** Create a {!type-describe_continuous_backups_output} type *)
 
 val make_describe_continuous_backups_input : table_name:string -> unit
 -> describe_continuous_backups_input
+(** Create a {!type-describe_continuous_backups_input} type *)
 
 val make_backup_details :
   ?backup_expiry_date_time:float ->
@@ -1258,39 +1519,51 @@ val make_backup_details :
   backup_status:backup_status ->
   backup_name:string ->
   backup_arn:string ->
-  unit -> backup_details
+  unit
+-> backup_details
+(** Create a {!type-backup_details} type *)
 
 val make_backup_description :
   ?source_table_feature_details:source_table_feature_details ->
   ?source_table_details:source_table_details ->
   ?backup_details:backup_details ->
-  unit -> backup_description
+  unit
+-> backup_description
+(** Create a {!type-backup_description} type *)
 
 val make_describe_backup_output :
   ?backup_description:backup_description -> unit
 -> describe_backup_output
+(** Create a {!type-describe_backup_output} type *)
 
 val make_describe_backup_input : backup_arn:string -> unit
 -> describe_backup_input
+(** Create a {!type-describe_backup_input} type *)
 
 val make_delete_table_output : ?table_description:table_description -> unit
 -> delete_table_output
+(** Create a {!type-delete_table_output} type *)
 
 val make_delete_table_input : table_name:string -> unit
 -> delete_table_input
+(** Create a {!type-delete_table_input} type *)
 
 val make_delete_resource_policy_output : ?revision_id:string -> unit
 -> delete_resource_policy_output
+(** Create a {!type-delete_resource_policy_output} type *)
 
 val make_delete_resource_policy_input :
   ?expected_revision_id:string -> resource_arn:string -> unit
 -> delete_resource_policy_input
+(** Create a {!type-delete_resource_policy_input} type *)
 
 val make_delete_item_output :
   ?item_collection_metrics:item_collection_metrics ->
   ?consumed_capacity:consumed_capacity ->
   ?attributes:(string * attribute_value) list ->
-  unit -> delete_item_output
+  unit
+-> delete_item_output
+(** Create a {!type-delete_item_output} type *)
 
 val make_delete_item_input :
   ?return_values_on_condition_check_failure:return_values_on_condition_check_failure ->
@@ -1304,17 +1577,22 @@ val make_delete_item_input :
   ?expected:(string * expected_attribute_value) list ->
   key:(string * attribute_value) list ->
   table_name:string ->
-  unit -> delete_item_input
+  unit
+-> delete_item_input
+(** Create a {!type-delete_item_input} type *)
 
 val make_delete_backup_output :
   ?backup_description:backup_description -> unit
 -> delete_backup_output
+(** Create a {!type-delete_backup_output} type *)
 
 val make_delete_backup_input : backup_arn:string -> unit
 -> delete_backup_input
+(** Create a {!type-delete_backup_input} type *)
 
 val make_create_table_output : ?table_description:table_description -> unit
 -> create_table_output
+(** Create a {!type-create_table_output} type *)
 
 val make_create_table_input :
   ?on_demand_throughput:on_demand_throughput ->
@@ -1331,55 +1609,71 @@ val make_create_table_input :
   key_schema:key_schema_element list ->
   table_name:string ->
   attribute_definitions:attribute_definition list ->
-  unit -> create_table_input
+  unit
+-> create_table_input
+(** Create a {!type-create_table_input} type *)
 
 val make_create_global_table_output :
   ?global_table_description:global_table_description -> unit
 -> create_global_table_output
+(** Create a {!type-create_global_table_output} type *)
 
 val make_create_global_table_input :
   replication_group:replica list -> global_table_name:string -> unit
 -> create_global_table_input
+(** Create a {!type-create_global_table_input} type *)
 
 val make_create_backup_output : ?backup_details:backup_details -> unit
 -> create_backup_output
+(** Create a {!type-create_backup_output} type *)
 
 val make_create_backup_input :
   backup_name:string -> table_name:string -> unit
 -> create_backup_input
+(** Create a {!type-create_backup_input} type *)
 
 val make_batch_write_item_output :
   ?consumed_capacity:consumed_capacity list ->
   ?item_collection_metrics:(string * item_collection_metrics list) list ->
   ?unprocessed_items:(string * write_request list) list ->
-  unit -> batch_write_item_output
+  unit
+-> batch_write_item_output
+(** Create a {!type-batch_write_item_output} type *)
 
 val make_batch_write_item_input :
   ?return_item_collection_metrics:return_item_collection_metrics ->
   ?return_consumed_capacity:return_consumed_capacity ->
   request_items:(string * write_request list) list ->
-  unit -> batch_write_item_input
+  unit
+-> batch_write_item_input
+(** Create a {!type-batch_write_item_input} type *)
 
 val make_batch_get_item_output :
   ?consumed_capacity:consumed_capacity list ->
   ?unprocessed_keys:(string * keys_and_attributes) list ->
   ?responses:(string * (string * attribute_value) list list) list ->
-  unit -> batch_get_item_output
+  unit
+-> batch_get_item_output
+(** Create a {!type-batch_get_item_output} type *)
 
 val make_batch_get_item_input :
   ?return_consumed_capacity:return_consumed_capacity ->
   request_items:(string * keys_and_attributes) list ->
-  unit -> batch_get_item_input
+  unit
+-> batch_get_item_input
+(** Create a {!type-batch_get_item_input} type *)
 
 val make_batch_execute_statement_output :
   ?consumed_capacity:consumed_capacity list ->
   ?responses:batch_statement_response list ->
   unit
 -> batch_execute_statement_output
+(** Create a {!type-batch_execute_statement_output} type *)
 
 val make_batch_execute_statement_input :
   ?return_consumed_capacity:return_consumed_capacity ->
   statements:batch_statement_request list ->
   unit
 -> batch_execute_statement_input
+(** Create a {!type-batch_execute_statement_input} type *)
 
