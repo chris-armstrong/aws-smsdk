@@ -9,7 +9,7 @@ let _ =
             Config.
               {
                 resolveRegion = (fun () -> "ap-southeast-2");
-                resolveAuth = (fun () -> Auth.fromProfile env ());
+                resolveAuth = (fun () -> Auth.Profile.resolve env ());
               }
           in
           let context = Context.make ~sw ~config env in
@@ -31,8 +31,7 @@ let _ =
               Logs.err (fun m -> m "HTTP Error %a" Smaws_Lib.Http.pp_http_failure e)
           | Error (`JsonParseError e) ->
               Logs.err (fun m ->
-                  m "Parse Error! %s"
-                    (Smaws_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
+                  m "Parse Error! %s" (Smaws_Lib.Json.DeserializeHelpers.jsonParseErrorToString e))
           | Error (`InvalidAddress s) ->
               Logs.err (fun m -> m "Invalid address: %s" (s.message |> Option.value ~default:"<>"))
           | Error (`AWSServiceError { _type = { namespace; name }; message }) ->

@@ -10,7 +10,7 @@ let service =
       protocol = AwsJson_1_0;
     }
 
-let config = Config.make ~resolveRegion:(fun () -> "us-east-1") ~resolveAuth:Auth.fromDummy
+let config = Config.make ~resolveRegion:(fun () -> "us-east-1") ~resolveAuth:Auth.Dummy.resolve
 
 (** Example type for serialising / deserialising with protocol *)
 module HelloType = struct

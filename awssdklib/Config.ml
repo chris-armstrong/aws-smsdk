@@ -7,7 +7,7 @@ let defaultConfig () =
     region
   in
   let resolveAuth () =
-    let auth = Auth.fromEnvironment () in
+    let auth = Auth.Environment.resolve () in
     auth
   in
   { resolveRegion; resolveAuth }
